@@ -1,4 +1,4 @@
-# NETWORK----------------------------------------
+### NETWORK -------------------------------------
 # how to flush DNS
 sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
 
@@ -14,12 +14,18 @@ sudo arp -a -d
 
 
 
-# USEFUL SHORTCUTS-------------------------------
+### USEFUL COMMANDS -----------------------------
+# restart terminal
+exec zsh -l
+
+
+
+#### USEFUL SHORTCUTS ---------------------------
 # display dotfiles in Finder
 Command+Shift+Dot
 
 
-# FILESYSTEM-------------------------------------
+### FILESYSTEM ----------------------------------
 fs_usage
 # The file system usage tool is ideal since it taps in to the real time file system events and dumps activity to a file or the screen. Since you know the exact path of the file, you can filter out all the thousands of irrelevant (to this case) filesystem changes and see what reads / writes to that file pretty quickly.
 sudo fs_usage | grep /Users/me/aa

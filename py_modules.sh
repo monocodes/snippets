@@ -60,6 +60,19 @@ pip freeze > requirements.txt
 ### PIP -----------------------------------------
 # pip - python package manager
 
+# setup pip autocompletion
+# zsh
+pip completion --zsh >> ~/.zshrc
+# bash
+pip completion --bash >> ~/.bashrc
+
+# reintialize shell after modifying it
+exec zsh -l
+exec bash -l
+
+# display pip autocopmletion options
+pip help completion
+
 # install needed package
 pip install name-of-module
 
