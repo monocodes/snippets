@@ -70,6 +70,19 @@ git reset --hard ee7641
 
 
 
-### DELETING A REPOSITORY
+### GIT COMMANDS
+
+### git ls ###
+# display files in repository
+git ls-files
+
+
+### git rm ###
+# delete file from repository
+git rm filename
+
+
+
+### DELETING A REPOSITORY -----------------------
 rm -rf .git
 git init
