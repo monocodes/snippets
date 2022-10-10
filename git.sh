@@ -78,8 +78,11 @@ git ls-files
 
 
 ### git rm ###
-# delete file from repository
+# delete file from repository and filesystem
 git rm filename
+
+# delete file only from repository
+git rm filename --cached
 
 
 
