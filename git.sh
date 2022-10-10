@@ -76,6 +76,12 @@ git reset --hard ee7641
 
 
 
+### GIT PUSH ------------------------------------
+# sync changes from local repository to external
+git push
+
+
+
 ### GIT COMMANDS
 
 ### git ls ###
