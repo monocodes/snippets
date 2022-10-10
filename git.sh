@@ -31,14 +31,20 @@ git status
 # add all files to repository
 git add .
 
+# display last changes before commit
+git add -p
+
 
 
 ### GIT COMMIT ----------------------------------
-# commit with message
+# commit with message after "git add filename"
 git commit -m "Commentary"
 
 # commit with message and add all modified files in the repository to the current commit
 git commit -am "Commentary"
+
+# commit and change the last message if there ware a mistakes or typos
+git commit --amend "message"
 
 
 
