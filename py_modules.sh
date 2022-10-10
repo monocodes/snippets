@@ -2,13 +2,30 @@
 
 ### PIPREQS -------------------------------------
 # pipreqs automatically generates requirements.txt
+### NOTE ----------------------------------------
+"""
+pipreqs scans the .py files in the root folder & uses the imports in the project to generate the file, so in case there are some additional plugin dependencies, you will have to add them manually.
+"""
+# installing pipreqs
 pip install pipreqs
 
-# generate requirements.txt with pipreqs 
+# generate requirements.txt with pipreqs in current directory
 pipreqs
 
 # generate requirements.txt with pipreqs in specific directory
 pipreqs /home/project/location
+
+# you want to review the packages before creating the file
+pipreqs --print
+
+# if the requirements.txt is already created & you want to overwrite it
+pipreqs --force
+
+# If there are multiple sub-directories within your project & you want to ignore them while creating the requirements
+pipreqs /path/to/project --ignore /path/to/directory
+
+# If you want to store the packages in some other file
+pipreqs /path/to/project --savepath /location/of/file/
 
 # best practice to use pipreqs with venvs
 # how to update venv python version
@@ -27,6 +44,10 @@ pip install -U -r requirements.txt
 
 
 ### PIP FREEZE ----------------------------------
+### NOTE ----------------------------------------
+"""
+The above approach works well if you have a virtual env that consists of only the project-specific packages. But in case, you don’t have a virtual env created, pip freeze will save all the packages that were installed in the base environment even if we are not using them in our project.
+"""
 # pip freeze outputs a list of all installed Python modules with their versions
 pip freeze
 
