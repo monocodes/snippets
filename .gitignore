@@ -1,3 +1,11 @@
+# python
+__pycache__/
+.python-version
+
+# directories
+.vscode/
+.images/
+
 # General
 .DS_Store
 .AppleDouble
