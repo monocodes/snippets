@@ -34,6 +34,13 @@ git add .
 # display last changes before commit
 git add -p
 
+# add internal directory in project
+"""
+If you want to add a directory and all the files which are located inside it recursively, Go to the directory where the directory you want to add is located.
+"""
+cd directory
+git add directoryname
+
 
 
 ### GIT COMMIT ----------------------------------
