@@ -50,7 +50,7 @@ git commit -m "Commentary"
 # commit with message and add all modified files in the repository to the current commit
 git commit -am "Commentary"
 
-# commit and change the last message if there were a mistakes or typos
+# change the last commit message if there were a mistakes or typos
 git commit --amend
 
 
@@ -86,6 +86,9 @@ git reset --hard ee7641
 ### GIT PUSH ------------------------------------
 # sync changes from local repository to external
 git push
+
+# forced
+git push --force
 
 
 
