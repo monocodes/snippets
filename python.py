@@ -1,7 +1,25 @@
 ### Python useful commands ----------------------
 
+
+
+### IMPORT SYS ----------------------------------
+### Question ###
+# How to import your module from another directory or root directory.
+"""
+For example:
+1) VS Code opened in directory 1
+2) Script script.py you are working with located in directory 1/2/script.py
+3) Module you want to import is located in root directory: 1/module.py 
+4) To import function from module from directory 1 you need to write in your script.py the following lines:
+
+import sys
+sys.path.append('')
+from module import func
+"""
+
+
+
 ### Interacting with OS -------------------------
-print("\n\n\n### Interacting with OS -------------------------")
 
 ### Question ###
 """ 
