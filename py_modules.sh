@@ -33,7 +33,7 @@ pipreqs /path/to/project --savepath /location/of/file/
 # generate requirements.txt under venv
 pipreqs /home/project/location
 pyenv uninstall -f venv-name
-pyenv install 3.10.7 venv-name
+pyenv virtualenv 3.10.7 venv-name
 
 # reinstall everything from requirements.txt under venv
 pip install -r requirements.txt
