@@ -78,6 +78,18 @@ brew info --casks name
 brew install name
 brew install --casks name
 
+# install different version of formulae or casc
+# go fo formula here
+https://github.com/Homebrew/homebrew-core/find/master
+# go for cask here
+https://github.com/Homebrew/homebrew-cask/find/master
+# find package you need and click history for searching the commits
+# find version you need and and view file
+# click raw
+# copy link to raw file from browser address bar
+# go to terminal
+curl -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/3c3ea5d92137adbb42b1c163f4cbfdd383409e33/Casks/mkvtoolnix.rb > mkvtoolnix.rb && brew install mkvtoolnix.rb
+
 
 
 # UNINSTALL--------------------------------------
