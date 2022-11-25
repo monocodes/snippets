@@ -3,6 +3,9 @@
 sudo apt update
 sudo apt install docker.io
 
+# macos (Docker Desktop)
+brew install --cask docker
+
 # DOCKER UNINSTALL ------------------------------
 # ubuntu
 sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce containerd.io
