@@ -1,3 +1,20 @@
+### PYTHON HELP ---------------------------------
+
+### DOCSTRINGS ###
+# in terminal go to python
+python
+
+# firstly import installed package
+import plotly
+
+# read the docstring of desired package
+help(plotly.graph_objs)
+
+# read the docstring of desired function
+help(plotly.graph_objs.Bar)
+
+
+
 ### PYTHON REQUIREMENTS.TXT ---------------------
 
 ### PIPREQS -------------------------------------
