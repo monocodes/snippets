@@ -44,14 +44,23 @@ git add directoryname
 
 
 ### GIT COMMIT ----------------------------------
+
 # commit with message after "git add filename"
 git commit -m "Commentary"
 
-# commit with message and add all modified files in the repository to the current commit
+# commit with message and add all modified files in the repository
+# to the current commit
 git commit -am "Commentary"
 
 # change the last commit message if there were a mistakes or typos
 git commit --amend
+
+### BEST PRACTICE for commits ###
+git commit -a
+"""
+Type the subject of your commit on the first line. Remember to keep it short (not more than 50 characters). Leave a blank line after.
+Write a detailed description of what happened in the committed change. Use multiple paragraphs and bullet points to give a detailed breakdown. Don’t write everything out on one line, instead, wrap text at 72 characters.
+"""
 
 
 
