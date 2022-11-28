@@ -37,21 +37,21 @@ docker run -dt name
 sudo docker run hello-world
 
 # pull image and start container
-sudo docker run name
+sudo docker run container-name
 
 # start the container and login inside
 # -i interactive
 # -t tty pseudo terminal to container
-sudo docker run -it name
+sudo docker run -it container-name
 
 # run container as background process
 # -d --detach - по умолчанию, docker-контейнер запускается присоединенным (attached) к стандартным потокам ввода-вывода. Параметр -d позволяет запускать контейнер в фоне и не выводить на экран содержимое потоков ввода-вывода.
-sudo docker run -d name
+sudo docker run -d container-name
 # run container in detached mode with 
-sudo docker run -dt name
+sudo docker run -dt container-name
 
 # run container on specific port
-sudo docker run -p host port:container port name
+sudo docker run -p host port:container-port-name
 
 # docker run -v maps local host directories to the directories inside the Docker container
 docker run -d --name=netdata \
