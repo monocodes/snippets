@@ -17,6 +17,7 @@ reboot
 
 
 # DOCKER RUN ------------------------------------
+# attached mode is the default
 # Test docker
 sudo docker run hello-world
 
@@ -72,6 +73,7 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 
 # DOCKER START ----------------------------------
+# detached mode is the default
 # just start the existing container, container will start in background
 sudo docker start container-name
 
