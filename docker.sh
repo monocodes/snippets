@@ -14,6 +14,11 @@ sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce con
 sudo usermod -aG docker $USER
 reboot
 
+# DOCKER HELP -----------------------------------
+# view help on any command
+docker --help
+docker ps --help
+
 
 
 # DOCKER RUN ------------------------------------
@@ -21,17 +26,17 @@ reboot
 # Test docker
 sudo docker run hello-world
 
-# pull the image and start the container in attached mode
+# pull the image and run the container in attached mode
 sudo docker run image-name
 
-# pull the image and start the container in detached mode
+# pull the image and run the container in detached mode
 sudo docker run -d image-name
 
 # run and login in the container
 # -a = --attach - attached mode
 sudo docker run -ai name
 
-# start the container and login inside
+# run the container and login inside
 # -i interactive
 # -t tty pseudo terminal to container
 sudo docker run -it container-name
@@ -74,6 +79,9 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 # just start the existing container, container will start in detached mode
 sudo docker start container-name
 
+# start the container in attached mode
+docker start -a container-name
+
 
 
 # DOCKER STOP -----------------------------------
@@ -84,7 +92,7 @@ sudo docker stop name
 
 # DOCKER ATTACH ---------------------------------
 # login to the running container
-sudo docker attach name
+sudo docker attach container-name
 
 
 
@@ -97,6 +105,16 @@ sudo docker pull name
 # DOCKER SEARCH ---------------------------------
 # search a docker image
 sudo docker search name
+
+
+
+# DOCKER LOGS -----------------------------------
+# view the output logs of the container
+docker logs container-name
+
+# attach to the running container and view logs in realtime
+# can exit with Ctrl+C
+docker logs -f container-name
 
 
 
