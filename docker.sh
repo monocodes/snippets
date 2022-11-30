@@ -20,7 +20,7 @@ reboot
 # Test docker
 sudo docker run hello-world
 
-# pull image and start the container
+# pull image and start the container in foreground
 sudo docker run container-name
 
 # run and login in the container
