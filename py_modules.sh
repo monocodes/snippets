@@ -8,10 +8,10 @@ python
 import plotly
 
 # read the docstring of desired package
-help(plotly.graph_objs)
+help(plotly.graph_objects)
 
 # read the docstring of desired function
-help(plotly.graph_objs.Bar)
+help(plotly.graph_objects.Bar)
 
 
 
