@@ -32,10 +32,6 @@ sudo docker run image-name
 # pull the image and run the container in detached mode
 sudo docker run -d image-name
 
-# run and login in the container
-# -a = --attach - attached mode
-sudo docker run -ai name
-
 # run the container and login inside
 # -i interactive
 # -t tty pseudo terminal to container
@@ -81,6 +77,11 @@ sudo docker start container-name
 
 # start the container in attached mode
 docker start -a container-name
+
+# start the container in attached mode and log in into it
+# -a = --attach - attached mode
+# -i = --interactive
+sudo docker start -ai container-name
 
 
 
