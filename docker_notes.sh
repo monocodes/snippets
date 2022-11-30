@@ -1,6 +1,6 @@
-### Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy] ------------
+### Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy] -----------
 
-### Section 2. Docker Images & Containers. The Core Building Blocks ------------
+### Section 2. Docker Images & Containers. The Core Building Blocks -----------
 
 ### 23. EXPOSE & A Little Utility Functionality ###
 
