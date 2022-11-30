@@ -16,28 +16,16 @@ reboot
 
 
 
-# DOCKER ARGUMENTS ------------------------------
--i --interactive
-# run and login when combined with '-t'
-docker run -it name
-
--t - tty pseudo terminal to container
-# run and it works, no login and it's not in exited state when combine with '-d'
-docker run -dt name
-
--d --detach
-# run container in detached mode, background mode
-
--a --attach
-
-
-
 # DOCKER RUN ------------------------------------
 # Test docker
 sudo docker run hello-world
 
-# pull image and start container
+# pull image and start the container
 sudo docker run container-name
+
+# run and login in the container
+# -a = --attach - attached mode
+sudo docker run -ai name
 
 # start the container and login inside
 # -i interactive
@@ -84,10 +72,8 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 
 # DOCKER START ----------------------------------
-# just start the container
-sudo docker start name
-# run and login in the container
-sudo docker run -ai name
+# just start the existing container
+sudo docker start container-name
 
 
 
