@@ -21,8 +21,11 @@ reboot
 # Test docker
 sudo docker run hello-world
 
-# pull image and start the container in foreground
-sudo docker run container-name
+# pull the image and start the container in attached mode
+sudo docker run image-name
+
+# pull the image and start the container in detached mode
+sudo docker run -d image-name
 
 # run and login in the container
 # -a = --attach - attached mode
@@ -33,14 +36,8 @@ sudo docker run -ai name
 # -t tty pseudo terminal to container
 sudo docker run -it container-name
 
-# run container as background process
-# -d --detach - по умолчанию, docker-контейнер запускается присоединенным (attached) к стандартным потокам ввода-вывода. Параметр -d позволяет запускать контейнер в фоне и не выводить на экран содержимое потоков ввода-вывода.
-sudo docker run -d container-name
-# run container in detached mode with 
-sudo docker run -dt container-name
-
 # run container on specific port
-sudo docker run -p host port:container-port-name
+sudo docker run -p host-port:container-port-name
 
 # docker run -v maps local host directories to the directories inside the Docker container
 docker run -d --name=netdata \
@@ -74,7 +71,7 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 # DOCKER START ----------------------------------
 # detached mode is the default
-# just start the existing container, container will start in background
+# just start the existing container, container will start in detached mode
 sudo docker start container-name
 
 
