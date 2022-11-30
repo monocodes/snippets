@@ -72,7 +72,7 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 
 # DOCKER START ----------------------------------
-# just start the existing container
+# just start the existing container, container will start in background
 sudo docker start container-name
 
 
