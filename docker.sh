@@ -10,7 +10,12 @@ brew install --cask docker
 # ubuntu
 sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce containerd.io
 
-# By default, you’ll have to use sudo command or login to root any time you want to run a Docker command. This next step is optional, but if you’d prefer the ability to run Docker as your current user, you can add your account to the docker group with this command:
+"""
+By default, you’ll have to use sudo command or login to root any time you
+want to run a Docker command. This next step is optional, but if you’d prefer
+the ability to run Docker as your current user, you can add your account to 
+the docker group with this command:
+"""
 sudo usermod -aG docker $USER
 reboot
 
