@@ -15,6 +15,30 @@ help(plotly.graph_objects.Bar)
 
 
 
+### PIP -----------------------------------------
+# python standard package manager
+# upgrade pip
+pip install --upgrade pip
+
+# list oudated installed packages
+pip list --outdated
+
+
+
+### PIP-REVIEW ----------------------------------
+# a package for easy updating other pip packages
+
+# To upgrade all local packages, you can install pip-review:
+pip install pip-review
+
+# After that, you can either upgrade the packages interactively:
+pip-review --local --interactive
+
+# Or automatically:
+pip-review --local --auto
+
+
+
 ### PYTHON REQUIREMENTS.TXT ---------------------
 
 ### PIPREQS -------------------------------------
