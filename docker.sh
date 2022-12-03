@@ -92,7 +92,7 @@ sudo docker start -ai container-name
 
 # DOCKER STOP -----------------------------------
 # just stop the container
-sudo docker stop name
+sudo docker stop container-name
 
 
 
@@ -144,7 +144,7 @@ sudo docker network ls
 
 # DOCKER RM -------------------------------------
 # remove the container
-sudo docker rm -f container-ID
+sudo docker rm -f container-ID-or-name
 
 # remove docker images
 sudo docker rmi -f image-name-or-image-ID
