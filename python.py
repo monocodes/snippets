@@ -69,8 +69,9 @@ f = open("/Users/foo/address.csv")
 ### long keys in dictionary
 my_layout = {
     'title': (
-        f"Most-Starred C# Projects on GitHub. "
-        f"Total repos: {response_dict['total_count']}"),
+        'Most-Starred C# Projects on GitHub. '
+        'Total repositories: '
+        f'{response_dict["total_count"]}'),
     'titlefont': {'size': 28},
 }
 

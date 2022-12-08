@@ -28,14 +28,17 @@ pip list --outdated
 ### PIP-REVIEW ----------------------------------
 # a package for easy updating other pip packages
 
-# To upgrade all local packages, you can install pip-review:
+# Upgrade all local packages, you can install pip-review:
 pip install pip-review
 
+# View outdated packages
+pip-review
+
 # After that, you can either upgrade the packages interactively:
-pip-review --local --interactive
+pip-review -i
 
 # Or automatically:
-pip-review --local --auto
+pip-review -a
 
 
 
