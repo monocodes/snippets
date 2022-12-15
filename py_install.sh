@@ -3,7 +3,7 @@
 
 # first install the homebrew xcode and Xcode Command Line Tools
 # prerequisite install Xcode Command Line Tools
-xcode-select -install 
+xcode-select --install
 
 # install pyenv
 brew install pyenv
