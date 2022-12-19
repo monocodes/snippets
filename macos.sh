@@ -19,6 +19,23 @@ sudo arp -a -d
 exec zsh -l
 
 
+### EXPORT ###
+# how to get rid of item after EXPORT someting
+# check ~/.zprofile and ~/.zshrc
+
+# for example set LDFLAGS and CPPFLAGS
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+
+# view active flags
+echo ${LDFLAGS}
+echo ${CPPFLAGS}
+
+# unset flags
+unset LDFLAGS
+unset CPPFLAGS
+
+
 
 ### USEFUL SHORTCUTS ----------------------------
 # display dotfiles in Finder
