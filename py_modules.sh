@@ -128,3 +128,47 @@ pip install -U name-of-package
 
 # check for missing dependencies
 python -m pip check
+
+
+
+### COURSERA-DL ---------------------------------
+# coursera-dl in pip is no longer working
+# to install working version you need
+
+# install python 3.8.10
+pyenv install 3.8.10
+
+# create venv
+pyenv virtualenv 3.8.10 venv-test
+
+# install coursera-dl raffaem fork in venv-test
+pip uninstall coursera-dl
+git clone https://github.com/raffaem/coursera-dl
+cd coursera-dl
+pip install .
+
+
+# create coursera-dl.conf
+coursera-dl.conf
+
+--cauth XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+--resume
+--video-resolution 720p
+--subtitle-language en,ru
+--download-quizzes
+--download-notebooks
+--download-delay 120
+#--mathjax-cdn https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js
+# more other parameters
+
+
+# fetch CAUTH token from Google Chrome
+# login on coursera.org, press F12, Application, Cookies, https://coursera.org
+# search for CAUTH, copy the key and add it to coursera-dl.conf
+
+# fetch the course name from its webpage address
+# for example, https://www.coursera.org/learn/python-crash-course/home/week/1
+# python-crash-course
+
+# download course you need
+coursera-dl python-crash-course
