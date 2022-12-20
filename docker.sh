@@ -24,10 +24,21 @@ reboot
 docker --help
 docker ps --help
 
+### docker image inspect ###
+# view image info
+docker image inspect image-name
+
 
 
 # DOCKER RUN ------------------------------------
 # attached mode is the default
+
+# attached and interactive example
+docker run --name rng_app --rm -it rng_py_app:latest
+
+# detached example
+docker run --name goalsapp -p 3000:80 --rm -d goals:node12
+
 # Test docker
 sudo docker run hello-world
 
@@ -40,10 +51,12 @@ sudo docker run -d image-name
 # run the container and login inside
 # -i interactive
 # -t tty pseudo terminal to container
-sudo docker run -it container-name
+sudo docker run -it image-name
 
 # run container on specific port
 sudo docker run -p host-port:container-port-name
+# example
+docker run -p 3000:80 image-name
 
 # docker run -v maps local host directories to the directories inside the Docker container
 docker run -d --name=netdata \
@@ -62,7 +75,12 @@ sudo docker run -d -p 80:80 static-website:beta
 sudo docker run -d -P name
 
 # run docker container with specified name
-sudo docker run --name name name-of-the-image
+docker run --name container-name image-name
+# for example
+docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
+
+### --rm ### run container and remove it after it will be stopped
+docker run --rm image-name
 
 
 
@@ -70,13 +88,20 @@ sudo docker run --name name name-of-the-image
 # just create container with specified image
 # -i interactive
 # -t tty pseudo terminal to container
-sudo docker create -it --name name name-of-the-image
+sudo docker create -it --name container-name image-name
 sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 
 
 # DOCKER START ----------------------------------
 # detached mode is the default
+
+# detached example
+docker start container-name
+
+# attached and interactive example
+docker start -ai container-name
+
 # just start the existing container, container will start in detached mode
 sudo docker start container-name
 
@@ -124,6 +149,20 @@ docker logs -f container-name
 
 
 
+### DOCKER CP -----------------------------------
+# cp to copy something inside the running container
+docker cp dummy/. fervent_almeida:/test
+# where dummy - local directory, /. - copy everything from the directory,
+# fervent_almeida - container-name,
+# :/test - specify directory-name in container
+
+# copy from the container to local machine
+docker cp fervent_almeida:/test/test.txt dummy
+# or copy full directory from the container to local machine
+docker cp fervent_almeida:/test dummy
+
+
+
 # DOCKER PS -------------------------------------
 # docker version
 sudo docker version
@@ -152,16 +191,23 @@ sudo docker rmi -f image-name-or-image-ID
 # remove all stopped containers
 sudo docker container prune
 
-# remove all unused
+# remove all unused images
 sudo docker image prune
+
+# remove all unused images including tagged ones
+docker image prune -a
 
 
 
 # DOCKER BUILD ----------------------------------
+
+# build image from Dockerfile in current directory example
+docker build -t rng_py_app:latest .
+
 # -t to tag the image with name, '.' - use the current directory
-docker build -t name-of-the-image .
+docker build -t image-name .
 # :name to tag the image with something, for example:
-sudo docker build -t static-website:beta .
+docker build -t static-website:beta .
 
 
 

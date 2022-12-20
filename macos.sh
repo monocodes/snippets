@@ -23,9 +23,13 @@ exec zsh -l
 # how to get rid of item after EXPORT someting
 # check ~/.zprofile and ~/.zshrc
 
-# for example set LDFLAGS and CPPFLAGS
+# for example, set LDFLAGS and CPPFLAGS
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+
+# to set multiple LDFLAGS and CPPFLAGS
+export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include -I/opt/homebrew/opt/libffi/include"
+export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib -L/opt/homebrew/opt/libffi/lib"
 
 # view active flags
 echo ${LDFLAGS}
@@ -36,10 +40,22 @@ unset LDFLAGS
 unset CPPFLAGS
 
 
+### USERS & GROUPS ###
+# list all users
+dscl . list /users
+
+# list all groups
+dscl . list /groups
+
+
 
 ### USEFUL SHORTCUTS ----------------------------
 # display dotfiles in Finder
 Command+Shift+Dot
+
+# smiles menu in any text editor
+cmd + ctrl + space
+
 
 
 ### FILESYSTEM ----------------------------------
