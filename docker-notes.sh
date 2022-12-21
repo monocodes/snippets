@@ -3,7 +3,7 @@
 ### Section 2. Docker Images & Containers. The Core Building Blocks -----------
 
 ### 23. EXPOSE & A Little Utility Functionality ###
-
+"""
 EXPOSE & A Little Utility Functionality
 In the last lecture, we started a container which also exposed a port (port 80).
 
@@ -23,6 +23,4 @@ or, if there's no other image ID starting with "a", you could even run just:
 
 docker run a
 This applies to ALL Docker commands where IDs are needed.
-
-
-
+"""
