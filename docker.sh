@@ -31,6 +31,12 @@ docker image inspect image-name
 
 
 # DOCKER RUN ------------------------------------
+# pull image from dockerhub and runs a container based on it
+
+# if image have already been pulled it will use local image version instead
+# docker run WILL NOT UPDATE local image, tou need to use docker pull to
+# update the local image 
+
 # attached mode is the default
 
 # attached and interactive example
@@ -84,6 +90,16 @@ docker run --rm image-name
 
 
 
+### DOCKER TAG ----------------------------------
+# docker tag for renaming images
+# creates renamed copy of the image
+docker tag image-name:tag account-name/repo-name:tag
+
+# example
+docker tag webapp_node:latest  wanderingmono/node-hello-world:latest
+
+
+
 # DOCKER CREATE ---------------------------------
 # just create container with specified image
 # -i interactive
@@ -127,9 +143,31 @@ sudo docker attach container-name
 
 
 
+### DOCKER LOGIN & DOCKER LOGOUT ----------------
+# login or logout from the dockerhub
+docker login
+docker logout
+
+
+
+### DOCKER PUSH ---------------------------------
+# pushes the image to the repo, dockerhub by default or different provider
+docker push account-name/repo-name:tag
+
+# example
+docker push wanderingmono/node-hello-world:latest
+
+
+
 # DOCKER PULL -----------------------------------
-# just pull the image
-sudo docker pull name 
+# just pull the image with tag latest
+docker pull image-name
+
+# pull the image from specific repo
+docker pull account-name/repo-name:tag
+
+# example - pull the image from specific repo
+docker pull wanderingmono/node-hello-world:latest
 
 
 
@@ -200,7 +238,6 @@ docker image prune -a
 
 
 # DOCKER BUILD ----------------------------------
-
 # build image from Dockerfile in current directory example
 docker build -t rng_py_app:latest .
 
