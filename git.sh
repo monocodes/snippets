@@ -52,8 +52,10 @@ git commit -m "Commentary"
 # to the current commit
 git commit -am "Commentary"
 
-# change the last commit message if there were a mistakes or typos
+# change the last commit message (comment) if there were a mistakes or typos
 git commit --amend
+# if old commit has already been pushed:
+git push --force-with-lease
 
 ### BEST PRACTICE for commits ###
 git commit -a
