@@ -250,9 +250,9 @@ docker build -t static-website:beta .
 
 # DOCKER STATS ----------------------------------
 # (monitoring and troubleshooting)
-sudo docker stats
+docker stats
 # check logs
-sudo docker logs name
+docker logs container-name
 
 # script for docker CAdvisor
 #!/bin/bash

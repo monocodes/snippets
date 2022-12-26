@@ -97,6 +97,12 @@ curl -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/3c3ea5d92137adb
 brew uninstall name
 brew autoremove
 
+# uninstall package with all dependencies
+# first install command
+brew tap beeftornado/rmtree
+# unin package with all dependencies
+brew rmtree package-name
+
 # uninstall all formulae
 brew remove --force $(brew list --formula)
 
