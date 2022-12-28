@@ -34,8 +34,8 @@ docker image inspect image-name
 # pull image from dockerhub and runs a container based on it
 
 # if image have already been pulled it will use local image version instead
-# docker run WILL NOT UPDATE local image, tou need to use docker pull to
-# update the local image 
+#docker run WILL NOT UPDATE local image, tou need to use docker pull to
+#update the local image 
 
 # attached mode is the default
 
@@ -189,34 +189,41 @@ docker logs -f container-name
 
 ### DOCKER CP -----------------------------------
 # cp to copy something inside the running container
+# /. - copy everything from the directory
+docker cp local/path/. container-name:/container/path
+
+# example
 docker cp dummy/. fervent_almeida:/test
-# where dummy - local directory, /. - copy everything from the directory,
-# fervent_almeida - container-name,
-# :/test - specify directory-name in container
 
 # copy from the container to local machine
+docker co container-name:/container/path/file.txt local/path
 docker cp fervent_almeida:/test/test.txt dummy
+
 # or copy full directory from the container to local machine
+docker cp container-name:/container/path local/path
 docker cp fervent_almeida:/test dummy
 
 
 
 # DOCKER PS -------------------------------------
-# docker version
-sudo docker version
-sudo docker info
 # see running docker containers
-sudo docker ps
-# see all containers
-sudo docker ps -a
-sudo docker container ls -a
-# list of all docker images
-sudo docker images
-# which Docker containers are running and their status
-sudo docker container ls
-# docker network configuration
-sudo docker network ls
+docker ps
 
+# see all containers
+docker ps -a
+docker container ls -a
+
+# list of all docker images
+docker images
+
+# which Docker containers are running and their status
+docker container ls
+
+# docker network configuration
+docker network ls
+
+# list docker volume
+docker volume ls
 
 
 # DOCKER RM -------------------------------------
@@ -235,6 +242,12 @@ sudo docker image prune
 # remove all unused images including tagged ones
 docker image prune -a
 
+# remove volume
+docker volume rm volume-name
+
+# delete all volumes
+docker volume prune
+
 
 
 # DOCKER BUILD ----------------------------------
@@ -248,11 +261,79 @@ docker build -t static-website:beta .
 
 
 
+### DOCKER VOLUME -------------------------------
+
+### Anonymous volumes ###
+# create anonymous volume inside the container
+# managed by docker, mounted somewhere in host filesystem
+# will be removed on container deletion
+# effective when you need to lock something inside the container, if it can
+#be deleted by another command or module
+
+# define in Dockerfile
+# VOLUME ["/container/path"]
+VOLUME ["/app/node_modules"]
+
+# or add in docker run command
+# -v /container/path
+-v /app/node_modules
+
+
+### Named volumes ###
+# create named volume
+# managed by docker, mounted somewhere in host filesystem
+# will NOT be removed on container deletion
+-v volume-name:/container/path
+# example
+docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v feedback:/app/feedback wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+
+
+### Bind mounts ###
+# create a bind mount that mounts folder in local system managed by you
+# "" used if folder has whitespaces or special symbols
+-v "local/path:/container/path"
+
+# example
+docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/Users/serj/My Drive/study/code/devops/Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy]/docker-edu/Section 3. Managing Data & Working with Volumes/feedback-web-nodejs/:/app"  wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+
+
+# to reduce the lenth of the path to the project folder you can use pwd
+# macOS / Linux:
+-v "$(pwd):/container/path"
+- v "$(pwd)/local/path:/container/path"
+# Windows:
+-v "%cd%":/app
+
+# example
+docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app"  wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd)/feedback:/app/feedback" -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+
+
+### nodejs setup ###
+# typical nodejs setup
+# -v "$(pwd):/app" ensures that container
+# will use the code from the project path
+# -v /app/node_modules ensures that container
+# will not overwrite the node_modules directory inside the container
+
+# more info here https://stackoverflow.com/questions/54269442/why-does-docker-create-empty-node-modules-and-how-to-avoid-it/54278208#54278208
+# and here https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22166920#questions/13139726
+
+# example
+docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+
+
+
 # DOCKER STATS ----------------------------------
 # (monitoring and troubleshooting)
 docker stats
 # check logs
 docker logs container-name
+
+# docker version
+docker version
+docker info
+
 
 # script for docker CAdvisor
 #!/bin/bash
