@@ -82,3 +82,15 @@ Each time you modify your models, you’ll need to restart the shell to see the 
 """
 When you write code to access the data in your project, you’re writing a query. Skim through the documentation for querying your data at https://docs.djangoproject.com/en/2.2/topics/db/queries/, https://docs.djangoproject.com/en/4.1/topics/db/queries/. Much of what you see will look new to you, but it will be very useful as you start to work on your own projects.
 """
+
+# ModuleNotFoundError: No module named '*.urls'
+"""
+You might see the following error message:
+ModuleNotFoundError: No module named 'learning_logs.urls'
+If you do, stop the development server by pressing CTRL-C in the terminal window where you issued the runserver command. Then reissue the command python manage.py runserver. You should be able to see the home page. Any time you run into an error like this, try stopping and restarting the server.
+"""
+
+# Large Projects architecture best practices
+"""
+In a large project, it’s common to have one parent template called base.html for the entire site and parent templates for each major section of the site. All the section templates inherit from base.html, and each page in the site inherits from a section template. This way you can easily modify the look and feel of the site as a whole, any section in the site, or any individual page. This configuration provides a very efficient way to work, and it encourages you to steadily update your site over time.
+"""

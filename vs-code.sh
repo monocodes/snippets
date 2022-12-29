@@ -47,3 +47,9 @@ cmd + shift + p -> Reload
     "python.formatting.blackArgs": [
         "--line-length 79"
     ]
+
+
+
+### autoDocstring - Python Docstring Generator --
+# cursor after first """
+cmd + shift + A to generate docstring
