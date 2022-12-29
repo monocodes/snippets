@@ -300,7 +300,7 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/Users/serj/My Driv
 # to reduce the lenth of the path to the project folder you can use pwd
 # macOS / Linux:
 -v "$(pwd):/container/path"
-- v "$(pwd)/local/path:/container/path"
+-v "$(pwd)/local/path:/container/path"
 # Windows:
 -v "%cd%":/app
 
