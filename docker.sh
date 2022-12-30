@@ -60,7 +60,7 @@ sudo docker run -d image-name
 sudo docker run -it image-name
 
 # run container on specific port
-sudo docker run -p host-port:container-port-name
+sudo docker run -p host-port:container-port
 # example
 docker run -p 3000:80 image-name
 
@@ -263,18 +263,37 @@ docker build -t static-website:beta .
 
 ### DOCKER VOLUME -------------------------------
 
+# create named volume
+docker volume create volume-name
+
+# list all volumes
+docker volume ls
+
+# inspect the volume
+docker volume inspect volume-name
+
+# remove volume
+docker volume rm volume-name
+
+# remove all unused volumes
+docker volume prune
+
+
 ### Anonymous volumes ###
 # create anonymous volume inside the container
 # managed by docker, mounted somewhere in host filesystem
 # will be removed on container deletion
 # effective when you need to lock something inside the container, if it can
 #be deleted by another command or module
+# Volumes are read-write by default, use ":ro" to make them read-only
 
 # define in Dockerfile
 # VOLUME ["/container/path"]
 VOLUME ["/app/node_modules"]
 
 # or add in docker run command
+# this is the only way to ensure that it will override another bind mount if
+#you needed this
 # -v /container/path
 -v /app/node_modules
 
@@ -309,6 +328,19 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app"  wande
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd)/feedback:/app/feedback" -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
 
 
+### Read-only volumes ###
+docker run -v local/path:/container/path:ro
+
+# example
+docker run -d --rm -p 3000:80 --name feedback-web-nodej
+s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.4
+
+# exclude folders that need to be writable by defining another anonymous or 
+#named volume
+docker run -d --rm -p 3000:80 --name feedback-web-nodej
+s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.4
+
+
 ### nodejs setup ###
 # typical nodejs setup
 # -v "$(pwd):/app" ensures that container
@@ -324,6 +356,72 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /ap
 
 
 
+### DOCKERFILE RUNTIME ENV ----------------------
+# to use ENV parameters, first, you need to define this ENV parameter in code
+# Place ENV variables at the bottom of the file,
+#so, the docker will not reexecute unnessesary layers
+"""
+Environment Variables & Security
+One important note about environment variables and security: Depending on which kind of data you're storing in your environment variables, you might not want to include the secure data directly in your Dockerfile.
+
+Instead, go for a separate environment variables file which is then only used at runtime (i.e. when you run your container with docker run).
+
+Otherwise, the values are "baked into the image" and everyone can read these values via docker history <image>.
+
+For some values, this might not matter but for credentials, private keys etc. you definitely want to avoid that!
+
+If you use a separate file, the values are not part of the image since you point at that file when you run docker run. But make sure you don't commit that separate file as part of your source control repository, if you're using source control.
+"""
+
+# nodejs code example
+app.listen(process.env.PORT);
+
+# second, build a new image with ENV
+ENV PORT $port-number
+EXPOSE $PORT
+
+# example
+ENV PORT 80
+EXPOSE $PORT
+
+# third, run the image
+docker run -p host-port:container-port --env PORT=port-number
+docker run -p host-port:container-port -e PORT=port-number
+
+# example
+docker run -d --rm -p 3000:8000 -e PORT=8000 --name feedback-web-nodejs -v feedback:/app/feedback -v "$(pwd):/app" -v /app/node_modules -v /app/temp wanderingmono/docker-s3:feedback-web-nodejs-v0.41-env
+
+# or you can use .env file
+docker run -p host-port:container-port --env-file ./filename
+
+# example
+docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-web-nodejs -v feedback:/app/feedback -v "$(pwd):/app" -v /app/node_modules -v /app/temp wanderingmono/docker-s3:feedback-web-nodejs-v0.41-env
+
+
+
+### DOCKERFILE BUILD ARG ------------------------
+# Place ARG variables at the bottom of the file,
+#so, the docker will not reexecute unnessesary layers
+
+# example with PORT ARG
+# first, you need to define ENV in Dockerfile and ENV in code of your app ^
+
+# second, you need to define ARG in Dockerfile
+ARG arg-name=arg-value
+
+# example
+ARG DEFAULT_PORT=80
+ENV PORT $DEFAULT_PORT
+EXPOSE $PORT
+
+# second, build the image with the arg
+docker build -t image-name --build-arg arg-name=arg-value .
+
+# example
+docker build -t wanderingmono/docker-s3:feedback-web-nodejs-v0.42-arg-p8000 --build-arg DEFAULT_PORT=8000 .
+
+
+
 # DOCKER STATS ----------------------------------
 # (monitoring and troubleshooting)
 docker stats
@@ -333,6 +431,13 @@ docker logs container-name
 # docker version
 docker version
 docker info
+
+
+
+### DOCKER HISTORY ------------------------------
+# view the history of the image
+docker history image-name
+
 
 
 # script for docker CAdvisor
