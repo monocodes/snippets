@@ -94,3 +94,15 @@ If you do, stop the development server by pressing CTRL-C in the terminal window
 """
 In a large project, it’s common to have one parent template called base.html for the entire site and parent templates for each major section of the site. All the section templates inherit from base.html, and each page in the site inherits from a section template. This way you can easily modify the look and feel of the site as a whole, any section in the site, or any individual page. This configuration provides a very efficient way to work, and it encourages you to steadily update your site over time.
 """
+
+# Check quaries on code in shell
+"""
+The code phrases at ➋ and ➌ are called queries, because they query the database for specific information. When you’re writing queries like these in your own projects, it’s helpful to try them out in the Django shell first. You’ll get much quicker feedback in the shell than you will by writing a view and template, and then checking the results in a browser.
+
+def topic(request, topic_id):
+    """Show a single topic and all its entries."""
+    topic = Topic.objects.get(id=topic_id) # 2
+    entries = topic.entry_set.order_by('-date_added') # 3
+    context = {'topic': topic, 'entries': entries}
+    return render(request, 'learning_logs/topic.html', context)
+"""
