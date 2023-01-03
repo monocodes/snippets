@@ -100,7 +100,7 @@ brew autoremove
 # uninstall package with all dependencies
 # first install command
 brew tap beeftornado/rmtree
-# unin package with all dependencies
+# uninstall package with all dependencies
 brew rmtree package-name
 
 # uninstall all formulae

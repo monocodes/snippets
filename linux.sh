@@ -1,8 +1,15 @@
-# DEBIAN, UBUNTU --------------------------------
+### DEB, APT, DEBIAN, UBUNTU --------------------
+### APT -----------------------------------------
+# install something without promting
+sudo apt install -y package-name
 
-# APT -------------------------------------------
-# apt install -y - yes, install it
-sudo apt install -y name
+
+
+### RPM, YUM, RED HAT, CENTOS -------------------
+### YUM -----------------------------------------
+# install something without promting
+sudo yum install -y pckage-name
+
 
 
 # CHMOD -----------------------------------------
@@ -22,6 +29,71 @@ hostnamectl
 
 # change hostname
 sudo hostnamectl set-hostname your_name
+
+
+
+### BASIC COMMANDS ------------------------------
+# get help for the command
+command-name --help
+
+# which user now
+whoami
+
+# view current path
+pwd
+
+# view version of the OS
+cat /etc/os-release
+
+# switch to root user
+sudo -i
+
+# logout with current user
+exit
+
+# make a directory
+mkdir directory-name
+
+# make a file
+touch filename
+
+# make multiple files
+touch filename{1..10}.txt
+
+# delete multiple files with the same name
+rm -rf filename{1..10}.txt
+
+# copy file
+cp filename directory-name
+
+# copy directory
+cp -r directory-name directory-name
+
+# move with mv
+mv filename directory-name
+
+# rename with mv
+mv filename another-filename
+mv directory-name another-directory-name
+
+# move everything with mv
+# example
+mv *.txt directory-name
+
+# view uptime
+uptime
+
+# view free ram
+free -m
+
+# delete file
+rm filename
+
+# delete directory
+rm -r directory-name
+
+# force delete everything in current directory
+rm -rf *
 
 
 
