@@ -18,7 +18,7 @@ help(plotly.graph_objects.Bar)
 ### PIP -----------------------------------------
 # python standard package manager
 # upgrade pip
-pip install --upgrade pip
+pip install -U pip
 
 # list oudated installed packages
 pip list --outdated

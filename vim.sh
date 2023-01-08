@@ -1,3 +1,4 @@
+"""
     VI Visual display editor
     VIM Visual display editor improved
     VIM EDITOR
@@ -41,3 +42,20 @@ Esc+:X - To give passw or d to the file and remove password
 Esc+:20(n) - To go to line no 20 or n
 Esc+: se nu - To set the line numbers to the file !
 Esc+: se nonu - To Remove the set line numbers
+"""
+
+commands ----------------------------------------
+# search and replace only once every line
+:%s/word-to-replace/word-that-replace
+# example
+:%s/coronavirus/covid19
+
+# search and replace g - globally (more than one time in line)
+:%s/word-to-replace/word-that-replace/g
+# example
+:%s/coronavirus/covid19/g
+
+# search and replace g - globally (more than one time in line) with nothing
+:%s/word-to-replace//g
+# example
+:%s/coronavirus//g

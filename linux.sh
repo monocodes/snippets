@@ -12,10 +12,6 @@ sudo yum install -y pckage-name
 
 
 
-# CHMOD -----------------------------------------
-# make file executable
-sudo chmod +x ./name
-
 # NETWORKING ------------------------------------
 # how to see IP
 ip a
@@ -23,7 +19,12 @@ ip r
 # restarting network on Ubuntu 22
 sudo systemctl restart systemd-networkd
 
-# hostnamectl
+# change hostname
+sudo vim /etc/hostname
+sudo hostname hostname
+
+
+### hostnamectl ###
 # check hostname
 hostnamectl
 
@@ -35,6 +36,10 @@ sudo hostnamectl set-hostname your_name
 ### BASIC COMMANDS ------------------------------
 # get help for the command
 command-name --help
+
+# what is it
+file filename
+file directory-name
 
 # which user now
 whoami
@@ -53,6 +58,10 @@ exit
 
 # make a directory
 mkdir directory-name
+
+# make directory forcefully
+mkdir -p directory/path
+mkdir -p /opt/dev/ops/devops/test
 
 # make a file
 touch filename
@@ -80,11 +89,85 @@ mv directory-name another-directory-name
 # example
 mv *.txt directory-name
 
+
+### FIND ###
+# find anything
+find /path/to -name filename*
+
+
+### LOCATE ###
+# command like find but more easy to use
+sudo dnf install mlocate
+
+# locate usage
+# everytime before search use updatedb command
+updatedb
+locate host
+
+
+### ECHO ###
+# print command
+# print text to the file
+echo "text" > /tmp/sysinfo.txt
+
+
+### CHMOD ###
+# make file executable
+sudo chmod +x ./name
+
+
+### GREP ###
+# find word in file
+grep word filename
+
+# find word in file and ignore case
+grep -i word filename
+
+# find word in the file in all files and dirs
+grep -iR word *
+# example
+grep -R SELINUX /etc/*
+
+
+### GREP EXAMPLES ###
+ls /etc/host* | grep host
+ls host | grep host
+
+tail -150 /var/log/messages-20230108 | grep -i vagrant
+
+free -h | grep -i mem
+
+
+### CUT, AWK ###
+# view needed part of file with cut
+cut -d delimiter -f field-number /path/to/filename
+# example
+cut -d: -f1,7 /etc/passwd
+
+# view needed part of file with awk
+awk -F'delimiter' '{print $field-number$field-number}' /path/tofilename
+# example
+awk -F':' '{print $1$7}' /etc/passwd
+
+
+### SED ###
+# replace text in files g - globally (more than one time in line)
+# without -i to view what will be changed
+sed 's/word-to-replace/word-that-replace/g' filename
+sed -i 's/word-to-replace/word-that-replace/g' filename
+sed -i 's/word-to-replace/word-that-replace/g' *.cfg
+sed -i 's/word-to-replace/word-that-replace/g' *
+# example
+sed 's/coronavirus/covid19/g' samplefile.txt
+sed -i 's/coronavirus/covid19/g' samplefile.txt
+
+
 # view uptime
 uptime
 
 # view free ram
-free -m
+# -h for human-readable output
+free -mh
 
 # delete file
 rm filename
@@ -95,17 +178,97 @@ rm -r directory-name
 # force delete everything in current directory
 rm -rf *
 
+# view file
+cat filename
+
+# view first 10 lines of the file or any number of lines
+head filename
+head -20 filename
+
+# view last 10 lines of the file
+tail filename
+tail -20 filename
+
+# view continuously last 10 lines of the file
+tail -f filename
+
+# read file
+less filename
+
+# clear terminal
+clear
+
+
+### WC ###
+# wc - count anything
+# count how many lines in file
+wc -l /path/to/filename
+wc -l /etc/passwd
+
+# count how many dirs and files
+ls | wc -l
+
+
+### OUTPUT REDIRECTION > ------------------------
+# to output command result to a file use >
+command-name > path/to/filename
+uptime > /tmp/sysinfo.txt
+ls > /tmp/sysinfo.txt
+echo "text" > /tmp/sysinfo.txt
+
+# to output command result to a file and did not overwrite its contents and 
+#just append
+command-name >> path/to/filename
+uptime >> /tmp/sysinfo.txt
+
+# output to nowhere
+command-name > /dev/null
+yum install vim -y > /dev/null
+
+# remove everything in file
+cat /dev/null > /path/to/filename
+cat /dev/null > /tmp/sysinfo.txt
+
+# redirect error output
+command-name 2> /path/to/filename
+freeee 2>> /tmp/error.log
+
+# to redirect standard output 1> (default) or error output 2> use &>
+command-name &> /path/to/filename
+free -m &>> /tmp/error.log
+freddfefe -m &>> /tmp/error.log
+
+
+### INPUT REDIRECTION < ###
+command-name < /path/to/filename
+wc -l < /etc/passwd
+
+
+### PATHS ---------------------------------------
+# users info
+/etc/passwd
+
+# logs
+/var/log
+
+
+
+### LN, LINKS -----------------------------------
+# create softlink
+ln -s path/to/filename path/to/filename
+ln -s /opt/dev/ops/devops/test/commands.txt cmds
+
+
+
+### PARTITIONING, HDDs --------------------------
+# view partitioning
+df -h
+
 
 
 # MONITORING ------------------------------------
 # top for specified process
 top -b | grep java
-
-
-
-# ANOTHER UBUNTU/LINUX COMMANDS -----------------
-# clear - command to clear terminal
-clear
 
 
 
