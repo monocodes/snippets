@@ -12,7 +12,123 @@ sudo yum install -y pckage-name
 
 
 
-# NETWORKING ------------------------------------
+### PATHS ---------------------------------------
+# users info
+/etc/passwd
+
+# groups info
+/etc/group
+
+# logs
+/var/log
+
+
+
+### USERS & GROUPS ------------------------------
+# which user you are now
+whoami
+
+# view current logged in user
+who
+
+# view current path
+pwd
+
+# view info about user
+id username
+
+# add user
+useradd username
+
+# add group
+groupadd group-name
+
+# add user to the supplementary group without changing primary group
+usermod -aG group-name username
+
+# add user to the supplementary group without changing primary group
+vim /etc/group
+
+# change your user password
+passwd
+
+# change user password
+passwd username
+
+# switch to root user
+sudo -i
+
+# switch to any user
+su - username
+
+# delete the user
+userdel username
+
+# delete the user with home dir
+userdel -r username
+
+# delete group
+groupdel group-name
+
+# view last users logged in into the system
+last
+
+# view all opened files by user
+lsof -u username
+
+
+### CHOWN ---------------------------------------
+# change user:group owners of the dir or file
+chown username:group-name /path/to/filename
+
+# -R = recursively, -v = verbose
+chown -R username:group-name /path/to/filename
+
+
+### CHMOD ---------------------------------------
+# change permissions for the file or dirs
+# -R = recursively
+
+
+### Changing Permissions - Symbolic Method ###
+# u +- = user +- permission
+# g +- = group +- permission
+# o +- = others +- permission
+# r = read
+# w = write
+# x = execute
+
+# examples
+chmod o-x /path/to/filename
+chmod g+w /path/to/filename
+
+# just make file executable for user, group, others
+sudo chmod +x ./name
+
+
+### Changing Permissions - Numeric Method ###
+# Uses a three-digit mode number
+# first digit = owner's permissions
+# second digit = group's permissions
+# third digit = others' permissions
+# Permissions are calculated by adding:
+# 4 (for read)
+# 2 (for write)
+# 1 (for execute)
+
+# examples
+chmod 640 /path/to/filename
+# 4 + 2 = read + write for user
+# 4 = read for group
+# 0 = none for others
+chmod 770 /path/to/filename
+# 4 + 2 + 1 = read + write + execute for user
+# 7 + 2 + 1 = read + write + execute for group
+# 0 = none for others
+
+
+
+### NETWORKING ----------------------------------
 # how to see IP
 ip a
 ip r
@@ -41,17 +157,8 @@ command-name --help
 file filename
 file directory-name
 
-# which user now
-whoami
-
-# view current path
-pwd
-
 # view version of the OS
 cat /etc/os-release
-
-# switch to root user
-sudo -i
 
 # logout with current user
 exit
@@ -109,11 +216,6 @@ locate host
 # print command
 # print text to the file
 echo "text" > /tmp/sysinfo.txt
-
-
-### CHMOD ###
-# make file executable
-sudo chmod +x ./name
 
 
 ### GREP ###
@@ -211,14 +313,14 @@ ls | wc -l
 
 ### OUTPUT REDIRECTION > ------------------------
 # to output command result to a file use >
-command-name > path/to/filename
+command-name > /path/to/filename
 uptime > /tmp/sysinfo.txt
 ls > /tmp/sysinfo.txt
 echo "text" > /tmp/sysinfo.txt
 
 # to output command result to a file and did not overwrite its contents and 
 #just append
-command-name >> path/to/filename
+command-name >> /path/to/filename
 uptime >> /tmp/sysinfo.txt
 
 # output to nowhere
@@ -244,18 +346,10 @@ command-name < /path/to/filename
 wc -l < /etc/passwd
 
 
-### PATHS ---------------------------------------
-# users info
-/etc/passwd
-
-# logs
-/var/log
-
-
 
 ### LN, LINKS -----------------------------------
 # create softlink
-ln -s path/to/filename path/to/filename
+ln -s /path/to/filename /path/to/filename
 ln -s /opt/dev/ops/devops/test/commands.txt cmds
 
 

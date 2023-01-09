@@ -6,10 +6,7 @@ sudo apt install docker.io
 # macos (Docker Desktop)
 brew install --cask docker
 
-# DOCKER UNINSTALL ------------------------------
-# ubuntu
-sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce containerd.io
-
+# add user to docker group to use docker commands without sudo
 """
 By default, you’ll have to use sudo command or login to root any time you
 want to run a Docker command. This next step is optional, but if you’d prefer
@@ -18,6 +15,14 @@ the docker group with this command:
 """
 sudo usermod -aG docker $USER
 reboot
+
+
+
+# DOCKER UNINSTALL ------------------------------
+# ubuntu
+sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce containerd.io
+
+
 
 # DOCKER HELP -----------------------------------
 # view help on any command
@@ -464,3 +469,20 @@ sudo docker run \
 # docker port
 # see container ports
 docker port container-name
+
+
+
+### Docker troubleshooting ----------------------
+### DOCKER dataFolder ###
+# if you change the profile name and profile dir and docker has old profile dir
+"""
+I'm not sure if that is everything to fix it, but change the dataFolder in the ~/Library/Group\ Containers/group.com.docker/settings.json file to the new user name and start Docker Desktop again.
+"""
+~/Library/Group\ Containers/group.com.docker/settings.json
+
+
+### DOCKER image folder ###
+~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+### DOCKER user folder ###
+~/.docker
