@@ -1,0 +1,51 @@
+### Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy] ----------
+
+### Section 2. Docker Images & Containers. The Core Building Blocks ----------
+### 23. EXPOSE & A Little Utility Functionality ###
+EXPOSE & A Little Utility Functionality
+In the last lecture, we started a container which also exposed a port (port 80).
+
+I just want to clarify again, that EXPOSE 80 in the Dockerfile in the end is optional. It documents that a process in the container will expose this port. But you still need to then actually expose the port with -p when running docker run. So technically, -p is the only required part when it comes to listening on a port. Still, it is a best practice to also add EXPOSE in the Dockerfile to document this behavior.
+
+As an additional quick side-note: For all docker commands where an ID can be used, you don't always have to copy / write out the full id.
+
+You can also just use the first (few) character(s) - just enough to have a unique identifier.
+
+So instead of
+
+docker run abcdefg
+you could also run
+
+docker run abc
+or, if there's no other image ID starting with "a", you could even run just:
+
+docker run a
+This applies to ALL Docker commands where IDs are needed.
+
+
+
+### Section 4. Networking. (Cross-)Container Communication -------------------
+### 76. Docker Network Drivers ###
+Docker Network Drivers
+Docker Networks actually support different kinds of "Drivers" which influence the behavior of the Network.
+
+The default driver is the "bridge" driver - it provides the behavior shown in this module (i.e. Containers can find each other by name if they are in the same Network).
+
+The driver can be set when a Network is created, simply by adding the --driver option.
+
+docker network create --driver bridge my-net
+Of course, if you want to use the "bridge" driver, you can simply omit the entire option since "bridge" is the default anyways.
+
+Docker also supports these alternative drivers - though you will use the "bridge" driver in most cases:
+
+host: For standalone containers, isolation between container and host system is removed (i.e. they share localhost as a network)
+
+overlay: Multiple Docker daemons (i.e. Docker running on different machines) are able to connect with each other. Only works in "Swarm" mode which is a dated / almost deprecated way of connecting multiple containers
+
+macvlan: You can set a custom MAC address to a container - this address can then be used for communication with that container
+
+none: All networking is disabled.
+
+Third-party plugins: You can install third-party plugins which then may add all kinds of behaviors and functionalities
+
+As mentioned, the "bridge" driver makes most sense in the vast majority of scenarios.

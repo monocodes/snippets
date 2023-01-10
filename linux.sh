@@ -4,14 +4,6 @@
 sudo apt install -y package-name
 
 
-
-### RPM, YUM, RED HAT, CENTOS -------------------
-### YUM -----------------------------------------
-# install something without promting
-sudo yum install -y pckage-name
-
-
-
 ### PATHS ---------------------------------------
 # users info
 /etc/passwd
@@ -75,6 +67,28 @@ last
 
 # view all opened files by user
 lsof -u username
+
+
+### SUDOERS -------------------------------------
+# for security reasons insted of using vanilla
+#/etc/sudoers file use /etc/sudoers.d dir and generate there sudoers settings
+vim /etc/sudoers.d/vagrant
+vagrant ALL=(ALL) NOPASSWD: ALL
+
+# to add group to sudoers file use %
+vim /etc/sudoers.d/devops
+%devops ALL=(ALL) NOPASSWD: ALL
+
+# view all custom /etc/sudoers.d files
+cat /etc/sudoers.d *
+
+# edit /etc/sudoers
+visudo
+
+# no password for sudoers user
+## Allow root to run any commands anywhere 
+root    ALL=(ALL)       ALL
+ansible ALL=(ALL)       NOPASSWD: ALL
 
 
 ### CHOWN ---------------------------------------
@@ -195,6 +209,11 @@ mv directory-name another-directory-name
 # move everything with mv
 # example
 mv *.txt directory-name
+
+### TREE ###
+# view dirs in tree format
+tree /path/to/dir
+tree /var/log
 
 
 ### FIND ###
@@ -367,9 +386,87 @@ top -b | grep java
 
 
 # SOFTWARE --------------------------------------
+### RPM, DNF, YUM, RED HAT, CENTOS --------------
+
+### DNF, YUM ------------------------------------
+# repos location
+/etc/yum.repos.d/
+
+# install something without promting
+yum install -y package-name
+dnf install -y package-name
+
+
+### RPM ###
+# install downloaded package
+# -i - install, -v - verbose, -h - human readable
+rmp -ivh package-name
+# examples
+rpm -ivh mozilla-mail-1.7.5-17.i586.rpm
+rpm -ivh --test mozilla-mail-1.7.5-17.i586.rpm
+
+# view all installed rpms
+rpm -qa
+# examples
+rpm -qa
+rpm -qa | less
+
+# view latest installed rpms
+rpm -qa --last
+
+# upgrade installed package
+rpm -Uvh package-name
+# examples
+rpm -Uvh mozilla-mail-1.7.6-12.i586.rpm
+rpm -Uvh --test mozilla-mail-1.7.6-12.i586.rpm
+
+# remove installed package
+rpm -ev package-name
+# example
+rpm -ev mozilla-mail
+
+# remove installed package without checking its dependencies
+rpm -ev --nodeps
+# example
+rpm -ev --nodeps mozilla-mail
+
+# view info about installed package
+rpm -qi package-name
+# example
+rpm -qi mozilla-mail
+
+# find out what package a file belongs to i.e. find what package owns the file
+rpm -qf /path/to/dir
+# examples
+rpm -qf /etc/passwd
+
+# view list of configuration file(s) for a package
+rpm -qc package-name
+# example
+rpm -qc httpd
+
+# view list of configuration files for a command
+rpm -qcf /path/to/filename
+# example
+rpm -qcf /usr/X11R6/bin/xeyes
+
+# view what dependencies a rpm file has
+rpm -qpR filename.rpm
+rpm -qR package-name
+# examples
+rpm -qpR mediawiki-1.4rc1-4.i586.rpm
+rpm -qR bash
+
+
+### CURL ----------------------------------------
+# you can use curl to download something
+curl https://link -o filename
+
+# example
+curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/t/tree-2.1.0-1.fc38.aarch64.rpm -o tree-2.1.0-1.fc38.aarch64.rpm
+
 # check curl
 curl parrot.live
-
 
 
 # NEEDRESTART OR DAEMONS USING OUTDATED LIBRARIES
@@ -383,8 +480,7 @@ sudo needrestart -u NeedRestart::UI::stdio -r l
 sudo needrestart -u NeedRestart::UI::stdio -r a
 
 
-
-# SSH-KEYGEN
+### SSH-KEYGEN ----------------------------------
 # full guide - https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server-ru
 # generate new pair of ssh keys
 ssh-keygen

@@ -29,9 +29,15 @@ sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce con
 docker --help
 docker ps --help
 
-### docker image inspect ###
-# view image info
+### DOCKER INSPECT ###
+# inspect the image
 docker image inspect image-name
+
+# inspect the volume
+docker volume inspect volume-name
+
+# inspect the container
+docker container inspect container-name
 
 
 
@@ -358,6 +364,36 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_module
 
 # example
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
+
+
+
+### DOCKER NETWORK ------------------------------
+# you don't need to expose ports (-p) of containers which you don't need to
+#connect from host machine or internet
+# containers can freely communicate with each other through the internal
+#docker network
+
+# to address docker to host (localhost, 127.0.0.1) use this address in code
+host.docker.internal
+
+# examples
+http://host.docker.internal:3000
+mongodb://host.docker.internal:27017
+
+### DOCKER NETWORK ###
+# create docker network
+docker network create network-name
+
+# docker network configuration, view docker networks
+docker network ls
+
+# to address your app to another container in the same docker network,
+#use container-name in your code
+protocol-name://container-name:27017/
+
+# examples
+mongodb://mongodb:27017/swfavorites'
+
 
 
 
