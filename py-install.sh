@@ -21,6 +21,12 @@ fi
 # There is a downside to auto-activation, though. The auto-switch seems to slow zsh down quite a bit. For more information on this, read #132 (https://github.com/pyenv/pyenv-virtualenv/issues/132) and #259 (https://github.com/pyenv/pyenv-virtualenv/issues/259).
 
 
+
+# check python version
+python --version
+
+
+
 ### PYENV ---------------------------------------
 
 # install peynv-virtualenv
@@ -80,8 +86,24 @@ cd Library
 sudo rm -rf Python
 
 # Additionally, three more main directories have to be handled in order to remove Python. Move back to your root user directory and perform the following commands:
-sudo rm -rf “/Applications/Python”
+sudo rm -rf /Applications/Python
 sudo rm -rf /Library/Frameworks/Python.framework
 sudo rm -rf /usr/local/bin/python
 
 # Note: We do not recommend this step for novice Mac users. The way Python files are distributed in your Library and cache may differ based on your use, and so, extra files may have to be deleted which you can search for in the Finder or manually in the terminal.
+
+# Step 3: Remove Python symbolic links
+"""
+The symlinks referencing Python frameworks are in the /usr/local/bin directory. If you would like to see the broken symlinks, please use the following command.
+"""
+# become root
+sudo -i
+
+# check first
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework'
+
+# delete
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{print $9}' | tr -d @ | xargs rm
+
+# check again
+ls /usr/local/bin

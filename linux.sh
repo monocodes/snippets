@@ -1,9 +1,3 @@
-### DEB, APT, DEBIAN, UBUNTU --------------------
-### APT -----------------------------------------
-# install something without promting
-sudo apt install -y package-name
-
-
 ### PATHS ---------------------------------------
 # users info
 /etc/passwd
@@ -13,6 +7,9 @@ sudo apt install -y package-name
 
 # logs
 /var/log
+
+# starting/stopping/reloading configs of the services
+/etc/systemd/system/multi-user.target.wants
 
 
 
@@ -31,6 +28,7 @@ id username
 
 # add user
 useradd username
+adduser username # for ubuntu
 
 # add group
 groupadd group-name
@@ -67,6 +65,61 @@ last
 
 # view all opened files by user
 lsof -u username
+
+
+### SYSTEMCTL -----------------------------------
+# manage services
+
+# service status
+systemctl status service-name
+
+# check service active or not
+systemctl is-active service-name
+
+# check service in autorun or not
+systemctl is-enabled service-name
+
+# service start
+systemctl start service-name
+
+# service restart
+systemctl restart service-name
+
+# reload config of the service without restarting
+systemctl reload service-name
+
+# service stop
+systemctl stop service-name
+
+# add service to autorun
+systemctl enable service-name
+
+
+### PROCESSES, TOP, PS AUX ----------------------
+# view all processes
+top
+htop
+
+# view all processes and exit
+ps aux
+
+# view all processes with displaying parent processes
+ps -ef
+
+# find specific process PID and kill it
+# kill the parent process
+ps -ef | grep -i process-name | grep -v 'grep'
+kill PID
+
+# forcefully kill the process but without the child processes
+kill -9 PID
+
+# forcefully kill all child processes with filtering
+# ps -ef - list processes
+# grep -v 'grep' - excludes processes with name grep
+# awk '{print $2}' - list only 2nd column of the output
+# xargs kill -9 - kills every process
+ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
 
 
 ### SUDOERS -------------------------------------
@@ -237,6 +290,12 @@ locate host
 echo "text" > /tmp/sysinfo.txt
 
 
+### EXPORT ###
+# export changes environmental variables temporarily
+# change default text editor
+export EDITOR=vim
+
+
 ### GREP ###
 # find word in file
 grep word filename
@@ -249,6 +308,9 @@ grep -iR word *
 # example
 grep -R SELINUX /etc/*
 
+# -v - grep process excluding grep process
+ps -ef | grep -i process-name | grep -v 'grep'
+
 
 ### GREP EXAMPLES ###
 ls /etc/host* | grep host
@@ -257,6 +319,9 @@ ls host | grep host
 tail -150 /var/log/messages-20230108 | grep -i vagrant
 
 free -h | grep -i mem
+
+# -v - grep process excluding grep process
+ps -ef | grep -i httpd | grep -v 'grep'
 
 
 ### CUT, AWK ###
@@ -388,13 +453,52 @@ top -b | grep java
 # SOFTWARE --------------------------------------
 ### RPM, DNF, YUM, RED HAT, CENTOS --------------
 
-### DNF, YUM ------------------------------------
+### DNF, YUM, RPM -------------------------------
 # repos location
 /etc/yum.repos.d/
 
-# install something without promting
-yum install -y package-name
+
+### DNF, YUM ###
+# almost all these commands applied to yum
+
+# search package
+dnf search package-name
+
+# install something without prompts
 dnf install -y package-name
+
+# reinstall package
+dnf reinstall package-name
+
+# remove package and its config files not touched by user
+dnf remove package-name
+
+# update all packages
+dnf update
+
+# update specific pckage
+dnf update package-name
+
+# list all avalaible Group Packages
+dnf grouplist
+
+# install all the packages in a group
+dnf groupinstall group-name
+
+# view enabled dnf repos
+dnf repolist
+
+# clean dnf cache
+dnf clean all
+
+# additional package repository that commonly used software
+dnf install epel-release
+
+# view history of dnf
+dnf history
+
+# view info of package
+dnf info package-name
 
 
 ### RPM ###
@@ -458,7 +562,98 @@ rpm -qpR mediawiki-1.4rc1-4.i586.rpm
 rpm -qR bash
 
 
-### CURL ----------------------------------------
+### DEB, APT, DEBIAN, UBUNTU --------------------
+### APT -----------------------------------------
+
+# apt repos
+cat /etc/apt/sources.list
+
+# before installing any package update repos list
+apt update
+
+# update al packages
+apt upgrade
+
+# update specific package
+apt upgrade package-name
+
+# search package from avalaible repos
+apt search package-name
+
+# install package without prompts
+apt install package-name -y
+
+# reinstall package
+apt reinstall package-name
+
+# remove package
+apt remove package-name
+
+# remove package and all its configs and data
+apt purge package-name
+
+# list all avalaible Group Packages
+apt grouplist
+
+# install all the packages in a group
+apt groupinstall group-name
+
+# view enabled apt repos
+apt repolist
+
+# clean apt cache
+apt clean all
+
+# view apt history
+apt history
+
+# view info of the package
+apt show package-name
+
+
+### DPKG ----------------------------------------
+# install downloaded package with dpkg
+dpkg -i filename
+
+# view all installed packages
+dpkg -l
+
+# search for specific installed package
+dpkg -l | grep -i package-name
+
+# remove package
+dpkg -r package-name
+
+
+### TAR, ZIP, ARCHIVES --------------------------
+
+### TAR ###
+# tar to create archives
+# -c - create
+# -z - compress
+# -v - verbose
+# -f - file
+tar -czvf archive-name.tar.gz /path/to/dir
+
+# extract archive
+# -x - extract
+tar -xzvf filename
+
+# extract archive to some dir
+tar -xzvf filename -C /path/to/dir
+
+
+### ZIP ###
+# zip to create archives
+# -r - recursively
+zip -r filename.zip /path/to/dir
+
+# unzip for unarchive
+# -d to point to dir 
+unzip filename.zip -d /path/to/dir
+
+### CURL, WGET ----------------------------------
+# curl and wget to download something
 # you can use curl to download something
 curl https://link -o filename
 
@@ -467,6 +662,9 @@ curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch
 
 # check curl
 curl parrot.live
+
+# download file with wget
+wget filelink
 
 
 # NEEDRESTART OR DAEMONS USING OUTDATED LIBRARIES
@@ -478,6 +676,26 @@ sudo needrestart -u NeedRestart::UI::stdio -r l
 
 # restart services with needrestart, reboot if doesn't help
 sudo needrestart -u NeedRestart::UI::stdio -r a
+
+
+### LOCALECTL -----------------------------------
+# view used locale
+localectl
+
+# view installed locales
+localectl list-locales
+
+# search for langpack
+dnf search langpacks- | grep -i en
+
+# set locale
+localectl set-locale LANG=en_US.UTF-8
+
+# view specific locale keymaps
+localectl list-keymaps | grep -i us
+
+# set keymap locale
+localectl set-keymap us
 
 
 ### SSH-KEYGEN ----------------------------------

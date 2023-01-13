@@ -112,3 +112,24 @@ chrome://restart
 # 1) cp it anywhere
 # 2) edit it with xml editor or xcode
 # 3) sudo cp com.apple.TimeMachine.plist to /Library/Preferences/
+
+
+
+### SYMBOLIC LINKS ------------------------------
+# example of deleting unuseful symbolic links
+
+# Step 3: Remove Python symbolic links
+"""
+The symlinks referencing Python frameworks are in the /usr/local/bin directory. If you would like to see the broken symlinks, please use the following command.
+"""
+# become root
+sudo -i
+
+# check first
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework'
+
+# delete
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{print $9}' | tr -d @ | xargs rm
+
+# check again
+ls /usr/local/bin

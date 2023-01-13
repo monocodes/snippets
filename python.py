@@ -1,7 +1,5 @@
 ### Python useful commands ----------------------
 
-
-
 ### IMPORT SYS ----------------------------------
 ### Question ###
 # How to import your module from another directory or root directory.
