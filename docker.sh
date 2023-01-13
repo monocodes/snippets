@@ -372,6 +372,10 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /ap
 #connect from host machine or internet
 # containers can freely communicate with each other through the internal
 #docker network
+# but you need to expose ports which you do want to connect from the host
+# BUT be aware, for example typical React app need exposed ports anyway
+#because frontend app connects to the backend app through the local browser,
+#not through server because code actually executes in browser, not server
 
 # to address docker to host (localhost, 127.0.0.1) use this address in code
 host.docker.internal
@@ -387,12 +391,32 @@ docker network create network-name
 # docker network configuration, view docker networks
 docker network ls
 
+# use created network with container and you don't need to publish ports,
+#because containers will be using docker network
+docker run -d --name container-name --network network-name image-name
+# example
+docker run -d --name mongodb --network favorites-net mongo
+docker run --name favorites-web-nodejs --network favorites-net -d --rm -p 3000:3000 wanderingmono/docker-s4:favorites-web-nodejs-v0.4-mdb-net
+
 # to address your app to another container in the same docker network,
 #use container-name in your code
 protocol-name://container-name:27017/
-
 # examples
-mongodb://mongodb:27017/swfavorites'
+mongodb://mongodb:27017/swfavorites
+
+
+### NODEJS + REACTJS + MONGODB EXAMPLE ----------
+# three containers with docker network
+# database - mongodb
+docker run --name mongodb --rm -d --network goals-multi-net mongo
+
+# backend - nodejs
+docker build -t wanderingmono/docker-s5:goals-be-web-nodejs-v0.3-mdb-dn .
+docker run  --name goals-be-web-nodejs --rm -d --network goals-multi-net -p 80:80 wanderingmono/docker-s5:goals-be-web-nodejs-v0.3-mdb-dn
+
+# frontend - reactjs
+docker build -t wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local .
+docker run --name goals-fe-web-react --rm -d -p 3000:3000 wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local
 
 
 
