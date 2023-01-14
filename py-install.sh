@@ -22,11 +22,6 @@ fi
 
 
 
-# check python version
-python --version
-
-
-
 ### PYENV ---------------------------------------
 
 # install peynv-virtualenv
@@ -75,6 +70,7 @@ pyenv uninstall -f name-of-virtualenv
 ### PYTHON USEFUL COMMANDS ----------------------
 python -V
 python3 -V
+python --version
 
 # where is python bin
 which python

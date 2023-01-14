@@ -126,6 +126,18 @@ git rm filename
 git rm filename --cached
 
 
+### Example to ignore previously committed dir logs/ ###
+# update .gitignore file to ignore dir
+logs/
+
+# remove dir or file from the repo
+#use relative path of the project and "" if you have any spaces in path
+git rm -r --cached "Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs"
+
+# do commit
+git commit -am "Start ignoring Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs"
+
+
 
 ### DELETING A REPOSITORY -----------------------
 rm -rf .git

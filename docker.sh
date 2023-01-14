@@ -408,15 +408,42 @@ mongodb://mongodb:27017/swfavorites
 ### NODEJS + REACTJS + MONGODB EXAMPLE ----------
 # three containers with docker network
 # database - mongodb
-docker run --name mongodb --rm -d --network goals-multi-net mongo
+docker run --rm -d \
+  --name mongodb \
+  -v goals-multi-mongo:/data/db \
+  -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+  -e MONGO_INITDB_ROOT_PASSWORD=secret \
+  --network goals-multi-net mongo
 
 # backend - nodejs
 docker build -t wanderingmono/docker-s5:goals-be-web-nodejs-v0.3-mdb-dn .
-docker run  --name goals-be-web-nodejs --rm -d --network goals-multi-net -p 80:80 wanderingmono/docker-s5:goals-be-web-nodejs-v0.3-mdb-dn
+
+docker run --rm -d -p 80:80 \
+  -v "/Users/mono/My Drive/study/code/devops/Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy]/docker-edu/Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs":/app/logs \
+  -v "/Users/mono/My Drive/study/code/devops/Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy]/docker-edu/Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend":/app \
+  -v /app/node_modules \
+  -e MONGODB_USERNAME=mongoadmin \
+  --name goals-be-web-nodejs \
+  --network goals-multi-net \
+  wanderingmono/docker-s5:goals-be-web-nodejs-v0.7-mdb-dn-pw-v-nm-env-di
+
+# or
+docker run --rm -d -p 80:80 \
+  -v "$(pwd)/logs:/app/logs" \
+  -v "$(pwd):/app" \
+  -v /app/node_modules \
+  -e MONGODB_USERNAME=mongoadmin \
+  --name goals-be-web-nodejs \
+  --network goals-multi-net \
+  wanderingmono/docker-s5:goals-be-web-nodejs-v0.7-mdb-dn-pw-v-nm-env-di
+
 
 # frontend - reactjs
 docker build -t wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local .
-docker run --name goals-fe-web-react --rm -d -p 3000:3000 wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local
+
+docker run --rm -d -p 3000:3000 \
+  --name goals-fe-web-react \
+  wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local
 
 
 
