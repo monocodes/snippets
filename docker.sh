@@ -407,6 +407,10 @@ mongodb://mongodb:27017/swfavorites
 
 ### NODEJS + REACTJS + MONGODB EXAMPLE ----------
 # three containers with docker network
+
+# NOTE if react app don't work properly
+#try using interactive mode docker run -it
+
 # database - mongodb
 docker run --rm -d \
   --name mongodb \
@@ -442,9 +446,9 @@ docker run --rm -d -p 80:80 \
 docker build -t wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local .
 
 docker run --rm -d -p 3000:3000 \
+  -v "$(pwd)/src:/app/src" \
   --name goals-fe-web-react \
-  wanderingmono/docker-s5:goals-fe-web-react-v0.3-node-local
-
+  wanderingmono/docker-s5:goals-fe-web-react-v0.4-node-local-di
 
 
 

@@ -13,6 +13,37 @@
 
 
 
+### GRUB ----------------------------------------
+
+# to force boot with specific kernel
+
+### UBUNTU ###
+# edit grub config
+vim /etc/default/grub
+
+# in that file edit this line, in menu count starts with 0
+GRUB_DEFAULT="1>2"
+
+# update grub config
+update-grub
+
+
+### FEDORA ###
+# you don't need to change anything in grub config, just use the command
+grub2-set-default number
+grub2-set-default 1
+
+
+# check the boot
+reboot now
+
+# if something goes wrong, go to the hypervisor and press ESC when booting
+ESC
+# or hold shift for older systems
+Shift
+
+
+
 ### USERS & GROUPS ------------------------------
 # which user you are now
 whoami
@@ -196,9 +227,14 @@ chmod 770 /path/to/filename
 
 
 ### NETWORKING ----------------------------------
-# how to see IP
+# view the network adapters
 ip a
 ip r
+ip address
+
+# deprecated starting Ubuntu 20
+ifconfig 
+
 # restarting network on Ubuntu 22
 sudo systemctl restart systemd-networkd
 
@@ -214,9 +250,28 @@ hostnamectl
 # change hostname
 sudo hostnamectl set-hostname your_name
 
+# traceroute
+traceroute address-name
+traceroute mirrors.fedoraproject.org
+
 
 
 ### BASIC COMMANDS ------------------------------
+
+### & && || ; ###
+# Run A and then B, regardless of success of A
+A ; B
+
+# Run B if A succeeded
+A && B 
+
+# Run B if A failed
+A || B
+
+# Run A in background.
+A &
+
+
 # get help for the command
 command-name --help
 
@@ -454,8 +509,21 @@ top -b | grep java
 ### RPM, DNF, YUM, RED HAT, CENTOS --------------
 
 ### DNF, YUM, RPM -------------------------------
+
 # repos location
 /etc/yum.repos.d/
+
+### there might be a problem with metalink in Armenia ###
+vim /etc/yum.repos.d/fedora.repo
+
+# comment metalink and enter baseurl
+#metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
+baseurl=https://fedora-archive.ip-connect.info/fedora/linux/releases/35/Everything/x86_64/os/
+
+# or 
+https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-35&arch=x86_64
+https://admin.fedoraproject.org/mirrormanager/
+
 
 
 ### DNF, YUM ###
@@ -499,6 +567,14 @@ dnf history
 
 # view info of package
 dnf info package-name
+
+# exclude package in dnf from updating
+# example for kernel updates
+echo "exclude=kernel*" >> /etc/dnf/dnf.conf
+
+# exclude package in yum from updating
+# deprecated in already in Fedora 35
+echo "exclude=kernel*" >> /etc/yum.conf
 
 
 ### RPM ###
@@ -611,6 +687,16 @@ apt history
 apt show package-name
 
 
+### APT-MARK ------------------------------------
+# hold specific packages from upgrading
+# useful to not update the kernel packages
+apt-mark hold package-name
+
+# example for ubuntu m1 vm
+apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-headers-5.4.0-137-generic linux-headers-generic linux-image-unsigned-5.4.0-137-generic linux-modules-5.4.0-137-generic
+
+
+
 ### DPKG ----------------------------------------
 # install downloaded package with dpkg
 dpkg -i filename
@@ -687,6 +773,7 @@ localectl list-locales
 
 # search for langpack
 dnf search langpacks- | grep -i en
+dnf install langpacks-en
 
 # set locale
 localectl set-locale LANG=en_US.UTF-8
@@ -720,7 +807,7 @@ cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.s
 sudo nano /etc/ssh/sshd_config
 PasswordAuthentication no
 sudo service ssh restart
-# CentOS/Fedora/RadHat
+# CentOS/Fedora/RedHat
 sudo service sshd restart
 
 # list all local private and public ssh keys
