@@ -853,6 +853,82 @@ ssh-keygen -p -N ""
 
 
 
+### NOTES ---------------------------------------
+
+### BASH '', "" ---------------------------------
+# https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash
+
+The accepted answer is great. I am making a table that helps in quick comprehension of the topic. The explanation involves a simple variable a as well as an indexed array arr.
+
+If we set
+
+a=apple      # a simple variable
+arr=(apple)  # an indexed array with a single element
+and then echo the expression in the second column, we would get the result / behavior shown in the third column. The fourth column explains the behavior.
+
+#	Expression	Result	Comments
+1	"$a"	apple	variables are expanded inside ""
+2	'$a'	$a	variables are not expanded inside ''
+3	"'$a'"	'apple'	'' has no special meaning inside ""
+4	'"$a"'	"$a"	"" is treated literally inside ''
+5	'\''	invalid	can not escape a ' within ''; use "'" or $'\'' (ANSI-C quoting)
+6	"red$arocks"	red	$arocks does not expand $a; use ${a}rocks to preserve $a
+7	"redapple$"	redapple$	$ followed by no variable name evaluates to $
+8	'\"'	\"	\ has no special meaning inside ''
+9	"\'"	\'	\' is interpreted inside "" but has no significance for '
+10	"\""	"	\" is interpreted inside ""
+11	"*"	*	glob does not work inside "" or ''
+12	"\t\n"	\t\n	\t and \n have no special meaning inside "" or ''; use ANSI-C quoting
+13	"`echo hi`"	hi	`` and $() are evaluated inside "" (backquotes are retained in actual output)
+14	'`echo hi`'	`echo hi`	`` and $() are not evaluated inside '' (backquotes are retained in actual output)
+15	'${arr[0]}'	${arr[0]}	array access not possible inside ''
+16	"${arr[0]}"	apple	array access works inside ""
+17	$'$a\''	$a'	single quotes can be escaped inside ANSI-C quoting
+18	"$'\t'"	$'\t'	ANSI-C quoting is not interpreted inside ""
+19	'!cmd'	!cmd	history expansion character '!' is ignored inside ''
+20	"!cmd"	cmd args	expands to the most recent command matching "cmd"
+21	$'!cmd'	!cmd	history expansion character '!' is ignored inside ANSI-C quotes
+See also:
+
+ANSI-C quoting with $'' - GNU Bash Manual - https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
+Locale translation with $"" - GNU Bash Manual - https://www.gnu.org/software/bash/manual/html_node/Locale-Translation.html#Locale-Translation
+A three-point formula for quotes - https://stackoverflow.com/a/42104627/6862601
+
+
+
+
+
+### SED '', "" ----------------------------------
+
+# https://unix.stackexchange.com/questions/542454/escaping-single-quote-in-sed-replace-string
+
+You don't need to escape in sed, where ' has no special significance. You need to escape it in bash.
+
+$ sed -e "s/'/singlequote/g" <<<"'"
+singlequote
+You can see here that the double quotes protect the single quote from bash, and sed does fine with it. Here's what happens when you switch the single quotes.
+
+$ sed -e 's/'/singlequote/g' <<<"'"
+>
+The strange thing about ' in bourne like shells (all?) is that it functions less like " and more like a flag to disable other character interpretation until another ' is seen. If you enclose it in double quotes it won't have it's special significance. Observe:
+
+$ echo 'isn'"'"'t this hard?'
+isn't this hard?
+You can also escape it with a backslash as shown in the other answer. But you have to leave the single quoted block before that will work. So while this seems like it would work:
+
+echo '\''
+it does not; the first ' disables the meaning of the \ character.
+
+I suggest you take a different approach. sed expressions can be specified as command line arguments - but at the expense of having to escape from the shell. It's not bad to escape a short and simple sed expression, but yours is pretty long and has a lot of special characters.
+
+I would put your sed command in a file, and invoke sed with the -f argument to specify the command file instead of specifying it at the command line. http://man7.org/linux/man-pages/man1/sed.1.html or man sed will go into detail. This way the sed commands aren't part of what the shell sees (it only sees the filename) and the shell escaping conundrum disappears.
+
+$ cat t.sed
+s/'*/singlequote(s)/g
+
+$ sed -f t.sed <<<"' ' '''"
+singlequote(s) singlequote(s) singlequote(s)
+"""
 
 ### GUIDES --------------------------------------
 
