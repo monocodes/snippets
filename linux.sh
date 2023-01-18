@@ -11,6 +11,9 @@
 # starting/stopping/reloading configs of the services
 /etc/systemd/system/multi-user.target.wants
 
+# default webserver data, webhosting
+/var/www/html
+
 
 
 ### GRUB ----------------------------------------
@@ -124,6 +127,9 @@ systemctl stop service-name
 
 # add service to autorun
 systemctl enable service-name
+
+# remove service from autorun
+systemctl disable service-name
 
 
 ### PROCESSES, TOP, PS AUX ----------------------
@@ -255,6 +261,14 @@ traceroute address-name
 traceroute mirrors.fedoraproject.org
 
 
+### FIREWALLD ###
+
+# Fedora firewalld fix if httpd doesn't work
+systemctl stop firewalld
+systecmctl enable firewalld
+firewall-cmd --add-service=http --add-service=https --permanent
+
+
 
 ### BASIC COMMANDS ------------------------------
 
@@ -305,10 +319,13 @@ rm -rf filename{1..10}.txt
 cp filename directory-name
 
 # copy directory
-cp -r directory-name directory-name
+cp -r /path/to/dir /path/to/another/dir
+
+# copy all files and dirs
+cp -r * /path/to/dir
 
 # move with mv
-mv filename directory-name
+mv filename /path/to/dir
 
 # rename with mv
 mv filename another-filename
@@ -738,6 +755,10 @@ zip -r filename.zip /path/to/dir
 # -d to point to dir 
 unzip filename.zip -d /path/to/dir
 
+# unzip and overwrite, no question
+unzip -o filename.zip /path/to/dir
+
+
 ### CURL, WGET ----------------------------------
 # curl and wget to download something
 # you can use curl to download something
@@ -828,3 +849,142 @@ ssh-keygen -f ~.ssh/private_key_name -p
 ssh-keygen -f ~/.ssh/private_key_name -p -N ""
 # for default private key
 ssh-keygen -p -N ""
+
+
+
+
+
+### GUIDES --------------------------------------
+
+### SED GUIDE -----------------------------------
+# https://www.cyberciti.biz/faq/how-to-use-sed-to-find-and-replace-text-in-files-in-linux-unix-shell/
+
+How to use sed to find and replace text in files in Linux / Unix shell
+Author: Vivek Gite Last updated: January 7, 2023 36 comments
+See all GNU/Linux related FAQIam a new Linux user. I wanted to find the text called “foo” and replaced to “bar” in the file named “hosts.txt.” How do I use the sed command to find and replace text/string on Linux or UNIX-like system?
+
+The sed stands for stream editor. It reads the given file, modifying the input as specified by a list of sed commands. By default, the input is written to the screen, but you can force to update file.
+ADVERTISEMENT
+Find and replace text within a file using sed command
+The procedure to change the text in files under Linux/Unix using sed:
+
+Use Stream EDitor (sed) as follows:
+sed -i 's/old-text/new-text/g' input.txt
+The s is the substitute command of sed for find and replace
+It tells sed to find all occurrences of ‘old-text’ and replace with ‘new-text’ in a file named input.txt
+Verify that file has been updated:
+more input.txt
+Let us see syntax and usage in details.
+Tutorial details
+Difficulty level	Easy
+Root privileges	No
+Requirements	Linux or Unix terminal
+Category	Linux shell scripting
+Prerequisites	sed utility
+OS compatibility	BSD • Linux • macOS • Unix • WSL
+Est. reading time	4 minutes
+Syntax: sed find and replace text
+The syntax is:
+sed 's/word1/word2/g' input.file
+## *BSD/macOS sed syntax ##
+sed 's/word1/word2/g' input.file > output.file
+## GNU/Linux sed syntax ##
+sed -i 's/word1/word2/g' input.file
+sed -i -e 's/word1/word2/g' -e 's/xx/yy/g' input.file
+## Use + separator instead of / ##
+sed -i 's+regex+new-text+g' file.txt
+
+The above replace all occurrences of characters in word1 in the pattern space with the corresponding characters from word2.
+
+Examples that use sed to find and replace
+Let us create a text file called hello.txt as follows:
+cat hello.txt
+
+Sample file:
+
+The is a test file created by nixCrft for demo purpose.
+foo is good.
+Foo is nice.
+I love FOO.
+I am going to use s/ for substitute the found expression foo with bar as follows:
+sed 's/foo/bar/g' hello.txt
+
+Sample outputs:
+
+The is a test file created by nixCrft for demo purpose.
+bar is good.
+Foo is nice.
+I love FOO.
+sed find and replace examples for unix and linux
+To update file pass the -i option when using GNU/sed version:
+sed -i 's/foo/bar/g' hello.txt
+cat hello.txt
+
+The g/ means global replace i.e. find all occurrences of foo and replace with bar using sed. If you removed the /g only first occurrence is changed. For instance:
+sed -i 's/foo/bar/' hello.txt
+
+The / act as delimiter characters. To match all cases of foo (foo, FOO, Foo, FoO) add I (capitalized I) option as follows:
+sed -i 's/foo/bar/gI' hello.txt
+cat hello.txt
+
+Sample outputs:
+
+The is a test file created by nixCrft for demo purpose.
+bar is good.
+bar is nice.
+I love bar.
+A note about *BSD and macOS sed version
+Please note that the BSD implementation of sed (FreeBSD/OpenBSD/NetBSD/MacOS and co) does NOT support case-insensitive matching including file updates with the help of -i option. Hence, you need to install gnu sed. Run the following command on Apple macOS (first set up home brew on macOS):
+brew install gnu-sed
+######################################
+### now use gsed command as follows ##
+######################################
+gsed -i 's/foo/bar/gI' hello.txt
+#########################################
+### make a backup and then update file ##
+#########################################
+gsed -i'.BAK' 's/foo/bar/gI' hello.txt
+cat hello.txt
+
+sed command problems
+Consider the following text file:
+cat input.txt
+http:// is outdate.
+Consider using https:// for all your needs.
+
+Find word ‘http://’ and replace with ‘https://www.cyberciti.biz’:
+sed 's/http:///https://www.cyberciti.biz/g' input.txt
+
+You will get an error that read as follows:
+
+sed: 1: "s/http:///https://www.c ...": bad flag in substitute command: '/'
+Our syntax is correct but the / delimiter character is also part of word1 and word2 in above example. Sed command allows you to change the delimiter / to something else. So I am going to use +:
+sed 's+http://+https://www.cyberciti.biz+g' input.txt
+
+Sample outputs:
+
+https://www.cyberciti.biz is outdate.
+Consider using https:// for all your needs.
+How to use sed to match word and perform find and replace
+In this example only find word ‘love’ and replace it with ‘sick’ if line content a specific string such as FOO:
+sed -i -e '/FOO/s/love/sick/' input.txt
+
+Use cat command to verify new changes:
+cat input.txt
+
+Recap and conclusion – Using sed to find and replace text in given files
+The general syntax is as follows:
+## find word1 and replace with word2 using sed ##
+sed -i 's/word1/word2/g' input
+## you can change the delimiter to keep syntax simple ##
+sed -i 's+word1+word2+g' input
+sed -i 's_word1_word2_g' input
+## you can add I option to GNU sed to case insensitive search ##
+sed -i 's/word1/word2/gI' input
+sed -i 's_word1_word2_gI' input
+
+See BSD (used on macOS too) sed or GNU sed man page by typing the following man command/info command or help command:
+man sed
+# gnu sed options #
+sed --help
+info sed

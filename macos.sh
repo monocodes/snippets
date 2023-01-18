@@ -1,3 +1,30 @@
+### PATHS ---------------------------------------
+# PATH variable
+cat /etc/paths
+
+# PATH files
+ls /etc/paths.d
+
+# view current path in terminal
+echo "$PATH"
+
+### $PATH guide is at the bottom of the page ###
+
+
+
+### .zshrc .zprofile ----------------------------
+$HOME/.zshrc
+$HOME/.zprofile
+~/.zshrc
+~/.zprofile
+
+# to update PATH from .zprofile
+source $HOME/.zprofile
+# or
+. $HOME/.zprofile
+
+
+
 ### NETWORK -------------------------------------
 # how to flush DNS
 sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
@@ -18,8 +45,16 @@ sudo arp -a -d
 # restart terminal
 exec zsh -l
 
+# get help with the command
+man command-name
+man sed
+
 
 ### SED ###
+
+### use sed from macOS or use gsed from GNU ###
+brew install gsed
+
 # find text in files recursively and change it
 LC_ALL=C find . -type f -name 'filename-regex' -exec sed -i '' s/word-to-replace/word-that-replace/g {} +
 # example
@@ -133,3 +168,98 @@ ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{pri
 
 # check again
 ls /usr/local/bin
+
+
+
+
+
+### GUIDES --------------------------------------
+
+### $PATH GUIDE ---------------------------------
+
+# https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/
+
+$PATH is nothing but an environment variable on Linux, OS X, Unix-like operating systems, and Microsoft Windows. You can specify a set of directories where executable programs are located using $PATH. The $PATH variable is specified as a list of directory names separated by colon (:) characters.
+ADVERTISEMENT
+MacOS Print $PATH Settings
+To print the current settings, open the Terminal application and then printf command or echo command
+
+echo "$PATH"
+OR
+
+printf "%s\n" $PATH
+Here is what I see
+Fig.01: Displaying the current $PATH settings using echo / printf on OS X
+Fig.01: Displaying the current $PATH settings using echo / printf on OS X
+
+macOS (OS X): Change your PATH environment variable
+You can add path to any one of the following method:
+
+$HOME/.bash_profile file using export syntax.
+/etc/paths.d directory.
+Method #1: $HOME/.bash_profile file to set or change $PATH under macOS
+Open the Terminal app on macOS
+The syntax is as follows using the export command to add to the PATH on macOS:
+export PATH=$PATH:/new/dir/location1
+export PATH=$PATH:/new/dir1:/dir2:/dir/path/no3
+In this example, add the /usr/local/sbin/modemZapp/ directory to $PATH variable. Edit the file $HOME/.bash_profile, enter:
+vi $HOME/.bash_profile
+
+OR
+nano ~/.bash_profile
+Append the following export command:
+export PATH=$PATH:/usr/local/sbin/modemZapp
+Save and close the file when using vim/vi as a text editor. Then, to apply changes immediately enter the following source command:
+source $HOME/.bash_profile
+
+OR
+. $HOME/.bash_profile
+Finally, verify your new path settings, enter:
+echo "$PATH"
+
+Sample outputs:
+/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/sbin/modemZapp
+Method #2: /etc/paths.d directory
+Apple recommends the path_helper tool to generate the PATH variable i.e. helper for constructing PATH environment variable. From the man page:
+
+The path_helper utility reads the contents of the files in the directories /etc/paths.d and /etc/manpaths.d and appends their contents to the PATH and MANPATH environment variables respectively.
+
+(The MANPATH environment variable will not be modified unless it is already set in the environment.)
+
+Files in these directories should contain one path element per line.
+
+Prior to reading these directories, default PATH and MANPATH values are obtained from the files /etc/paths and /etc/manpaths respectively.
+
+To list existing path, enter:
+ls -l /etc/paths.d/
+
+Sample outputs:
+
+total 16
+-rw-r--r--  1 root  wheel  13 Sep 28  2012 40-XQuartz
+You can use the cat command to see path settings in 40-XQuartz:
+cat /etc/paths.d/40-XQuartz
+
+Sample outputs:
+
+/opt/X11/bin
+To set /usr/local/sbin/modemZapp to $PATH, enter:
+
+sudo -s 'echo "/usr/local/sbin/modemZapp" > /etc/paths.d/zmodemapp'
+OR use vi text editor as follows to create /etc/paths.d/zmodemapp file:
+sudo vi /etc/paths.d/zmodemapp
+
+and append the following text:
+
+/usr/local/sbin/modemZapp
+Save and close the file. You need to reboot the system. Alternatively, you can close and reopen the Terminal app to see new $PATH changes.
+
+Conclusion
+MacOS Set or Change $PATH settings:
+
+Use the .bash_profile file when you need to generate the PATH variable for a single user account.
+Use the /etc/paths.d/ directory or folder via the path_helper command tool to generate the PATH variable for all user accounts on the system. This method only works on OS X Leopard and higher macOS version.
+See the following manual pages using the help command or man command on your macOS / OS X machine:
+man bash
+man path_helper
+help export
