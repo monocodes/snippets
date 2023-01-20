@@ -41,7 +41,38 @@ docker container inspect container-name
 
 
 
-# DOCKER RUN ------------------------------------
+-------------------------------------------------
+# DOCKER COMPOSE
+-------------------------------------------------
+# docker compose is v2 of docker-compose
+
+# create and run containers specified in docker-compose.yaml in current dir
+docker compose up
+docker-compose up
+
+# start and rebuild the images
+docker compose up --build
+
+# start in detached mode
+docker compose up -d
+docker-compose up -d
+
+# stop all containers from docker-compose.yaml and delete them + networks
+docker compose down
+docker-compose down
+
+# stop all containers from docker-compose.yaml and delete all including volumes
+docker compose down -v
+docker-compose down -v
+
+# just build or rebuild the images from docker-compose.yaml
+docker compose build
+
+
+
+-------------------------------------------------
+# DOCKER RUN
+-------------------------------------------------
 # pull image from dockerhub and runs a container based on it
 
 # if image have already been pulled it will use local image version instead

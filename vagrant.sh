@@ -53,9 +53,20 @@ vagrant reload --provision
 vagrant up id
 
 
+### VAGRANT SSH ###
+# login current vm (vm in dir)
+vagrant ssh
+
+# login to specific vm
+vagrant ssh vm-name
+
+
 ### VAGRANT HALT ###
-# gracefully stop the vm
+# gracefully stop current vm (vm in dir)
 vagrant halt
+
+# gracefully stop specific vm
+vagrant halt vm-name
 
 
 ### VAGRANT HALT ###

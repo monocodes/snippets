@@ -317,7 +317,9 @@ Vagrant.configure("2") do |config|
     sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
     
     sudo -u www-data sed -i 's/password_here/1234/' /srv/www/wordpress/wp-config.php
-  
+
+    systemctl reload apache2
+    
     # More edits to wp-config.php
     
   SHELL

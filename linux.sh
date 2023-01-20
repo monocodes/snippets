@@ -1,4 +1,13 @@
-### PATHS ---------------------------------------
+"""
+Vagrant for local
+Terraform for Cloud
+Ansible for Servers
+
+Cloudformation for AWS
+"""
+-------------------------------------------------
+# PATHS 
+-------------------------------------------------
 # users info
 /etc/passwd
 
@@ -16,8 +25,9 @@
 
 
 
-### GRUB ----------------------------------------
-
+-------------------------------------------------
+### GRUB
+-------------------------------------------------
 # to force boot with specific kernel
 
 ### UBUNTU ###
@@ -47,7 +57,9 @@ Shift
 
 
 
-### USERS & GROUPS ------------------------------
+-------------------------------------------------
+### USERS & GROUPS
+-------------------------------------------------
 # which user you are now
 whoami
 
@@ -101,7 +113,9 @@ last
 lsof -u username
 
 
-### SYSTEMCTL -----------------------------------
+-------------------------------------------------
+### SYSTEMCTL
+-------------------------------------------------
 # manage services
 
 # service status
@@ -132,7 +146,9 @@ systemctl enable service-name
 systemctl disable service-name
 
 
-### PROCESSES, TOP, PS AUX ----------------------
+-------------------------------------------------
+### PROCESSES, TOP, PS AUX
+-------------------------------------------------
 # view all processes
 top
 htop
@@ -159,7 +175,9 @@ kill -9 PID
 ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
 
 
-### SUDOERS -------------------------------------
+-------------------------------------------------
+### SUDOERS
+-------------------------------------------------
 # for security reasons insted of using vanilla
 #/etc/sudoers file use /etc/sudoers.d dir and generate there sudoers settings
 vim /etc/sudoers.d/vagrant
@@ -181,7 +199,9 @@ root    ALL=(ALL)       ALL
 ansible ALL=(ALL)       NOPASSWD: ALL
 
 
-### CHOWN ---------------------------------------
+-------------------------------------------------
+### CHOWN
+-------------------------------------------------
 # change user:group owners of the dir or file
 chown username:group-name /path/to/filename
 
@@ -189,7 +209,9 @@ chown username:group-name /path/to/filename
 chown -R username:group-name /path/to/filename
 
 
-### CHMOD ---------------------------------------
+-------------------------------------------------
+### CHMOD
+-------------------------------------------------
 # change permissions for the file or dirs
 # -R = recursively
 
@@ -232,7 +254,9 @@ chmod 770 /path/to/filename
 
 
 
-### NETWORKING ----------------------------------
+-------------------------------------------------
+### NETWORKING
+-------------------------------------------------
 # view the network adapters
 ip a
 ip r
@@ -270,8 +294,9 @@ firewall-cmd --add-service=http --add-service=https --permanent
 
 
 
-### BASIC COMMANDS ------------------------------
-
+-------------------------------------------------
+### BASIC COMMANDS
+-------------------------------------------------
 ### & && || ; ###
 # Run A and then B, regardless of success of A
 A ; B
@@ -467,7 +492,9 @@ wc -l /etc/passwd
 ls | wc -l
 
 
-### OUTPUT REDIRECTION > ------------------------
+-------------------------------------------------
+### OUTPUT REDIRECTION >
+-------------------------------------------------
 # to output command result to a file use >
 command-name > /path/to/filename
 uptime > /tmp/sysinfo.txt
@@ -497,32 +524,41 @@ free -m &>> /tmp/error.log
 freddfefe -m &>> /tmp/error.log
 
 
-### INPUT REDIRECTION < ###
+-------------------------------------------------
+### INPUT REDIRECTION <
+-------------------------------------------------
 command-name < /path/to/filename
 wc -l < /etc/passwd
 
 
 
-### LN, LINKS -----------------------------------
+-------------------------------------------------
+### LN, LINKS
+-------------------------------------------------
 # create softlink
 ln -s /path/to/filename /path/to/filename
 ln -s /opt/dev/ops/devops/test/commands.txt cmds
 
 
 
-### PARTITIONING, HDDs --------------------------
+-------------------------------------------------
+### PARTITIONING, HDDs
+-------------------------------------------------
 # view partitioning
 df -h
 
 
 
-# MONITORING ------------------------------------
+-------------------------------------------------
+# MONITORING
+-------------------------------------------------
 # top for specified process
 top -b | grep java
 
 
-
-# SOFTWARE --------------------------------------
+-------------------------------------------------
+# SOFTWARE
+-------------------------------------------------
 ### RPM, DNF, YUM, RED HAT, CENTOS --------------
 
 ### DNF, YUM, RPM -------------------------------
@@ -655,7 +691,10 @@ rpm -qpR mediawiki-1.4rc1-4.i586.rpm
 rpm -qR bash
 
 
-### DEB, APT, DEBIAN, UBUNTU --------------------
+
+-------------------------------------------------
+### DEB, APT, DEBIAN, UBUNTU
+-------------------------------------------------
 ### APT -----------------------------------------
 
 # apt repos
@@ -704,7 +743,9 @@ apt history
 apt show package-name
 
 
-### APT-MARK ------------------------------------
+-------------------------------------------------
+### APT-MARK
+-------------------------------------------------
 # hold specific packages from upgrading
 # useful to not update the kernel packages
 apt-mark hold package-name
@@ -714,7 +755,9 @@ apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-head
 
 
 
-### DPKG ----------------------------------------
+-------------------------------------------------
+### DPKG
+-------------------------------------------------
 # install downloaded package with dpkg
 dpkg -i filename
 
@@ -728,8 +771,9 @@ dpkg -l | grep -i package-name
 dpkg -r package-name
 
 
-### TAR, ZIP, ARCHIVES --------------------------
-
+-------------------------------------------------
+### TAR, ZIP, ARCHIVES
+-------------------------------------------------
 ### TAR ###
 # tar to create archives
 # -c - create
@@ -759,7 +803,9 @@ unzip filename.zip -d /path/to/dir
 unzip -o filename.zip /path/to/dir
 
 
-### CURL, WGET ----------------------------------
+-------------------------------------------------
+### CURL, WGET
+-------------------------------------------------
 # curl and wget to download something
 # you can use curl to download something
 curl https://link -o filename
@@ -785,7 +831,9 @@ sudo needrestart -u NeedRestart::UI::stdio -r l
 sudo needrestart -u NeedRestart::UI::stdio -r a
 
 
-### LOCALECTL -----------------------------------
+-------------------------------------------------
+### LOCALECTL
+-------------------------------------------------
 # view used locale
 localectl
 
@@ -806,7 +854,9 @@ localectl list-keymaps | grep -i us
 localectl set-keymap us
 
 
-### SSH-KEYGEN ----------------------------------
+-------------------------------------------------
+### SSH-KEYGEN
+-------------------------------------------------
 # full guide - https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server-ru
 # generate new pair of ssh keys
 ssh-keygen
@@ -853,9 +903,32 @@ ssh-keygen -p -N ""
 
 
 
-### NOTES ---------------------------------------
 
-### BASH '', "" ---------------------------------
+-------------------------------------------------
+### INSTALLS
+-------------------------------------------------
+
+### DOCKER COMPOSE INSTALL ----------------------
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+to verify: docker-compose --version
+
+# Also see: https://docs.docker.com/compose/install/
+
+
+
+
+
+-------------------------------------------------
+### NOTES
+-------------------------------------------------
+-------------------------------------------------
+### BASH '', ""
+-------------------------------------------------
 # https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash
 
 The accepted answer is great. I am making a table that helps in quick comprehension of the topic. The explanation involves a simple variable a as well as an indexed array arr.
@@ -898,7 +971,9 @@ A three-point formula for quotes - https://stackoverflow.com/a/42104627/6862601
 
 
 
-### SED '', "" ----------------------------------
+-------------------------------------------------
+### SED '', ""
+-------------------------------------------------
 
 # https://unix.stackexchange.com/questions/542454/escaping-single-quote-in-sed-replace-string
 
@@ -930,9 +1005,15 @@ $ sed -f t.sed <<<"' ' '''"
 singlequote(s) singlequote(s) singlequote(s)
 """
 
-### GUIDES --------------------------------------
 
-### SED GUIDE -----------------------------------
+
+
+-------------------------------------------------
+### GUIDES
+-------------------------------------------------
+-------------------------------------------------
+### SED GUIDE
+-------------------------------------------------
 # https://www.cyberciti.biz/faq/how-to-use-sed-to-find-and-replace-text-in-files-in-linux-unix-shell/
 
 How to use sed to find and replace text in files in Linux / Unix shell

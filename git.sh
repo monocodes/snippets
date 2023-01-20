@@ -111,8 +111,20 @@ git push --force
 
 
 
-### GIT COMMANDS
+-------------------------------------------------
+# GIT CLONE
+-------------------------------------------------
+# got clone only single branch
+git clone -b mybranch --single-branch git://sub.domain.com/repo.git
 
+# examples
+git clone -b local-setup --single-branch https://github.com/devopshydclub/vprofile-project.git
+
+
+
+-------------------------------------------------
+# GIT COMMANDS
+-------------------------------------------------
 ### git ls ###
 # display files in repository
 git ls-files
