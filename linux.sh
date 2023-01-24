@@ -254,9 +254,22 @@ chmod 770 /path/to/filename
 
 
 
--------------------------------------------------
+*************************************************
 ### NETWORKING
--------------------------------------------------
+*************************************************
+### Private IP Ranges ###
+
+# Class A
+10.0.0.0 - 10.255.255.255
+
+# Class B
+172.16.0.0 - 172.31.255.255
+
+# Class C
+192.168.0.0 - 192.168.255.255
+
+
+
 # view the network adapters
 ip a
 ip r
@@ -280,17 +293,105 @@ hostnamectl
 # change hostname
 sudo hostnamectl set-hostname your_name
 
-# traceroute
+
+-------------------------------------------------
+# OPEN PORTS
+-------------------------------------------------
+### nmap ###
+# view open ports of localhost
+nmap localhost
+
+# view open ports of local server
+nmap db01
+
+
+### netstat ###
+# view all open TCP ports
+netstat -antp
+netstat -antp | grep apache2
+
+# search process id, and use it to know on what port app is running, if you
+#don't see process name on netstat
+ps -ef | grep apache2 # copy PID
+netstat -antp | grep PID
+
+
+### ss ###
+# view all open TCP ports
+ss -tunlp
+
+
+### telnet ###
+telnet ip-address port
+telnet 192.168.40.12 3306
+telnet 192.168.40.12 22
+# to exit
+Ctrl + ]
+Enter
+quit
+
+
+
+-------------------------------------------------
+# DNS LOOKUP, DNS QUARIES
+-------------------------------------------------
+
+### dig ###
+# dns lookup
+dig google.com
+
+### nslookup (older version of dig) ###
+nslookup google.com
+
+
+
+-------------------------------------------------
+# TRACEROUTE
+-------------------------------------------------
+### traceroute, tracert
+# view path to the server and latency problems
 traceroute address-name
 traceroute mirrors.fedoraproject.org
+traceroute google.com
 
 
-### FIREWALLD ###
+### mtr ###
+# traceroute + ping
+# view path to the server and latency problems online (live)
+mtr google.com
+
+
+
+-------------------------------------------------
+# GATEWAY LOOKUP
+-------------------------------------------------
+# view gateways 
+route -n
+route
+
+
+
+-------------------------------------------------
+# ARP
+-------------------------------------------------
+# view arp table
+arp
+
+
+-------------------------------------------------
+# FIREWALLD
+-------------------------------------------------
 
 # Fedora firewalld fix if httpd doesn't work
 systemctl stop firewalld
 systecmctl enable firewalld
 firewall-cmd --add-service=http --add-service=https --permanent
+
+
+# firewalld open specific port, for example mysql (mariadb)
+sudo firewall-cmd --get-active-zones
+sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
+sudo firewall-cmd --reload
 
 
 

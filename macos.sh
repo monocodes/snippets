@@ -25,7 +25,10 @@ source $HOME/.zprofile
 
 
 
-### NETWORK -------------------------------------
+-------------------------------------------------
+### NETWORK
+-------------------------------------------------
+
 # how to flush DNS
 sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
 
@@ -39,6 +42,10 @@ sudo arp -d 192.168.1.10 ifscope en0
 # to clear the whole cache table
 sudo arp -a -d
 
+
+### traceroute ###
+# view path to the server and latency problems
+traceroute google.com
 
 
 ### USEFUL COMMANDS -----------------------------
