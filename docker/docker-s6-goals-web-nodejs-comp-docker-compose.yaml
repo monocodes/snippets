@@ -1,0 +1,78 @@
+# docker-s6 ------------------------------------- 
+
+#################################################
+# nodejs image with app - docker-s6
+# goals-web-nodejs-comp
+#################################################
+version: '3.8'
+services:
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - data:/data/db # named volume, need to be
+      # in the end of docker file
+    
+    # define a name of the container
+    # container_name: mongodb
+
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=max
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      
+      # could use this form
+      # MONGO_INITDB_ROOT_USERNAME: max
+    
+    # you could specify .env file with envs here 
+    # env_file:
+    #  - ./env/mongo.env
+
+    # you could specify networks here
+    # networks:
+    #  - goals-net
+
+  backend:
+    build: ./backend
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs # named volume
+      - ./backend:/app # bind mount,relative path
+      - /app/node_modules # unnamed volume
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+
+    # you can give a name to the image and then
+    # proceed with the build:
+    image: wanderingmono/docker-s6:goals-web-nodejs-backend-comp-v0.1
+    
+    # if Dockerfile has been renamed or in the
+    # different dir, or you want to use args,
+    # you can use context: and agrs: be sure
+    # that Dockerfile have all things it needs
+    # in the same dir
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile-dev
+    #   args:
+    #     some-agr: 1
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend
+    image: wanderingmono/docker-s6:goals-web-nodejs-frontend-comp-v0.1
+
+    # -it in docker compose:
+    # stdin_open: true
+    # tty: true
+    
+
+volumes:
+  data: # named volume
+  logs: # named volume

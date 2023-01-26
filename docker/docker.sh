@@ -41,9 +41,9 @@ docker container inspect container-name
 
 
 
--------------------------------------------------
+*************************************************
 # DOCKER COMPOSE
--------------------------------------------------
+*************************************************
 # docker compose is v2 of docker-compose
 
 # create and run containers specified in docker-compose.yaml in current dir
@@ -68,11 +68,16 @@ docker-compose down -v
 # just build or rebuild the images from docker-compose.yaml
 docker compose build
 
+# run the service described in docker-compose.yaml file
+docker compose run service-name command-name
+# example
+docker compose run npm init
 
 
--------------------------------------------------
+
+*************************************************
 # DOCKER RUN
--------------------------------------------------
+*************************************************
 # pull image from dockerhub and runs a container based on it
 
 # if image have already been pulled it will use local image version instead
@@ -95,6 +100,12 @@ sudo docker run image-name
 
 # pull the image and run the container in detached mode
 sudo docker run -d image-name
+
+# run the container in detached mode but interactively
+docker run -it -d image-name
+
+# and the you can attach to the container
+docker container attach container-name
 
 # run the container and login inside
 # -i interactive
@@ -120,7 +131,7 @@ docker run -d --name=netdata \
 sudo docker run -d -p 80:80 static-website:beta
 
 # run container with random port - '-P'
-sudo docker run -d -P name
+sudo docker run -d -P image-name
 
 # run docker container with specified name
 docker run --name container-name image-name
@@ -131,8 +142,52 @@ docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
 docker run --rm image-name
 
 
+*************************************************
+### UTILITY CONTAINERS (not official name)
+*************************************************
 
-### DOCKER TAG ----------------------------------
+# run container interactively and execute some command inside of it
+docker run -it --name container-name image-name command-name
+# example
+docker run -it --name util-nodejs wanderingmono/docker-s7:util-nodejs-v0.1 npm init
+
+# run utility container with host dir bind mount
+#and command to init node project
+docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.1 npm init
+
+# same and using ENTRYPOINT in Dockerfile
+#to secure that we can use only npm commands
+docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry init
+docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install
+docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install express --save
+
+
+-------------------------------------------------
+# Utility Containers with docker compose
+-------------------------------------------------
+# run the service described in docker-compose.yaml file
+docker compose run service-name command-name
+# example
+docker compose run --rm npm init
+
+
+
+-------------------------------------------------
+# DOCKER EXEC
+-------------------------------------------------
+# execute some commad inside docker container
+docker exec container-name command-name
+
+# execute some command inside the docker container interactively
+docker exec -it container-name command-name
+# example
+docker exec -it objective_swartz npm init
+
+
+
+-------------------------------------------------
+### DOCKER TAG
+-------------------------------------------------
 # docker tag for renaming images
 # creates renamed copy of the image
 docker tag image-name:tag account-name/repo-name:tag
@@ -303,7 +358,9 @@ docker build -t static-website:beta .
 
 
 
-### DOCKER VOLUME -------------------------------
+*************************************************
+### DOCKER VOLUME
+*************************************************
 
 # create named volume
 docker volume create volume-name
@@ -321,7 +378,9 @@ docker volume rm volume-name
 docker volume prune
 
 
-### Anonymous volumes ###
+-------------------------------------------------
+# Anonymous volumes
+-------------------------------------------------
 # create anonymous volume inside the container
 # managed by docker, mounted somewhere in host filesystem
 # will be removed on container deletion
@@ -340,7 +399,9 @@ VOLUME ["/app/node_modules"]
 -v /app/node_modules
 
 
-### Named volumes ###
+-------------------------------------------------
+# Named volumes
+-------------------------------------------------
 # create named volume
 # managed by docker, mounted somewhere in host filesystem
 # will NOT be removed on container deletion
@@ -349,7 +410,9 @@ VOLUME ["/app/node_modules"]
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v feedback:/app/feedback wanderingmono/docker-s3:feedback-web-nodejs-v0.3
 
 
-### Bind mounts ###
+-------------------------------------------------
+# Bind mounts
+-------------------------------------------------
 # create a bind mount that mounts folder in local system managed by you
 # "" used if folder has whitespaces or special symbols
 -v "local/path:/container/path"
@@ -362,6 +425,7 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/Users/serj/My Driv
 # macOS / Linux:
 -v "$(pwd):/container/path"
 -v "$(pwd)/local/path:/container/path"
+-v "$(pwd):/app"
 # Windows:
 -v "%cd%":/app
 
