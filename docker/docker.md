@@ -50,6 +50,11 @@ docker container inspect container-name
 docker compose up
 docker-compose up
 
+# create and run only specific services from current docker-compose.yaml
+docker compose up service-name service name
+# examples
+docker compose up -d server php mysql
+
 # start and rebuild the images
 docker compose up --build
 
@@ -153,13 +158,15 @@ docker run -it --name util-nodejs wanderingmono/docker-s7:util-nodejs-v0.1 npm i
 
 # run utility container with host dir bind mount
 #and command to init node project
-docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.1 npm init
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.1 npm init
 
 # same and using ENTRYPOINT in Dockerfile
 #to secure that we can use only npm commands
-docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry init
-docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install
-docker run -it -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install express --save
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry init
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install express --save
+# --save - npm argument to add express as a
+# package as a dependency to this project
 
 
 -------------------------------------------------
