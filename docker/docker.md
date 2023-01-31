@@ -1,29 +1,3 @@
-# DOCKER INSTALL --------------------------------
-# ubuntu
-sudo apt update
-sudo apt install docker.io
-
-# macos (Docker Desktop)
-brew install --cask docker
-
-# add user to docker group to use docker commands without sudo
-"""
-By default, you’ll have to use sudo command or login to root any time you
-want to run a Docker command. This next step is optional, but if you’d prefer
-the ability to run Docker as your current user, you can add your account to 
-the docker group with this command:
-"""
-sudo usermod -aG docker $USER
-reboot
-
-
-
-# DOCKER UNINSTALL ------------------------------
-# ubuntu
-sudo apt-get remove docker docker-engine docker.io containerd runc docker-ce containerd.io
-
-
-
 # DOCKER HELP -----------------------------------
 # view help on any command
 docker --help
@@ -55,7 +29,7 @@ docker compose up service-name service name
 # examples
 docker compose up -d server php mysql
 
-# start and rebuild the images
+# start and rebuild the images of something changed in Dockerfiles
 docker compose up --build
 
 # start in detached mode

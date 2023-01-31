@@ -94,7 +94,7 @@ passwd username
 # switch to root user
 sudo -i
 
-# switch to any user
+# switch to any user, change user
 su - username
 
 # delete the user
