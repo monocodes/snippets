@@ -6,7 +6,11 @@
 # UBUNTU
 *************************************************
 # Uninstall old versions
-sudo apt remove docker docker-engine docker.io containerd runc
+sudo apt remove docker.io -y ; \
+  sudo apt remove containerd -y ; \
+  sudo apt remove runc -y ; \
+  sudo apt remove docker -y ; \
+  sudo apt remove docker-engine -y
 
 # Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 sudo apt update

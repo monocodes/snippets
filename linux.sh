@@ -73,8 +73,8 @@ pwd
 id username
 
 # add user
-useradd username
-adduser username # for ubuntu
+adduser username # for ubuntu, also adds home dir
+useradd username # for centos, doesn't add home dir
 
 # add group
 groupadd group-name
@@ -97,10 +97,10 @@ sudo -i
 # switch to any user, change user
 su - username
 
-# delete the user
+# delete user
 userdel username
 
-# delete the user with home dir
+# delete user with home dir
 userdel -r username
 
 # delete group
@@ -111,6 +111,53 @@ last
 
 # view all opened files by user
 lsof -u username
+
+
+# ubuntu 22 LTS default groups after install with user loco
+adm:x:4:syslog,loco
+cdrom:x:24:loco
+sudo:x:27:loco
+dip:x:30:loco
+plugdev:x:46:loco
+lxd:x:110:loco
+loco:x:1000:
+docker:x:118:loco
+
+
+
+-------------------------------------------------
+# change user and group ID for user and files
+-------------------------------------------------
+# Foo’s old UID: 1005
+# Foo’s new UID: 2005
+# Our sample group name: foo
+# Foo’s old GID: 2000
+# Foo’s new GID: 3000
+
+# To assign a new UID to user called foo, enter:
+usermod -u 2005 foo
+
+# To assign a new GID to group called foo, enter:
+groupmod -g 3000 foo
+
+# Please note that all files which are located in the user’s home directory will have the file UID changed automatically as soon as you type above two command. However, files outside user’s home directory need to be changed manually. To manually change files with old GID and UID respectively, enter:
+
+# WARNING! The following examples may change ownership of unwanted files on your Linux computer if not executed with care. The nixCraft or author is not responsible for data loss.
+
+find / -group 2000 -exec chgrp -h foo {} \;
+find / -user 1005 -exec chown -h foo {} \;
+
+# The -exec command executes chgrp command or chmod command command on each file. The -h option passed to the chgrp/chmod command affect each symbolic link instead of any referenced file. Use the following command to verify the same:
+
+ls -l /home/foo/
+id -u foo
+id -g foo
+# search for 'foo' in the passswd file #
+grep foo /etc/passwd # search for 'foo' in the group file #
+grep foo /etc/group # use the find command to locate files owned by ' foo'#
+find / -user foo -ls
+find / -group sales -ls
+
 
 
 -------------------------------------------------
@@ -175,6 +222,14 @@ kill -9 PID
 ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
 
 
+# list all logged in users
+who
+
+# logout user and kill all its processes
+pkill -KILL -u username
+
+
+
 -------------------------------------------------
 ### SUDOERS
 -------------------------------------------------
@@ -182,6 +237,7 @@ ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -
 #/etc/sudoers file use /etc/sudoers.d dir and generate there sudoers settings
 vim /etc/sudoers.d/vagrant
 vagrant ALL=(ALL) NOPASSWD: ALL
+# use sudo without pass
 
 # to add group to sudoers file use %
 vim /etc/sudoers.d/devops
@@ -193,10 +249,10 @@ cat /etc/sudoers.d *
 # edit /etc/sudoers
 visudo
 
-# no password for sudoers user
-## Allow root to run any commands anywhere 
-root    ALL=(ALL)       ALL
-ansible ALL=(ALL)       NOPASSWD: ALL
+# or you can use /etc/sudoers file
+root ALL=(ALL) ALL
+ansible ALL=(ALL) NOPASSWD: ALL
+
 
 
 -------------------------------------------------
@@ -995,12 +1051,15 @@ ssh-keygen -p -f ~ssh/private_key_name
 ssh-keygen -f private_key_name -p
 
 # remove a passphrase from private key
-ssh-keygen -f ~.ssh/private_key_name -p
+ssh-keygen -f ~/.ssh/private_key_name -p
 # or
 ssh-keygen -f ~/.ssh/private_key_name -p -N ""
 # for default private key
 ssh-keygen -p -N ""
 
+
+# connect to host with specific public key
+ssh -i ~/.ssh/id_rsa_name username@computername.swarthmore.edu
 
 
 
@@ -1008,19 +1067,6 @@ ssh-keygen -p -N ""
 -------------------------------------------------
 ### INSTALLS
 -------------------------------------------------
-
-### DOCKER COMPOSE INSTALL ----------------------
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-sudo chmod +x /usr/local/bin/docker-compose
-
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-to verify: docker-compose --version
-
-# Also see: https://docs.docker.com/compose/install/
-
-
 
 
 

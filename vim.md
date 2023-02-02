@@ -13,13 +13,14 @@ Note: When you open the vim editor, it will be in the command mode by default.
 Command Mode:
 gg - To go to the beginning of the page
 G - To go to end of the page
-w - To move the cursor forward, word by word b To move the cursor backward, word by word
+w - To move the cursor forward, word by word
+b - To move the cursor backward, word by word
 nw - To move the cursor forward to n words (SW) nb To move the cursor backward to n words {SB)
 u - To undo last change (word)
 Ctrl+R - To redo the changes
 U - To undo the previous changes (entire line)
 VY - To copy a line
-nyy  -To copy n lines (Syy or 4yy)
+nyy - To copy n lines (Syy or 4yy)
 p - To paste line below the cursor position
 dw - To delete the word letter by letter {like Backspace}
 x - To paste line above the cursor position
