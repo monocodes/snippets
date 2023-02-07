@@ -56,10 +56,10 @@ brew list
 
 # SEARCH-----------------------------------------
 brew search name
-brew search --casks name
+brew search --casks package-name
 
 # Search for formulae with a description matching text and casks with a name or description matching text.
-brew search --desc name
+brew search --desc --eval-all package-name
 
 # list all available packages
 brew formulae

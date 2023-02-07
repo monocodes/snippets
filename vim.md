@@ -1,4 +1,3 @@
-"""
     VI Visual display editor
     VIM Visual display editor improved
     VIM EDITOR
@@ -15,7 +14,8 @@ gg - To go to the beginning of the page
 G - To go to end of the page
 w - To move the cursor forward, word by word
 b - To move the cursor backward, word by word
-nw - To move the cursor forward to n words (SW) nb To move the cursor backward to n words {SB)
+nw - To move the cursor forward to n words (SW)
+nb - To move the cursor backward to n words {SB)
 u - To undo last change (word)
 Ctrl+R - To redo the changes
 U - To undo the previous changes (entire line)
@@ -43,7 +43,7 @@ Esc+:X - To give passw or d to the file and remove password
 Esc+:20(n) - To go to line no 20 or n
 Esc+: se nu - To set the line numbers to the file !
 Esc+: se nonu - To Remove the set line numbers
-"""
+
 
 commands ----------------------------------------
 # search and replace only once every line

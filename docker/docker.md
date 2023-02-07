@@ -3,6 +3,11 @@
 docker --help
 docker ps --help
 
+
+# docker login to hub.docker.com
+docker login -u username
+
+
 ### DOCKER INSPECT ###
 # inspect the image
 docker image inspect image-name

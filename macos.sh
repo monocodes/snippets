@@ -1,4 +1,6 @@
-### PATHS ---------------------------------------
+*************************************************
+# PATHS
+*************************************************
 # PATH variable
 cat /etc/paths
 
@@ -25,11 +27,12 @@ source $HOME/.zprofile
 
 
 
--------------------------------------------------
-### NETWORK
--------------------------------------------------
+*************************************************
+# NETWORK
+*************************************************
 
 # how to flush DNS
+sudo killall -HUP mDNSResponder
 sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
 
 # arp
@@ -48,7 +51,18 @@ sudo arp -a -d
 traceroute google.com
 
 
-### USEFUL COMMANDS -----------------------------
+### Adding a Second IP Address to an Existing Network Adapter ###
+# non-persistent, deletes after reboot
+sudo ifconfig en0 alias 128.133.123.83/24 up
+
+# remove alias
+sudo ifconfig en0 -alias 128.133.123.83
+
+
+
+*************************************************
+# USEFUL COMMANDS
+*************************************************
 # restart terminal
 exec zsh -l
 
@@ -116,7 +130,9 @@ dscl . list /groups
 
 
 
-### USEFUL SHORTCUTS ----------------------------
+*************************************************
+# USEFUL SHORTCUTS
+*************************************************
 # display dotfiles in Finder
 Command+Shift+Dot
 
@@ -125,16 +141,22 @@ cmd + ctrl + space
 
 
 
-### FILESYSTEM ----------------------------------
+*************************************************
+# FILESYSTEM
+*************************************************
 fs_usage
 # The file system usage tool is ideal since it taps in to the real time file system events and dumps activity to a file or the screen. Since you know the exact path of the file, you can filter out all the thousands of irrelevant (to this case) filesystem changes and see what reads / writes to that file pretty quickly.
 sudo fs_usage | grep /Users/me/aa
 
 
 
-### APPS ----------------------------------------
+*************************************************
+# APPS
+*************************************************
 
-### Google Chrome ###
+-------------------------------------------------
+# Google Chrome
+-------------------------------------------------
 
 """
 How do I disable Chrome's two-finger back/forward navigation? Open terminal and type:
@@ -146,7 +168,10 @@ chrome://restart
 
 
 
-### TIME MACHINE --------------------------------
+-------------------------------------------------
+# TIME MACHINE
+-------------------------------------------------
+
 ### Time Machine settings ### 
 /Library/Preferences/com.apple.TimeMachine.plist
 
@@ -157,7 +182,9 @@ chrome://restart
 
 
 
-### SYMBOLIC LINKS ------------------------------
+*************************************************
+# SYMBOLIC LINKS
+*************************************************
 # example of deleting unuseful symbolic links
 
 # Step 3: Remove Python symbolic links
@@ -179,10 +206,13 @@ ls /usr/local/bin
 
 
 
+*************************************************
+# GUIDES
+*************************************************
 
-### GUIDES --------------------------------------
-
-### $PATH GUIDE ---------------------------------
+-------------------------------------------------
+# $PATH GUIDE
+-------------------------------------------------
 
 # https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/
 

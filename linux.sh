@@ -2,12 +2,11 @@
 Vagrant for local
 Terraform for Cloud
 Ansible for Servers
-
 Cloudformation for AWS
 """
--------------------------------------------------
+*************************************************
 # PATHS 
--------------------------------------------------
+*************************************************
 # users info
 /etc/passwd
 
@@ -22,6 +21,45 @@ Cloudformation for AWS
 
 # default webserver data, webhosting
 /var/www/html
+
+
+
+*************************************************
+# time, date
+*************************************************
+# check timezone
+timedatectl
+
+# list avalaible timezones
+timedatectl list-timezones
+timedatectl list-timezones | grep Berlin
+
+# set new timezone
+sudo timedatectl set-timezone timezone-name
+
+
+
+*************************************************
+# LOCALECTL
+*************************************************
+# view used locale
+localectl
+
+# view installed locales
+localectl list-locales
+
+# search for langpack
+dnf search langpacks- | grep -i en
+dnf install langpacks-en
+
+# set locale
+localectl set-locale LANG=en_US.UTF-8
+
+# view specific locale keymaps
+localectl list-keymaps | grep -i us
+
+# set keymap locale
+localectl set-keymap us
 
 
 
@@ -235,8 +273,8 @@ pkill -KILL -u username
 -------------------------------------------------
 # for security reasons insted of using vanilla
 #/etc/sudoers file use /etc/sudoers.d dir and generate there sudoers settings
-vim /etc/sudoers.d/vagrant
-vagrant ALL=(ALL) NOPASSWD: ALL
+vim /etc/sudoers.d/mono
+mono ALL=(ALL) NOPASSWD: ALL
 # use sudo without pass
 
 # to add group to sudoers file use %
@@ -337,17 +375,26 @@ ifconfig
 # restarting network on Ubuntu 22
 sudo systemctl restart systemd-networkd
 
-# change hostname
-sudo vim /etc/hostname
-sudo hostname hostname
 
 
-### hostnamectl ###
-# check hostname
-hostnamectl
+-------------------------------------------------
+# hostname, hostnamectl
+-------------------------------------------------
+# view hostname
+hostnamectl hostname
 
-# change hostname
-sudo hostnamectl set-hostname your_name
+# change hostname 
+# Ubuntu
+sudo hostnamectl hostname web03
+
+# CentOS
+sudo hostnamectl set-hostname web03
+
+
+# NOTE about hostname command
+hostname your-hostname
+# changes only before reboot, non-persistent
+
 
 
 -------------------------------------------------
@@ -737,6 +784,10 @@ https://admin.fedoraproject.org/mirrormanager/
 
 
 ### DNF, YUM ###
+# firstly install epel-release repo to unlock many packages
+yum install epel-release
+dnf install epel-release
+
 # almost all these commands applied to yum
 
 # search package
@@ -987,28 +1038,6 @@ sudo needrestart -u NeedRestart::UI::stdio -r l
 # restart services with needrestart, reboot if doesn't help
 sudo needrestart -u NeedRestart::UI::stdio -r a
 
-
--------------------------------------------------
-### LOCALECTL
--------------------------------------------------
-# view used locale
-localectl
-
-# view installed locales
-localectl list-locales
-
-# search for langpack
-dnf search langpacks- | grep -i en
-dnf install langpacks-en
-
-# set locale
-localectl set-locale LANG=en_US.UTF-8
-
-# view specific locale keymaps
-localectl list-keymaps | grep -i us
-
-# set keymap locale
-localectl set-keymap us
 
 
 -------------------------------------------------
