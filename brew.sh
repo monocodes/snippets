@@ -46,6 +46,12 @@ brew upgrade --casks name
 brew outdated
 brew outdate --casks
 
+# brew pin to prevent upgrading package
+brew pin package-name
+
+# brew unpin to allow upgrading package
+brew unpin package-name
+
 
 
 # LIST-------------------------------------------
@@ -74,7 +80,9 @@ brew info --casks name
 
 
 
-# INSTALL----------------------------------------
+*************************************************
+# INSTALL
+*************************************************
 brew install name
 brew install --casks name
 
@@ -92,7 +100,26 @@ curl -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/3c3ea5d92137adb
 
 
 
-# UNINSTALL--------------------------------------
+*************************************************
+# BREW LINK
+*************************************************
+# sometimes you want to link some program installed by brew
+brew link package-name
+
+# you can unlink program from brew
+brew unlink package-name
+
+# use command which to see what software you are using
+which package-name
+
+# more info in Homebrew and Pyenv Python Playing Pleasantly in Partnership.pdf
+# https://towardsdatascience.com/homebrew-and-pyenv-python-playing-pleasantly-in-partnership-3a342d86319b
+
+
+
+*************************************************
+# UNINSTALL
+*************************************************
 # uninstall package and remove all dependencies
 brew uninstall name
 brew autoremove

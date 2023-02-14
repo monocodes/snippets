@@ -5,6 +5,17 @@
 # https://github.com/sharkdp/bat
 #################################################
 
+### NOTE
+# after installation, if you want to install bat system-wide for root also
+# sudo cp /usr/local/bin/bat /bin
+
+### NOTE
+# Ubuntu install
+# sudo apt install bat
+# On Debian and Ubuntu, bat uses the batcat command by default because of a conflict with an existing package, bacula-console-qt. You can, however, use the following commands to link the bat command:
+# mkdir -p ~/.local/bin
+# ln -s /usr/bin/batcat ~/.local/bin/bat
+
 red=`tput setaf 1`
 green=`tput setaf 2`
 bold=`tput bold`

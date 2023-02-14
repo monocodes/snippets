@@ -1,4 +1,6 @@
-# DOCKER HELP -----------------------------------
+*************************************************
+# DOCKER HELP
+*************************************************
 # view help on any command
 docker --help
 docker ps --help
@@ -17,6 +19,10 @@ docker volume inspect volume-name
 
 # inspect the container
 docker container inspect container-name
+
+# to grep something from docker inspect
+
+docker container inspect container-name 2>&1 | grep "IPAddress"
 
 
 
@@ -126,6 +132,7 @@ docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
 docker run --rm image-name
 
 
+
 *************************************************
 ### UTILITY CONTAINERS (not official name)
 *************************************************
@@ -158,9 +165,9 @@ docker compose run --rm npm init
 
 
 
--------------------------------------------------
+*************************************************
 # DOCKER EXEC
--------------------------------------------------
+*************************************************
 # execute some commad inside docker container
 docker exec container-name command-name
 
@@ -171,9 +178,9 @@ docker exec -it objective_swartz npm init
 
 
 
--------------------------------------------------
-### DOCKER TAG
--------------------------------------------------
+*************************************************
+# DOCKER TAG
+*************************************************
 # docker tag for renaming images
 # creates renamed copy of the image
 docker tag image-name:tag account-name/repo-name:tag
@@ -183,7 +190,9 @@ docker tag webapp_node:latest  wanderingmono/node-hello-world:latest
 
 
 
-# DOCKER CREATE ---------------------------------
+*************************************************
+# DOCKER CREATE
+*************************************************
 # just create container with specified image
 # -i interactive
 # -t tty pseudo terminal to container
@@ -192,7 +201,9 @@ sudo docker create -it --name myfirstubuntucontainer ubuntu
 
 
 
-# DOCKER START ----------------------------------
+*************************************************
+# DOCKER START
+*************************************************
 # detached mode is the default
 
 # detached example
@@ -214,26 +225,34 @@ sudo docker start -ai container-name
 
 
 
-# DOCKER STOP -----------------------------------
+*************************************************
+# DOCKER STOP
+*************************************************
 # just stop the container
 sudo docker stop container-name
 
 
 
-# DOCKER ATTACH ---------------------------------
+*************************************************
+# DOCKER ATTACH
+*************************************************
 # login to the running container
 sudo docker attach container-name
 
 
 
-### DOCKER LOGIN & DOCKER LOGOUT ----------------
+*************************************************
+### DOCKER LOGIN & DOCKER LOGOUT
+*************************************************
 # login or logout from the dockerhub
 docker login
 docker logout
 
 
 
-### DOCKER PUSH ---------------------------------
+*************************************************
+# DOCKER PUSH
+*************************************************
 # pushes the image to the repo, dockerhub by default or different provider
 docker push account-name/repo-name:tag
 
@@ -242,7 +261,9 @@ docker push wanderingmono/node-hello-world:latest
 
 
 
-# DOCKER PULL -----------------------------------
+*************************************************
+# DOCKER PULL
+*************************************************
 # just pull the image with tag latest
 docker pull image-name
 
@@ -254,13 +275,17 @@ docker pull wanderingmono/node-hello-world:latest
 
 
 
-# DOCKER SEARCH ---------------------------------
+*************************************************
+# DOCKER SEARCH
+*************************************************
 # search a docker image
 sudo docker search name
 
 
 
-# DOCKER LOGS -----------------------------------
+*************************************************
+# DOCKER LOGS
+*************************************************
 # view the output logs of the container
 docker logs container-name
 
@@ -268,9 +293,13 @@ docker logs container-name
 # can exit with Ctrl+C
 docker logs -f container-name
 
+# to grep something from docker logs
+docker logs container-name 2>&1 | grep "127."
 
 
-### DOCKER CP -----------------------------------
+*************************************************
+# DOCKER CP
+*************************************************
 # cp to copy something inside the running container
 # /. - copy everything from the directory
 docker cp local/path/. container-name:/container/path
@@ -288,7 +317,9 @@ docker cp fervent_almeida:/test dummy
 
 
 
-# DOCKER PS -------------------------------------
+*************************************************
+# DOCKER PS
+*************************************************
 # see running docker containers
 docker ps
 
@@ -309,7 +340,9 @@ docker network ls
 docker volume ls
 
 
-# DOCKER RM -------------------------------------
+*************************************************
+# DOCKER RM
+*************************************************
 # remove the container
 sudo docker rm -f container-ID-or-name
 
@@ -331,9 +364,27 @@ docker volume rm volume-name
 # delete all volumes
 docker volume prune
 
+# delete all unused volumes without asking
+docker volume prune -f
+
+# if you can't delete volumes with prune try:
+# WARNING! It's going to really remove all volumes including named-ones
+docker volume rm $(docker volume ls -qf dangling=true)
+
+# You can remove all existing containers then remove all volumes.
+docker rm -vf $(docker ps -aq) && docker volume prune -f
+
+# fully delete all containers, images, volumes and cache
+docker system prune --volumes
+
+# fully delete all containers, images and cache
+docker system prune
 
 
-# DOCKER BUILD ----------------------------------
+
+*************************************************
+# DOCKER BUILD
+*************************************************
 # build image from Dockerfile in current directory example
 docker build -t rng_py_app:latest .
 
@@ -448,7 +499,9 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /ap
 
 
 
-### DOCKER NETWORK ------------------------------
+*************************************************
+# DOCKER NETWORK
+*************************************************
 # you don't need to expose ports (-p) of containers which you don't need to
 #connect from host machine or internet
 # containers can freely communicate with each other through the internal
@@ -533,7 +586,9 @@ docker run --rm -d -p 3000:3000 \
 
 
 
-### DOCKERFILE RUNTIME ENV ----------------------
+*************************************************
+# DOCKERFILE RUNTIME ENV
+*************************************************
 # to use ENV parameters, first, you need to define this ENV parameter in code
 # Place ENV variables at the bottom of the file,
 #so, the docker will not reexecute unnessesary layers
@@ -576,7 +631,9 @@ docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-web-nodejs -v 
 
 
 
-### DOCKERFILE BUILD ARG ------------------------
+*************************************************
+# DOCKERFILE BUILD ARG
+*************************************************
 # Place ARG variables at the bottom of the file,
 #so, the docker will not reexecute unnessesary layers
 
@@ -599,7 +656,9 @@ docker build -t wanderingmono/docker-s3:feedback-web-nodejs-v0.42-arg-p8000 --bu
 
 
 
-# DOCKER STATS ----------------------------------
+*************************************************
+# DOCKER STATS
+*************************************************
 # (monitoring and troubleshooting)
 docker stats
 # check logs
@@ -611,7 +670,9 @@ docker info
 
 
 
-### DOCKER HISTORY ------------------------------
+*************************************************
+# DOCKER HISTORY
+*************************************************
 # view the history of the image
 docker history image-name
 
@@ -636,7 +697,9 @@ sudo docker run \
 
 
 
-# ANOTHER DOCKER COMMANDS -----------------------
+*************************************************
+# ANOTHER DOCKER COMMANDS
+*************************************************
 
 # docker port
 # see container ports
@@ -644,8 +707,13 @@ docker port container-name
 
 
 
-### Docker troubleshooting ----------------------
-### DOCKER dataFolder ###
+*************************************************
+### Docker troubleshooting
+*************************************************
+
+-------------------------------------------------
+# DOCKER dataFolder
+-------------------------------------------------
 # if you change the profile name and profile dir and docker has old profile dir
 """
 I'm not sure if that is everything to fix it, but change the dataFolder in the ~/Library/Group\ Containers/group.com.docker/settings.json file to the new user name and start Docker Desktop again.

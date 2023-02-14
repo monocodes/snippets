@@ -22,6 +22,13 @@ Cloudformation for AWS
 # default webserver data, webhosting
 /var/www/html
 
+# all processes are in:
+cd /var/run/
+
+# to see the PID
+cat /var/run/process-name/process-name.pid
+cat /var/run/httpd/httpd.pid
+
 
 
 *************************************************
@@ -234,6 +241,14 @@ systemctl disable service-name
 -------------------------------------------------
 ### PROCESSES, TOP, PS AUX
 -------------------------------------------------
+# all processes are in:
+cd /var/run/
+
+# to see the PID
+cat /var/run/process-name/process-name.pid
+cat /var/run/httpd/httpd.pid
+
+
 # view all processes
 top
 htop
@@ -591,13 +606,29 @@ locate host
 echo "text" > /tmp/sysinfo.txt
 
 
-### EXPORT ###
+
+-------------------------------------------------
+# EXPORT
+-------------------------------------------------
 # export changes environmental variables temporarily
 # change default text editor
 export EDITOR=vim
 
+# to make it permanent for user add export
+# command to ~/.bashrc or ~/.bash_profile
+vim ~/.bashrc
+export EDITOR=vim # add to the file
 
-### GREP ###
+# to make it permanent for all users add export
+# command to /etc/profile
+vim /etc/profile
+export EDITOR=vim # add to the file
+
+
+
+-------------------------------------------------
+# GREP
+-------------------------------------------------
 # find word in file
 grep word filename
 
@@ -1090,6 +1121,25 @@ ssh-keygen -p -N ""
 # connect to host with specific public key
 ssh -i ~/.ssh/id_rsa_name username@computername.swarthmore.edu
 
+
+
+-------------------------------------------------
+# scp
+-------------------------------------------------
+# push file to another server
+scp filename username@hostname:/absolute/path/to/dir
+scp testfile.txt devops@web01:/tmp
+
+# fetch file from another server
+scp username@hostname:/absolute/path/to/filename
+scp devops@web01:/home/devops/testfile.txt .
+
+-------------------------------------------------
+# bat
+-------------------------------------------------
+# print bat without line numbers
+bat --style=plain,header filename
+batcat --style=plain,header filename
 
 
 
