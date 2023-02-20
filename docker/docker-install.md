@@ -1,11 +1,24 @@
 *************************************************
 # DOCKER INSTALL
 *************************************************
+# https://docs.docker.com/engine/install/
+
+
+
+*************************************************
+# Amazon Linux 2 EC2
+*************************************************
+# docker install
+sudo amazon-linux-extras install docker
+
+
 
 *************************************************
 # UBUNTU
 *************************************************
 # Uninstall old versions
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
 sudo apt remove docker.io -y ; \
   sudo apt remove containerd -y ; \
   sudo apt remove runc -y ; \

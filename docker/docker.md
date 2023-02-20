@@ -394,6 +394,36 @@ docker build -t image-name .
 docker build -t static-website:beta .
 
 
+-------------------------------------------------
+# docker build macos m1 for linux/amd64
+-------------------------------------------------
+# --platform linux/amd64
+# make sure to put this after docker run but before the image name btw
+# use this to build image on macos m1 for linux/amd64
+docker build --platform linux/amd64 -t image-name .
+
+
+
+-------------------------------------------------
+# docker build with different dir and different Dockerfile name
+-------------------------------------------------
+docker build -f full/path/Dockerfile ./full/path
+
+# example
+docker build --platform linux/amd64 -f frontend/Dockerfile.prod -t wanderingmono/docker-s9:goals-web-reactjs-frontend-dep-v0.1-amd64 ./frontend/
+
+
+
+-------------------------------------------------
+# docker build multistaged and build only specific stage
+docker build --target stage-name .
+
+# example
+docker build --platform linux/amd64 --target build -f frontend/Dockerfile.prod -t wanderingmono/docker-s9:goals-web-reactjs-frontend-dep-v0.1-amd64 ./frontend/
+
+
+
+
 
 *************************************************
 ### DOCKER VOLUME
