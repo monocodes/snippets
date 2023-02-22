@@ -92,7 +92,7 @@ https://github.com/Homebrew/homebrew-core/find/master
 # go for cask here
 https://github.com/Homebrew/homebrew-cask/find/master
 # find package you need and click history for searching the commits
-# find version you need and and view file
+# find version you need and view file
 # click raw
 # copy link to raw file from browser address bar
 # go to terminal

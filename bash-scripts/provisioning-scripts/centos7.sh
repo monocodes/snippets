@@ -1,4 +1,35 @@
-#!/bin/sh
+#!/bin/bash
+
+#################################################
+# CentOS 7
+#################################################
+
+echo
+echo "##########################################"
+echo "fix US locale settings"
+echo "##########################################"
+echo
+echo "LANG=en_US.utf-8" >> /etc/environment
+echo "LC_ALL=en_US.utf-8" >> /etc/environment
+sudo localectl set-locale LANG=en_US.UTF-8
+sudo localectl set-keymap us
+
+echo
+echo "##########################################"
+echo "install epel-release"
+echo "##########################################"
+echo
+sudo yum install epel-release -y
+
+echo
+echo "##########################################"
+echo "update all packages and install some"
+echo "##########################################"
+echo
+sudo yum update -y
+sudo yum install vim htop -y
+
+
 
 #################################################
 # Script installs latest version of bat on CentOS 7
@@ -68,5 +99,5 @@ else
   exit 1
 fi
 
-# after installation, install bat system-wide for root also
+# installing bat to root also
 sudo cp /usr/local/bin/bat /bin

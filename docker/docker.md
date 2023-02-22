@@ -1,7 +1,7 @@
 *************************************************
 # DOCKER HELP
 *************************************************
-# view help on any command
+# show help on any command
 docker --help
 docker ps --help
 
@@ -286,10 +286,10 @@ sudo docker search name
 *************************************************
 # DOCKER LOGS
 *************************************************
-# view the output logs of the container
+# show the output logs of the container
 docker logs container-name
 
-# attach to the running container and view logs in realtime
+# attach to the running container and show logs in realtime
 # can exit with Ctrl+C
 docker logs -f container-name
 
@@ -552,7 +552,7 @@ mongodb://host.docker.internal:27017
 # create docker network
 docker network create network-name
 
-# docker network configuration, view docker networks
+# docker network configuration, show docker networks
 docker network ls
 
 # use created network with container and you don't need to publish ports,
@@ -703,7 +703,7 @@ docker info
 *************************************************
 # DOCKER HISTORY
 *************************************************
-# view the history of the image
+# show the history of the image
 docker history image-name
 
 

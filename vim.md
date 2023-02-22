@@ -2,6 +2,20 @@
     VIM Visual display editor improved
     VIM EDITOR
 
+
+
+*************************************************
+# macOS
+*************************************************
+# Create a .vimrc file on your home ~/ folder and
+# then edit it with vim ~/.vimrc. You can try 
+# adding syntax on inside ~/.vimrc file. 
+# The following command does that:
+echo "syntax on" >> ~/.vimrc
+
+
+
+
 This is command mode editor for files. Other editors in Linux are emacs, gedit vi editor is most popular
 It has 3 modes:
 1 - Command Mode

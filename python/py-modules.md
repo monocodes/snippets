@@ -31,7 +31,7 @@ pip list --outdated
 # Upgrade all local packages, you can install pip-review:
 pip install pip-review
 
-# View outdated packages
+# show outdated packages
 pip-review
 
 # After that, you can either upgrade the packages interactively:
@@ -120,7 +120,10 @@ pip help completion
 # install needed package
 pip install name-of-module
 
-# list outdated packages
+# show installed packages
+pip list
+
+# show outdated packages
 pip list --outdated
 
 # upgrade package

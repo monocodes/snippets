@@ -7,7 +7,7 @@ cat /etc/paths
 # PATH files
 ls /etc/paths.d
 
-# view current path in terminal
+# show current path in terminal
 echo "$PATH"
 
 ### $PATH guide is at the bottom of the page ###
@@ -32,7 +32,7 @@ source $HOME/.zprofile
 -------------------------------------------------
 # EXPORT
 -------------------------------------------------
-# view current environmental variables
+# show current environmental variables
 printenv
 
 # how to get rid of item after EXPORT something
@@ -48,7 +48,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include -I/opt/homebrew/opt/libffi/include"
 export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib -L/opt/homebrew/opt/libffi/lib"
 
-# view active flags
+# show active flags
 echo ${LDFLAGS}
 echo ${CPPFLAGS}
 
@@ -80,7 +80,7 @@ sudo arp -a -d
 
 
 ### traceroute ###
-# view path to the server and latency problems
+# show path to the server and latency problems
 traceroute google.com
 
 
@@ -175,6 +175,20 @@ chrome://restart
 # 3) sudo cp com.apple.TimeMachine.plist to /Library/Preferences/
 
 
+
+-------------------------------------------------
+# terminal
+-------------------------------------------------
+# switch to next tab in current window
+ctrl + tab
+
+# switch to previous tab in current window
+ctrl + shift + tab
+
+
+
+
+
 *************************************************
 # console apps
 *************************************************
@@ -187,6 +201,16 @@ chrome://restart
 vim ~/.zprofile
 export GREP_OPTIONS='--color=auto'
 source ~/.zprofile
+
+
+-------------------------------------------------
+# vim
+-------------------------------------------------
+# Create a .vimrc file on your home ~/ folder and
+# then edit it with vim ~/.vimrc. You can try 
+# adding syntax on inside ~/.vimrc file. 
+# The following command does that:
+echo "syntax on" >> ~/.vimrc
 
 
 

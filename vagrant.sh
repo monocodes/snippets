@@ -28,10 +28,10 @@ vagrant up
 ### VAGRANT COMMANDS ----------------------------
 
 ### VAGRANT STATUS ###
-# view vagrant vms
+# show vagrant vms
 vagrant global-status
 
-# view status of vm in current dir
+# show status of vm in current dir
 vagrant status
 
 

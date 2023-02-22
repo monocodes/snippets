@@ -49,10 +49,10 @@ sudo timedatectl set-timezone timezone-name
 *************************************************
 # LOCALECTL
 *************************************************
-# view used locale
+# show used locale
 localectl
 
-# view installed locales
+# show installed locales
 localectl list-locales
 
 # search for langpack
@@ -62,11 +62,16 @@ dnf install langpacks-en
 # set locale
 localectl set-locale LANG=en_US.UTF-8
 
-# view specific locale keymaps
+# show specific locale keymaps
 localectl list-keymaps | grep -i us
 
 # set keymap locale
 localectl set-keymap us
+
+# setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
+sudo vi /etc/environment
+LANG=en_US.utf-8
+LC_ALL=en_US.utf-8
 
 
 
@@ -108,13 +113,13 @@ Shift
 # which user you are now
 whoami
 
-# view current logged in user
+# show current logged in user
 who
 
-# view current path
+# show current path
 pwd
 
-# view info about user
+# show info about user
 id username
 
 # add user
@@ -151,10 +156,10 @@ userdel -r username
 # delete group
 groupdel group-name
 
-# view last users logged in into the system
+# show last users logged in into the system
 last
 
-# view all opened files by user
+# show all opened files by user
 lsof -u username
 
 
@@ -249,14 +254,14 @@ cat /var/run/process-name/process-name.pid
 cat /var/run/httpd/httpd.pid
 
 
-# view all processes
+# show all processes
 top
 htop
 
-# view all processes and exit
+# show all processes and exit
 ps aux
 
-# view all processes with displaying parent processes
+# show all processes with displaying parent processes
 ps -ef
 
 # find specific process PID and kill it
@@ -296,7 +301,7 @@ mono ALL=(ALL) NOPASSWD: ALL
 vim /etc/sudoers.d/devops
 %devops ALL=(ALL) NOPASSWD: ALL
 
-# view all custom /etc/sudoers.d files
+# show all custom /etc/sudoers.d files
 cat /etc/sudoers.d *
 
 # edit /etc/sudoers
@@ -379,7 +384,7 @@ chmod 770 /path/to/filename
 
 
 
-# view the network adapters
+# show the network adapters
 ip a
 ip r
 ip address
@@ -395,7 +400,7 @@ sudo systemctl restart systemd-networkd
 -------------------------------------------------
 # hostname, hostnamectl
 -------------------------------------------------
-# view hostname
+# show hostname
 hostnamectl hostname
 
 # change hostname 
@@ -416,15 +421,15 @@ hostname your-hostname
 # OPEN PORTS
 -------------------------------------------------
 ### nmap ###
-# view open ports of localhost
+# show open ports of localhost
 nmap localhost
 
-# view open ports of local server
+# show open ports of local server
 nmap db01
 
 
 ### netstat ###
-# view all open TCP ports
+# show all open TCP ports
 netstat -antp
 netstat -antp | grep apache2
 
@@ -435,8 +440,9 @@ netstat -antp | grep PID
 
 
 ### ss ###
-# view all open TCP ports
+# show all open TCP ports
 ss -tunlp
+ss -tunlp | grep 80
 
 
 ### telnet ###
@@ -467,7 +473,7 @@ nslookup google.com
 # TRACEROUTE
 -------------------------------------------------
 ### traceroute, tracert
-# view path to the server and latency problems
+# show path to the server and latency problems
 traceroute address-name
 traceroute mirrors.fedoraproject.org
 traceroute google.com
@@ -475,7 +481,7 @@ traceroute google.com
 
 ### mtr ###
 # traceroute + ping
-# view path to the server and latency problems online (live)
+# show path to the server and latency problems online (live)
 mtr google.com
 
 
@@ -483,7 +489,7 @@ mtr google.com
 -------------------------------------------------
 # GATEWAY LOOKUP
 -------------------------------------------------
-# view gateways 
+# show gateways 
 route -n
 route
 
@@ -492,7 +498,7 @@ route
 -------------------------------------------------
 # ARP
 -------------------------------------------------
-# view arp table
+# show arp table
 arp
 
 
@@ -537,7 +543,7 @@ command-name --help
 file filename
 file directory-name
 
-# view version of the OS
+# show version of the OS
 cat /etc/os-release
 
 # logout with current user
@@ -580,7 +586,7 @@ mv directory-name another-directory-name
 mv *.txt directory-name
 
 ### TREE ###
-# view dirs in tree format
+# show dirs in tree format
 tree /path/to/dir
 tree /var/log
 
@@ -657,12 +663,12 @@ ps -ef | grep -i httpd | grep -v 'grep'
 
 
 ### CUT, AWK ###
-# view needed part of file with cut
+# show needed part of file with cut
 cut -d delimiter -f field-number /path/to/filename
 # example
 cut -d: -f1,7 /etc/passwd
 
-# view needed part of file with awk
+# show needed part of file with awk
 awk -F'delimiter' '{print $field-number$field-number}' /path/tofilename
 # example
 awk -F':' '{print $1$7}' /etc/passwd
@@ -670,7 +676,7 @@ awk -F':' '{print $1$7}' /etc/passwd
 
 ### SED ###
 # replace text in files g - globally (more than one time in line)
-# without -i to view what will be changed
+# without -i to show what will be changed
 sed 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' *.cfg
@@ -680,10 +686,10 @@ sed 's/coronavirus/covid19/g' samplefile.txt
 sed -i 's/coronavirus/covid19/g' samplefile.txt
 
 
-# view uptime
+# show uptime
 uptime
 
-# view free ram
+# show free ram
 # -h for human-readable output
 free -mh
 
@@ -696,18 +702,18 @@ rm -r directory-name
 # force delete everything in current directory
 rm -rf *
 
-# view file
+# show file
 cat filename
 
-# view first 10 lines of the file or any number of lines
+# show first 10 lines of the file or any number of lines
 head filename
 head -20 filename
 
-# view last 10 lines of the file
+# show last 10 lines of the file
 tail filename
 tail -20 filename
 
-# view continuously last 10 lines of the file
+# show continuously last 10 lines of the file
 tail -f filename
 
 # read file
@@ -779,7 +785,7 @@ ln -s /opt/dev/ops/devops/test/commands.txt cmds
 -------------------------------------------------
 ### PARTITIONING, HDDs
 -------------------------------------------------
-# view partitioning
+# show partitioning
 df -h
 
 
@@ -816,8 +822,8 @@ https://admin.fedoraproject.org/mirrormanager/
 
 ### DNF, YUM ###
 # firstly install epel-release repo to unlock many packages
-yum install epel-release
-dnf install epel-release
+yum install epel-release -y
+dnf install epel-release -y
 
 # almost all these commands applied to yum
 
@@ -845,7 +851,7 @@ dnf grouplist
 # install all the packages in a group
 dnf groupinstall group-name
 
-# view enabled dnf repos
+# show enabled dnf repos
 dnf repolist
 
 # clean dnf cache
@@ -854,10 +860,10 @@ dnf clean all
 # additional package repository that commonly used software
 dnf install epel-release
 
-# view history of dnf
+# show history of dnf
 dnf history
 
-# view info of package
+# show info of package
 dnf info package-name
 
 # exclude package in dnf from updating
@@ -877,13 +883,13 @@ rmp -ivh package-name
 rpm -ivh mozilla-mail-1.7.5-17.i586.rpm
 rpm -ivh --test mozilla-mail-1.7.5-17.i586.rpm
 
-# view all installed rpms
+# show all installed rpms
 rpm -qa
 # examples
 rpm -qa
 rpm -qa | less
 
-# view latest installed rpms
+# show latest installed rpms
 rpm -qa --last
 
 # upgrade installed package
@@ -902,7 +908,7 @@ rpm -ev --nodeps
 # example
 rpm -ev --nodeps mozilla-mail
 
-# view info about installed package
+# show info about installed package
 rpm -qi package-name
 # example
 rpm -qi mozilla-mail
@@ -912,17 +918,17 @@ rpm -qf /path/to/dir
 # examples
 rpm -qf /etc/passwd
 
-# view list of configuration file(s) for a package
+# show list of configuration file(s) for a package
 rpm -qc package-name
 # example
 rpm -qc httpd
 
-# view list of configuration files for a command
+# show list of configuration files for a command
 rpm -qcf /path/to/filename
 # example
 rpm -qcf /usr/X11R6/bin/xeyes
 
-# view what dependencies a rpm file has
+# show what dependencies a rpm file has
 rpm -qpR filename.rpm
 rpm -qR package-name
 # examples
@@ -969,16 +975,16 @@ apt grouplist
 # install all the packages in a group
 apt groupinstall group-name
 
-# view enabled apt repos
+# show enabled apt repos
 apt repolist
 
 # clean apt cache
 apt clean all
 
-# view apt history
+# show apt history
 apt history
 
-# view info of the package
+# show info of the package
 apt show package-name
 
 
@@ -1000,7 +1006,7 @@ apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-head
 # install downloaded package with dpkg
 dpkg -i filename
 
-# view all installed packages
+# show all installed packages
 dpkg -l
 
 # search for specific installed package
@@ -1055,15 +1061,18 @@ curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch
 # check curl
 curl parrot.live
 
+# check working wevserver (httpd, apache2, nginx)
+curl localhost
+
 # download file with wget
 wget filelink
 
 
 # NEEDRESTART OR DAEMONS USING OUTDATED LIBRARIES
-# what needs to be restarted using machine-friendly view
+# what needs to be restarted using machine-friendly show
 sudo needrestart -b
 
-# what needs to be restarted using human-friendly view
+# what needs to be restarted using human-friendly show
 sudo needrestart -u NeedRestart::UI::stdio -r l
 
 # restart services with needrestart, reboot if doesn't help
