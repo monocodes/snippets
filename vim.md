@@ -41,6 +41,7 @@ x - To paste line above the cursor position
 X - To delete the world letter by letter (like DEL Key)
 dd - To delete entire line
 ndd - To delete n no. of lines from cursor position{Sdd)
+gg - dG - delete all lines in file (need to be at the beginning of the file)
 / - To search a word in the file
 
 

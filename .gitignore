@@ -2,9 +2,10 @@
 __pycache__/
 .python-version
 
-# directories
+# directories and specific files
 .vscode/
 images/
+playground.*
 
 # General
 .DS_Store

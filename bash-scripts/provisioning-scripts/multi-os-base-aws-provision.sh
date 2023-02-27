@@ -69,8 +69,9 @@ function bat-install() {
     exit 1
   fi
 
-  # installing bat to root also
+  message "Installing bat to root also and cleaning up..."
   sudo cp /usr/local/bin/bat /bin
+  rm -rf ~/bat-v*
 }
 
 
@@ -79,68 +80,108 @@ function bat-install() {
 #################################################
 {
   message "Start recording script output."
+  
   message "Trying to determine distro..."
-
   if [  -n "$(uname -a | grep -i ubuntu)" ]; then
-    message "Ubuntu"
+    message "Distro - Ubuntu"
 
-    sudo echo "export EDITOR=vim" >> /root/.bashrc
-    sudo echo "export EDITOR=vim" >> /home/ubuntu/.bashrc
+    message "Making vim default editor for default user and root..."
+    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
 
+    message "Updating system..."
     sudo apt-get update
     sudo apt-get upgrade -y
+
+    message "Cleaning up..."
     sudo apt autoremove --purge -y
+    
+    message "Installing software"
     sudo apt-get install bat stress -y
     sudo apt-get clean
 
   elif [  -n "$(uname -a | grep -i amzn)" ]; then
-    
-    message "Amazon Linux"
+    message "Distro - Amazon Linux"
 
-    echo "LANG=en_US.utf-8" >> /etc/environment
-    echo "LC_ALL=en_US.utf-8" >> /etc/environment
+    message "Fixing US locale..."
+    echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
+    echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
     sudo localectl set-locale LANG=en_US.UTF-8
     sudo localectl set-keymap us
 
+    message "Installing epel and updating system..."
     sudo amazon-linux-extras install epel -y
     sudo yum update -y
+
+    message "Installing software..."
     sudo yum install vim htop stress -y
+
+    message "Cleaning up..."
+    sudo yum autoremove -y
     sudo yum clean all
+
+    message "Installing bat..."
     bat-install
 
-    sudo echo "export EDITOR=vim" >> /root/.bashrc
-    sudo echo "export EDITOR=vim" >> /home/ec2-user/.bashrc
-
+    message "Making vim default editor for default user and root..."
+    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
+    
   elif [  -n "$(uname -a | grep -i el[1-99])" ]; then
     
-    message "CentOS, RHEL"
+    message "Distro CentOS/RHEL"
 
-    echo "LANG=en_US.utf-8" >> /etc/environment
-    echo "LC_ALL=en_US.utf-8" >> /etc/environment
+    message "Fixing US locale..."
+    echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
+    echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
     sudo localectl set-locale LANG=en_US.UTF-8
     sudo localectl set-keymap us
 
+    message "Installing epel and updating system..."
     sudo yum install epel-release -y
     sudo yum update -y
+
+    message "Installing software..."
     sudo yum install vim htop stress -y
+
+    message "Cleaning up..."
+    sudo yum autoremove -y
     sudo yum clean all
+
+    message "Installing bat..."
     bat-install
 
-    sudo echo "export EDITOR=vim" >> /root/.bashrc
-    sudo echo "export EDITOR=vim" >> /home/centos/.bashrc
+    message "Making vim default editor for default user and root..."
+    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
   fi  
-} 2>/tmp/multi-os-base-aws-provision-err.log \ 
-  |& tee /tmp/multi-os-base-aws-provision-full.log
+} 2>/tmp/provision-err.log \
+  |& tee /tmp/provision-full.log
 
-
-echo
-echo
-echo "########################################"
-echo "Completed!"
-echo "To see full log:"
-echo "bat /tmp/multi-os-base-aws-provision-full.log"
-echo
-echo "To see error-only log:"
-echo "bat /tmp/multi-os-base-aws-provision-err.log"
-echo "########################################"
-echo
+if [  -n "$(uname -a | grep -i ubuntu)" ]; then
+  echo
+  echo
+  echo "########################################"
+  echo "Completed!"
+  echo "To see full log:"
+  echo "batcat /tmp/provision-full.log"
+  echo
+  echo "To see error-only log:"
+  echo "batcat /tmp/provision-err.log"
+  echo "########################################"
+  echo "Loading provision-err.log..."
+  batcat /tmp/provision-err.log
+else
+  echo
+  echo
+  echo "########################################"
+  echo "Completed!"
+  echo "To see full log:"
+  echo "bat /tmp/provision-full.log"
+  echo
+  echo "To see error-only log:"
+  echo "bat /tmp/provision-err.log"
+  echo "########################################"
+  echo "Loading provision-err.log..."
+  bat /tmp/provision-err.log
+fi

@@ -96,7 +96,23 @@ aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0
 # aws-cli example scripts
 *************************************************
 
-# Launch CentOS 7 AMI
+-------------------------------------------------
+# Amazon Linux 2
+-------------------------------------------------
+
+aws ec2 run-instances \
+ --image-id ami-0dfcb1ef8550277af \
+ --count 1 \
+ --instance-type t2.micro \
+ --key-name mono-test \
+ --security-groups mono-test-sg \
+ --user-data file://~/My\ Drive/study/code/commands/bash-scripts/provisioning-scripts/multi-os-base-aws-provision.sh
+
+
+
+-------------------------------------------------
+# CentOS 7
+-------------------------------------------------
 # US locale fixed
 # updated
 # installed epel-release, vim, htop, bat
@@ -118,8 +134,7 @@ aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsNa
 
 # ssh in instance
 # -o ServerAliveInterval=60 for not being disconnected every 60 seconds
-ssh -i "~/.ssh/aws/tween-dev-nvir.pem" -o ServerAliveInterval=999 centos@ec2-3-235-7-214.compute-1.amazonaws.com
-ssh -i "~/.ssh/aws/mono-docker.pem" -o ServerAliveInterval=999 centos@ec2-user@ec2-34-203-33-71.compute-1.amazonaws.com
+ssh -i "/path/to/key-name.pem" -o ServerAliveInterval=200 username@srv-name
 
 
 
