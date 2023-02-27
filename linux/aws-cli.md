@@ -68,6 +68,28 @@ aws ec2 describe-instances
 
 
 
+-------------------------------------------------
+# attach volume
+-------------------------------------------------
+# to attach volume you must know InstanceId
+# also view the root volume mapping or another attached volumes
+# root volume - DeviceName - /dev/sda1 
+# BlockDeviceMappings - DeviceName - /dev/sdp
+# Recommended device names for Linux: /dev/sda1 for root volume. /dev/sd[f-p] for data volumes. 
+aws ec2 describe-instances
+
+# or
+aws ec2 describe-instances | grep InstanceId
+
+# create volume and copy its id
+
+# show avalaible volumes
+aws ec2 describe-volumes
+
+# attach volume 
+aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
+
+
 
 
 *************************************************
@@ -96,8 +118,8 @@ aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsNa
 
 # ssh in instance
 # -o ServerAliveInterval=60 for not being disconnected every 60 seconds
-ssh -i "~/.ssh/aws/tween-dev-nvir.pem" -o ServerAliveInterval=60 centos@ec2-3-235-7-214.compute-1.amazonaws.com
-ssh -i "~/.ssh/aws/mono-docker.pem" -o ServerAliveInterval=60 centos@ec2-user@ec2-34-203-33-71.compute-1.amazonaws.com
+ssh -i "~/.ssh/aws/tween-dev-nvir.pem" -o ServerAliveInterval=999 centos@ec2-3-235-7-214.compute-1.amazonaws.com
+ssh -i "~/.ssh/aws/mono-docker.pem" -o ServerAliveInterval=999 centos@ec2-user@ec2-34-203-33-71.compute-1.amazonaws.com
 
 
 
@@ -112,3 +134,44 @@ ssh -i "~/.ssh/aws/mono-docker.pem" -o ServerAliveInterval=60 centos@ec2-user@ec
 -------------------------------------------------
 # docker install
 sudo amazon-linux-extras install docker
+
+
+
+
+
+*************************************************
+# Amazon EFS
+*************************************************
+
+-------------------------------------------------
+# amazon-efs-utils
+-------------------------------------------------
+# install amazon-efs-utils on Amazon Linux 2 to access EFS
+# https://docs.aws.amazon.com/efs/latest/ug/installing-amazon-efs-utils.html
+sudo yum install -y amazon-efs-utils
+
+
+
+-------------------------------------------------
+# mount EFS
+-------------------------------------------------
+# Using the EFS mount helper to automatically re-mount EFS file systems
+# https://docs.aws.amazon.com/efs/latest/ug/automount-with-efs-mount-helper.html
+
+# Mounting with EFS access points
+# https://docs.aws.amazon.com/efs/latest/ug/mounting-access-points.html
+
+# original command has mistake in it, "iam" option
+# make sure you have right security groups settings
+
+# you can use this command
+file_system_id:/ /var/www/html/img efs _netdev,noresvport,tls,iam,accesspoint=access-point-id 0 0
+fs-09684528ab385583f:/ /var/www/html/img efs _netdev,noresvport,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
+
+# or this
+file_system_id /var/www/html/img efs _netdev,tls,accesspoint=access-point-id 0 0
+fs-09684528ab385583f /var/www/html/img efs _netdev,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
+
+# Test the fstab entry by using the mount command with the 'fake' option along with the 'all' and 'verbose' options.
+sudo mount -fav
+# home/ec2-user/efs      : successfully mounted

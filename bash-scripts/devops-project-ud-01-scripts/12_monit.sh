@@ -5,6 +5,8 @@ date
 #ls /var/run/httpd/httpd.pid &> /dev/null
 
 if [ -f /var/run/httpd/httpd.pid ]
+# to check [ -f expression ] use man test
+# also, you can use if test without brackets
 then
    echo "Httpd process is running."
 else

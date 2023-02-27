@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #################################################
-# CentOS 7
+# Amazon Linux 2
 #################################################
 
 echo
@@ -19,7 +19,7 @@ echo "##########################################"
 echo "install epel-release"
 echo "##########################################"
 echo
-sudo yum install epel-release -y
+sudo amazon-linux-extras install epel -y
 
 echo
 echo "##########################################"
@@ -36,7 +36,7 @@ echo "make vim default editor for root and centos user"
 echo "##########################################"
 echo
 sudo echo "export EDITOR=vim" >> /root/.bashrc
-sudo echo "export EDITOR=vim" >> /home/centos/.bashrc
+sudo echo "export EDITOR=vim" >> /home/ec2-user/.bashrc
 
 
 

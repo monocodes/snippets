@@ -31,6 +31,86 @@ cat /var/run/httpd/httpd.pid
 
 
 
+
+
+*************************************************
+# partitioning, mounting, fdisk, gparted
+*************************************************
+
+-------------------------------------------------
+# gparted
+-------------------------------------------------
+# How to resize a root partition in Ubuntu Linux GPT.pdf in docs
+
+
+
+-------------------------------------------------
+# df
+-------------------------------------------------
+# show partitions
+df -h
+
+
+
+-------------------------------------------------
+# fdisk
+-------------------------------------------------
+# show disks
+fdisk -l
+
+# show disks with ls (including unmounted)
+ls -lh /dev/ | grep disk
+
+# start disk partitioning
+fdisk /dev/xvdf
+
+m # for help
+n # add a new partition
+p # primary
+1 # partition number
+Enter # first sector, can be specified
+Enter # last sector, can be specified
+# specify last sector for example 3GB
++3G
+w # write table to disk and exit 
+
+
+
+
+-------------------------------------------------
+# mkfs, formatting
+-------------------------------------------------
+# show avalaible formatting utilities
+mkfs # TAB 2 times
+
+# make ext4 formatting
+mkfs.ext4 /dev/xvdf1
+
+
+
+-------------------------------------------------
+# mount, umount, mounting
+-------------------------------------------------
+# mount dir to partition temporarily
+mount /dev/xvdf1 /var/www/html/images/
+
+# check mounting
+df -h
+
+# unmount dir from partition
+umount /var/www/html/images/
+
+# mount dir to partition permanently
+vim /etc/fstab
+/dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
+# see linux-config-files-examples.sh
+# after that mount all mounts from /etc/fstab
+mount -a
+
+
+
+
+
 *************************************************
 # time, date
 *************************************************
@@ -162,6 +242,10 @@ last
 # show all opened files by user
 lsof -u username
 
+# show all opened files in particular dir
+lsof /path/to/dir
+lsof /var/www/html/images
+
 
 # ubuntu 22 LTS default groups after install with user loco
 adm:x:4:syslog,loco
@@ -241,6 +325,7 @@ systemctl enable service-name
 
 # remove service from autorun
 systemctl disable service-name
+
 
 
 -------------------------------------------------
@@ -449,10 +534,15 @@ ss -tunlp | grep 80
 telnet ip-address port
 telnet 192.168.40.12 3306
 telnet 192.168.40.12 22
+
 # to exit
 Ctrl + ]
+Ctrl + C
 Enter
 quit
+
+# telnet mysql instance
+telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 
 
 
@@ -552,7 +642,7 @@ exit
 # make a directory
 mkdir directory-name
 
-# make directory forcefully
+# make directory forcefully with all needed parents
 mkdir -p directory/path
 mkdir -p /opt/dev/ops/devops/test
 
@@ -584,6 +674,10 @@ mv directory-name another-directory-name
 # move everything with mv
 # example
 mv *.txt directory-name
+
+# move everything in dir to another dir
+# mv path/to/dir/* path/to/another/dir
+mv /tmp/img-backup/* /var/www/html/images/
 
 ### TREE ###
 # show dirs in tree format
@@ -820,11 +914,37 @@ https://admin.fedoraproject.org/mirrormanager/
 
 
 
-### DNF, YUM ###
-# firstly install epel-release repo to unlock many packages
-yum install epel-release -y
-dnf install epel-release -y
+-------------------------------------------------
+# epel
+-------------------------------------------------
+# on rpm-based linux firstly install epel-release repo to unlock many packages
+# Amazon Linux 2
+sudo amazon-linux-extras install epel -y
 
+# RHEL 8
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+
+# RHEL 7
+sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+# CentOS 8
+sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo dnf config-manager --set-enabled PowerTools
+
+# CentOS 7
+sudo yum -y install epel-release
+
+# List repositories that are turned on
+# To verify that the EPEL repository is turned on, run the repolist command:
+sudo yum repolist
+
+
+
+-------------------------------------------------
+# dnf, yum
+-------------------------------------------------
 # almost all these commands applied to yum
 
 # search package
@@ -1048,6 +1168,37 @@ unzip filename.zip -d /path/to/dir
 unzip -o filename.zip /path/to/dir
 
 
+
+-------------------------------------------------
+# apache2, httpd
+-------------------------------------------------
+# default path of apache2, httpd
+/var/www/html
+
+
+
+-------------------------------------------------
+# mysql, mariadb-server
+-------------------------------------------------
+# default path of mysql
+/var/lib/mysql
+
+# install mysql on ubuntu
+apt install mysql
+
+# install mysql on centos
+yum install mariadb-server
+
+# connect to the mysql remote host
+apt install mysql-client
+
+# connect with mysql-client to remote host
+mysql -h hostname -u username -ppassword
+# example
+mysql -h vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -plicgiTGxfz8iu128mGHg
+
+
+
 -------------------------------------------------
 ### CURL, WGET
 -------------------------------------------------
@@ -1149,6 +1300,24 @@ scp devops@web01:/home/devops/testfile.txt .
 # print bat without line numbers
 bat --style=plain,header filename
 batcat --style=plain,header filename
+
+
+
+-------------------------------------------------
+# stress
+-------------------------------------------------
+# stress - utility to stress the hardware
+# start stress on cpu with 4 processes for 300 seconds in background
+nohup stress -c 4 -t 300 &
+
+# small script to test monitoring alarms
+# stress.sh
+#!/bin/bash
+sudo stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 360 && sleep  && stress -c 4 -t 460 && sleep 30 && stress -c 4 -t 360 && sleep 60
+
+# run it in background
+nohup ./stress.sh &
+
 
 
 
