@@ -122,9 +122,10 @@ git clone -b local-setup --single-branch https://github.com/devopshydclub/vprofi
 
 
 
--------------------------------------------------
+*************************************************
 # GIT COMMANDS
--------------------------------------------------
+*************************************************
+
 ### git ls ###
 # display files in repository
 git ls-files
@@ -138,12 +139,15 @@ git rm filename
 git rm filename --cached
 
 
-### Example to ignore previously committed dir logs/ ###
+
+-------------------------------------------------
+# Example to ignore previously committed dir logs/
+-------------------------------------------------
 # update .gitignore file to ignore dir
 logs/
 
 # remove dir or file from the repo
-#use relative path of the project and "" if you have any spaces in path
+# use relative path of the project and "" if you have any spaces in path
 git rm -r --cached "Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs"
 
 # do commit
@@ -151,6 +155,37 @@ git commit -am "Start ignoring Section 5. Building Multi-Container Applications 
 
 
 
-### DELETING A REPOSITORY -----------------------
+-------------------------------------------------
+# Delete file or folder from the local and remote
+# repos from every commit
+-------------------------------------------------
+
+# https://stackoverflow.com/questions/35115585/remove-files-completely-from-git-repository-along-with-its-history
+
+# if you want to use file in future locally
+# update .gitignore file to ignore file or dir
+dir-name/
+filename
+
+# delete file from local repo globally from every commit
+# The --invert-paths option indicates to exclude,
+# not include the following paths.
+git filter-repo --invert-paths --force --path filename
+
+# link again local repo to remote repo
+git remote add repo-name repo-url
+# example
+git remote add commands https://github.com/wandering-mono/commands.git
+
+# 
+git push --set-upstream repo-name main/master branch --force
+# example
+git push --set-upstream commands main --force
+
+
+
+-------------------------------------------------
+# Deleting a repository
+-------------------------------------------------
 rm -rf .git
 git init

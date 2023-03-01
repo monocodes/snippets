@@ -803,7 +803,7 @@ cat filename
 head filename
 head -20 filename
 
-# show last 10 lines of the file
+# show last 10 lines of the file or any number of lines
 tail filename
 tail -20 filename
 

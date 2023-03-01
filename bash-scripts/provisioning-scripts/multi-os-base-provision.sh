@@ -79,6 +79,7 @@ function bat-install() {
 # Start and record all script output.
 #################################################
 {
+  {
   message "Start recording script output."
   
   message "Trying to determine distro..."
@@ -86,7 +87,7 @@ function bat-install() {
     message "Distro - Ubuntu"
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a ~/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
 
     message "Updating system..."
@@ -96,7 +97,7 @@ function bat-install() {
     message "Cleaning up..."
     sudo apt autoremove --purge -y
     
-    message "Installing software"
+    message "Installing software and cleaning up..."
     sudo apt-get install bat stress -y
     sudo apt-get clean
 
@@ -124,12 +125,14 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a ~/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
     
-  elif [  -n "$(uname -a | grep -i el[1-99])" ]; then
+  elif [  -n "$(uname -a | grep -i el7)" ]; then
+    # el[8-99] for another upstream RHEL based
+    # distros like AlmaLinux or CentOS Stream
     
-    message "Distro CentOS/RHEL"
+    message "Distro CentOS 7 / RHEL 7"
 
     message "Fixing US locale..."
     echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
@@ -152,11 +155,11 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | sudo tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a ~/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
   fi  
-} 2>/tmp/provision-err.log \
-  |& tee /tmp/provision-full.log
+  } 2> >(tee ~/provision-err.log 1>&2);
+} |& tee ~/provision-full.log
 
 if [  -n "$(uname -a | grep -i ubuntu)" ]; then
   echo
@@ -164,24 +167,32 @@ if [  -n "$(uname -a | grep -i ubuntu)" ]; then
   echo "########################################"
   echo "Completed!"
   echo "To see full log:"
-  echo "batcat /tmp/provision-full.log"
+  echo "batcat ~/provision-full.log"
   echo
   echo "To see error-only log:"
-  echo "batcat /tmp/provision-err.log"
+  echo "batcat ~/provision-err.log"
   echo "########################################"
-  echo "Loading provision-err.log..."
-  batcat /tmp/provision-err.log
+  echo
+  echo "Showing last 30 lines of provision-err.log..."
+  echo 
+  echo
+  tail -30 ~/provision-err.log
+  echo "########################################"
 else
   echo
   echo
   echo "########################################"
   echo "Completed!"
   echo "To see full log:"
-  echo "bat /tmp/provision-full.log"
+  echo "bat ~/provision-full.log"
   echo
   echo "To see error-only log:"
-  echo "bat /tmp/provision-err.log"
+  echo "bat ~/provision-err.log"
   echo "########################################"
-  echo "Loading provision-err.log..."
-  bat /tmp/provision-err.log
+  echo
+  echo "Showing last 30 lines of provision-err.log..."
+  echo 
+  echo
+  tail -30 ~/provision-err.log
+  echo "########################################"
 fi
