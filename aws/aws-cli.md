@@ -28,7 +28,7 @@ aws-cli-command-completer.pdf
 # aws configure
 *************************************************
 # first create user in aws console with access key
-# start using awscli
+# use it whenever you want to change user or change config
 aws configure
 
 # awscli config files
@@ -47,6 +47,16 @@ yaml-stream – The output is streamed and formatted as a YAML string. Streaming
 text – The output is formatted as multiple lines of tab-separated string values. This can be useful to pass the output to a text processor, like grep, sed, or awk.
 
 table – The output is formatted as a table using the characters +|- to form the cell borders. It typically presents the information in a "human-friendly" format that is much easier to read than the others, but not as programmatically useful. -->
+
+
+
+
+*************************************************
+# aws help
+*************************************************
+# you can get help for every aws command with help
+aws ec2 help
+aws s3 mb help
 
 
 
@@ -88,6 +98,46 @@ aws ec2 describe-volumes
 
 # attach volume 
 aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
+
+
+
+
+
+*************************************************
+# aws s3
+*************************************************
+
+-------------------------------------------------
+# aws s3 mb = make bucket
+-------------------------------------------------
+# create new s3 bucket
+# mb = make bucket
+aws s3 mb s3://bucket-name
+
+
+-------------------------------------------------
+# aws s3 cp = copy
+-------------------------------------------------
+# copy file to s3 bucket
+aws s3 cp filename s3://bucket-name
+# example
+aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
+
+
+# copy file from s3 bucket
+aws s3 cp s3://bucket-name/path/to/filename /path/to/dir/
+# example
+aws s3 cp s3://vprofile-artifact-storage-mono/vprofile-v2.war /tmp/
+
+
+-------------------------------------------------
+# aws s3 ls = list
+-------------------------------------------------
+# show contents of s3 bucket
+aws s3 ls s3://bucket-name
+# example
+aws s3 ls s3://vprofile-artifact-storage-mono
+
 
 
 
@@ -135,58 +185,3 @@ aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsNa
 # ssh in instance
 # -o ServerAliveInterval=60 for not being disconnected every 60 seconds
 ssh -i "/path/to/key-name.pem" -o ServerAliveInterval=200 username@srv-name
-
-
-
-
-
-*************************************************
-# Amazon Linux 2 AMIs
-*************************************************
-
--------------------------------------------------
-# amazon-linux-extras
--------------------------------------------------
-# docker install
-sudo amazon-linux-extras install docker
-
-
-
-
-
-*************************************************
-# Amazon EFS
-*************************************************
-
--------------------------------------------------
-# amazon-efs-utils
--------------------------------------------------
-# install amazon-efs-utils on Amazon Linux 2 to access EFS
-# https://docs.aws.amazon.com/efs/latest/ug/installing-amazon-efs-utils.html
-sudo yum install -y amazon-efs-utils
-
-
-
--------------------------------------------------
-# mount EFS
--------------------------------------------------
-# Using the EFS mount helper to automatically re-mount EFS file systems
-# https://docs.aws.amazon.com/efs/latest/ug/automount-with-efs-mount-helper.html
-
-# Mounting with EFS access points
-# https://docs.aws.amazon.com/efs/latest/ug/mounting-access-points.html
-
-# original command has mistake in it, "iam" option
-# make sure you have right security groups settings
-
-# you can use this command
-file_system_id:/ /var/www/html/img efs _netdev,noresvport,tls,iam,accesspoint=access-point-id 0 0
-fs-09684528ab385583f:/ /var/www/html/img efs _netdev,noresvport,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
-
-# or this
-file_system_id /var/www/html/img efs _netdev,tls,accesspoint=access-point-id 0 0
-fs-09684528ab385583f /var/www/html/img efs _netdev,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
-
-# Test the fstab entry by using the mount command with the 'fake' option along with the 'all' and 'verbose' options.
-sudo mount -fav
-# home/ec2-user/efs      : successfully mounted

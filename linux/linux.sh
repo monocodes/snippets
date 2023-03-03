@@ -531,18 +531,18 @@ ss -tunlp | grep 80
 
 
 ### telnet ###
+# use telnet to check the connection via any port
 telnet ip-address port
 telnet 192.168.40.12 3306
 telnet 192.168.40.12 22
+telnet db01.vprofile.in 3306
+telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 
 # to exit
 Ctrl + ]
 Ctrl + C
 Enter
 quit
-
-# telnet mysql instance
-telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 
 
 
@@ -1172,8 +1172,18 @@ unzip -o filename.zip /path/to/dir
 -------------------------------------------------
 # apache2, httpd
 -------------------------------------------------
-# default path of apache2, httpd
+# default path for website for apache2, httpd
 /var/www/html
+
+
+
+-------------------------------------------------
+# tomcat
+-------------------------------------------------
+# default path for website for tomcat
+# ? = version
+/var/lib/tomcat?/webapps/
+/var/lib/tomcat8/webapps/
 
 
 

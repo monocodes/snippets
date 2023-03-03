@@ -87,7 +87,7 @@ function bat-install() {
     message "Distro - Ubuntu"
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a /home/ubuntu/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
 
     message "Updating system..."
@@ -98,8 +98,15 @@ function bat-install() {
     sudo apt autoremove --purge -y
     
     message "Installing software and cleaning up..."
-    sudo apt-get install bat stress -y
-    sudo apt-get clean
+    sudo apt-get install stress -y
+    if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
+      wget https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1_amd64.deb
+      sudo dpkg -i bat-musl_0.22.1_amd64.deb
+      sudo apt-get clean
+    else
+      sudo apt-get install bat -y
+      sudo apt-get clean
+    fi
 
   elif [  -n "$(uname -a | grep -i amzn)" ]; then
     message "Distro - Amazon Linux"
@@ -125,7 +132,7 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a /home/ec2-user/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
     
   elif [  -n "$(uname -a | grep -i el7)" ]; then
@@ -155,7 +162,7 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a ~/.bashrc
+    echo "export EDITOR=vim" | tee -a /home/centos/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
   fi  
   } 2> >(tee /var/log/provision-err.log 1>&2);
