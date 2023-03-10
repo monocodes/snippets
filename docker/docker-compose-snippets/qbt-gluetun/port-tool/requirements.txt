@@ -1,0 +1,2 @@
+qbittorrent_api==2023.2.43
+requests==2.28.2

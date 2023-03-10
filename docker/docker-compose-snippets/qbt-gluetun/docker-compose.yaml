@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+  vpn:
+    image: qmcgaw/gluetun
+    network_mode: bridge
+    container_name: gluetun-pia
+    cap_add:
+      - net_admin
+    devices:
+      - /dev/net/tun
+    volumes:
+      - /volume1/docker/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+      - SERVER_REGIONS=Belgium
+      - PIA_ENCRYPTION=normal
+      - OPENVPN_PROTOCOL=tcp
+      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
+      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING_STATUS_FILE
+      - TZ=Asia/Yerevan
+    ports:
+      - 8999:8999
+      - 8000:8000
+    env_file:
+      - ./vpn.env
+    restart: unless-stopped
+
+  qbt:
+    image: linuxserver/qbittorrent:libtorrentv1
+    container_name: qbittorrent-gluetun
+    network_mode: service:vpn
+    volumes:
+      - /volume1/docker/qbittorrent:/config
+      - /volume1/data/data:/data
+    environment:
+      - WEBUI_PORT=8999
+      - PUID=1027
+      - PGID=100
+      - TZ=Asia/Yerevan
+    depends_on:
+      - vpn
+    restart: unless-stopped
+
+  port:
+    build: ./port-tool
+    container_name: port-tool-qbt-gluetun
+    network_mode: bridge
+    environment:
+      # Timezone for accurate logs times
+      - TZ=Asia/Yerevan
+      - PYTHONUNBUFFERED=1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./port-tool.env
+    depends_on:
+      - qbt
+
+  mon:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      # WATCHTOWER_MONITOR_ONLY: 'true'
+      - TZ=Asia/Yerevan
+    env_file:
+      - ./watchtower.env
+    command: qbittorrent-gluetun gluetun-pia

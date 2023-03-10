@@ -16,12 +16,19 @@ help(plotly.graph_objects.Bar)
 
 
 ### PIP -----------------------------------------
+# install pip from scratch (when no pip installed)
+python3 -m ensurepip
+
 # python standard package manager
 # upgrade pip
 pip install -U pip
 
 # list oudated installed packages
 pip list --outdated
+
+# completely uninstall pip
+pip freeze | xargs pip uninstall -y
+python -m pip uninstall pip setuptools
 
 
 
@@ -83,7 +90,7 @@ pyenv virtualenv 3.10.7 venv-name
 pip install -r requirements.txt
 
 # reinstall and upgrade everything from requirements.txt under venv
-pip install -U -r requirements.txt
+pip install -U -r requirements.txt 
 
 
 

@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# title: multi-os-base-provision.sh
+# categories:
+#   - bash
+#   - scripts
+#   - provisioning
+# author: wandering-mono
+# url: https://github.com/wandering-mono/snippets.git
+
 #################################################
 # Defining functions
 #################################################
