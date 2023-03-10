@@ -2,7 +2,6 @@ version: "3.8"
 services:
   vpn:
     image: qmcgaw/gluetun
-    network_mode: bridge
     container_name: gluetun-pia
     cap_add:
       - net_admin
@@ -39,6 +38,12 @@ services:
       - TZ=Asia/Yerevan
     depends_on:
       - vpn
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-k", "https://localhost:8999"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
 
   port:
@@ -54,7 +59,8 @@ services:
     env_file:
       - ./port-tool.env
     depends_on:
-      - qbt
+      qbt:
+        condition: service_healthy
 
   mon:
     image: containrrr/watchtower
