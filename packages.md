@@ -24,26 +24,26 @@ url: https://github.com/wandering-mono/snippets.git
 
 ### packages
 
-Clone of cat(1) with syntax highlighting and Git integration  
-bat
+bat  
+> Clone of cat(1) with syntax highlighting and Git integration
 
-Color-highlighted diff(1) output  
-colordiff
+colordiff  
+> Color-highlighted diff(1) output  
 
-GNU implementation of the famous stream editor  
-gnu-sed, gsed
+gnu-sed, gsed  
+> GNU implementation of the famous stream editor
 
-Port scanning utility for large networks  
-nmap
+nmap  
+> Port scanning utility for large networks  
 
-Python version management  
-pyenv
+pyenv  
+> Python version management  
 
-Pyenv plugin to manage virtualenv  
-pyenv-virtualenv
+pyenv-virtualenv  
+> Pyenv plugin to manage virtualenv  
 
-User interface to the TELNET protocol  
-telnet
+telnet  
+> User interface to the TELNET protocol  
 
 ---
 
@@ -60,73 +60,73 @@ audacity
 authy
 
 betterzip  
-just use extension that allow to use space in finder on archives to see contents
+> just use extension that allow to use space in finder on archives to see contents
 
 cakebrew  
-gui for installed formulae and casks from brew
+> gui for installed formulae and casks from brew
 
 cyberduck  
-great sftp, cloud client
+> great sftp, cloud client
 
 docker
 
 github  
-Github Desktop client
+> Github Desktop client
 
 google-chrome
 
 google-drive
 
 iina  
-great modern open source video player
+> great modern open source video player
 
 keka  
-great modern open source  archiever
+> great modern open source  archiever
 
 kekaexternalhelper
 
 libreoffice
 
 maccy  
-great modern open source clipboard manager
+> great modern open source clipboard manager
 
 mediahuman-audio-converter
 
 mkvtoolnix  
-Matroska media files manipulation tools
+> Matroska media files manipulation tools
 
 onlyoffice  
-great modern office (better than libreoffice)
+> great modern office (better than libreoffice)
 
 open-in-code  
-great extension to open folders with button in finder but a little bit broken (docker extension doesn't work)
+> great extension to open folders with button in finder but a little bit broken (docker extension doesn't work)
 
 open-video-downloader  
-great open source video downloader
+> great open source video downloader
 
 pixel-check  
-Dead Pixel Tester (DPT) alternative
+> Dead Pixel Tester (DPT) alternative
 
 postman
 
 qbittorrent
 
 rectangle  
-great tool to manipulate windows' position with keyboard
+> great tool to manipulate windows' position with keyboard
 
 royal-tsx  
-ssh, sftp, rdp, vnc, teamviewer connections manager  
-great mRemoteNG paid (with trial) alternative
+> ssh, sftp, rdp, vnc, teamviewer connections manager  
+> great mRemoteNG paid (with trial) alternative
 
 shottr  
-great moder screenshot app
+> great moder screenshot app
 
 shutter-encoder  
-great video-audio converter  
+> great video-audio converter  
 it's the only software that was able to convert flac in mkv to truehd
 
 skim  
-great modern pdf reader with extended notes
+> great modern pdf reader with extended notes
 
 sony-ps-remote-play
 
@@ -135,7 +135,7 @@ spotify
 steam
 
 torrent-file-editor  
-great torrent file editor
+> great torrent file editor
 
 vagrant
 
@@ -146,7 +146,7 @@ vagrant-vmware-utility
 visual-studio-code
 
 xnviewmp  
-great modern pics cataloguer and editor
+> great modern pics cataloguer and editor
 
 zoom
 
@@ -155,11 +155,16 @@ zoom
 ## linux
 
 bat  
-Clone of cat(1) with syntax highlighting and Git integration  
-CentOS install with bash/bat-centos-install.sh
+> Clone of cat(1) with syntax highlighting and Git integration  
+> CentOS install with bash/bat-centos-install.sh
 
-yum install epel-release  
-dnf install epel-release  
-CentOS install epel-release repo to unlock many
+epel-release
+
+```bash
+yum install epel-release
+dnf install epel-release 
+```
+
+> CentOS install epel-release repo to unlock many
 
 ---
