@@ -22,11 +22,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## macOS
 
----
-
 ### packages
-
----
 
 Clone of cat(1) with syntax highlighting and Git integration  
 bat
@@ -53,7 +49,6 @@ telnet
 
 ### casks
 
----
 4k-video-downloader
 
 aegisub
@@ -158,8 +153,6 @@ zoom
 ---
 
 ## linux
-
----
 
 bat  
 Clone of cat(1) with syntax highlighting and Git integration  

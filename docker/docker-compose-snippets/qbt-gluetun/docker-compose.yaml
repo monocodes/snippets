@@ -11,7 +11,7 @@ services:
       - /volume1/docker/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
-      - SERVER_REGIONS=Belgium
+      - SERVER_REGIONS=Serbia
       - PIA_ENCRYPTION=normal
       - OPENVPN_PROTOCOL=tcp
       - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
@@ -39,14 +39,14 @@ services:
     depends_on:
       - vpn
     healthcheck:
-      test: ["CMD", "curl", "-f", "-k", "https://localhost:8999"]
+      test: curl -f -k https://localhost:8999 || exit 1
       interval: 10s
       timeout: 3s
       retries: 5
       start_period: 10s
     restart: unless-stopped
 
-  port:
+  port-tool:
     build: ./port-tool
     container_name: port-tool-qbt-gluetun
     network_mode: bridge
@@ -72,4 +72,4 @@ services:
       - TZ=Asia/Yerevan
     env_file:
       - ./watchtower.env
-    command: qbittorrent-gluetun gluetun-pia
+    command: qbittorrent-gluetun gluetun-pia watchtower

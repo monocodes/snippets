@@ -23,8 +23,6 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## Useful Keybindings
 
----
-
 **Trigger Suggest**  
 For example, list tags after `:` in `Dockerfile` in `FROM` section  
 `cmd + shift + space`
@@ -39,8 +37,6 @@ Useful hints and suggests
 ---
 
 ## settings.json
-
----
 
 ```json
 {
@@ -102,11 +98,7 @@ Useful hints and suggests
 
 ## Extensions
 
----
-
 ### Black Formatter
-
----
 
 ms-python.black-formatter extension
 
@@ -131,8 +123,6 @@ currently doesn't work
 ---
 
 ### autoDocstring - Python Docstring Generator
-
----
 
 cursor after first `"""`  
 generate docstring  

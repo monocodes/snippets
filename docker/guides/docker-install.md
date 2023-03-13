@@ -20,11 +20,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## GNU/Linux
 
----
-
 ### Amazon Linux 2
-
----
 
 install docker
 
@@ -33,8 +29,6 @@ install docker
 ---
 
 ### Ubuntu or deb-type
-
----
 
 1. Uninstall old versions:
 

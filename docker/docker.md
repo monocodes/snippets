@@ -1,6 +1,198 @@
+---
+title: docker
+categories:
+  - software
+  - guides
+  - notes
+author: wandering-mono
+url: https://github.com/wandering-mono/snippets.git
+---
+
 # docker
 
-## docker help
+## docker compose
+
+> `docker compose` is v2 of `docker-compose`
+
+create and run containers specified in `docker-compose.yaml` in current dir  
+
+```bash
+docker compose up -d
+docker-compose up -d
+```
+
+create and run only specific services from current `docker-compose.yaml`  
+
+```bash
+docker compose up -d service-name
+```
+
+> example
+
+```bash
+docker compose up -d server php mysql
+```
+
+> As mentioned in a [doc](https://docs.docker.com/compose/reference/up/), or the help of docker-compose up
+>
+> - `--build`: build images before starting containers.
+> - `--force-recreate`: Recreate containers even if their configuration and image haven't changed.
+> - `--build` is a straightforward and it will create the docker images before starting the containers. The `--force-recreate` flag will stop the currently running containers forcefully and spin up all the containers again even if you do not have changed anything into it's configuration. So, if there are any changes, those will be picked-up into the newly created containers while preserving the state of volumes. The counter to this is `--no-recreate` to keep the containers in their existing state and it will not consider the respective changes into the configuration.
+
+run and rebuild the images if something changed in Dockerfiles or there are new versions of images
+
+```bash
+docker compose up --build -d
+```
+
+rebuild image of service with no cache
+
+```bash
+docker-compose build --no-cache service-name
+```
+
+run and forcefully recreate containers even if they are already running, also rebuild the images if there are new versions of images
+
+```bash
+docker compose up --force-recreate --build -d
+docker image prune -f
+```
+
+start in detached mode
+
+```bash
+docker compose up -d
+```
+
+stop all containers from `docker-compose.yaml` and delete them + networks
+
+```bash
+docker compose down
+```
+
+stop all containers from `docker-compose.yaml` and delete all including volumes  
+
+```bash
+docker compose down -v
+```
+
+just build or rebuild the images from `docker-compose.yaml`  
+
+```bash
+docker compose build
+```
+
+run the service described in `docker-compose.yaml` file
+
+```bash
+docker compose run service-name command-name
+```
+
+> example
+
+```bash
+docker compose run npm init
+```
+
+---
+
+### docker compose control startup
+
+> On startup, Compose does not wait until a container is “ready”, only until it’s running. This can cause issues if, for example you have a relational database system that needs to start its own services before being able to handle incoming connections.
+
+The solution for detecting the ready state of a service is to use the `condition` attribute with one of the following options:
+
+- `service_started`. it's default, when use `depends_on`.
+- `service_healthy`. This specifies that a dependency is expected to be “healthy”, which is defined with `healthcheck`, before starting a dependent service.
+- `service_completed_successfully`. This specifies that a dependency is expected to run to successful completion before starting a dependent service.
+
+> example  
+> don't forget make `healthcheck:` in dependent service section
+
+```yaml
+depends_on:
+      service-name:
+        condition: service_healthy
+```
+
+---
+
+### docker compose healthchecks
+
+default
+
+```yaml
+test: ["CMD", "curl", "-f", "http://localhost"]
+```
+
+default parameters
+
+```yaml
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost"]
+  interval: 1m30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+```
+
+another variants
+
+```yaml
+test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+```
+
+```yaml
+test: curl -f https://localhost || exit 1
+```
+
+**my variant**  
+`-f`, `--fail` - fail fast with no output on HTTP errors  
+`-k`, `--insecure` - allow insecure server connections  
+`|| exit 1` - OR operator. If left part returns error (it can return different error codes but we need just `1`)
+
+> The docker curl command returns exit codes such as `0`, `1`, `2` or `3` and many more. If the application returns the status code `200`, the docker curl command will return the exit code `0` and if it fails, it will return exit code `1`.  
+> Hence, docker health check command will return healthy if the exit code is `0` and returns unhealthy if the exit code is `1`.
+
+```yaml
+healthcheck:
+      test: curl -f -k https://localhost:8999 || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+```
+
+dependent service on this healthcheck
+
+```yaml
+depends_on:
+      service-name:
+        condition: service_healthy
+```
+
+---
+
+## docker network
+
+### `host.docker.internal`
+
+> Use `host.docker.internal` to reach `localhost` - machine that runs `docker`.  
+> **Docker Desktop** maps `host.docker.internal` automatically.  
+> You can map any resources with `extra_hosts`
+
+to map `host.docker.internal` on linux in `docker-compose.yaml` add this to the service that needs it:
+
+```yaml
+extra_hosts:
+ - "host.docker.internal:host-gateway"
+```
+
+---
+
+## docker commands
+
+### docker help
 
 show help on any command  
 
@@ -17,7 +209,7 @@ docker login -u username
 
 ---
 
-## docker inspect
+### docker inspect
 
 inspect the image  
 
@@ -45,108 +237,78 @@ docker container inspect container-name 2>&1 | grep "IPAddress"
 
 ---
 
-## docker compose
+### docker run
 
-> [!NOTE]
-> docker compose is v2 of docker-compose
+>Pulls image from dockerhub and runs a container based on it.  
+>If an image have already been pulled it will use local image version instead.  
+>`docker run` WILL NOT UPDATE local image, you need to use docker pull to update the local image .  
+>**Attached mode is the default.**
 
-> [!example] 
->  create and run containers specified in `docker-compose.yaml` in current dir  
-> `docker compose up`  
-> `docker-compose up`
-
-create and run only specific services from current `docker-compose.yaml`  
-`docker compose up -d service-name`
-
-* examples
-  * `docker compose up -d server php mysql`
-
-start and rebuild the images of something changed in Dockerfiles  
-`docker compose up --build`
-
-start in detached mode  
-`docker compose up -d`  
-`docker-compose up -d`
-
-stop all containers from `docker-compose.yaml` and delete them + networks  
-`docker compose down`  
-`docker-compose down`
-
-stop all containers from `docker-compose.yaml` and delete all including volumes  
-`docker compose down -v`  
-`docker-compose down -v`
-
-just build or rebuild the images from `docker-compose.yaml`  
-`docker compose build`
-
-run the service described in `docker-compose.yaml` file
-`docker compose run service-name command-name`
-
-> [!example]
-> `docker compose run npm init`
-
-- example
-  - `docker compose run npm init`
-
----
-
-## DOCKER RUN
-
-> [!info]
-> Pulls image from dockerhub and runs a container based on it.  
-> If an image have already been pulled it will use local image version instead.  
-> `docker run` WILL NOT UPDATE local image, you need to use docker pull to.  
-> Attached mode is the default.
-
-update the local image  
-attached and interactive example
+> attached and interactive example
 
 ```bash
 docker run --name rng_app --rm -it rng_py_app:latest
 ```
 
-# detached example
+> detached example
 
+```bash
 docker run --name goalsapp -p 3000:80 --rm -d goals:node12
+```
 
-# Test docker
+> Test docker
 
-sudo docker run hello-world
+```bash
+docker run hello-world
+```
 
-# pull the image and run the container in attached mode
+pull the image and run the container in attached mode
 
-sudo docker run image-name
+```bash
+docker run image-name
+```
 
-# pull the image and run the container in detached mode
+pull the image and run the container in detached mode
 
+```bash
 sudo docker run -d image-name
+```
 
-# run the container in detached mode but interactively
+- run the container in detached mode but interactively
 
-docker run -it -d image-name
+  - ```bash
+    docker run -it -d image-name
+    ```
 
-# and the you can attach to the container
+  - and the you can connect to the container
 
-docker container attach container-name
+  - ```bash
+    docker container attach container-name
+    ```
 
-# run the container and login inside
+run the container and login inside  
+-i interactive  
+-t tty pseudo terminal to container
 
-# -i interactive
+```bash
+docker run -it image-name
+```
 
-# -t tty pseudo terminal to container
+run container on specific port
 
-sudo docker run -it image-name
+```bash
+docker run -p host-port:container-port
+```
 
-# run container on specific port
+> example
 
-sudo docker run -p host-port:container-port
-
-# example
-
+```bash
 docker run -p 3000:80 image-name
+```
 
-# docker run -v maps local host directories to the directories inside the Docker container
+docker run -v maps local host directories to the directories inside the Docker container
 
+```bash
 docker run -d --name=netdata \
   -p 19999:19999 \
   -v /proc:/host/proc:ro \
@@ -155,74 +317,41 @@ docker run -d --name=netdata \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   netdata/netdata
+```
 
-# run non-latest container with tag add ':tag' to the name of the container, for example
+run non-latest container with tag add `:tag` to the name of the container, for example
 
-sudo docker run -d -p 80:80 static-website:beta
+```bash
+docker run -d -p 80:80 static-website:beta
+```
 
-# run container with random port - '-P'
+run container with random port - `-P`
 
-sudo docker run -d -P image-name
+```bash
+docker run -d -P image-name
+```
 
-# run docker container with specified name
+run docker container with specified name
 
+```bash
 docker run --name container-name image-name
+```
 
-# for example
+> example
 
+```bash
 docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
+```
 
-### --rm ### run container and remove it after it will be stopped
+`--rm` - run container and remove it after it stopped
 
+```bash
 docker run --rm image-name
+```
 
-*************************************************
+---
 
-### UTILITY CONTAINERS (not official name)
-
-*************************************************
-
-# run container interactively and execute some command inside of it
-
-docker run -it --name container-name image-name command-name
-
-# example
-
-docker run -it --name util-nodejs wanderingmono/docker-s7:util-nodejs-v0.1 npm init
-
-# run utility container with host dir bind mount
-
-#and command to init node project
-docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.1 npm init
-
-# same and using ENTRYPOINT in Dockerfile
-
-#to secure that we can use only npm commands
-docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry init
-docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install
-docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install express --save
-
-# --save - npm argument to add express as a
-
-# package as a dependency to this project
-
--------------------------------------------------
-
-# Utility Containers with docker compose
-
--------------------------------------------------
-
-# run the service described in docker-compose.yaml file
-
-docker compose run service-name command-name
-
-# example
-
-docker compose run --rm npm init
-
-*************************************************
-
-# DOCKER EXEC
+# docker exec
 
 *************************************************
 
@@ -323,7 +452,7 @@ sudo docker attach container-name
 
 *************************************************
 
-### DOCKER LOGIN & DOCKER LOGOUT
+#### DOCKER LOGIN & DOCKER LOGOUT
 
 *************************************************
 
@@ -493,13 +622,13 @@ docker volume prune
 
 docker volume prune -f
 
-# if you can't delete volumes with prune try:
+# if you can't delete volumes with prune try
 
 # WARNING! It's going to really remove all volumes including named-ones
 
 docker volume rm $(docker volume ls -qf dangling=true)
 
-# You can remove all existing containers then remove all volumes.
+# You can remove all existing containers then remove all volumes
 
 docker rm -vf $(docker ps -aq) && docker volume prune -f
 
@@ -525,7 +654,7 @@ docker build -t rng_py_app:latest .
 
 docker build -t image-name .
 
-# :name to tag the image with something, for example:
+# :name to tag the image with something, for example
 
 docker build -t static-website:beta .
 
@@ -567,7 +696,7 @@ docker build --platform linux/amd64 --target build -f frontend/Dockerfile.prod -
 
 *************************************************
 
-### DOCKER VOLUME
+#### DOCKER VOLUME
 
 *************************************************
 
@@ -605,7 +734,7 @@ docker volume prune
 
 # effective when you need to lock something inside the container, if it can
 
-#be deleted by another command or module
+# be deleted by another command or module
 
 # Volumes are read-write by default, use ":ro" to make them read-only
 
@@ -619,7 +748,7 @@ VOLUME ["/app/node_modules"]
 
 # this is the only way to ensure that it will override another bind mount if
 
-#you needed this
+# you needed this
 
 # -v /container/path
 
@@ -661,13 +790,13 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/Users/serj/My Driv
 
 # to reduce the lenth of the path to the project folder you can use pwd
 
-# macOS / Linux:
+# macOS / Linux
 
 -v "$(pwd):/container/path"
 -v "$(pwd)/local/path:/container/path"
 -v "$(pwd):/app"
 
-# Windows:
+# Windows
 
 -v "%cd%":/app
 
@@ -676,7 +805,7 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/Users/serj/My Driv
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app"  wanderingmono/docker-s3:feedback-web-nodejs-v0.3
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd)/feedback:/app/feedback" -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
 
-### Read-only volumes
+#### Read-only volumes
 
 docker run -v local/path:/container/path:ro
 
@@ -687,11 +816,11 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/node_modules wanderingmo
 
 # exclude folders that need to be writable by defining another anonymous or
 
-#named volume
+# named volume
 docker run -d --rm -p 3000:80 --name feedback-web-nodej
 s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.4
 
-### nodejs setup
+#### nodejs setup
 
 # typical nodejs setup
 
@@ -703,9 +832,9 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_module
 
 # will not overwrite the node_modules directory inside the container
 
-# more info here https://stackoverflow.com/questions/54269442/why-does-docker-create-empty-node-modules-and-how-to-avoid-it/54278208#54278208
+# more info here <https://stackoverflow.com/questions/54269442/why-does-docker-create-empty-node-modules-and-how-to-avoid-it/54278208#54278208>
 
-# and here https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22166920#questions/13139726
+# and here <https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22166920#questions/13139726>
 
 # example
 
@@ -729,7 +858,7 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /ap
 
 # BUT be aware, for example typical React app need exposed ports anyway
 
-# because frontend app connects to the backend app through the local browser,
+# because frontend app connects to the backend app through the local browser
 
 # not through server because code actually executes in browser, not server
 
@@ -770,10 +899,10 @@ extra_hosts:
 
 # examples
 
-http://host.docker.internal:3000
+<http://host.docker.internal:3000>
 mongodb://host.docker.internal:27017
 
-### DOCKER NETWORK
+#### DOCKER NETWORK
 
 # create docker network
 
@@ -783,9 +912,9 @@ docker network create network-name
 
 docker network ls
 
-# use created network with container and you don't need to publish ports,
+# use created network with container and you don't need to publish ports
 
-#because containers will be using docker network
+# because containers will be using docker network
 docker run -d --name container-name --network network-name image-name
 
 # example
@@ -793,22 +922,22 @@ docker run -d --name container-name --network network-name image-name
 docker run -d --name mongodb --network favorites-net mongo
 docker run --name favorites-web-nodejs --network favorites-net -d --rm -p 3000:3000 wanderingmono/docker-s4:favorites-web-nodejs-v0.4-mdb-net
 
-# to address your app to another container in the same docker network,
+# to address your app to another container in the same docker network
 
-#use container-name in your code
+# use container-name in your code
 protocol-name://container-name:27017/
 
 # examples
 
 mongodb://mongodb:27017/swfavorites
 
-### NODEJS + REACTJS + MONGODB EXAMPLE ----------
+#### NODEJS + REACTJS + MONGODB EXAMPLE ----------
 
 # three containers with docker network
 
 # NOTE if react app don't work properly
 
-#try using interactive mode docker run -it
+# try using interactive mode docker run -it
 
 # database - mongodb
 
@@ -860,7 +989,7 @@ docker run --rm -d -p 3000:3000 \
 
 # to use ENV parameters, first, you need to define this ENV parameter in code
 
-# Place ENV variables at the bottom of the file,
+# Place ENV variables at the bottom of the file
 
 # so, the docker will not reexecute unnessesary layers
 
@@ -912,7 +1041,7 @@ docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-web-nodejs -v 
 
 *************************************************
 
-# Place ARG variables at the bottom of the file,
+# Place ARG variables at the bottom of the file
 
 # so, the docker will not reexecute unnessesary layers
 
@@ -969,11 +1098,11 @@ docker history image-name
 
 # script for docker CAdvisor
 
-#!/bin/bash
+# !/bin/bash
 
 # Runs Cadvisor Monitoring tool for Docker Containers
 
-VERSION=v0.37.0 # use the latest release version from https://github.com/google/cadvisor/releases
+VERSION=v0.37.0 # use the latest release version from <https://github.com/google/cadvisor/releases>
 sudo docker run \
   --volume=/:/rootfs:ro \
   --volume=/var/run:/var/run:ro \
@@ -1001,7 +1130,7 @@ docker port container-name
 
 *************************************************
 
-### Docker troubleshooting
+#### Docker troubleshooting
 
 *************************************************
 
@@ -1018,11 +1147,52 @@ I'm not sure if that is everything to fix it, but change the dataFolder in the ~
 """
 ~/Library/Group\ Containers/group.com.docker/settings.json
 
-### DOCKER image folder
+#### DOCKER image folder
 
 ~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
 
-### DOCKER user folder
+#### DOCKER user folder
 
 ~/.docker
 
+---
+
+## Utility Containers (not official name)
+
+# run container interactively and execute some command inside of it
+
+docker run -it --name container-name image-name command-name
+
+# example
+
+docker run -it --name util-nodejs wanderingmono/docker-s7:util-nodejs-v0.1 npm init
+
+# run utility container with host dir bind mount
+
+# and command to init node project
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.1 npm init
+
+# same and using ENTRYPOINT in Dockerfile
+
+# to secure that we can use only npm commands
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry init
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install
+docker run -it --rm -v "$(pwd):/app" wanderingmono/docker-s7:util-nodejs-v0.2-entry install express --save
+
+# --save - npm argument to add express as a
+
+# package as a dependency to this project
+
+-------------------------------------------------
+
+# Utility Containers with docker compose
+
+-------------------------------------------------
+
+# run the service described in docker-compose.yaml file
+
+docker compose run service-name command-name
+
+# example
+
+docker compose run --rm npm init

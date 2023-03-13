@@ -23,8 +23,6 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## vim commands
 
----
-
 This is command mode editor for files. Other editors in Linux are emacs, gedit vi editor is most popular
 It has 3 modes:
 
@@ -37,8 +35,6 @@ Note: When you open the vim editor, it will be in the **command mode** by defaul
 ---
 
 ### Command Mode
-
----
 
 - gg - To go to the beginning of the page
 - G - To go to end of the page
@@ -64,8 +60,6 @@ Note: When you open the vim editor, it will be in the **command mode** by defaul
 
 ### Extended Mode: (Colon Mode)
 
----
-
 Extended Mode is used for save and quit or save without quit using `Esc` Key with `:`
 
 - Esc+:w - To Save the changes
@@ -82,8 +76,6 @@ Extended Mode is used for save and quit or save without quit using `Esc` Key wit
 ---
 
 #### Extended Mode - additional commands
-
----
 
 search and replace only once every line
 
@@ -125,8 +117,6 @@ search and replace g - globally (more than one time in line) with nothing
 ---
 
 ## vim.rc
-
----
 
 Enable syntax in vim
 

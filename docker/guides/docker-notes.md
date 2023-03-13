@@ -10,6 +10,8 @@ url: https://github.com/wandering-mono/snippets.git
 
 # Docker Notes
 
+---
+
 - [Docker Notes](#docker-notes)
   - [Docker \& Kubernetes. The Practical Guide \[2023 Edition\] \[Udemy\]](#docker--kubernetes-the-practical-guide-2023-edition-udemy)
     - [Section 2. Docker Images \& Containers. The Core Building Blocks](#section-2-docker-images--containers-the-core-building-blocks)
@@ -21,6 +23,8 @@ url: https://github.com/wandering-mono/snippets.git
         - [Solution 1:  Use  predefined "node" user (if you're lucky)](#solution-1--use--predefined-node-user-if-youre-lucky)
         - [Solution 2:  Remove the predefined "node" user and add yourself as the user](#solution-2--remove-the-predefined-node-user-and-add-yourself-as-the-user)
       - [118. Fixing Errors With The Next Lecture](#118-fixing-errors-with-the-next-lecture)
+
+---
 
 ## Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy]
 
