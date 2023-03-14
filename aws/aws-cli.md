@@ -1,155 +1,201 @@
-*************************************************
-# awscli reference
-*************************************************
-https://docs.aws.amazon.com/cli/latest/reference/
+---
+title: aws-cli
+categories:
+  - software
+  - notes
+  - guides
+author: wandering-mono
+url: https://github.com/wandering-mono/snippets.git
+---
 
-aws-cli-part-1.pdf
+# aws-cli
 
+- [aws-cli](#aws-cli)
+  - [aws-cli reference](#aws-cli-reference)
+  - [aws-cli install macOS and pip](#aws-cli-install-macos-and-pip)
+  - [aws configure](#aws-configure)
+  - [aws help](#aws-help)
+  - [aws sts](#aws-sts)
+  - [aws ec2](#aws-ec2)
+    - [attach volume](#attach-volume)
+  - [aws s3](#aws-s3)
+    - [`aws s3 mb` - make bucket](#aws-s3-mb---make-bucket)
+    - [`aws s3 cp` - copy](#aws-s3-cp---copy)
+    - [`aws s3 ls` - list](#aws-s3-ls---list)
+  - [aws-cli example scripts](#aws-cli-example-scripts)
+    - [Amazon Linux 2](#amazon-linux-2)
+    - [CentOS 7](#centos-7)
 
+## aws-cli reference
 
+<https://docs.aws.amazon.com/cli/latest/reference/>
 
-*************************************************
-# awscli install
-*************************************************
+---
 
-# brew ------------------------------------------
+## aws-cli install macOS and pip
+
+brew
+
+```bash
 brew install awscli
+```
 
-# python ----------------------------------------
+python
+
+```bash
 pip install awscli
+```
 
-# awscli completer install ----------------------
-aws-cli-command-completer.pdf
+awscli completer install  
+[aws-cli command completion install.md](guides/aws-cli command completion install.md)
 
+---
 
+## aws configure
 
+> first create user in aws console with access key  
+> use it whenever you want to change user or change config
 
-*************************************************
-# aws configure
-*************************************************
-# first create user in aws console with access key
-# use it whenever you want to change user or change config
-aws configure
+aws-cli config files
 
-# awscli config files
+```bash
 ls ~/.aws
+```
 
-# Setting the AWS CLI output format
+setting the aws-cli output format
+
+```bash
 vim ~/.aws/config
+```
+
+`config`
+
+```text
 output = table
+```
 
-<!-- json – The output is formatted as a JSON string.
+- `json` – The output is formatted as a JSON string.
+- `yaml` – The output is formatted as a YAML string.
+- yaml-stream – The output is streamed and formatted as a YAML string. Streaming allows for faster handling of large data types.
+- `text` – The output is formatted as multiple lines of tab-separated string values. This can be useful to pass the output to a text processor, like grep, sed, or awk.
+- `table` – The output is formatted as a table using the characters `+|-` to form the cell borders. It typically presents the information in a "human-friendly" format that is much easier to read than the others, but not as programmatically useful.
 
-yaml – The output is formatted as a YAML string.
+---
 
-yaml-stream – The output is streamed and formatted as a YAML string. Streaming allows for faster handling of large data types.
+## aws help
 
-text – The output is formatted as multiple lines of tab-separated string values. This can be useful to pass the output to a text processor, like grep, sed, or awk.
+you can get help for every aws command with help
 
-table – The output is formatted as a table using the characters +|- to form the cell borders. It typically presents the information in a "human-friendly" format that is much easier to read than the others, but not as programmatically useful. -->
-
-
-
-
-*************************************************
-# aws help
-*************************************************
-# you can get help for every aws command with help
+```bash
 aws ec2 help
 aws s3 mb help
+```
 
+---
 
+## aws sts
 
+`aws sts` - check current user/session/etc
 
-*************************************************
-# aws sts - check current user/session/etc
-*************************************************
-# check current user and current account
+```bash
 aws sts get-caller-identity 
+```
 
+---
 
+## aws ec2
 
+show all instances
 
-*************************************************
-# aws ec2
-*************************************************
-# show all instances
+```bash
 aws ec2 describe-instances
+```
 
+---
 
+### attach volume
 
--------------------------------------------------
-# attach volume
--------------------------------------------------
-# to attach volume you must know InstanceId
-# also view the root volume mapping or another attached volumes
-# root volume - DeviceName - /dev/sda1 
-# BlockDeviceMappings - DeviceName - /dev/sdp
-# Recommended device names for Linux: /dev/sda1 for root volume. /dev/sd[f-p] for data volumes. 
-aws ec2 describe-instances
+> To attach volume you must know `InstanceId`.  
+> Also view the root volume mapping or another attached volumes.  
+> root volume - DeviceName - `/dev/sda1`.  
+> BlockDeviceMappings - DeviceName - `/dev/sdp`.
+>
+> Recommended device names for Linux: `/dev/sda1` for root volume. `/dev/sd[f-p]` for data volumes.
 
-# or
-aws ec2 describe-instances | grep InstanceId
+1. ```bash
+    aws ec2 describe-instances
+    ```
 
-# create volume and copy its id
+    or  
 
-# show avalaible volumes
-aws ec2 describe-volumes
+    ```bash
+    aws ec2 describe-instances | grep InstanceId
+    ```
 
-# attach volume 
-aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
+2. create volume and copy its id  
+    show avalaible volumes  
 
+    ```bash
+    aws ec2 describe-volumes
+    ```
 
+3. attach volume  
 
+    ```bash
+    aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
+    ```
 
+---
 
-*************************************************
-# aws s3
-*************************************************
+## aws s3
 
--------------------------------------------------
-# aws s3 mb = make bucket
--------------------------------------------------
-# create new s3 bucket
-# mb = make bucket
+### `aws s3 mb` - make bucket
+
+create new s3 bucket
+
+```bash
 aws s3 mb s3://bucket-name
+```
 
+---
 
--------------------------------------------------
-# aws s3 cp = copy
--------------------------------------------------
-# copy file to s3 bucket
+### `aws s3 cp` - copy
+
+copy file to s3 bucket
+
+```bash
 aws s3 cp filename s3://bucket-name
-# example
+```
+
+> example
+
+```bash
 aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
+```
 
+---
 
-# copy file from s3 bucket
-aws s3 cp s3://bucket-name/path/to/filename /path/to/dir/
-# example
-aws s3 cp s3://vprofile-artifact-storage-mono/vprofile-v2.war /tmp/
+### `aws s3 ls` - list
 
+show contents of s3 bucket
 
--------------------------------------------------
-# aws s3 ls = list
--------------------------------------------------
-# show contents of s3 bucket
+```bash
 aws s3 ls s3://bucket-name
-# example
-aws s3 ls s3://vprofile-artifact-storage-mono
+```
 
+> example
 
+```bash
+aws s3 ls s3://vprofile-artifact-storage
+```
 
+---
 
+## aws-cli example scripts
 
-*************************************************
-# aws-cli example scripts
-*************************************************
+### Amazon Linux 2
 
--------------------------------------------------
-# Amazon Linux 2
--------------------------------------------------
-
+```bash
 aws ec2 run-instances \
  --image-id ami-0dfcb1ef8550277af \
  --count 1 \
@@ -157,15 +203,17 @@ aws ec2 run-instances \
  --key-name mono-test \
  --security-groups mono-test-sg \
  --user-data file://~/My\ Drive/study/code/commands/bash-scripts/provisioning-scripts/multi-os-base-aws-provision.sh
+```
 
+---
 
+### CentOS 7
 
--------------------------------------------------
-# CentOS 7
--------------------------------------------------
-# US locale fixed
-# updated
-# installed epel-release, vim, htop, bat
+US locale fixed  
+updated  
+installed `epel-release vim htop bat`
+
+```bash
 aws ec2 run-instances \
  --image-id ami-002070d43b0a4f171 \
  --count 1 \
@@ -173,15 +221,27 @@ aws ec2 run-instances \
  --key-name tween-dev-nvir \
  --security-groups tween-web-dev-sg \
  --user-data file://~/My\ Drive/study/code/commands/bash-scripts/provisioning-scripts/centos7.sh
+```
 
-# create tags for instance
+create tags for instance
+
+```bash
 aws ec2 create-tags \
   --resources i-0efd2d3a7e2070c4f \
   --tags Key=Name,Value=webtest
+```
 
-# grep PublicDnsName
+grep PublicDnsName
+
+```bash
 aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsName
+```
 
-# ssh in instance
-# -o ServerAliveInterval=60 for not being disconnected every 60 seconds
+ssh in instance  
+`-o ServerAliveInterval=60` for not being disconnected every 60 seconds
+
+```bash
 ssh -i "/path/to/key-name.pem" -o ServerAliveInterval=200 username@srv-name
+```
+
+---
