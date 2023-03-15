@@ -10,6 +10,13 @@ url: https://github.com/wandering-mono/snippets.git
 
 # Vim
 
+- [Vim](#vim)
+  - [vim commands](#vim-commands)
+    - [Command Mode](#command-mode)
+    - [Extended Mode: (Colon Mode)](#extended-mode-colon-mode)
+      - [Extended Mode - additional commands](#extended-mode---additional-commands)
+  - [vim.rc](#vimrc)
+
 ---
 
 - [Vim](#vim)
@@ -41,7 +48,7 @@ Note: When you open the vim editor, it will be in the **command mode** by defaul
 - w - To move the cursor forward, word by word
 - b - To move the cursor backward, word by word
 - nw - To move the cursor forward to n words (SW)
-- nb - To move the cursor backward to n words {SB)
+- nb - To move the cursor backward to n words (SB)
 - u - To undo last change (word)
 - Ctrl+R - To redo the changes
 - U - To undo the previous changes (entire line)
@@ -52,7 +59,7 @@ Note: When you open the vim editor, it will be in the **command mode** by defaul
 - x - To paste line above the cursor position
 - X - To delete the world letter by letter (like DEL Key)
 - dd - To delete entire line
-- ndd - To delete n no. of lines from cursor position{Sdd)
+- ndd - To delete n no. of lines from cursor position (Sdd)
 - gg - dG - delete all lines in file (need to be at the beginning of the file)
 - / - To search a word in the file
 
@@ -83,11 +90,11 @@ search and replace only once every line
 :%s/word-to-replace/word-that-replace
 ```
 
-> example  
->
-> ```bash
-> :%s/coronavirus/covid19
-> ```
+> example
+
+```bash
+:%s/coronavirus/covid19
+```
 
 search and replace g - globally (more than one time in line)
 
@@ -97,9 +104,10 @@ search and replace g - globally (more than one time in line)
 
 > example  
 >
-> ```bash
-> :%s/coronavirus/covid19/g
-> ```
+
+```bash
+:%s/coronavirus/covid19/g
+```
 
 search and replace g - globally (more than one time in line) with nothing
 
@@ -109,10 +117,38 @@ search and replace g - globally (more than one time in line) with nothing
 
 > example  
 >
-> ```bash
-> :%s/coronavirus//g
-> ```
->
+
+```bash
+:%s/coronavirus//g
+```
+
+search and replace with delimiters
+
+- example with `apt` `sources.list`
+
+  - make `sources.list` backup
+
+  - ```bash
+        sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+        ```
+
+  - ```bash
+        sudo vim /etc/apt/sources.list
+        ```
+
+  - `:` to enter colon mode in `vim`
+
+  - switch to main repos
+
+  - ```text
+        %s/http:\/\/us\./http:\/\//g
+        ```
+
+  - or to Armenia repos
+
+  - ```text
+        %s/http:\/\/ru\./http:\/\/am\./g
+        ```
 
 ---
 

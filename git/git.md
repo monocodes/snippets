@@ -189,7 +189,7 @@ commit with message after `git add filename`
 git commit -m "Commentary"
 ```
 
-commit with message and add all modified files in the repository to the current commit
+commit with message and add automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
 
 ```bash
 git commit -am "Commentary"
@@ -356,13 +356,13 @@ git checkout filename
 
   - ```bash
         git checkout main
-        ```
+    ```
 
   - get back to previous commit
 
   - ```bash
         git reset --hard ee7641
-        ```
+    ```
 
 ---
 
