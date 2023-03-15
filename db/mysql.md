@@ -43,11 +43,11 @@ show tables;
 connect to mysql instance via `mysql-client`  
 `-h` - host
 
-```
+```bash
 mysql -h hostname -u username -pPassword
 ```
 
->   example
+> example
 
 ```bash
 mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pG6TfrbTYjU2uM3TidgP0
@@ -69,11 +69,10 @@ restore mysql database backup
 mysql -h hostname -u username -pPassword database-name < backup-name.sql
 ```
 
->   example
+> example
 
 ```bash
 mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pG6TfrbTYjU2uM3TidgP0 accounts < db_backup.sql
 ```
 
 ---
-
