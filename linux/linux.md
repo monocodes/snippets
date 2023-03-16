@@ -12,6 +12,18 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## linux commands
 
+### apt
+
+#### apt search
+
+search package with apt
+
+```bash
+apt search package-name
+```
+
+---
+
 ### sed
 
 - `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
@@ -22,7 +34,7 @@ url: https://github.com/wandering-mono/snippets.git
         sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
         # or
         sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
-        ```
+    ```
 
   - switch to Armenia repos
 
@@ -30,7 +42,7 @@ url: https://github.com/wandering-mono/snippets.git
         sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
         # or
         sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
-        ```
+    ```
 
 ---
 

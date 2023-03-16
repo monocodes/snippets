@@ -19,6 +19,7 @@ url: https://github.com/wandering-mono/snippets.git
     ```bash
     sudo apt search jdk
     sudo apt install openjdk-8-jdk -y
+    
     java -version # check installed version
     openjdk version "1.8.0_362"
     OpenJDK Runtime Environment (build 1.8.0_362-8u362-ga-0ubuntu1~22.04-b09)
@@ -36,6 +37,58 @@ url: https://github.com/wandering-mono/snippets.git
     Default locale: en_US, platform encoding: UTF-8
     OS name: "linux", version: "5.15.0-67-generic", arch: "amd64", family: "unix"
     ```
+
+---
+
+### maven install different version
+
+1.  search for needed version in **maven archive** - <https://archive.apache.org/dist/maven/>
+
+2.  choose version and go to `binaries\` dir  
+
+    >   for example <https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/>
+
+3.   download **tarball**
+
+    ```bash
+    wget https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+    ```
+
+4.  extract archive  
+
+    ```bash
+    tar xzvf apache-maven-3.3.9-bin.tar.gz
+    ```
+
+5.  move to the `/opt/` dir for example  
+
+    ```bash
+    sudo mv apache-maven-3.3.9 /opt/
+    ```
+
+6.  check maven binary version  
+
+    ```bash
+    /opt/apache-maven-3.3.9/bin/mvn -version
+    
+    Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T16:41:47+00:00)
+    Maven home: /opt/apache-maven-3.3.9
+    Java version: 1.8.0_362, vendor: Private Build
+    Java home: /usr/lib/jvm/java-8-openjdk-amd64/jre
+    Default locale: en_US, platform encoding: UTF-8
+    OS name: "linux", version: "5.15.0-67-generic", arch: "amd64", family: "unix"
+    ```
+
+7.  go to the project dir and try to use this version of maven with it  
+
+    >   example with vprofile-project
+
+    ```bash
+    cd ~/vprofile-project
+    /opt/apache-maven-3.3.9/bin/mvn clean install
+    ```
+
+    
 
 ---
 
@@ -72,5 +125,34 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## maven commands
 
-### mvn test
+### mvn phase commands
+
+>   run these commands inside the dir of the project  
+>   every phase will overwrite `target/` dir in project dir but not `clean` it  
+>   so, it's good to run `mvn clean install` instead of `mvn install`
+
+**test phase**  
+results of tests would be in `target/` dir  
+all downloaded dependencies will be in a user home dir `/home/username/.m2/repository`
+
+```bash
+mvn test
+```
+
+**install phase**  
+artefact would be in `target/` dir  
+all downloaded dependencies will be in a user home dir `/home/username/.m2/repository`  
+it's good to run `mvn clean install` instead of `mvn install`
+
+```bash
+mvn install
+```
+
+**clean `target/` dir**
+
+```bash
+mvn clean
+```
+
+---
 
