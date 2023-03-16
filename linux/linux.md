@@ -16,6 +16,8 @@ url: https://github.com/wandering-mono/snippets.git
       - [apt search](#apt-search)
     - [sed](#sed)
   - [linux packages](#linux-packages)
+    - [jdk](#jdk)
+  - [bash wildcards](#bash-wildcards)
 
 ## linux commands
 
@@ -61,3 +63,38 @@ package for  `ip -a` command - `iproute2`
 apt update
 apt install iproute2 -y
 ```
+
+### jdk
+
+check current main version
+
+```bash
+java -version
+```
+
+check installed jdk versions
+
+```bash
+/usr/lib/jvm
+```
+
+> example  
+> here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
+
+```bash
+ls /usr/lib/jvm
+java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
+java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
+```
+
+---
+
+## bash wildcards
+
+search any directory (`**`) any file with `.war` extension (`*.war`)
+
+```bash
+**/*.war
+```
+
+---

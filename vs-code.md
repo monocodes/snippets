@@ -1,7 +1,7 @@
 ---
 title: VS-Code
 categories:
-  - vs-code
+  - software
   - notes
   - guides
 author: wandering-mono

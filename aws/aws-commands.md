@@ -18,6 +18,34 @@ url: https://github.com/wandering-mono/snippets.git
     - [mount EFS volume](#mount-efs-volume)
   - [AWS Network](#aws-network)
 
+## instances deploying
+
+### ssh to aws instances
+
+ssh to aws instance
+
+```bash
+ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
+```
+
+username for different OS
+
+-   `centos` - CentOS 7
+-   `ubuntu` - Ubuntu 18-22
+-   `ec2-user` - Amazon Linux 2
+
+---
+
+### user-data
+
+check the user-data provided during deployment and debug it
+
+```bash
+curl http://169.254.169.254/latest/user-data
+```
+
+---
+
 ## Amazon Linux 2 AMIs
 
 ### amazon-linux-extras
@@ -97,11 +125,5 @@ home/ec2-user/efs      : successfully mounted
 ---
 
 ## AWS Network
-
-from inside the EC2 instance show user metadata
-
-```bash
-curl http://169.254.169.254/latest/user-data
-```
 
 ---
