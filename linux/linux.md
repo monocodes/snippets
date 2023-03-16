@@ -10,6 +10,13 @@ url: https://github.com/wandering-mono/snippets.git
 
 # linux
 
+- [linux](#linux)
+  - [linux commands](#linux-commands)
+    - [apt](#apt)
+      - [apt search](#apt-search)
+    - [sed](#sed)
+  - [linux packages](#linux-packages)
+
 ## linux commands
 
 ### apt

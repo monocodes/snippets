@@ -10,6 +10,13 @@ url: https://github.com/wandering-mono/snippets.git
 
 # maven
 
+- [maven](#maven)
+  - [maven install ubuntu](#maven-install-ubuntu)
+    - [maven install different version](#maven-install-different-version)
+  - [maven phases](#maven-phases)
+  - [maven commands](#maven-commands)
+    - [mvn phase commands](#mvn-phase-commands)
+
 ## maven install ubuntu
 
 1. first, you need to install `jdk`
@@ -42,31 +49,31 @@ url: https://github.com/wandering-mono/snippets.git
 
 ### maven install different version
 
-1.  search for needed version in **maven archive** - <https://archive.apache.org/dist/maven/>
+1. search for needed version in **maven archive** - <https://archive.apache.org/dist/maven/>
 
-2.  choose version and go to `binaries\` dir  
+2. choose version and go to `binaries\` dir  
 
     >   for example <https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/>
 
-3.   download **tarball**
+3. download **tarball**
 
     ```bash
     wget https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
     ```
 
-4.  extract archive  
+4. extract archive  
 
     ```bash
     tar xzvf apache-maven-3.3.9-bin.tar.gz
     ```
 
-5.  move to the `/opt/` dir for example  
+5. move to the `/opt/` dir for example  
 
     ```bash
     sudo mv apache-maven-3.3.9 /opt/
     ```
 
-6.  check maven binary version  
+6. check maven binary version  
 
     ```bash
     /opt/apache-maven-3.3.9/bin/mvn -version
@@ -79,7 +86,7 @@ url: https://github.com/wandering-mono/snippets.git
     OS name: "linux", version: "5.15.0-67-generic", arch: "amd64", family: "unix"
     ```
 
-7.  go to the project dir and try to use this version of maven with it  
+7. go to the project dir and try to use this version of maven with it  
 
     >   example with vprofile-project
 
@@ -87,8 +94,6 @@ url: https://github.com/wandering-mono/snippets.git
     cd ~/vprofile-project
     /opt/apache-maven-3.3.9/bin/mvn clean install
     ```
-
-    
 
 ---
 
@@ -127,9 +132,9 @@ url: https://github.com/wandering-mono/snippets.git
 
 ### mvn phase commands
 
->   run these commands inside the dir of the project  
->   every phase will overwrite `target/` dir in project dir but not `clean` it  
->   so, it's good to run `mvn clean install` instead of `mvn install`
+> run these commands inside the dir of the project  
+> every phase will overwrite `target/` dir in project dir but not `clean` it  
+> so, it's good to run `mvn clean install` instead of `mvn install`
 
 **test phase**  
 results of tests would be in `target/` dir  
@@ -155,4 +160,3 @@ mvn clean
 ```
 
 ---
-
