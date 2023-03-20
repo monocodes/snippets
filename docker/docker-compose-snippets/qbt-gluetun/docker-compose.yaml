@@ -2,7 +2,7 @@ version: "3.8"
 services:
   vpn:
     image: qmcgaw/gluetun
-    container_name: gluetun-pia
+    container_name: vpn
     cap_add:
       - net_admin
     devices:
@@ -26,16 +26,16 @@ services:
 
   qbt:
     image: linuxserver/qbittorrent:libtorrentv1
-    container_name: qbittorrent-gluetun
+    container_name: qbt
     network_mode: service:vpn
     volumes:
       - /volume1/docker/qbittorrent:/config
       - /volume1/data/data:/data
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - WEBUI_PORT=8999
       - PUID=1027
       - PGID=100
-      - TZ=Asia/Yerevan
     depends_on:
       - vpn
     healthcheck:
@@ -46,13 +46,14 @@ services:
       start_period: 10s
     restart: unless-stopped
 
-  port-tool:
+  port:
     build: ./port-tool
-    container_name: port-tool-qbt-gluetun
+    container_name: port
     network_mode: bridge
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     environment:
       # Timezone for accurate logs times
-      - TZ=Asia/Yerevan
       - PYTHONUNBUFFERED=1
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -64,12 +65,15 @@ services:
 
   mon:
     image: containrrr/watchtower
-    container_name: watchtower
+    container_name: mon
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
     environment:
       # WATCHTOWER_MONITOR_ONLY: 'true'
-      - TZ=Asia/Yerevan
+      - WATCHTOWER_CLEANUP=true # Removes old images after updating
+      - WATCHTOWER_INCLUDE_STOPPED=true # Will also include created and exited containers
+      - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
     env_file:
       - ./watchtower.env
-    command: qbittorrent-gluetun gluetun-pia watchtower
+    command: qbt vpn mon

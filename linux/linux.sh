@@ -115,7 +115,7 @@ mount -a
 # time, date
 *************************************************
 # check timezone
-timedatectl
+
 
 # list avalaible timezones
 timedatectl list-timezones

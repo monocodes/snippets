@@ -64,6 +64,8 @@ apt update
 apt install iproute2 -y
 ```
 
+---
+
 ### jdk
 
 check current main version
@@ -98,3 +100,30 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 ```
 
 ---
+
+## network
+
+### ifconfig.io
+
+<https://ifconfig.io/>
+
+Great diagnostic website. You can diagnose just with `curl` command from anywhere. Great for testing proper VPN connection.
+
+**Simple cURL API**!
+
+| command                       | result                                                       |
+| :---------------------------- | ------------------------------------------------------------ |
+| curl ifconfig.io/ip           | 146.70.28.163                                                |
+| curl ifconfig.io/ip           | 146.70.28.163                                                |
+| curl ifconfig.io/host         | 146.70.28.163                                                |
+| curl ifconfig.io/country_code | AT                                                           |
+| curl ifconfig.io/ua           | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 |
+| curl ifconfig.io/port         | 65218                                                        |
+| curl ifconfig.io/lang         | en-US,en;q=0.9,ru;q=0.8 $                                    |
+| curl ifconfig.io/encoding     | gzip                                                         |
+| curl ifconfig.io/mime         | text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7 |
+| curl ifconfig.io/forwarded    | 146.70.28.163                                                |
+| curl ifconfig.io/all          |                                                              |
+| curl ifconfig.io/all.xml      |                                                              |
+| curl ifconfig.io/all.json     |                                                              |
+| curl ifconfig.io/all.js       |                                                              |
