@@ -49,6 +49,39 @@ sudo apt-get install jenkins -y
 
 ---
 
+### java versions
+
+Installation of different versions of `java` here [maven.md](maven.md) 
+
+check current main version
+
+```bash
+java -version
+```
+
+check installed jdk versions
+
+```bash
+ls /usr/lib/jvm
+```
+
+> example  
+> here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
+
+```bash
+ls /usr/lib/jvm
+java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
+java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
+```
+
+use this paths to specify `java` installation in `Jenkins`
+
+```text
+/usr/lib/jvm/java-1.8.0-openjdk-amd64
+```
+
+---
+
 ## paths
 
 home dir
