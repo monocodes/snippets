@@ -10,6 +10,11 @@ url: https://github.com/wandering-mono/snippets.git
 
 # mysql
 
+- [mysql](#mysql)
+  - [mysql commands](#mysql-commands)
+  - [mysql-client commands](#mysql-client-commands)
+  - [mysql backup](#mysql-backup)
+
 ## mysql commands
 
 show databases
