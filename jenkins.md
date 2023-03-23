@@ -14,6 +14,7 @@ url: https://github.com/wandering-mono/snippets.git
 - [jenkins](#jenkins)
   - [install](#install)
     - [ubuntu](#ubuntu)
+    - [java versions](#java-versions)
   - [paths](#paths)
   - [install tools](#install-tools)
     - [jdk](#jdk)
@@ -51,7 +52,7 @@ sudo apt-get install jenkins -y
 
 ### java versions
 
-Installation of different versions of `java` here [maven.md](maven.md) 
+Installation of different versions of `java` here [maven.md](maven.md)
 
 check current main version
 

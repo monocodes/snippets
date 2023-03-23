@@ -18,13 +18,13 @@ Step-by-step tutorial on resize (increasing) the root partition:
 
 ## Check Disk status with parted command
 
-1. Check current Disk status with gparted. (Run this command: **parted** )
+Check current Disk status with gparted. (Run this command: **parted** )
 
 ![rrp 1 1 - How to resize a Root Partition in Ubuntu (Linux) (GPT)](https://dade2.net/wp-content/uploads/2021/08/rrp-1-1.png)
 
 ## Remove Current Partition
 
-2. I want to increase the root partition and the root partition is number two. Therefore, we need to delete the third partition, which is the swap partition, so that we can change the second partition. (Run this command: **rm 3**)
+I want to increase the root partition and the root partition is number two. Therefore, we need to delete the third partition, which is the swap partition, so that we can change the second partition. (Run this command: **rm 3**)
 
 ![rrp 2 - How to resize a Root Partition in Ubuntu (Linux) (GPT)](https://dade2.net/wp-content/uploads/2021/08/rrp-2.png)
 
@@ -33,7 +33,7 @@ As you can see in the image above, the system warns you that the partition is be
 
 ## Create and Resize partition with parted
 
-3. Now we are going to resize the partition with this command: **resizepart 2
+Now we are going to resize the partition with this command: **resizepart 2
 
 **
 

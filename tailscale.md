@@ -1,5 +1,8 @@
 # tailscale
 
+- [tailscale](#tailscale)
+  - [how to make synology nas as subnet router](#how-to-make-synology-nas-as-subnet-router)
+
 ## how to make synology nas as subnet router
 
 > <https://youtu.be/uJ8PsImiDrM>

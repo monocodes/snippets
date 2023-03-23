@@ -18,6 +18,8 @@ url: https://github.com/wandering-mono/snippets.git
   - [linux packages](#linux-packages)
     - [jdk](#jdk)
   - [bash wildcards](#bash-wildcards)
+  - [network](#network)
+    - [ifconfig.io](#ifconfigio)
 
 ## linux commands
 
@@ -68,7 +70,7 @@ apt install iproute2 -y
 
 ### jdk
 
-Installation of different versions of `java` here [maven.md](maven.md) 
+Installation of different versions of `java` here [maven.md](maven.md)
 
 check current main version
 

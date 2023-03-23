@@ -32,8 +32,6 @@ To complete this tutorial, you will need:
 
 - Docker installed on your server, following
 
-   
-
   Steps 1 and 2
 
   of
@@ -81,8 +79,8 @@ Copy
 
 Docker will pull the `containrrr/watchtower` image from Docker Hub after failing to find it locally on your server. It then creates and starts the container, returning output similar to this:
 
-```
-OutputUnable to find image 'containrrr/watchtower:latest' locally
+```text
+Unable to find image 'containrrr/watchtower:latest' locally
 latest: Pulling from containrrr/watchtower
 1045b2f97fda: Pull complete
 35a104a262d3: Pull complete
@@ -102,8 +100,8 @@ Copy
 
 Your output may be slightly different, but this output will list both containers:
 
-```
-OutputCONTAINER ID   IMAGE                   COMMAND                  CREATED         STATUS         PORTS      NAMES
+```text
+CONTAINER ID   IMAGE                   COMMAND                  CREATED         STATUS         PORTS      NAMES
 b6d1b765b2b8   containrrr/watchtower   "/watchtower custom_…"   2 minutes ago   Up 2 minutes   8080/tcp   watchtower
 56ac4341d662   ubuntu                  "sleep infinity"         6 minutes ago   Up 5 minutes              ubuntu-container
 ```
@@ -303,8 +301,8 @@ Copy
 
 Since this file does not exist yet in `test-container`, this is outputted:
 
-```
-Outputcat: /root/test.txt: No such file or directory
+```text
+cat: /root/test.txt: No such file or directory
 ```
 
 Now that you have verified that `test-container` does not contain the test file, it’s time to commit the change to your Docker repository. Committing the update from `edit-container` to the Docker image repository will trigger an update for `test-container` through `watchtower`, without your manual input.
@@ -347,8 +345,8 @@ Copy
 
 This time there won’t be an error :
 
-```
-OutputThis was updated
+```text
+This was updated
 ```
 
 After creating `test-container`, you never manually edited its contents. Instead, `watchtower` has completed an automatic update based on your updates to the base image of `ubuntu-nodejs` which was edited through `edit-container`.
@@ -495,7 +493,7 @@ The email notification will not be immediate, and may take a few minutes dependi
 
 Watchtower updates on a41c05df8cba
 
-```
+```text
 Watchtower 1.4.0  
 Using notifications: smtp  
 Only checking containers with name "test-container"  

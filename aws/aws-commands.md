@@ -11,6 +11,9 @@ url: https://github.com/wandering-mono/snippets.git
 # aws-commands
 
 - [aws-commands](#aws-commands)
+  - [instances deploying](#instances-deploying)
+    - [ssh to aws instances](#ssh-to-aws-instances)
+    - [user-data](#user-data)
   - [Amazon Linux 2 AMIs](#amazon-linux-2-amis)
     - [amazon-linux-extras](#amazon-linux-extras)
   - [Amazon EFS](#amazon-efs)
@@ -30,9 +33,9 @@ ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
 
 username for different OS
 
--   `centos` - CentOS 7
--   `ubuntu` - Ubuntu 18-22
--   `ec2-user` - Amazon Linux 2
+- `centos` - CentOS 7
+- `ubuntu` - Ubuntu 18-22
+- `ec2-user` - Amazon Linux 2
 
 ---
 

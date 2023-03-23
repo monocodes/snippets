@@ -19,15 +19,6 @@ url: https://github.com/wandering-mono/snippets.git
 
 ---
 
-- [Vim](#vim)
-  - [vim commands](#vim-commands)
-    - [Command Mode](#command-mode)
-    - [Extended Mode: (Colon Mode)](#extended-mode-colon-mode)
-      - [Extended Mode - additional commands](#extended-mode---additional-commands)
-  - [vim.rc](#vimrc)
-
----
-
 ## vim commands
 
 This is command mode editor for files. Other editors in Linux are emacs, gedit vi editor is most popular

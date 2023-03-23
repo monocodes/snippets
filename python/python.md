@@ -36,8 +36,6 @@ print(os.getenv("THIS_VARIABLE_DOESNT_EXIST", "Return this if it does not exist.
 # => "Return this if it does not exist..."
 ```
 
-
-
 ---
 
 ### Evaluate boolean environment variable in Python
@@ -58,4 +56,3 @@ print(os.getenv("THIS_VARIABLE_DOESNT_EXIST", "Return this if it does not exist.
     ```python
     DEBUG = (os.getenv('DEBUG', 'False') == 'True')
     ```
-
