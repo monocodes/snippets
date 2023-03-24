@@ -769,6 +769,154 @@ pkill -KILL -u username
 
 ---
 
+### network
+
+show network adapters
+
+```bash
+ip a
+ip r
+ip address
+
+# deprecated starting Ubuntu 20
+ifconfig
+```
+
+restarting network
+
+```bash
+# Ubuntu 22
+sudo systemctl restart systemd-networkd
+```
+
+---
+
+#### hostname, hostnamectl
+
+show hostname
+
+```bash
+hostnamectl hostname
+```
+
+change hostname
+
+```bash
+# Ubuntu
+sudo hostnamectl hostname web03
+
+# CentOS
+sudo hostnamectl set-hostname web03
+```
+
+>   NOTE about `hostname` command
+>
+>   ```bash
+>   hostname your-hostname
+>   ```
+>
+>   changes only before reboot, non-persistent
+
+---
+
+#### open ports
+
+##### nmap
+
+show open ports of localhost
+
+```bash
+nmap localhost
+```
+
+show open ports of local server
+
+```bash
+nmap hostname
+
+# example
+nmap db01
+```
+
+##### netstat
+
+show all open TCP ports
+
+```bash
+netstat -antp
+
+# example
+netstat -antp | grep apache2
+```
+
+search `PID`, and use it to know on what port app is running, if you don't see process name with `netstat`
+
+```bash
+ps -ef | grep apache2 # copy PID
+
+netstat -antp | grep PID
+```
+
+##### ss
+
+show all open TCP ports
+
+```bash
+ss -tunlp
+
+# example
+ss -tunlp | grep 80
+```
+
+##### telnet
+
+use telnet to check the connection via any port
+
+```bash
+telnet ip-address port
+
+# examples
+telnet 192.168.40.12 3306
+telnet 192.168.40.12 22
+telnet db01.vprofile.in 3306
+telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
+```
+
+>   to exit:
+>
+>   -   `Ctrl + ]`
+>   -   `Ctrl + C`
+>   -   `Enter`
+>   -   type `quit` and hit `Enter`
+
+---
+
+#### dns lookup, dns quaries
+
+`dig` - dns lookup
+
+```bash
+dig adress-name
+
+# example
+dig google.com
+```
+
+`nslookup` - dns lookup (older version of dig)
+
+```bash
+nslookup address-name
+
+# example
+nslookup google.com
+```
+
+#### traceroute
+
+
+
+---
+
 ### deb-based distros (Debian, Ubuntu, etc)
 
 #### apt
@@ -853,7 +1001,17 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 
 ---
 
-## network
+## network notes
+
+### private IP ranges
+
+Class A - `10.0.0.0 - 10.255.255.255`
+
+Class B - `172.16.0.0 - 172.31.255.255`
+
+Class C - `192.168.0.0 - 192.168.255.255`
+
+---
 
 ### ifconfig.io
 
