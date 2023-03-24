@@ -120,7 +120,7 @@ services:
 
 ---
 
-## docker-s8-laravel-php-web-docker-compose.yaml
+### docker-s8-laravel-php-web-docker-compose.yaml
 
 ```yaml
 version: "3.8"

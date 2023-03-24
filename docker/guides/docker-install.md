@@ -5,6 +5,7 @@ categories:
   - guides
 author: wandering-mono
 url: https://github.com/wandering-mono/snippets.git
+
 ---
 
 # Docker Install
@@ -24,7 +25,9 @@ url: https://github.com/wandering-mono/snippets.git
 
 install docker
 
-`sudo amazon-linux-extras install docker`
+```bash
+sudo amazon-linux-extras install docker
+```
 
 ---
 
@@ -32,7 +35,9 @@ install docker
 
 1. Uninstall old versions:
 
-    `sudo apt-get remove docker docker-engine docker.io containerd runc`
+    ```bash
+    sudo apt-get remove docker docker-engine docker.io containerd runc
+    ```
 
     or
 
@@ -63,9 +68,12 @@ install docker
 
     > need to check: `mkdir` maybe unnecessary
 
-    `sudo mkdir -p /etc/apt/keyrings`
-
-    `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`
+    ```bash
+    ls -d /etc/apt/keyrings
+    
+    sudo mkdir -p /etc/apt/keyrings && \
+     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    ```
 
     ---
 
@@ -80,72 +88,108 @@ install docker
     ---
 
 5. Install Docker Engine:
-update the apt package list
-`sudo apt update`
+    update the apt package list
 
-   ---
+    ```bash
+    sudo apt update
+    ```
+
+    ---
 
 6. Receiving a GPG error when running apt update? error
+
     - solution
 
         Your default umask may be incorrectly configured, preventing detection of the repository public key file. Try granting read permission for the Docker public key file before updating the package index:
 
-        `sudo chmod a+r /etc/apt/keyrings/docker.gpg`
-
-        `sudo apt update`
-
-        ---
+        ```bash
+        sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
+         sudo apt update
+        ```
 
     ---
 
 7. Install a specific version of Docker Engine. optional
+
     - optional
+
         1. List the available versions in the repository:
-        `apt-cache madison docker-ce | awk '{ print $3 }’`
 
             ```bash
+            apt-cache madison docker-ce | awk '{ print $3 }’
+            ```
+
+             ```bash
             5:20.10.16~3-0~ubuntu-jammy
             5:20.10.15~3-0~ubuntu-jammy
             5:20.10.14~3-0~ubuntu-jammy
             5:20.10.13~3-0~ubuntu-jammy
-            ```
+             ```
 
         2. Select the desired version and install:
-        `VERSION_STRING=5:20.10.13~3-0~ubuntu-jammy`
+            `VERSION_STRING=5:20.10.13~3-0~ubuntu-jammy`
 
-            `sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-compose-plugin`
+            ```bash
+            sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-compose-plugin
+            ```
 
         3. Verify that the Docker Engine installation is successful by running the hello-world image:
-        `sudo docker run hello-world`
+
+            ```bash
+            sudo docker run hello-world
+            ```
 
     ---
 
 8. To install the latest version, run:
-`sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin`
 
-   ---
+    ```bash
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+    ```
+
+    ---
 
 9. Verify that the Docker Engine installation is successful by running the hello-world image:
-`sudo docker run hello-world`
 
-   ---
+    ```bash
+    sudo docker run hello-world
+    ```
 
-10. Docker Engine post-installation steps:
+    ---
+
+10. .Docker Engine post-installation steps:
+
     - Create the docker group and add your user:
+
         1. Create the docker group:
-        `sudo groupadd docker`
+
+            ```bash
+            sudo groupadd docker
+            ```
+
         2. Add your user to the docker group:
-        `sudo usermod -aG docker $USER`
+
+            ```bash
+            sudo usermod -aG docker $USER
+            ```
+
         3. Log out and log back in so that your group membership is re-evaluated or:
+
             1. You can also run the following command to activate the changes to groups:
-            `newgrp docker`
+
+                ```bash
+                newgrp docker
+                ```
 
             > If you’re running Linux in a virtual machine, it may be necessary to restart the virtual machine for changes to take effect.
 
         4. Verify that you can run docker commands without sudo:
-           `docker run hello-world`
 
-            - What it does?
+            ```bash
+            docker run hello-world
+            ```
+
+             - What it does?
 
                 This command downloads a test image and runs it in a container. When the container runs, it prints a message and exits.
 
