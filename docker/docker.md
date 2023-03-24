@@ -579,11 +579,8 @@ build image from `Dockerfile` in current directory
 
 ```bash
 docker build -t image-name:tag-name .
-```
 
-> examples
-
-```bash
+# examples
 docker build -t rng_py_app:latest .
 docker build -t static-website:beta .
 ```
@@ -592,11 +589,8 @@ build image with different dir and different `Dockerfile` name
 
 ```bash
 docker build -f full/path/Dockerfile ./full/path
-```
 
-> example
-
-```bash
+# example
 docker build --platform linux/amd64 -f frontend/Dockerfile.prod -t account-name/repo-name:tag-name ./frontend/
 ```
 
@@ -604,11 +598,8 @@ build multistaged `Dockerfile` and build only specific stage
 
 ```bash
 docker build --target stage-name .
-```
 
-> example
-
-```bash
+# example
 docker build --platform linux/amd64 --target build -f frontend/Dockerfile.prod -t account-name/repo-name:tag-name ./frontend/
 ```
 
@@ -642,11 +633,8 @@ execute some command inside the docker container interactively
 
 ```bash
 docker exec -it container-name command-name
-```
 
-> example
-
-```bash
+# example
 docker exec -it objective_swartz npm init
 ```
 
@@ -1349,9 +1337,9 @@ Typical nodejs setup:
 > - <https://stackoverflow.com/questions/54269442/why-does-docker-create-empty-node-modules-and-how-to-avoid-it/54278208#54278208>
 > - <https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22166920#questions/13139726>
 
-> example
-
 ```bash
+# example
+
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
 ```
 
@@ -1376,8 +1364,7 @@ docker run --rm -d \
   --network goals-multi-net mongo
 ```
 
-**backend - nodejs**
-
+**backend - nodejs**  
 build
 
 ```bash
@@ -1410,8 +1397,7 @@ docker run --rm -d -p 80:80 \
   account-name/repo-name:v0.7-mdb-dn-pw-v-nm-env-di
 ```
 
-**frontend - reactjs**
-
+**frontend - reactjs**  
 build
 
 ```bash
