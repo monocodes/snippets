@@ -14,7 +14,7 @@ url: https://github.com/wandering-mono/snippets.git
   - [docker-udemy](#docker-udemy)
     - [docker-s6-goals-web-nodejs-comp-docker-compose.yaml](#docker-s6-goals-web-nodejs-comp-docker-composeyaml)
     - [docker-s7-util-nodejs-docker-compose.yaml](#docker-s7-util-nodejs-docker-composeyaml)
-  - [docker-s8-laravel-php-web-docker-compose.yaml](#docker-s8-laravel-php-web-docker-composeyaml)
+    - [docker-s8-laravel-php-web-docker-compose.yaml](#docker-s8-laravel-php-web-docker-composeyaml)
     - [docker-s9-goals-web-nodejs-docker-compose.yaml](#docker-s9-goals-web-nodejs-docker-composeyaml)
     - [docker-s9-goals-web-nodejs-test-docker-compose.yaml](#docker-s9-goals-web-nodejs-test-docker-composeyaml)
 
