@@ -28,15 +28,30 @@ url: https://github.com/wandering-mono/snippets.git
       - [chown](#chown)
       - [chmod](#chmod)
     - [systemctl](#systemctl)
+    - [text processing](#text-processing)
+      - [sed](#sed)
     - [processes, top, ps](#processes-top-ps)
+    - [network](#network)
+      - [hostname, hostnamectl](#hostname-hostnamectl)
+      - [open ports](#open-ports)
+        - [nmap](#nmap)
+        - [netstat](#netstat)
+        - [ss](#ss)
+        - [telnet](#telnet)
+      - [dns lookup, dns quaries](#dns-lookup-dns-quaries)
+        - [traceroute, tracert, mtr](#traceroute-tracert-mtr)
+        - [gateway lookup](#gateway-lookup)
+        - [arp](#arp)
     - [deb-based distros (Debian, Ubuntu, etc)](#deb-based-distros-debian-ubuntu-etc)
       - [apt](#apt)
       - [apt search](#apt-search)
-    - [sed](#sed)
+    - [rpm-based distros (RHEL, CentOS, Amazon Linux, etc)](#rpm-based-distros-rhel-centos-amazon-linux-etc)
+      - [firewalld](#firewalld)
   - [linux packages](#linux-packages)
     - [jdk](#jdk)
   - [bash wildcards](#bash-wildcards)
-  - [network](#network)
+  - [network notes](#network-notes)
+    - [private IP ranges](#private-ip-ranges)
     - [ifconfig.io](#ifconfigio)
   - [notes](#notes)
     - [DevOps tools usage](#devops-tools-usage)
@@ -694,6 +709,30 @@ systemctl disable service-name
 
 ---
 
+### text processing
+
+#### sed
+
+- `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
+
+  - switch to main repos
+
+    - ```bash
+                sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
+                # or
+                sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
+            ```
+
+  - switch to Armenia repos
+
+    - ```bash
+                sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
+                # or
+                sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
+            ```
+
+---
+
 ### processes, top, ps
 
 all processes path
@@ -809,13 +848,13 @@ sudo hostnamectl hostname web03
 sudo hostnamectl set-hostname web03
 ```
 
->   NOTE about `hostname` command
+> NOTE about `hostname` command
 >
 >   ```bash
 >   hostname your-hostname
 >   ```
 >
->   changes only before reboot, non-persistent
+> changes only before reboot, non-persistent
 
 ---
 
@@ -882,12 +921,12 @@ telnet db01.vprofile.in 3306
 telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 ```
 
->   to exit:
+> to exit:
 >
->   -   `Ctrl + ]`
->   -   `Ctrl + C`
->   -   `Enter`
->   -   type `quit` and hit `Enter`
+> - `Ctrl + ]`
+> - `Ctrl + C`
+> - `Enter`
+> - type `quit` and hit `Enter`
 
 ---
 
@@ -911,9 +950,45 @@ nslookup address-name
 nslookup google.com
 ```
 
-#### traceroute
+##### traceroute, tracert, mtr
 
+show path to the server and latency problems
 
+```bash
+traceroute address-name
+
+# example
+traceroute mirrors.fedoraproject.org
+traceroute google.com
+```
+
+`mrt` - traceroute + ping
+
+show path to the server and latency problems online (live)
+
+```bash
+mrt adress-name
+
+# example
+mtr google.com
+```
+
+##### gateway lookup
+
+show gateways
+
+```bash
+route -n
+route
+```
+
+##### arp
+
+show arp table
+
+```bash
+arp
+```
 
 ---
 
@@ -931,25 +1006,25 @@ apt search package-name
 
 ---
 
-### sed
+### rpm-based distros (RHEL, CentOS, Amazon Linux, etc)
 
-- `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
+#### firewalld
 
-  - switch to main repos
+open 443, https
 
-  - ```bash
-        sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
-        # or
-        sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
-    ```
+```bash
+sudo systemctl stop firewalld
+sudo systecmctl enable firewalld
+sudo firewall-cmd --add-service=http --add-service=https --permanent
+```
 
-  - switch to Armenia repos
+firewalld open specific port, for example `mysql` (`mariadb`)
 
-  - ```bash
-        sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
-        # or
-        sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
-    ```
+```bash
+sudo firewall-cmd --get-active-zones
+sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
+sudo firewall-cmd --reload
+```
 
 ---
 
