@@ -13,6 +13,11 @@ url: https://github.com/wandering-mono/snippets.git
 - [linux](#linux)
   - [paths](#paths)
   - [linux commands](#linux-commands)
+    - [basic commands](#basic-commands)
+      - [`& && || ;`](#---)
+      - [`--help`](#--help)
+      - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`](#mkdir-touch-rm-cp-mv-tree-find-echo)
+      - [locate](#locate)
     - [grub](#grub)
     - [partitioning, mounting, fdisk, gparted](#partitioning-mounting-fdisk-gparted)
       - [gparted](#gparted)
@@ -106,6 +111,188 @@ cat /var/run/httpd/httpd.pid
 ---
 
 ## linux commands
+
+### basic commands
+
+#### `& && || ;`
+
+>`A` and `B` are any commands
+
+Run A and then B, regardless of success of A
+
+```bash
+A ; B
+```
+
+Run B if A succeeded
+
+```bash
+A && B
+```
+
+Run B if A failed
+
+```bash
+A || B
+```
+
+Run A in background
+
+```bash
+A &
+```
+
+#### `--help`
+
+get help for the command
+
+```bash
+command-name --help
+```
+
+what is it
+
+```bash
+file filename
+file directory-name
+```
+
+show version of the OS
+
+```bash
+cat /etc/os-release
+```
+
+logout with current user
+
+```bash
+exit
+```
+
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`
+
+make a directory
+
+```bash
+mkdir directory-name
+```
+
+make directory forcefully with all needed parents
+
+```bash
+mkdir -p directory/path
+
+# example
+mkdir -p /opt/dev/ops/devops/test
+```
+
+make a file
+
+```bash
+touch filename
+```
+
+make multiple files with numbers
+
+```bash
+touch filename{1..10}.txt
+```
+
+delete multiple files with the same name + numbers
+
+```bash
+rm -rf filename{1..10}.txt
+```
+
+copy file
+
+```bash
+cp filename directory-name
+```
+
+copy directory
+
+```bash
+cp -r /path/to/dir /path/to/another/dir
+```
+
+copy all files and dirs
+
+```bash
+cp -r * /path/to/dir
+```
+
+move with mv
+
+```bash
+mv filename /path/to/dir
+```
+
+rename with mv
+
+```bash
+mv filename another-filename
+mv directory-name another-directory-name
+```
+
+move everything with mv
+
+```bash
+mv *.txt directory-name
+```
+
+move everything in dir to another dir
+
+```bash
+mv path/to/dir/* path/to/another/dir
+
+# example
+mv /tmp/img-backup/* /var/www/html/images/
+```
+
+show dirs in tree format
+
+```bash
+tree /path/to/dir
+
+# example
+tree /var/log
+```
+
+`echo` - print command
+
+print text to the file
+
+```bash
+# example
+
+echo "text" > /tmp/sysinfo.txt
+```
+
+find anything
+
+```bash
+find /path/to -name filename*
+```
+
+#### locate
+
+> `locate` - command like `find` but more easy to use with indexed search
+
+install locate in rpm-based distrib
+
+```bash
+sudo dnf install mlocate
+```
+
+>every time before search use `updatedb` command
+
+```bash
+updatedb
+locate host
+```
+
+---
 
 ### grub
 

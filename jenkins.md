@@ -14,15 +14,15 @@ url: https://github.com/wandering-mono/snippets.git
 - [jenkins](#jenkins)
   - [install](#install)
     - [ubuntu](#ubuntu)
-    - [java versions](#java-versions)
+    - [java, jdk](#java-jdk)
+    - [github webhooks](#github-webhooks)
   - [paths](#paths)
-  - [install tools](#install-tools)
-    - [jdk](#jdk)
-      - [manual install](#manual-install)
   - [jenkins build steps examples](#jenkins-build-steps-examples)
     - [Post-build Actions](#post-build-actions)
     - [Build step](#build-step)
     - [This project is parameterized](#this-project-is-parameterized)
+  - [troubleshooting](#troubleshooting)
+    - [Host Key verification failed](#host-key-verification-failed)
   - [jenkins `ENV` environmental variables](#jenkins-env-environmental-variables)
 
 ## install
@@ -50,9 +50,17 @@ sudo apt-get install jenkins -y
 
 ---
 
-### java versions
+### java, jdk
 
-Installation of different versions of `java` here [maven.md](maven.md)
+> Java install from UI of **Jenkins** from **Oracle** account may not work, install *manually*
+
+Install needed `jdk` in **Jenkins**  manually
+
+```bash
+sudo apt install openjdk-8-jdk -y
+```
+
+> Installation of different versions of `java` here [maven.md](maven.md)
 
 check current main version
 
@@ -83,6 +91,21 @@ use this paths to specify `java` installation in `Jenkins`
 
 ---
 
+### github webhooks
+
+1. Create new **Pipeline** project in **Jenkins** -> choose *Pipeline script from SCM*
+2. Branch Specifier -> `/main` or any other branch
+3. Setup *ssh key* in **Jenkins** credentials
+4. Turn off [Host Key verification](#host-key-verification-failed)in **Jenkins**
+5. In **GitHub** go to repo Settings -> Webhooks -> Add webhook:
+6. Add **Payload URL**. It's **Jenkins** URL like <http://54.88.141.76:8080/github-webhook/>
+7. **Content type** - `application/json`
+8. Choose *Which events would you like to trigger this webhook?*
+9. **Add webhook**
+10. Jenkins -> Job -> Configure -> *GitHub hook trigger for GITScm polling*
+
+---
+
 ## paths
 
 home dir
@@ -96,20 +119,6 @@ restart jenkins
 ```http
 http://ip:8080/restart
 ```
-
----
-
-## install tools
-
-### jdk
-
-#### manual install
-
-1. ssh to host and install needed `jdk` version  
-
-    ```bash
-    sudo apt install openjdk-8-jdk -y
-    ```
 
 ---
 
@@ -175,6 +184,16 @@ Name - VERSION
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$VERSION.war
 ```
+
+---
+
+## troubleshooting
+
+### Host Key verification failed
+
+`Dashboard` -> `Manage Jenkins` -> `Configure Global Security` -> `Git Host Key Verification Configuration` -> `Accept first Conection` -> `Save`
+
+After that **Jenkins** will not verify host key and could freely connect to **Github** repo for example.
 
 ---
 
