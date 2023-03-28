@@ -30,7 +30,10 @@ bat
 *Clone of cat(1) with syntax highlighting and Git integration*
 
 colordiff  
-*Color-highlighted diff(1) output*  
+*Color-highlighted diff(1) output*
+
+duti  
+Command-line utility capable of setting default applications for various document types on macOS
 
 gnu-sed, gsed  
 *GNU implementation of the famous stream editor*
@@ -42,10 +45,15 @@ pyenv
 *Python version management*  
 
 pyenv-virtualenv  
-*Pyenv plugin to manage virtualenv*  
+*Pyenv plugin to manage virtualenv*
+
+python-yq  
+Command-line YAML and XML processor that wraps jq
 
 telnet  
-*User interface to the TELNET protocol*  
+*User interface to the TELNET protocol*
+
+wget
 
 ---
 

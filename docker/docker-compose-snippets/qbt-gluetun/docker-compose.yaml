@@ -56,7 +56,7 @@ services:
       # Timezone for accurate logs times
       - PYTHONUNBUFFERED=1
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     env_file:
       - ./port-tool.env
     depends_on:
@@ -73,7 +73,7 @@ services:
       # WATCHTOWER_MONITOR_ONLY: 'true'
       - Will also include restarting containers
       - WATCHTOWER_CLEANUP=true # Removes old images after updating
-      - WATCHTOWER_INCLUDE_RESTARTING=true # 
+      - WATCHTOWER_INCLUDE_RESTARTING=true #
       - WATCHTOWER_INCLUDE_STOPPED=true # Will also include created and exited containers
       - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
     env_file:

@@ -23,6 +23,9 @@ url: https://github.com/wandering-mono/snippets.git
     - [This project is parameterized](#this-project-is-parameterized)
   - [troubleshooting](#troubleshooting)
     - [Host Key verification failed](#host-key-verification-failed)
+  - [Jenkinsfile pipeline examples](#jenkinsfile-pipeline-examples)
+    - [devops-project-ud-01](#devops-project-ud-01)
+      - [Section 15 - Continuous Integration with Jenkins](#section-15---continuous-integration-with-jenkins)
   - [jenkins `ENV` environmental variables](#jenkins-env-environmental-variables)
 
 ## install
@@ -102,7 +105,15 @@ use this paths to specify `java` installation in `Jenkins`
 7. **Content type** - `application/json`
 8. Choose *Which events would you like to trigger this webhook?*
 9. **Add webhook**
-10. Jenkins -> Job -> Configure -> *GitHub hook trigger for GITScm polling*
+10. For example - Jenkins -> Job -> Configure -> *GitHub hook trigger for GITScm polling*
+
+**Popular triggers**
+
+- Git Webhook
+- Poll SCM
+- Scheduled jobs
+- Remote triggers - it's hardest one to setup, but gives an opportunity to trigger from almost anywhere
+- Build after other projects are built
 
 ---
 
@@ -194,6 +205,479 @@ cp target/vprofile-v2.war versions/vprofile-v$VERSION.war
 `Dashboard` -> `Manage Jenkins` -> `Configure Global Security` -> `Git Host Key Verification Configuration` -> `Accept first Conection` -> `Save`
 
 After that **Jenkins** will not verify host key and could freely connect to **Github** repo for example.
+
+---
+
+## Jenkinsfile pipeline examples
+
+### devops-project-ud-01
+
+#### Section 15 - Continuous Integration with Jenkins
+
+sample-paac.Jenkinsfile
+
+```groovy
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN3"
+        jdk "OracleJDK8"
+    }
+    
+    stages {
+        stage('Fetch code') {
+            steps {
+                git branch: 'vp-rem', url: 'https://github.com/devopshydclub/vprofile-project.git'
+            }
+        }
+
+        stage('Build'){
+            steps{
+                sh 'mvn install -DskipTests'
+            }
+
+            post {
+                success {
+                    echo 'Now Archiving it...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+        stage('UNIT TEST') {
+            steps{
+                sh 'mvn test'
+            }
+        }
+    }
+}
+```
+
+PAAC-Analysis.Jenkinsfile
+
+```groovy
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+]
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN3"
+        jdk "OracleJDK8"
+    }
+    
+    stages {
+        stage('Fetch code') {
+            steps {
+                git branch: 'vp-rem', url: 'https://github.com/devopshydclub/vprofile-project.git'
+            }
+        }
+
+        stage('Build'){
+            steps{
+                sh 'mvn install -DskipTests'
+            }
+
+            post {
+                success {
+                    echo 'Now Archiving it...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+        stage('Test') {
+            steps{
+                sh 'mvn test'
+            }
+        }
+
+        stage('Checkstyle Analysis'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+
+        stage('Sonar Analysis') {
+            environment {
+                scannerHome = tool 'sonar4.7'
+            }
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+
+                }
+            }
+        }
+
+        stage("UploadArtifact") {
+            steps {
+                nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: '172.31.29.69:8081',
+                groupId: 'QA',
+                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                repository: 'vprofile-repo',
+                credentialsId: 'nexuslogin',
+                artifacts: [
+                    [artifactId: 'vproapp',
+                    classifier: '',
+                    file: 'target/vprofile-v2.war',
+                    type: 'war']
+                ]
+                )
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Slack Notifications.'
+            slackSend channel: '#jenkinscicd',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
+    }
+}
+```
+
+PAAC-Analysis-error.Jenkinsfile
+
+```groovy
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+]
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN3"
+        jdk "OracleJDK8"
+    }
+    
+    stages {
+        stage('Print error') {
+            steps {
+                sh 'fake comment'
+            }
+        }
+        stage('Fetch code') {
+            steps {
+                git branch: 'vp-rem', url: 'https://github.com/devopshydclub/vprofile-project.git'
+            }
+        }
+
+        stage('Build'){
+            steps{
+                sh 'mvn install -DskipTests'
+            }
+
+            post {
+                success {
+                    echo 'Now Archiving it...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+        stage('Test') {
+            steps{
+                sh 'mvn test'
+            }
+        }
+
+        stage('Checkstyle Analysis'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+
+        stage('Sonar Analysis') {
+            environment {
+                scannerHome = tool 'sonar4.7'
+            }
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+
+                }
+            }
+        }
+
+        stage("UploadArtifact") {
+            steps {
+                nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: '172.31.29.69:8081',
+                groupId: 'QA',
+                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                repository: 'vprofile-repo',
+                credentialsId: 'nexuslogin',
+                artifacts: [
+                    [artifactId: 'vproapp',
+                    classifier: '',
+                    file: 'target/vprofile-v2.war',
+                    type: 'war']
+                ]
+                )
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Slack Notifications.'
+            slackSend channel: '#jenkinscicd',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
+    }
+}
+```
+
+PAAC_CI_Docker_ECR.Jenkinsfile
+
+```groovy
+pipeline {
+    agent any
+    tools {
+	    maven "MAVEN3"
+	    jdk "OracleJDK8"
+	}
+
+    environment {
+        registryCredential = 'ecr:us-east-1:awscreds'
+        appRegistry = "198936756318.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
+        vprofileRegistry = "https://198936756318.dkr.ecr.us-east-1.amazonaws.com"
+    }
+  stages {
+    stage('Fetch code'){
+      steps {
+        git branch: 'docker', url: 'https://github.com/devopshydclub/vprofile-project.git'
+      }
+    }
+
+
+    stage('Test'){
+      steps {
+        sh 'mvn test'
+      }
+    }
+
+    stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                success {
+                    echo 'Generated Analysis Result'
+                }
+            }
+        }
+
+        stage('build && SonarQube analysis') {
+            environment {
+             scannerHome = tool 'sonar4.7'
+          }
+            steps {
+                withSonarQubeEnv('sonar') {
+                 sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile-repo \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+    stage('Build App Image') {
+       steps {
+       
+         script {
+                dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
+             }
+
+     }
+    
+    }
+
+    stage('Upload App Image') {
+          steps{
+            script {
+              docker.withRegistry( vprofileRegistry, registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
+              }
+            }
+          }
+     }
+
+  }
+}
+```
+
+PAAC_CICD_Docker_ECR_ECS+.Jenkinsfile
+
+```groovy
+pipeline {
+    agent any
+    tools {
+	    maven "MAVEN3"
+	    jdk "OracleJDK8"
+	}
+
+    environment {
+        registryCredential = 'ecr:us-east-1:awscreds'
+        appRegistry = "198936756318.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
+        vprofileRegistry = "https://198936756318.dkr.ecr.us-east-1.amazonaws.com"
+        cluster = "vprofile"
+        service = "vprofileappsvc"
+    }
+  stages {
+    stage('Fetch code'){
+      steps {
+        git branch: 'docker', url: 'https://github.com/devopshydclub/vprofile-project.git'
+      }
+    }
+
+
+    stage('Test'){
+      steps {
+        sh 'mvn test'
+      }
+    }
+
+    stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                success {
+                    echo 'Generated Analysis Result'
+                }
+            }
+        }
+
+        stage('build && SonarQube analysis') {
+            environment {
+             scannerHome = tool 'sonar4.7'
+          }
+            steps {
+                withSonarQubeEnv('sonar') {
+                 sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile-repo \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+    stage('Build App Image') {
+       steps {
+       
+         script {
+                dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
+             }
+
+     }
+    
+    }
+
+    stage('Upload App Image') {
+          steps{
+            script {
+              docker.withRegistry( vprofileRegistry, registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
+              }
+            }
+          }
+      }
+     stage('Deploy to ecs') {
+          steps {
+        withAWS(credentials: 'awscreds', region: 'us-east-1') {
+          sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+        }
+      }
+    }
+  }
+}
+```
+
+jenkins-remote-trigger.txt
+
+```text
+http://3.82.20.58:8080/job/Build/build?token=mybuildtoken
+
+Token
+admin:1187b3df18e3806824f91771c5ece65b82
+
+Crumb
+wget -q --auth-no-challenge --user JENKINS_USER --password JENKINS_PASSWORD --output-document - 'http://3.82.20.58:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+
+Jenkins-Crumb:e6434fc7e89a12dfe23e2657ee74addb054b843ad2419d856857f73e925e31dc%
+
+curl -I -X POST 'http://JENKINS_USER:1187b3df18e3806824f91771c5ece65b82@3.82.20.58:8080/job/Build/build?token=mybuildtoken' -H "Jenkins-Crumb:e6434fc7e89a12dfe23e2657ee74addb054b843ad2419d856857f73e925e31dc%"
+```
 
 ---
 

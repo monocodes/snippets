@@ -947,16 +947,17 @@ remove all existing stopped containers then remove all volumes
 docker rm -vf $(docker ps -aq) && docker volume prune -f
 ```
 
-fully delete all containers, images and cache
+fully delete all containers, images and cache  
+`-a` - `--all`, `-f` - `--force`
 
 ```bash
-docker system prune
+docker system prune -a
 ```
 
 fully delete all containers, images, volumes and cache
 
 ```bash
-docker system prune --volumes
+docker system prune -a --volumes
 ```
 
 ---
