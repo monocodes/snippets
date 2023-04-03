@@ -568,7 +568,7 @@ ls -l ~/.ssh/id_*
 ssh-keygen -p
 
 # change the passpharase for particular private key
-ssh-keygen -p -f ~ssh/private_key_name
+ssh-keygen -p -f ~/.ssh/private_key_name
 # or
 ssh-keygen -f private_key_name -p
 
