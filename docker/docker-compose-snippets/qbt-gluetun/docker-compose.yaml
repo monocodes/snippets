@@ -70,12 +70,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
     environment:
-      # WATCHTOWER_MONITOR_ONLY: 'true'
-      - Will also include restarting containers
-      - WATCHTOWER_CLEANUP=true # Removes old images after updating
-      - WATCHTOWER_INCLUDE_RESTARTING=true #
+      - WATCHTOWER_MONITOR_ONLY=true
+      # - WATCHTOWER_CLEANUP=true # Removes old images after updating
+      # - WATCHTOWER_INCLUDE_RESTARTING=true # Will also include restarting containers
       - WATCHTOWER_INCLUDE_STOPPED=true # Will also include created and exited containers
-      - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
+      # - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
     env_file:
       - ./watchtower.env
     command: qbt vpn mon

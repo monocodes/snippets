@@ -37,6 +37,8 @@ url: https://github.com/wandering-mono/snippets.git
       - [sed](#sed)
     - [processes, top, ps](#processes-top-ps)
     - [network](#network)
+      - [network config Ubuntu 22](#network-config-ubuntu-22)
+      - [network config CentOS 7](#network-config-centos-7)
       - [hostname, hostnamectl](#hostname-hostnamectl)
       - [open ports](#open-ports)
         - [nmap](#nmap)
@@ -106,6 +108,16 @@ cat /var/run/process-name/process-name.pid
 
 # example
 cat /var/run/httpd/httpd.pid
+```
+
+network config, more info here -> [network](#network)
+
+```bash
+# Ubuntu 22
+/etc/netplan/00-installer-config.yaml
+
+# CentOS 7
+/etc/sysconfig/network-scripts/ifcfg-*
 ```
 
 ---
@@ -1017,6 +1029,113 @@ sudo systemctl restart systemd-networkd
 
 ---
 
+#### network config Ubuntu 22
+
+edit network config
+
+```bash
+sudo vim /etc/netplan/00-installer-config.yaml
+
+# example config Ubuntu 22 with DHCP + static IP adapters
+network:
+  ethernets:
+    ens3:
+      dhcp4: true
+    ens4:
+      addresses:
+      - 192.168.10.2/24
+      nameservers:
+        addresses: []
+        search: []
+  version: 2
+```
+
+apply new config
+
+```bash
+sudo netplan apply
+# or debug
+sudo netplan --debug apply
+```
+
+check network adapters
+
+```bash
+ip a
+```
+
+---
+
+#### network config CentOS 7
+
+choose adapter config to edit
+
+```bash
+sudo vim /etc/sysconfig/network-scripts/ifcfg-*
+```
+
+> examples
+
+- ```bash
+    sudo vim /etc/sysconfig/network-scripts/ifcfg-eth0
+    
+    # dhcp adapter created via installing CentOS
+    TYPE=Ethernet
+    PROXY_METHOD=none
+    BROWSER_ONLY=no
+    BOOTPROTO=dhcp
+    DEFROUTE=yes
+    IPV4_FAILURE_FATAL=no
+    IPV6INIT=yes
+    IPV6_AUTOCONF=yes
+    IPV6_DEFROUTE=yes
+    IPV6_FAILURE_FATAL=no
+    IPV6_ADDR_GEN_MODE=stable-privacy
+    NAME=eth0
+    UUID=1714b04e-504c-4d49-be5a-b7574edf1d76
+    DEVICE=eth0
+    ONBOOT=yes
+    IPV6_PRIVACY=no
+    ```
+
+- ```bash
+    sudo vim /etc/sysconfig/network-scripts/ifcfg-eth1
+    
+    # static IP adapter created via installing CentOS
+    TYPE=Ethernet
+    PROXY_METHOD=none
+    BROWSER_ONLY=no
+    BOOTPROTO=none
+    DEFROUTE=yes
+    IPV4_FAILURE_FATAL=no
+    IPV6INIT=yes
+    IPV6_AUTOCONF=yes
+    IPV6_DEFROUTE=yes
+    IPV6_FAILURE_FATAL=no
+    IPV6_ADDR_GEN_MODE=stable-privacy
+    NAME=eth1
+    UUID=9a59ad66-f598-4bdb-9720-4ad006b65605
+    DEVICE=eth1
+    ONBOOT=yes
+    IPADDR=192.168.10.3
+    PREFIX=24
+    IPV6_PRIVACY=no
+    ```
+
+restart the network
+
+```bash
+sudo systemctl restart network
+```
+
+check network adapters
+
+```bash
+ip a
+```
+
+---
+
 #### hostname, hostnamectl
 
 show hostname
@@ -1028,10 +1147,10 @@ hostnamectl hostname
 change hostname
 
 ```bash
-# Ubuntu
+# Ubuntu 22
 sudo hostnamectl hostname web03
 
-# CentOS
+# CentOS 7
 sudo hostnamectl set-hostname web03
 ```
 

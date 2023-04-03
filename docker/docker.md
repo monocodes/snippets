@@ -192,6 +192,9 @@ it's better than `--force-recreate`
 
 ```bash
 #!/bin/bash
+# if you need to restart all containers
+# sudo docker compose down --remove-orphans
+
 sudo docker compose build --pull # to rebuild Dockerfile images
 sudo docker compose pull
 sudo docker compose up -d --remove-orphans
@@ -207,6 +210,9 @@ sudo docker image prune -f
 
 ```bash
 #!/bin/bash
+# if you need to restart all containers
+# sudo docker-compose down --remove-orphans
+
 sudo docker-compose build --pull # to rebuild Dockerfile images
 sudo docker-compose pull
 sudo docker-compose up -d --remove-orphans
