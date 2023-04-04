@@ -16,8 +16,12 @@ help(plotly.graph_objects.Bar)
 
 
 ### PIP -----------------------------------------
-# install pip from scratch (when no pip installed)
+# install pip from scratch (where no pip installed)
 python3 -m ensurepip
+
+# or install pip from official script
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
 
 # python standard package manager
 # upgrade pip
@@ -29,6 +33,11 @@ pip list --outdated
 # completely uninstall pip
 pip freeze | xargs pip uninstall -y
 python -m pip uninstall pip setuptools
+
+# install version less then
+pip install 'package-name<version-name'
+# example
+pip install 'fabric<2.0'
 
 
 

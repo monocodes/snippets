@@ -535,7 +535,7 @@ localectl set-locale LANG=en_US.UTF-8
 show specific locale keymaps
 
 ```bash
-localectl list-keymaps | grep -i us
+localectl list-maps | grep -i us
 ```
 
 set keymap locale
@@ -1319,9 +1319,8 @@ apt search package-name
 open 443, https
 
 ```bash
-sudo systemctl stop firewalld
-sudo systecmctl enable firewalld
 sudo firewall-cmd --add-service=http --add-service=https --permanent
+sudo systemctl restart firewalld
 ```
 
 firewalld open specific port, for example `mysql` (`mariadb`)

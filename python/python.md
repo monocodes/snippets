@@ -4,6 +4,7 @@ categories:
   - software
   - guides
   - notes
+  - code
 author: wandering-mono
 url: https://github.com/wandering-mono/snippets.git
 ---
