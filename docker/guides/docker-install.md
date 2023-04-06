@@ -43,10 +43,10 @@ sudo amazon-linux-extras install docker
 
     ```bash
     sudo apt remove docker.io -y ; \
-    sudo apt remove containerd -y ; \
-    sudo apt remove runc -y ; \
-    sudo apt remove docker -y ; \
-    sudo apt remove docker-engine -y
+    	sudo apt remove containerd -y ; \
+    	sudo apt remove runc -y ; \
+    	sudo apt remove docker -y ; \
+    	sudo apt remove docker-engine -y
     ```
 
     ---
