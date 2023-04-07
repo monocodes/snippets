@@ -968,6 +968,14 @@ show all processes with displaying parent processes
 ps -ef
 ```
 
+show all processes sorted by memory usage with `Mb` not `%`
+
+```bash
+ps -eo size,pid,user,command --sort -size | \
+  awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
+  cut -d "" -f2 | cut -d "-" -f1
+```
+
 find specific process PID and kill it  
 kill the parent process
 
