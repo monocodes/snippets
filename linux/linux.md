@@ -15,7 +15,7 @@ url: https://github.com/wandering-mono/snippets.git
   - [bash wildcards](#bash-wildcards)
   - [linux commands](#linux-commands)
     - [basic commands and system packages](#basic-commands-and-system-packages)
-      - [`& && || ;`](#---)
+      - [`& && || ; \`](#----)
       - [`--help`](#--help)
       - [sysinfo](#sysinfo)
       - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`, `ln`](#mkdir-touch-rm-cp-mv-tree-find-echo-ln)
@@ -23,7 +23,8 @@ url: https://github.com/wandering-mono/snippets.git
       - [export](#export)
       - [needrestart](#needrestart)
       - [text processing](#text-processing)
-        - [cat, bat, head, tail, less](#cat-bat-head-tail-less)
+        - [cat, head, tail, less](#cat-head-tail-less)
+        - [bat](#bat)
         - [grep](#grep)
         - [cut, awk](#cut-awk)
         - [sed](#sed)
@@ -162,7 +163,7 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 
 ### basic commands and system packages
 
-#### `& && || ;`
+#### `& && || ; \`
 
 >`A` and `B` are any commands
 
@@ -189,6 +190,19 @@ Run A in background
 ```bash
 A &
 ```
+
+Multiline command with `\`
+
+```bash
+# docker install example
+sudo apt remove docker.io -y ; \
+	sudo apt remove containerd -y ; \
+  sudo apt remove runc -y ; \
+  sudo apt remove docker -y ; \
+  sudo apt remove docker-engine -y
+```
+
+---
 
 #### `--help`
 
@@ -480,9 +494,18 @@ less filename
 
 ##### bat
 
->   `batcat` - `bat` after **Ubuntu 18**
+> `batcat` - `bat` after **Ubuntu 18**
 >
->   To install bat 
+> To install `bat` on CentOS use  [multi-os-base-provision.sh](../bash-snippets/provisioning-bash-snippets/multi-os-base-provision.sh)
+>
+> To install on Ubuntu before 20:
+>
+>   ```bash
+>   wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb \
+>   	sudo dpkg -i bat-musl_0.22.1_amd64.deb
+>   ```
+>
+>
 
 print `bat` without line numbers and header
 

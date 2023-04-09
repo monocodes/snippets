@@ -1,13 +1,4 @@
 -------------------------------------------------
-# bat
--------------------------------------------------
-# print bat without line numbers
-bat --style=plain,header filename
-batcat --style=plain,header filename
-
-
-
--------------------------------------------------
 # stress
 -------------------------------------------------
 # stress - utility to stress the hardware
