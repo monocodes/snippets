@@ -12,34 +12,52 @@ url: https://github.com/wandering-mono/snippets.git
 
 - [linux](#linux)
   - [paths](#paths)
+  - [bash wildcards](#bash-wildcards)
   - [linux commands](#linux-commands)
-    - [basic commands](#basic-commands)
+    - [basic commands and system packages](#basic-commands-and-system-packages)
       - [`& && || ;`](#---)
       - [`--help`](#--help)
-      - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`](#mkdir-touch-rm-cp-mv-tree-find-echo)
+      - [sysinfo](#sysinfo)
+      - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`, `ln`](#mkdir-touch-rm-cp-mv-tree-find-echo-ln)
       - [locate](#locate)
-    - [grub](#grub)
+      - [export](#export)
+      - [needrestart](#needrestart)
+      - [text processing](#text-processing)
+        - [cat, bat, head, tail, less](#cat-bat-head-tail-less)
+        - [grep](#grep)
+        - [cut, awk](#cut-awk)
+        - [sed](#sed)
+        - [wc](#wc)
+      - [tar, zip, archives](#tar-zip-archives)
+        - [tar](#tar)
+        - [zip](#zip)
+      - [input/output redirection](#inputoutput-redirection)
+        - [output redirection](#output-redirection)
+        - [input redirection](#input-redirection)
+      - [time, date](#time-date)
+      - [locale](#locale)
+      - [systemctl](#systemctl)
+      - [processes, top, ps](#processes-top-ps)
+      - [users \& groups](#users--groups)
+        - [change user and group ID for user and files](#change-user-and-group-id-for-user-and-files)
+        - [sudoers](#sudoers)
+        - [chown](#chown)
+        - [chmod](#chmod)
     - [partitioning, mounting, fdisk, gparted](#partitioning-mounting-fdisk-gparted)
+      - [grub](#grub)
       - [gparted](#gparted)
       - [df](#df)
       - [fdisk](#fdisk)
       - [mkfs, formatting](#mkfs-formatting)
       - [mount, umount, mounting](#mount-umount-mounting)
-    - [time, date](#time-date)
-    - [locale](#locale)
-    - [users \& groups](#users--groups)
-      - [change user and group ID for user and files](#change-user-and-group-id-for-user-and-files)
-      - [sudoers](#sudoers)
-      - [chown](#chown)
-      - [chmod](#chmod)
-    - [systemctl](#systemctl)
-    - [text processing](#text-processing)
-      - [sed](#sed)
-    - [processes, top, ps](#processes-top-ps)
     - [network](#network)
       - [network config Ubuntu 22](#network-config-ubuntu-22)
       - [network config CentOS 7](#network-config-centos-7)
       - [hostname, hostnamectl](#hostname-hostnamectl)
+      - [ssh](#ssh)
+        - [ssh-keygen](#ssh-keygen)
+        - [scp](#scp)
+      - [https, curl, wget](#https-curl-wget)
       - [open ports](#open-ports)
         - [nmap](#nmap)
         - [netstat](#netstat)
@@ -51,12 +69,20 @@ url: https://github.com/wandering-mono/snippets.git
         - [arp](#arp)
     - [deb-based distros (Debian, Ubuntu, etc)](#deb-based-distros-debian-ubuntu-etc)
       - [apt](#apt)
-      - [apt search](#apt-search)
+        - [apt autoremove](#apt-autoremove)
+        - [apt-mark](#apt-mark)
+      - [dpkg](#dpkg)
     - [rpm-based distros (RHEL, CentOS, Amazon Linux, etc)](#rpm-based-distros-rhel-centos-amazon-linux-etc)
+      - [dnf, yum](#dnf-yum)
+        - [paths yum](#paths-yum)
+      - [epel](#epel)
+      - [rpm](#rpm)
       - [firewalld](#firewalld)
-  - [linux packages](#linux-packages)
+  - [third-party packages](#third-party-packages)
     - [jdk](#jdk)
-  - [bash wildcards](#bash-wildcards)
+    - [apache2, httpd](#apache2-httpd)
+    - [tomcat](#tomcat)
+    - [mysql, mariadb](#mysql-mariadb)
   - [network notes](#network-notes)
     - [private IP ranges](#private-ip-ranges)
     - [ifconfig.io](#ifconfigio)
@@ -122,9 +148,19 @@ network config, more info here -> [network](#network)
 
 ---
 
+## bash wildcards
+
+search any directory (`**`) any file with `.war` extension (`*.war`)
+
+```bash
+**/*.war
+```
+
+---
+
 ## linux commands
 
-### basic commands
+### basic commands and system packages
 
 #### `& && || ;`
 
@@ -181,7 +217,31 @@ logout with current user
 exit
 ```
 
-#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`
+---
+
+#### sysinfo
+
+show free ram
+
+```bash
+free -mh
+```
+
+show uptime
+
+```bash
+uptime
+```
+
+clear terminal
+
+```bash
+clear
+```
+
+---
+
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`, `ln`
 
 make a directory
 
@@ -214,6 +274,24 @@ delete multiple files with the same name + numbers
 
 ```bash
 rm -rf filename{1..10}.txt
+```
+
+delete file
+
+```bash
+rm filename
+```
+
+delete dir
+
+```bash
+rm -r directory-name
+```
+
+force delete everything in current directory
+
+```bash
+rm -rf *
 ```
 
 copy file
@@ -287,6 +365,15 @@ find anything
 find /path/to -name filename*
 ```
 
+create softlink
+
+```bash
+ln -s /path/to/filename /path/to/filename
+
+# example
+ln -s /opt/dev/ops/devops/test/commands.txt cmds
+```
+
 #### locate
 
 > `locate` - command like `find` but more easy to use with indexed search
@@ -304,180 +391,355 @@ updatedb
 locate host
 ```
 
----
+#### export
 
-### grub
-
-force boot with specific kernel
-
-**Ubuntu**
-
-1. edit grub config  
-
-    ```bash
-    vim /etc/default/grub
-    ```
-
-2. in that file edit this line, in menu count starts with 0  
-
-    ```bash
-    GRUB_DEFAULT="1>2"
-    ```
-
-3. update grub config  
-
-    ```bash
-    update-grub
-    ```
-
-**Fedora**
-
-1. don't need to change anything in grub config, just use the command  
-
-    ```bash
-    grub2-set-default number
-    
-    # example
-    grub2-set-default 1
-    ```
-
-2. check the boot  
-
-    ```bash
-    reboot now
-    ```
-
-3. if something goes wrong, go to the hypervisor and press `ESC` when booting or hold `Shift` for older systems
-
----
-
-### partitioning, mounting, fdisk, gparted
-
-#### gparted
-
-[How to resize a root partition in Ubuntu Linux GPT.md](guides/How to resize a root partition in Ubuntu Linux GPT.md)
-
----
-
-#### df
-
-show partitions
+export environmental variables temporarily  
+change default text editor
 
 ```bash
-df -h
+export EDITOR=vim
+```
+
+to make it permanent for user add export command to `~/.bashrc` or `~/.bash_profile`
+
+```bash
+vim ~/.bashrc
+
+export EDITOR=vim
+```
+
+to make it permanent for all users add export command to `/etc/profile`
+
+```bash
+vim /etc/profile
+
+export EDITOR=vim
 ```
 
 ---
 
-#### fdisk
+#### needrestart
 
-show disks
+what needs to be restarted using machine-friendly show
 
 ```bash
-fdisk -l
+sudo needrestart -b
 ```
 
-show disks with `ls` (including unmounted)
+what needs to be restarted using human-friendly show
 
 ```bash
-ls -lh /dev/ | grep disk
+sudo needrestart -u NeedRestart::UI::stdio -r l
 ```
 
-start disk partitioning
+restart services with needrestart, reboot if doesn't help
 
 ```bash
-fdisk /dev/disk-name
+sudo needrestart -u NeedRestart::UI::stdio -r a
+```
+
+---
+
+#### text processing
+
+##### cat, head, tail, less
+
+show file contents
+
+```bash
+cat filename
+```
+
+show first 10 lines of the file or any number of lines
+
+```bash
+head filename
+
+head -20 filename
+```
+
+show last 10 lines of the file or any number of lines
+
+```bash
+tail filename
+
+tail -20 filename
+```
+
+show continuously last 10 lines of the file
+
+```bash
+tail -f filename
+```
+
+show file contents with pager `less`
+
+```bash
+less filename
+```
+
+##### bat
+
+>   `batcat` - `bat` after **Ubuntu 18**
+>
+>   To install bat 
+
+print `bat` without line numbers and header
+
+```bash
+bat -p filename
+```
+
+print `bat` without line numbers but with header
+
+```bash
+bat --style=plain,header filename
+```
+
+##### grep
+
+find word in file
+
+```bash
+grep word filename
+```
+
+find word in file and ignore case
+
+```bash
+grep -i word filename
+```
+
+find word in the file in all files and dirs
+
+```bash
+grep -iR word *
 
 # example
-fdisk /dev/xvdf
+grep -R SELINUX /etc/*
 ```
 
-> partitioning example
+`-v` - grep process excluding grep process
 
 ```bash
-m # for help
-n # add a new partition
-p # primary
-1 # partition number
-Enter # first sector, can be specified
-Enter # last sector, can be specified
-# or specify last sector for example 3GB
-+3G
-w # write table to disk and exit
+ps -ef | grep -i process-name | grep -v 'grep'
 ```
 
----
-
-#### mkfs, formatting
-
-show avalaible formatting utilities
+`grep` examples
 
 ```bash
-mkfs # press Tab 2 times
+ls /etc/host* | grep host
+
+ls host | grep host
+
+tail -150 /var/log/messages-20230108 | grep -i vagrant
+
+free -h | grep -i mem
 ```
 
-do ext4 formatting
+##### cut, awk
+
+show needed part of file with cut
 
 ```bash
-mkfs.ext4 /dev/disk-name
+cut -d delimiter -f field-number /path/to/filename
 
 # example
-mkfs.ext4 /dev/xvdf1
+cut -d: -f1,7 /etc/passwd
+```
+
+show needed part of file with awk
+
+```bash
+awk -F'delimiter' '{print $field-number$field-number}' /path/tofilename
+
+# example
+awk -F':' '{print $1$7}' /etc/passwd
+```
+
+##### sed
+
+replace text in files  
+`g` - globally (more than one time in line)  
+without `-i` to show what will be changed
+
+```bash
+sed 's/word-to-replace/word-that-replace/g' filename
+sed -i 's/word-to-replace/word-that-replace/g' filename
+sed -i 's/word-to-replace/word-that-replace/g' *.cfg
+sed -i 's/word-to-replace/word-that-replace/g' *
+
+# example
+sed 's/coronavirus/covid19/g' samplefile.txt
+sed -i 's/coronavirus/covid19/g' samplefile.txt
+```
+
+- `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
+
+  - switch to main repos
+
+    - ```bash
+                sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
+                # or
+                sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
+            ```
+
+  - switch to Armenia repos
+
+    - ```bash
+                sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
+                # or
+                sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
+            ```
+
+##### wc
+
+`wc` - count anything
+
+count how many lines in file
+
+```bash
+wc -l /path/to/filename
+
+# example
+wc -l /etc/passwd
+```
+
+count how many dirs and files
+
+```bash
+ls | wc -l
 ```
 
 ---
 
-#### mount, umount, mounting
+#### tar, zip, archives
 
-mount dir to partition temporarily
+##### tar
+
+create archives
+
+> - `-c` - create
+> - `-z` - compress
+> - `-v` - verbose
+> - `-f` - file
 
 ```bash
-mount /dev/xvdf1 /var/www/html/images/
+tar -czvf archive-name.tar.gz /path/to/dir
 ```
 
-check mounting
+extract archive  
+`-x` - extract
 
 ```bash
-df -h
+tar -xzvf filename
 ```
 
-unmount dir from partition
+extract archive to some dir
 
 ```bash
-umount /var/www/html/images/
-```
-
-mount dir to partition permanently
-
-```bash
-vim /etc/fstab
-
-# add this to file
-/dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
-```
-
-> `/etc/fstab` example
-
-```bash
-# Created by anaconda on Sun Nov 14 11:52:41 2021
-#
-# Accessible filesystems, by reference, are maintained under '/dev/disk'
-# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
-#
-UUID=44a6a613-4e21-478b-a909-ab653c9d39df /                       xfs     defaults        0 0
-/dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
-/dev/xvdg1      /var/lib/mysql  ext4    defaults        0 0
-```
-
-> **DON'T FORGET** after that mount all mounts from `/etc/fstab`
-
-```bash
-mount -a
+tar -xzvf filename -C /path/to/dir
 ```
 
 ---
 
-### time, date
+##### zip
+
+create archive  
+`-r` - recursively
+
+```bash
+zip -r filename.zip /path/to/dir
+```
+
+unzip for unarchive  
+`-d` - to point to dir
+
+```bash
+unzip filename.zip -d /path/to/dir
+```
+
+unzip and overwrite, non-interactive
+
+```bash
+unzip -o filename.zip /path/to/dir
+```
+
+---
+
+#### input/output redirection
+
+##### output redirection
+
+`>` - output command result to a file
+
+```bash
+command-name > /path/to/filename
+
+# examples
+uptime > /tmp/sysinfo.txt
+ls > /tmp/sysinfo.txt
+echo "text" > /tmp/sysinfo.txt
+```
+
+output command result to a file and did not overwrite its contents and just append
+
+```bash
+command-name >> /path/to/filename
+
+# exapmle
+uptime >> /tmp/sysinfo.txt
+```
+
+output command result to nowhere
+
+```bash
+command-name > /dev/null
+
+# example
+yum install vim -y > /dev/null
+```
+
+remove everything in file with `cat`
+
+```bash
+cat /dev/null > /path/to/filename
+
+# example
+cat /dev/null > /tmp/sysinfo.txt
+```
+
+redirect error output
+
+```bash
+command-name 2> /path/to/filename
+
+# example
+freeee 2>> /tmp/error.log
+```
+
+to redirect standard output `1>` (default) **and** error output `2>` use `&>`
+
+```bash
+command-name &> /path/to/filename
+
+# examples
+free -m &>> /tmp/error.log
+freddfefe -m &>> /tmp/error.log
+```
+
+##### input redirection
+
+```bash
+command-name < /path/to/filename
+
+# example
+wc -l < /etc/passwd
+```
+
+---
+
+#### time, date
 
 check timezone
 
@@ -503,7 +765,7 @@ sudo timedatectl set-timezone timezone-name
 
 ---
 
-### locale
+#### locale
 
 show used locale
 
@@ -546,9 +808,9 @@ localectl set-keymap us
 
 > fix for us locale error
 >
->   ```bash
->   setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
->   ```
+> ```bash
+> setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
+> ```
 
 ```bash
 echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment && \
@@ -557,7 +819,154 @@ echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 
 ---
 
-### users & groups
+#### systemctl
+
+service status
+
+```bash
+systemctl status service-name
+```
+
+check service active or not
+
+```bash
+systemctl is-active service-name
+```
+
+check service in autorun or not
+
+```bash
+systemctl is-enabled service-name
+```
+
+start service
+
+```bash
+systemctl start service-name
+```
+
+restart service
+
+```bash
+systemctl restart service-name
+```
+
+reload config of the service without restarting
+
+```bash
+systemctl reload service-name
+```
+
+stop service
+
+```bash
+systemctl stop service-name
+```
+
+add service to autorun
+
+```bash
+systemctl enable service-name
+```
+
+remove service from autorun
+
+```bash
+systemctl disable service-name
+```
+
+---
+
+#### processes, top, ps
+
+all processes path
+
+```bash
+/var/run/
+```
+
+show process `PID`
+
+```bash
+cat /var/run/process-name/process-name.pid
+
+# example
+cat /var/run/httpd/httpd.pid
+```
+
+process managers, activity monitors
+
+```bash
+top
+htop
+```
+
+top for specified process
+
+```bash
+top -b | grep java
+```
+
+show all processes and exit
+
+```bash
+ps aux
+```
+
+show all processes with displaying parent processes
+
+```bash
+ps -ef
+```
+
+show all processes sorted by memory usage with `Mb` not `%`
+
+```bash
+ps -eo size,pid,user,command --sort -size | \
+  awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
+  cut -d "" -f2 | cut -d "-" -f1
+```
+
+find specific process PID and kill it  
+kill the parent process
+
+```bash
+ps -ef | grep -i process-name | grep -v 'grep'
+kill PID
+```
+
+forcefully kill the process but without the child processes
+
+```bash
+kill -9 PID
+```
+
+forcefully kill all child processes with filtering  
+
+- ```bash
+    ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
+    ```
+
+- >`ps -ef` - list processes  
+    >`grep -v 'grep'` - excludes processes with name `grep`  
+    >`awk '{print $2}'` - lists only 2nd column of the output  
+    >`xargs kill -9` - kills every process
+
+list all logged in users
+
+```bash
+who
+```
+
+logout user and kill all its processes
+
+```bash
+pkill -KILL -u username
+```
+
+---
+
+#### users & groups
 
 which user you are now
 
@@ -682,7 +1091,7 @@ docker:x:118:username
 
 ---
 
-#### change user and group ID for user and files
+##### change user and group ID for user and files
 
 Foo’s old `UID`: `1005`  
 Foo’s new `UID`: `2005`  
@@ -740,7 +1149,7 @@ find / -group sales -ls # maybe -group foo here...
 
 ---
 
-#### sudoers
+##### sudoers
 
 >For security reasons instead of using vanilla `/etc/sudoers` file use `/etc/sudoers.d` dir and generate there sudoers settings, for example:
 >
@@ -779,7 +1188,7 @@ username ALL=(ALL) NOPASSWD: ALL
 
 ---
 
-#### chown
+##### chown
 
 change `user:group` owners of the dir or file
 
@@ -795,7 +1204,7 @@ chown -R username:group-name /path/to/filename
 
 ---
 
-#### chmod
+##### chmod
 
 change permissions for the file or dirs  
 `-R` - recursively
@@ -850,167 +1259,167 @@ chmod 770 /path/to/filename
 
 ---
 
-### systemctl
+### partitioning, mounting, fdisk, gparted
 
-service status
+#### grub
 
-```bash
-systemctl status service-name
-```
+force boot with specific kernel
 
-check service active or not
+**Ubuntu**
 
-```bash
-systemctl is-active service-name
-```
+1. edit grub config  
 
-check service in autorun or not
-
-```bash
-systemctl is-enabled service-name
-```
-
-start service
-
-```bash
-systemctl start service-name
-```
-
-restart service
-
-```bash
-systemctl restart service-name
-```
-
-reload config of the service without restarting
-
-```bash
-systemctl reload service-name
-```
-
-stop service
-
-```bash
-systemctl stop service-name
-```
-
-add service to autorun
-
-```bash
-systemctl enable service-name
-```
-
-remove service from autorun
-
-```bash
-systemctl disable service-name
-```
-
----
-
-### text processing
-
-#### sed
-
-- `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
-
-  - switch to main repos
-
-    - ```bash
-                sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
-                # or
-                sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
-            ```
-
-  - switch to Armenia repos
-
-    - ```bash
-                sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
-                # or
-                sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
-            ```
-
----
-
-### processes, top, ps
-
-all processes path
-
-```bash
-/var/run/
-```
-
-show process `PID`
-
-```bash
-cat /var/run/process-name/process-name.pid
-
-# example
-cat /var/run/httpd/httpd.pid
-```
-
-process managers, activity monitors
-
-```bash
-top
-htop
-```
-
-show all processes and exit
-
-```bash
-ps aux
-```
-
-show all processes with displaying parent processes
-
-```bash
-ps -ef
-```
-
-show all processes sorted by memory usage with `Mb` not `%`
-
-```bash
-ps -eo size,pid,user,command --sort -size | \
-  awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
-  cut -d "" -f2 | cut -d "-" -f1
-```
-
-find specific process PID and kill it  
-kill the parent process
-
-```bash
-ps -ef | grep -i process-name | grep -v 'grep'
-kill PID
-```
-
-forcefully kill the process but without the child processes
-
-```bash
-kill -9 PID
-```
-
-forcefully kill all child processes with filtering  
-
-- ```bash
-    ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
+    ```bash
+    vim /etc/default/grub
     ```
 
-- >`ps -ef` - list processes  
-    >`grep -v 'grep'` - excludes processes with name `grep`  
-    >`awk '{print $2}'` - lists only 2nd column of the output  
-    >`xargs kill -9` - kills every process
+2. in that file edit this line, in menu count starts with 0  
 
-list all logged in users
+    ```bash
+    GRUB_DEFAULT="1>2"
+    ```
+
+3. update grub config  
+
+    ```bash
+    update-grub
+    ```
+
+**Fedora**
+
+1. don't need to change anything in grub config, just use the command  
+
+    ```bash
+    grub2-set-default number
+    
+    # example
+    grub2-set-default 1
+    ```
+
+2. check the boot  
+
+    ```bash
+    reboot now
+    ```
+
+3. if something goes wrong, go to the hypervisor and press `ESC` when booting or hold `Shift` for older systems
+
+#### gparted
+
+[How to resize a root partition in Ubuntu Linux GPT.md](guides/How to resize a root partition in Ubuntu Linux GPT.md)
+
+#### df
+
+show partitions
 
 ```bash
-who
+df -h
 ```
 
-logout user and kill all its processes
+#### fdisk
+
+show disks
 
 ```bash
-pkill -KILL -u username
+fdisk -l
+```
+
+show disks with `ls` (including unmounted)
+
+```bash
+ls -lh /dev/ | grep disk
+```
+
+start disk partitioning
+
+```bash
+fdisk /dev/disk-name
+
+# example
+fdisk /dev/xvdf
+```
+
+> partitioning example
+
+```bash
+m # for help
+n # add a new partition
+p # primary
+1 # partition number
+Enter # first sector, can be specified
+Enter # last sector, can be specified
+# or specify last sector for example 3GB
++3G
+w # write table to disk and exit
+```
+
+---
+
+#### mkfs, formatting
+
+show avalaible formatting utilities
+
+```bash
+mkfs # press Tab 2 times
+```
+
+do ext4 formatting
+
+```bash
+mkfs.ext4 /dev/disk-name
+
+# example
+mkfs.ext4 /dev/xvdf1
+```
+
+---
+
+#### mount, umount, mounting
+
+mount dir to partition temporarily
+
+```bash
+mount /dev/xvdf1 /var/www/html/images/
+```
+
+check mounting
+
+```bash
+df -h
+```
+
+unmount dir from partition
+
+```bash
+umount /var/www/html/images/
+```
+
+mount dir to partition permanently
+
+```bash
+vim /etc/fstab
+
+# add this to file
+/dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
+```
+
+> `/etc/fstab` example
+
+```bash
+# Created by anaconda on Sun Nov 14 11:52:41 2021
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=44a6a613-4e21-478b-a909-ab653c9d39df /                       xfs     defaults        0 0
+/dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
+/dev/xvdg1      /var/lib/mysql  ext4    defaults        0 0
+```
+
+> **DON'T FORGET** after that mount all mounts from `/etc/fstab`
+
+```bash
+mount -a
 ```
 
 ---
@@ -1172,6 +1581,151 @@ sudo hostnamectl set-hostname web03
 
 ---
 
+#### ssh
+
+##### ssh-keygen
+
+[ssh-keygen full guide on DO](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server)
+
+generate new pair of ssh keys
+
+```bash
+ssh-keygen
+```
+
+public key default location
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+identification (private key or closed key)
+
+```bash
+cat ~/.ssh/id_rsa
+```
+
+copy public key to remote server for specific user
+
+```bash
+ssh-copy-id username@remote_host
+```
+
+copy public key to remote server without ssh-copy-id
+
+```bash
+cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+```
+
+disable password authentication on remote server
+
+```bash
+sudo nano /etc/ssh/sshd_config
+
+# edit in file
+PasswordAuthentication no
+
+sudo service ssh restart
+sudo service sshd restart # rpm-based distro
+```
+
+list all local private and public ssh keys
+
+```bash
+ls -l ~/.ssh/
+ls -l ~/.ssh/id_*
+```
+
+change the passphrase for default SSH private key
+
+```bash
+ssh-keygen -p
+```
+
+change the passphrase for specific private key
+
+```bash
+ssh-keygen -p -f ~/.ssh/private_key_name
+# or
+ssh-keygen -f private_key_name -p
+```
+
+remove a passphrase from private key
+
+```bash
+ssh-keygen -f ~/.ssh/private_key_name -p
+# or
+ssh-keygen -f ~/.ssh/private_key_name -p -N ""
+# for default private key
+ssh-keygen -p -N ""
+```
+
+ssh to host with specific public key
+
+```bash
+ssh -i ~/.ssh/id_rsa_name username@hostname
+
+# aws example
+ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
+```
+
+---
+
+##### scp
+
+push file to another server
+
+```bash
+scp filename username@hostname:/absolute/path/to/dir
+
+# example
+scp testfile.txt devops@web01:/tmp
+```
+
+fetch file from another server
+
+```bash
+scp username@hostname:/absolute/path/to/filename
+
+# example
+scp devops@web01:/home/devops/testfile.txt .
+```
+
+---
+
+#### https, curl, wget
+
+> `curl` and `wget` to download something
+
+download anything with `curl`
+
+```bash
+curl https://link -o filename
+
+# example
+curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/t/tree-2.1.0-1.fc38.aarch64.rpm -o tree-2.1.0-1.fc38.aarch64.rpm
+```
+
+check curl
+
+```bash
+curl parrot.live
+```
+
+check working webserver (**httpd**, **apache2**, **nginx**)
+
+```bash
+curl localhost
+```
+
+download file with `wget`
+
+```bash
+wget filelink
+```
+
+---
+
 #### open ports
 
 ##### nmap
@@ -1310,17 +1864,441 @@ arp
 
 #### apt
 
-#### apt search
+> `apt` - is the newer version of `apt-get`
+>
+> - `apt-get` - with scripts and auto provision
+> - `apt` - with ssh connection to host
 
-search package with apt
+apt repos
+
+```bash
+cat /etc/apt/sources.list
+```
+
+before installing any package update repos list
+
+```bash
+apt update
+```
+
+update all packages
+
+```bash
+apt upgrade
+```
+
+update specific package
+
+```bash
+apt upgrade package-name
+```
+
+search package from avalaible repos
 
 ```bash
 apt search package-name
 ```
 
+install package without prompts
+
+```bash
+apt install package-name -y
+```
+
+reinstall package
+
+```bash
+apt reinstall package-name
+```
+
+remove package
+
+```bash
+apt remove package-name
+```
+
+remove package and all its configs and data
+
+```bash
+apt purge package-name
+```
+
+list all available *Group Packages*
+
+```bash
+apt grouplist
+```
+
+install all the packages in a group
+
+```bash
+apt groupinstall group-name
+```
+
+show enabled apt repos
+
+```bash
+apt repolist
+```
+
+clean apt cache
+
+```bash
+apt clean all
+```
+
+show apt history
+
+```bash
+apt history
+```
+
+show info of the package
+
+```bash
+apt show package-name
+```
+
+---
+
+##### apt autoremove
+
+delete all unused packages that was installed as dependencies
+
+```bash
+apt autoremove
+```
+
+delete all unused packages that was installed as dependencies with all config files and data
+
+```bash
+apt autoremove --purge
+# 1st preffered or
+apt autopurge
+```
+
+---
+
+##### apt-mark
+
+> Hold specific packages from upgrading. Useful to not update the kernel packages.
+
+```bash
+apt-mark hold package-name
+
+# example for ubuntu m1 vm
+apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-headers-5.4.0-137-generic linux-headers-generic linux-image-unsigned-5.4.0-137-generic linux-modules-5.4.0-137-generic
+```
+
+---
+
+#### dpkg
+
+> `dpkg` - package manager for local packages
+
+install downloaded package with dpkg
+
+```bash
+dpkg -i filename
+```
+
+show all installed packages
+
+```bash
+dpkg -l
+```
+
+search for specific installed package
+
+```bash
+dpkg -l | grep -i package-name
+```
+
+remove package
+
+```bash
+dpkg -r package-name
+```
+
 ---
 
 ### rpm-based distros (RHEL, CentOS, Amazon Linux, etc)
+
+#### dnf, yum
+
+> Almost all these commands applied to `yum`.
+
+---
+
+##### paths yum
+
+repos location
+
+```bash
+/etc/yum.repos.d/
+```
+
+if there are a problem with repos metalink, comment metalink and enter baseurl
+
+```bash
+vim /etc/yum.repos.d/fedora.repo
+
+# comment metalink and enter baseurl
+
+#metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
+baseurl=https://fedora-archive.ip-connect.info/fedora/linux/releases/35/Everything/x86_64/os/
+# or 
+https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-35&arch=x86_64
+https://admin.fedoraproject.org/mirrormanager/
+```
+
+---
+
+search package
+
+```bash
+dnf search package-name
+```
+
+install something without prompts
+
+```bash
+dnf install -y package-name
+```
+
+reinstall package
+
+```bash
+dnf reinstall package-name
+```
+
+remove package and its config files not touched by user
+
+```bash
+dnf remove package-name
+```
+
+update all packages
+
+```bash
+dnf update
+```
+
+update specific package
+
+```bash
+dnf update package-name
+```
+
+list all avalaible *Group Packages*
+
+```bash
+dnf grouplist
+```
+
+install all the packages in a group
+
+```bash
+dnf groupinstall group-name
+```
+
+show enabled dnf repos
+
+```bash
+dnf repolist
+```
+
+clean dnf cache
+
+```bash
+dnf clean all
+```
+
+show history of dnf
+
+```bash
+dnf history
+```
+
+show info of package
+
+```bash
+dnf info package-name
+```
+
+exclude package in dnf from updating
+
+```bash
+# example for kernel updates
+echo "exclude=kernel*" >> /etc/dnf/dnf.conf
+```
+
+exclude package in yum from updating
+
+```bash
+# deprecated in Fedora 35 and maybe previously versions
+echo "exclude=kernel*" >> /etc/yum.conf
+```
+
+---
+
+#### epel
+
+**epel** - additional package repository with commonly used software
+
+```bash
+sudo dnf install epel-release
+```
+
+**Amazon Linux 2**
+
+```bash
+sudo amazon-linux-extras install epel -y
+```
+
+**RHEL 8**
+
+```bash
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+```
+
+**RHEL 7**
+
+```bash
+sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+```
+
+**CentOS 8**
+
+```bash
+sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo dnf config-manager --set-enabled PowerTools
+```
+
+**CentOS 7**
+
+```bash
+sudo yum -y install epel-release
+```
+
+List repositories that are turned on  
+To verify that the EPEL repository is turned on, run the repolist command:
+
+```bash
+sudo yum repolist
+```
+
+---
+
+#### rpm
+
+> `rpm` - package manager for local packages
+
+install downloaded package  
+`-i` - install, `-v` - verbose, `-h` - human readable
+
+```bash
+rmp -ivh package-name
+
+# examples
+rpm -ivh mozilla-mail-1.7.5-17.i586.rpm
+rpm -ivh --test mozilla-mail-1.7.5-17.i586.rpm
+```
+
+show all installed rpms
+
+```bash
+rpm -qa
+
+# examples
+rpm -qa
+rpm -qa | less
+```
+
+show latest installed rpms
+
+```bash
+rpm -qa --last
+```
+
+upgrade installed package
+
+```bash
+rpm -Uvh package-name
+
+# examples
+rpm -Uvh mozilla-mail-1.7.6-12.i586.rpm
+rpm -Uvh --test mozilla-mail-1.7.6-12.i586.rpm
+```
+
+remove installed package
+
+```bash
+rpm -ev package-name
+
+# example
+rpm -ev mozilla-mail
+```
+
+remove installed package without checking its dependencies
+
+```bash
+rpm -ev --nodeps
+
+# example
+rpm -ev --nodeps mozilla-mail
+```
+
+show info about installed package
+
+```bash
+rpm -qi package-name
+
+# example
+rpm -qi mozilla-mail
+```
+
+find out what package owns the file
+
+```bash
+rpm -qf /path/to/dir
+
+# examples
+rpm -qf /etc/passwd
+```
+
+show list of configuration file(s) for a package
+
+```bash
+rpm -qc package-name
+
+# example
+rpm -qc httpd
+```
+
+show list of configuration files for a command
+
+```bash
+rpm -qcf /path/to/filename
+
+# example
+rpm -qcf /usr/X11R6/bin/xeyes
+```
+
+show what dependencies a rpm file has
+
+```bash
+rpm -qpR filename.rpm
+rpm -qR package-name
+
+# examples
+rpm -qpR mediawiki-1.4rc1-4.i586.rpm
+rpm -qR bash
+```
+
+---
 
 #### firewalld
 
@@ -1341,7 +2319,7 @@ sudo firewall-cmd --reload
 
 ---
 
-## linux packages
+## third-party packages
 
 package for  `ip -a` command - `iproute2`
 
@@ -1379,12 +2357,61 @@ java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
 
 ---
 
-## bash wildcards
+### apache2, httpd
 
-search any directory (`**`) any file with `.war` extension (`*.war`)
+default path for website for **apache2**, **httpd**
 
 ```bash
-**/*.war
+/var/www/html
+```
+
+---
+
+### tomcat
+
+default path for website for tomcat  
+`?` - **tomcat** version
+
+```bash
+/var/lib/tomcat?/webapps/
+/var/lib/tomcat8/webapps/
+```
+
+---
+
+### mysql, mariadb
+
+default path for **mysql** db
+
+```bash
+/var/lib/mysql
+```
+
+install mysql on **deb-based distro**
+
+```bash
+apt install mysql
+```
+
+install mysql on **rpm-based distro**
+
+```bash
+dnf install mariadb-server
+```
+
+install **mysql** client to connect to the mysql remote host
+
+```bash
+apt install mysql-client
+```
+
+connect with mysql-client to remote host
+
+```bash
+mysql -h hostname -u username -ppassword
+
+# example
+mysql -h vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -plicgiTGxfz8iu128mGHg
 ```
 
 ---

@@ -108,7 +108,7 @@ function bat-install() {
     message "Installing software and cleaning up..."
     sudo apt-get install stress -y
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
-      wget https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1_amd64.deb
+      wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
       sudo dpkg -i bat-musl_0.22.1_amd64.deb
       sudo apt-get clean
     else
