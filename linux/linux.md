@@ -147,6 +147,13 @@ network config, more info here -> [network](#network)
 /etc/sysconfig/network-scripts/ifcfg-*
 ```
 
+banner file (info when login into the system)  
+create it with any text
+
+```bash
+/etc/motd
+```
+
 ---
 
 ## bash wildcards

@@ -20,6 +20,7 @@ url: https://github.com/wandering-mono/snippets.git
   - [Ansible commands](#ansible-commands)
     - [`ansible-doc` = `--help`](#ansible-doc----help)
     - [ansible-playbook](#ansible-playbook)
+    - [ansible-galaxy](#ansible-galaxy)
     - [rpm-based](#rpm-based)
   - [Ansible playbook hints](#ansible-playbook-hints)
   - [Ansible modules](#ansible-modules)
@@ -168,7 +169,7 @@ execute playbook
 ansible-playbook -i inventory web_db.yaml
 ```
 
-test playbook with `-C`
+test playbook with `-C`, check only, dry-run
 
 ```bash
 ansible-playbook -i inventory web_db.yaml -C
@@ -180,6 +181,44 @@ ansible-playbook -i inventory web_db.yaml -C
 ansible-playbook db.yaml -vv
 
 # -vv - second log level, maximum is -vvvv
+```
+
+---
+
+### ansible-galaxy
+
+initialize role-based approach and create needed dirs
+
+```bash
+ansible-galaxy init role-name
+
+
+# example
+ansible-galaxy init post-install
+
+# output
+- Role post-install was created successfully
+
+tree
+
+# output
+post-install/
+├── README.md
+├── defaults
+│   └── main.yml
+├── files
+├── handlers
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── tasks
+│   └── main.yml
+├── templates
+├── tests
+│   ├── inventory
+│   └── test.yml
+└── vars
+    └── main.yml
 ```
 
 ---

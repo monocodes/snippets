@@ -79,11 +79,8 @@ search and replace only once every line
 
 ```bash
 :%s/word-to-replace/word-that-replace
-```
 
-> example
-
-```bash
+# example
 :%s/coronavirus/covid19
 ```
 
@@ -91,12 +88,8 @@ search and replace g - globally (more than one time in line)
 
 ```bash
 :%s/word-to-replace/word-that-replace/g
-```
 
-> example  
->
-
-```bash
+# example
 :%s/coronavirus/covid19/g
 ```
 
@@ -104,42 +97,46 @@ search and replace g - globally (more than one time in line) with nothing
 
 ```bash
 :%s/word-to-replace//g
+
+# example
+:%s/coronavirus//g
 ```
 
-> example  
->
+search and replace whitespaces from the start of each line
 
 ```bash
-:%s/coronavirus//g
+# example with 4 spaces
+
+:%s/^    //
 ```
 
 search and replace with delimiters
 
-- example with `apt` `sources.list`
+- *example* with `apt` `sources.list`
 
   - make `sources.list` backup
 
   - ```bash
-        sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
-        ```
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+    ```
 
   - ```bash
-        sudo vim /etc/apt/sources.list
-        ```
+    sudo vim /etc/apt/sources.list
+    ```
 
   - `:` to enter colon mode in `vim`
 
   - switch to main repos
 
   - ```text
-        %s/http:\/\/us\./http:\/\//g
-        ```
+    %s/http:\/\/us\./http:\/\//g
+    ```
 
   - or to Armenia repos
 
   - ```text
-        %s/http:\/\/ru\./http:\/\/am\./g
-        ```
+    %s/http:\/\/ru\./http:\/\/am\./g
+    ```
 
 ---
 
