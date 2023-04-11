@@ -1,0 +1,32 @@
+---
+- name: Learning fact variables
+  hosts: all
+  tasks:
+    - name: Print OS names
+      debug:
+        var: ansible_distribution
+
+    - name: Print memory details
+      debug:
+        var: ansible_memory_mb
+
+    - name: Print real memory details
+      debug:
+        var: ansible_memory_mb.nocache.free
+
+    - name: Print processor name
+      debug:
+        var: ansible_processor[2]
+
+    - name: Get running processes list from remote host, sort by memory usage
+      become: yes
+      shell:
+        # YAML literal block string syntax
+        cmd: |
+          ps -eo size,pid,user,command --sort -size | \
+            awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
+            cut -d "" -f2 | cut -d "-" -f1
+      register: running_processes
+
+    - debug:
+        var: running_processes.stdout_lines
