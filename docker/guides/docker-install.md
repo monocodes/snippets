@@ -66,7 +66,7 @@ sudo amazon-linux-extras install docker
 
 3. Add Docker’s official GPG key::
 
-    > need to check: `mkdir` maybe unnecessary
+    > need to check: `mkdir`, maybe unnecessary
 
     ```bash
     ls -d /etc/apt/keyrings
@@ -228,3 +228,47 @@ sudo amazon-linux-extras install docker
         ```
 
 ---
+
+### Rocky Linux
+
+1. Uninstall old versions
+
+    ```bash
+    sudo dnf remove docker docker-engine docker.io containerd runc -y
+    ```
+
+2. Add docker repo
+
+    ```bash
+    sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    ```
+
+3. Create metadata cache
+
+    ```bash
+    sudo dnf makecache
+    ```
+
+4. Install docker and other needed packages
+
+    ```bash
+    sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    ```
+
+    >   notes
+    >
+    >   ```text
+    >   docker-ce               : This package provides the underlying technology for building and running docker containers (dockerd) 
+    >   docker-ce-cli           : Provides the command line interface (CLI) client docker tool (docker)
+    >   containerd.io           : Provides the container runtime (runc)
+    >   docker-compose-plugin   : A plugin that provides the 'docker compose' subcommand 
+    >   ```
+
+5. Enable auto startup and start dockerd daemon now
+
+    ```bash
+    sudo systemctl --now enable docker
+    ```
+
+    
+

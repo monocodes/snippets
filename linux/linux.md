@@ -1623,6 +1623,15 @@ generate new pair of ssh keys
 ssh-keygen
 ```
 
+generate new pair of ssh keys in specified dir
+
+```bash
+ssh-keygen
+
+# Enter file in which to save the key (/Users/mono/.ssh/id_rsa):
+/Users/mono/.ssh/aws/vpro-codecommit_rsa
+```
+
 public key default location
 
 ```bash
@@ -1703,7 +1712,7 @@ ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
 
 ##### scp
 
-push file to another server
+push file to another host
 
 ```bash
 scp filename username@hostname:/absolute/path/to/dir
@@ -1712,13 +1721,22 @@ scp filename username@hostname:/absolute/path/to/dir
 scp testfile.txt devops@web01:/tmp
 ```
 
-fetch file from another server
+fetch file from another host
 
 ```bash
 scp username@hostname:/absolute/path/to/filename
 
 # example
 scp devops@web01:/home/devops/testfile.txt .
+```
+
+push file to another host with specified key
+
+```bash
+scp -i /path/to/key-filename /path/to/filename username@hostname:/path/to/dest
+
+# aws example
+scp -i ~/.ssh/aws/bastion-key.pem ~/.ssh/aws/wave-key.pem ec2-user@52.53.251.116:/home/ec2-user/
 ```
 
 ---
@@ -2156,6 +2174,12 @@ show info of package
 dnf info package-name
 ```
 
+create metadata cache (dnf will do it automatically)
+
+```bash
+dnf makecache
+```
+
 exclude package in dnf from updating
 
 ```bash
@@ -2178,6 +2202,14 @@ echo "exclude=kernel*" >> /etc/yum.conf
 
 ```bash
 sudo dnf install epel-release
+sudo dnf makecache
+```
+
+**Rocky Linux 9**
+
+```bash
+sudo dnf -y install epel-release
+sudo dnf makecache
 ```
 
 **Amazon Linux 2**
@@ -2442,6 +2474,12 @@ mysql -h hostname -u username -ppassword
 
 # example
 mysql -h vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -plicgiTGxfz8iu128mGHg
+```
+
+restore mysql backup to a running mysql instance
+
+```bash
+mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQuz9qrKNPY97jqVa5T8B accounts < src/main/resources/db_backup.sql
 ```
 
 ---

@@ -3,8 +3,10 @@
 # Variable Declaration
 #PACKAGE="httpd wget unzip"
 #SVC="httpd"
-URL='https://www.tooplate.com/zip-templates/2098_health.zip'
-ART_NAME='2098_health'
+# URL='https://www.tooplate.com/zip-templates/2098_health.zip'
+# ART_NAME='2098_health'
+URL='https://www.tooplate.com/zip-templates/2121_wave_cafe.zip'
+ART_NAME='2121_wave_cafe'
 TEMPDIR="/tmp/webfiles"
 
 yum --help &> /dev/null
@@ -112,4 +114,4 @@ else
 
    sudo systemctl status $SVC
    ls /var/www/html/
-fi 
+fi

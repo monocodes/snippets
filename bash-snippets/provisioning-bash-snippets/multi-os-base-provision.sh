@@ -106,7 +106,7 @@ function bat-install() {
     sudo apt autoremove --purge -y
     
     message "Installing software and cleaning up..."
-    sudo apt-get install stress -y
+
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
       wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
       sudo dpkg -i bat-musl_0.22.1_amd64.deb
@@ -130,7 +130,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop stress -y
+    sudo yum install vim htop -y
 
     message "Cleaning up..."
     sudo yum autoremove -y
@@ -142,6 +142,28 @@ function bat-install() {
     message "Making vim default editor for default user and root..."
     echo "export EDITOR=vim" | tee -a ~/.bashrc
     echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
+  
+  elif [  -n "$(uname -a | grep -i el[8-99])" ]; then
+    # el[8-99] for another upstream RHEL based
+    # distros like Rocky Linux, AlmaLinux or CentOS Stream
+    
+    message "Distro RHEL-based >= 8"
+
+    message "Installing epel and updating system..."
+    sudo dnf install epel-release -y
+    sudo dnf makecache
+    sudo dnf update -y
+
+    message "Installing software..."
+    sudo yum install vim htop bat -y
+
+    message "Cleaning up..."
+    sudo dnf autoremove -y
+    sudo dnf clean all
+
+    message "Making vim default editor for default user and root..."
+    echo "export EDITOR=vim" | tee -a ~/.bashrc
+    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc  
     
   elif [  -n "$(uname -a | grep -i el7)" ]; then
     # el[8-99] for another upstream RHEL based
@@ -160,7 +182,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop stress -y
+    sudo yum install vim htop -y
 
     message "Cleaning up..."
     sudo yum autoremove -y

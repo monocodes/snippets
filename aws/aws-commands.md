@@ -61,6 +61,36 @@ sudo amazon-linux-extras install docker
 
 ---
 
+## CloudWatch Logs
+
+### CloudWatch Logs agent
+
+[Quick Start: Install and configure the CloudWatch Logs agent on a running EC2 Linux instance](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/QuickStartEC2Instance.html)
+
+install CloudWatch Logs agent on **Amazon Linux 2**
+
+```bash
+sudo yum update -y && sudo yum install -y awslogs
+```
+
+install CloudWatch Logs agent on **Ubuntu Server, CentOS, or Red Hat instance**
+
+```bash
+curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
+
+# install and configure with the needed region
+# don't forget to CHANGE the --region
+sudo python ./awslogs-agent-setup.py --region us-east-1
+```
+
+config of CloudWatch Logs agent
+
+```bash
+vim /var/awslogs/etc/awslogs.conf
+```
+
+---
+
 ## Amazon EFS
 
 ### amazon-efs-utils
@@ -130,3 +160,28 @@ home/ec2-user/efs      : successfully mounted
 ## AWS Network
 
 ---
+
+### Classic Load Balancer
+
+#### Classic Load Balancer logs
+
+[Enable access logs for your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html)
+
+sample S3 policy to store logs of Classic Load Balancer in S3 bucket
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::127311923021:root"
+        },
+        "Action": "s3:PutObject",
+        "Resource": "arn:aws:s3:::wave-web-logs-2/elb-wave/AWSLogs/account-id/*"
+      }
+    ]
+  }
+```
+

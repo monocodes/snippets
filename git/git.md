@@ -338,31 +338,31 @@ revert the changes to the last commit in particular file
 git checkout filename
 ```
 
-- revert all to the last commit
+revert all to the last commit
 
-- ```bash
-    git checkout .
-    ```
+```bash
+git checkout .
+```
 
 - revert changes to the specific commit - use first six symbols of a commit
 
-- ```bash
-    git checkout ee7641
-    ```
+    - ```bash
+      git checkout ee7641
+      ```
 
-  - > When you check out to a previous commit, you leave the master branch and enter what Git refers to as a detached `HEAD` state ➊. `HEAD` is the current committed state of the project; you’re detached because you’ve left a named branch (`main`, in this case).
+    - > When you check out to a previous commit, you leave the master branch and enter what Git refers to as a detached `HEAD` state ➊. `HEAD` is the current committed state of the project; you’re detached because you’ve left a named branch (`main`, in this case).
 
-  - get back to the main branch
+    - get back to the main branch
 
-  - ```bash
+      - ```bash
         git checkout main
-    ```
+        ```
 
-  - get back to previous commit
+    - get back to previous commit
 
-  - ```bash
+      - ```bash
         git reset --hard ee7641
-    ```
+        ```
 
 ---
 
@@ -534,6 +534,83 @@ git init
 ---
 
 ## git best practices
+
+### change remote origin
+
+Switch from **GitHub** to **CodeCommit**
+
+1.  Checkout all branches in local repo to push them to another repo after that (branches need to be checked out to be pushed)
+
+2.  View all branches without `/` and store them to the text file
+
+    ```bash
+    git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master
+    
+    git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master > ~/tmp/branches
+    
+    # check file and delete all unwanted symbols
+    vim ~/tmp/branches
+    ```
+
+3.  Check output of the script first and the checkout all branches
+
+    ```bash
+    for i in `cat ~/tmp/branches`; do echo $i;done
+    
+    for i in `cat ~/tmp/branches`; do git checkout $i;done
+    ```
+
+4.  Fetch tags
+
+    ```bash
+    git fetch --tags
+    ```
+
+5.  Check that all branches was checked out
+
+    ```bash
+    git branch -a
+    ```
+
+6.  Remove old **GitHub** **origin** from local repo
+
+    ```bash
+    git remote rm origin
+    ```
+
+7.  Add new **CodeCommit** **origin** to the local repo (you need ssh access to the repo)
+
+    ```bash
+    git remote add origin ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/vprofile-code-repo
+    ```
+
+8.  Check new remote repo in **git** config
+
+    ```bash
+    cat .git/config
+    
+    # Output
+    [core]
+    	repositoryformatversion = 0
+    	filemode = true
+    	bare = false
+    	logallrefupdates = true
+    	ignorecase = true
+    	precomposeunicode = true
+    [remote "origin"]
+    	url = ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/vprofile-code-repo
+    	fetch = +refs/heads/*:refs/remotes/origin/*
+    ```
+
+9.  Push all branches and tags to the remote repo
+
+    ```bash
+    git push origin --all
+    
+    git push --tags
+    ```
+
+---
 
 ### git commit -m ""
 
