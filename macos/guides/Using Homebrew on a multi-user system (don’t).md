@@ -26,7 +26,7 @@ Out of the box, if you install it from one user, it’ll just fail to do anythin
 
 Turns out I’m [not](https://medium.com/@leifhanack/homebrew-multi-user-setup-e10cb5849d59) [the](https://stackoverflow.com/questions/41840479/how-to-use-homebrew-on-a-multi-user-macos-sierra-setup) [only](https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925) [one](https://newbedev.com/how-to-use-homebrew-on-a-multi-user-macos-sierra-setup) to try to do this, a simple search for this yields a fuckton of results! And they all mostly share the same “tip” which is some variant of:
 
-```sh
+```shell
 chgrp -R admin /usr/local/*
 chmod -R g+w /usr/local/*
 ```
@@ -73,7 +73,7 @@ Sounds annoying? Just use `sudo`! While Homebrew [documents](https://docs.brew.s
 
 Typically, if you installed Homebrew in its default location from the user `foo`, and now you’re user `bar` and want to run `brew update`:
 
-```sh
+```shell
 sudo -Hu foo brew update
 ```
 
@@ -86,7 +86,7 @@ And for what it’s worth, you don’t need to create a new, dedicated user for 
 
 To make things even nicer, you can even add an alias in the `~/.zshrc` of the user that needs to use `sudo`:
 
-```sh
+```shell
 alias brew='sudo -Hu foo brew'
 ```
 

@@ -107,7 +107,7 @@ spec:
 
 ## docker-s12-service.yaml
 
-```bash
+```yaml
 apiVersion: v1
 kind: Service
 metadata:

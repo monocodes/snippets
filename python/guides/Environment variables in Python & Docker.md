@@ -18,19 +18,19 @@ These variables are frequently used when deploying applications with your cloud 
 
 To list existing environment variables in bash, you can open a terminal and type:
 
-```bash
+```shell
 printenv
 ```
 
 To set an environment variable in bash, you simply type:
 
-```bash
+```shell
 export MY_ENV_VARIABLE="MY VALUE"
 ```
 
 To verify that it now exists, type:
 
-```bash
+```shell
 echo $MY_ENV_VARIABLE
 ```
 
@@ -66,7 +66,7 @@ Great, we know how to access the variables, but inserting variables through the 
 
 Enter *.env*-files. These files are handy for inserting env-variables by only changing a single file. Each line in the file will describe a variable to value-mapping, for instance:
 
-```bash
+```shell
 VARIABLE1 = HELLO
 VARIABLE2 = "WORLD"
 VARIABLE3 = ${VARIABLE1} ${VARIABLE2}
@@ -74,7 +74,7 @@ VARIABLE3 = ${VARIABLE1} ${VARIABLE2}
 
 Here the second variable was quoted, but the result will be the same whether you type with or without quotes. The third variable uses previously defined environment variables using ${<variable_name>}. All variables will by default be loaded as strings. The names for these files are usually “.env”. If we have multiple files we could add a prefix or suffix and switch between them. Now, imagine we have a file called .env with the content specified above. To insert these into Python locally, we can use the `python-dotenv` package. Start by installing it:
 
-```bash
+```shell
 pip install python-dotenv
 ```
 
@@ -122,7 +122,7 @@ CMD python -u main.py
 
 A python base-image is imported, here alpine because it is lightweight. The app folder is then copied and finally the python file, main.py, is run. In the .env file we have:
 
-```bash
+```shell
 MY_SECRET_VARIABLE = "I'm batman!"
 ```
 
@@ -175,7 +175,7 @@ for k in ["MY_PUBLIC_VARIABLE", "MY_SECRET_VARIABLE"]:
 
 To run everything the following expression is typed in the terminal:
 
-```bash
+```shell
 docker-compose -f docker-compose.yml up --build
 ```
 

@@ -16,6 +16,7 @@ url: https://github.com/wandering-mono/snippets.git
   - [GNU/Linux](#gnulinux)
     - [Amazon Linux 2](#amazon-linux-2)
     - [Ubuntu or deb-type](#ubuntu-or-deb-type)
+    - [Rocky Linux](#rocky-linux)
 
 ---
 
@@ -25,7 +26,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 install docker
 
-```bash
+```shell
 sudo amazon-linux-extras install docker
 ```
 
@@ -35,13 +36,13 @@ sudo amazon-linux-extras install docker
 
 1. Uninstall old versions:
 
-    ```bash
+    ```shell
     sudo apt-get remove docker docker-engine docker.io containerd runc
     ```
 
     or
 
-    ```bash
+    ```shell
     sudo apt remove docker.io -y ; \
     	sudo apt remove containerd -y ; \
     	sudo apt remove runc -y ; \
@@ -53,7 +54,7 @@ sudo amazon-linux-extras install docker
 
 2. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
-    ```bash
+    ```shell
     sudo apt update && \
      sudo apt install \
        ca-certificates \
@@ -68,7 +69,7 @@ sudo amazon-linux-extras install docker
 
     > need to check: `mkdir`, maybe unnecessary
 
-    ```bash
+    ```shell
     ls -d /etc/apt/keyrings
     
     sudo mkdir -p /etc/apt/keyrings && \
@@ -79,7 +80,7 @@ sudo amazon-linux-extras install docker
 
 4. Use the following command to set up the repository:
 
-    ```bash
+    ```shell
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -90,7 +91,7 @@ sudo amazon-linux-extras install docker
 5. Install Docker Engine:
     update the apt package list
 
-    ```bash
+    ```shell
     sudo apt update
     ```
 
@@ -102,7 +103,7 @@ sudo amazon-linux-extras install docker
 
         Your default umask may be incorrectly configured, preventing detection of the repository public key file. Try granting read permission for the Docker public key file before updating the package index:
 
-        ```bash
+        ```shell
         sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
          sudo apt update
         ```
@@ -115,11 +116,11 @@ sudo amazon-linux-extras install docker
 
         1. List the available versions in the repository:
 
-            ```bash
+            ```shell
             apt-cache madison docker-ce | awk '{ print $3 }’
             ```
 
-             ```bash
+             ```shell
             5:20.10.16~3-0~ubuntu-jammy
             5:20.10.15~3-0~ubuntu-jammy
             5:20.10.14~3-0~ubuntu-jammy
@@ -129,13 +130,13 @@ sudo amazon-linux-extras install docker
         2. Select the desired version and install:
             `VERSION_STRING=5:20.10.13~3-0~ubuntu-jammy`
 
-            ```bash
+            ```shell
             sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-compose-plugin
             ```
 
         3. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-            ```bash
+            ```shell
             sudo docker run hello-world
             ```
 
@@ -143,7 +144,7 @@ sudo amazon-linux-extras install docker
 
 8. To install the latest version, run:
 
-    ```bash
+    ```shell
     sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
     ```
 
@@ -151,7 +152,7 @@ sudo amazon-linux-extras install docker
 
 9. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-    ```bash
+    ```shell
     sudo docker run hello-world
     ```
 
@@ -163,13 +164,13 @@ sudo amazon-linux-extras install docker
 
         1. Create the docker group:
 
-            ```bash
+            ```shell
             sudo groupadd docker
             ```
 
         2. Add your user to the docker group:
 
-            ```bash
+            ```shell
             sudo usermod -aG docker $USER
             ```
 
@@ -177,7 +178,7 @@ sudo amazon-linux-extras install docker
 
             1. You can also run the following command to activate the changes to groups:
 
-                ```bash
+                ```shell
                 newgrp docker
                 ```
 
@@ -185,7 +186,7 @@ sudo amazon-linux-extras install docker
 
         4. Verify that you can run docker commands without sudo:
 
-            ```bash
+            ```shell
             docker run hello-world
             ```
 
@@ -195,7 +196,7 @@ sudo amazon-linux-extras install docker
 
     - Configure Docker to start on boot with systemd
 
-        ```bash
+        ```shell
         sudo systemctl enable docker.service
         sudo systemctl enable containerd.service
         ```
@@ -213,7 +214,7 @@ sudo amazon-linux-extras install docker
 
     - If you initially ran Docker CLI commands using sudo before adding your user to the docker group, you may see the following error: error
 
-        ```bash
+        ```shell
         WARNING: Error loading config file: /home/user/.docker/config.json -
         stat /home/user/.docker/config.json: permission denied
         ```
@@ -222,7 +223,7 @@ sudo amazon-linux-extras install docker
 
         To fix this problem, either remove the `~/.docker/` directory (it’s recreated automatically, but any custom settings are lost), or change its ownership and permissions using the following commands:
 
-        ```bash
+        ```shell
         sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
         sudo chmod g+rwx "$HOME/.docker" -R
         ```
@@ -233,31 +234,31 @@ sudo amazon-linux-extras install docker
 
 1. Uninstall old versions
 
-    ```bash
+    ```shell
     sudo dnf remove docker docker-engine docker.io containerd runc -y
     ```
 
 2. Add docker repo
 
-    ```bash
+    ```shell
     sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     ```
 
 3. Create metadata cache
 
-    ```bash
+    ```shell
     sudo dnf makecache
     ```
 
 4. Install docker and other needed packages
 
-    ```bash
+    ```shell
     sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     ```
 
     >   notes
     >
-    >   ```text
+    >   ```properties
     >   docker-ce               : This package provides the underlying technology for building and running docker containers (dockerd) 
     >   docker-ce-cli           : Provides the command line interface (CLI) client docker tool (docker)
     >   containerd.io           : Provides the container runtime (runc)
@@ -266,9 +267,6 @@ sudo amazon-linux-extras install docker
 
 5. Enable auto startup and start dockerd daemon now
 
-    ```bash
+    ```shell
     sudo systemctl --now enable docker
     ```
-
-    
-

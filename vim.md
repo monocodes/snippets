@@ -53,6 +53,8 @@ Note: When you open the vim editor, it will be in the **command mode** by defaul
 - ndd - To delete n no. of lines from cursor position (Sdd)
 - gg - dG - delete all lines in file (need to be at the beginning of the file)
 - / - To search a word in the file
+  - n - to next result
+  - N - to previous result
 
 ---
 
@@ -77,7 +79,7 @@ Extended Mode is used for save and quit or save without quit using `Esc` Key wit
 
 search and replace only once every line
 
-```bash
+```shell
 :%s/word-to-replace/word-that-replace
 
 # example
@@ -86,7 +88,7 @@ search and replace only once every line
 
 search and replace g - globally (more than one time in line)
 
-```bash
+```shell
 :%s/word-to-replace/word-that-replace/g
 
 # example
@@ -95,7 +97,7 @@ search and replace g - globally (more than one time in line)
 
 search and replace g - globally (more than one time in line) with nothing
 
-```bash
+```shell
 :%s/word-to-replace//g
 
 # example
@@ -104,7 +106,7 @@ search and replace g - globally (more than one time in line) with nothing
 
 search and replace whitespaces from the start of each line
 
-```bash
+```shell
 # example with 4 spaces
 
 :%s/^    //
@@ -116,11 +118,11 @@ search and replace with delimiters
 
   - make `sources.list` backup
 
-  - ```bash
+  - ```shell
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
     ```
 
-  - ```bash
+  - ```shell
     sudo vim /etc/apt/sources.list
     ```
 
@@ -128,13 +130,13 @@ search and replace with delimiters
 
   - switch to main repos
 
-  - ```text
+  - ```properties
     %s/http:\/\/us\./http:\/\//g
     ```
 
   - or to Armenia repos
 
-  - ```text
+  - ```properties
     %s/http:\/\/ru\./http:\/\/am\./g
     ```
 
@@ -144,7 +146,7 @@ search and replace with delimiters
 
 Enable syntax in vim
 
-```bash
+```shell
 echo "syntax on" >> ~/.vimrc
 ```
 

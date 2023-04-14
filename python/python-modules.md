@@ -21,7 +21,7 @@ there are different ways how to install fabric
 
 one of them is using `pip`
 
-```bash
+```shell
 pip install fabric
 ```
 
@@ -98,7 +98,7 @@ def web_setup(WEBURL, DIRNAME):
 
 check available functions
 
-```bash
+```shell
 fab -l
 
 # output
@@ -113,7 +113,7 @@ Available commands:
 
 call `greeting` function with `Evening` arg
 
-```bash
+```shell
 fab greeting:Evening
 
 # output
@@ -126,13 +126,13 @@ Done.
 
 `system_info` function
 
-```bash
+```shell
 fab system_info
 ```
 
 `remote_exec` function example on remote host
 
-```bash
+```shell
 fab -H 192.168.10.3 -u devops remote_exec
 # -H - host
 # -u - user
@@ -141,7 +141,7 @@ fab -H 192.168.10.3 -u devops remote_exec
 
 `web_setup` function example on remote host
 
-```bash
+```shell
 fab -H 192.168.10.3 -u devops web_setup:https://www.tooplate.com/zip-templates/2121_wave_cafe.zip,2121_wave_cafe
 # must be no spaces between args!!!
 

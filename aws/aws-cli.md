@@ -36,13 +36,13 @@ url: https://github.com/wandering-mono/snippets.git
 
 brew
 
-```bash
+```shell
 brew install awscli
 ```
 
 python
 
-```bash
+```shell
 pip install awscli
 ```
 
@@ -58,19 +58,19 @@ awscli completer install
 
 aws-cli config files
 
-```bash
+```shell
 ls ~/.aws
 ```
 
 setting the aws-cli output format
 
-```bash
+```shell
 vim ~/.aws/config
 ```
 
 `config`
 
-```text
+```properties
 output = table
 ```
 
@@ -86,7 +86,7 @@ output = table
 
 you can get help for every aws command with help
 
-```bash
+```shell
 aws ec2 help
 aws s3 mb help
 ```
@@ -97,7 +97,7 @@ aws s3 mb help
 
 `aws sts` - check current user/session/etc
 
-```bash
+```shell
 aws sts get-caller-identity 
 ```
 
@@ -107,7 +107,7 @@ aws sts get-caller-identity
 
 show all instances
 
-```bash
+```shell
 aws ec2 describe-instances
 ```
 
@@ -122,26 +122,26 @@ aws ec2 describe-instances
 >
 > Recommended device names for Linux: `/dev/sda1` for root volume. `/dev/sd[f-p]` for data volumes.
 
-1. ```bash
+1. ```shell
     aws ec2 describe-instances
     ```
 
     or  
 
-    ```bash
+    ```shell
     aws ec2 describe-instances | grep InstanceId
     ```
 
 2. create volume and copy its id  
     show avalaible volumes  
 
-    ```bash
+    ```shell
     aws ec2 describe-volumes
     ```
 
 3. attach volume  
 
-    ```bash
+    ```shell
     aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
     ```
 
@@ -153,7 +153,7 @@ aws ec2 describe-instances
 
 create new s3 bucket
 
-```bash
+```shell
 aws s3 mb s3://bucket-name
 ```
 
@@ -163,13 +163,13 @@ aws s3 mb s3://bucket-name
 
 copy file to s3 bucket
 
-```bash
+```shell
 aws s3 cp filename s3://bucket-name
 ```
 
 > example
 
-```bash
+```shell
 aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
 ```
 
@@ -179,13 +179,13 @@ aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
 
 show contents of s3 bucket
 
-```bash
+```shell
 aws s3 ls s3://bucket-name
 ```
 
 > example
 
-```bash
+```shell
 aws s3 ls s3://vprofile-artifact-storage
 ```
 
@@ -195,7 +195,7 @@ aws s3 ls s3://vprofile-artifact-storage
 
 ### Amazon Linux 2
 
-```bash
+```shell
 aws ec2 run-instances \
  --image-id ami-0dfcb1ef8550277af \
  --count 1 \
@@ -213,7 +213,7 @@ US locale fixed
 updated  
 installed `epel-release vim htop bat`
 
-```bash
+```shell
 aws ec2 run-instances \
  --image-id ami-002070d43b0a4f171 \
  --count 1 \
@@ -225,7 +225,7 @@ aws ec2 run-instances \
 
 create tags for instance
 
-```bash
+```shell
 aws ec2 create-tags \
   --resources i-0efd2d3a7e2070c4f \
   --tags Key=Name,Value=webtest
@@ -233,14 +233,14 @@ aws ec2 create-tags \
 
 grep PublicDnsName
 
-```bash
+```shell
 aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsName
 ```
 
 ssh in instance  
 `-o ServerAliveInterval=60` for not being disconnected every 60 seconds
 
-```bash
+```shell
 ssh -i "/path/to/key-name.pem" -o ServerAliveInterval=200 username@srv-name
 ```
 

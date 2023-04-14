@@ -34,7 +34,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 `jenkins-install-ubuntu.sh`
 
-```bash
+```shell
 #!/bin/bash
 
 # optional install of jdk, comment if not needed
@@ -59,7 +59,7 @@ sudo apt-get install jenkins -y
 
 Install needed `jdk` in **Jenkins**  manually
 
-```bash
+```shell
 sudo apt install openjdk-8-jdk -y
 ```
 
@@ -67,20 +67,20 @@ sudo apt install openjdk-8-jdk -y
 
 check current main version
 
-```bash
+```shell
 java -version
 ```
 
 check installed jdk versions
 
-```bash
+```shell
 ls /usr/lib/jvm
 ```
 
 > example  
 > here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
 
-```bash
+```shell
 ls /usr/lib/jvm
 java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
 java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
@@ -88,7 +88,7 @@ java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
 
 use this paths to specify `java` installation in `Jenkins`
 
-```text
+```properties
 /usr/lib/jvm/java-1.8.0-openjdk-amd64
 ```
 
@@ -121,7 +121,7 @@ use this paths to specify `java` installation in `Jenkins`
 
 home dir
 
-```bash
+```shell
 /var/lib/jenkins/
 ```
 
@@ -143,7 +143,7 @@ Search any directory (`**`) any file with `.war` extension (`*.war`)
 
 Files to archive
 
-```bash
+```shell
 **/*.war
 ```
 
@@ -155,7 +155,7 @@ Files to archive
 
 Simple versioning build step with `$BUILD_ID` Jenkins `ENV`
 
-```bash
+```shell
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$BUILD_ID.war
 ```
@@ -166,13 +166,13 @@ Simple versioning with `BUILD_TIMESTAMP` plugin **[Zentimestamp plugin](https://
 
 Change date pattern for the BUILD_TIMESTAMP (build timestamp) variable
 
-```text
+```properties
 yy-MM-dd_HHmm
 ```
 
 Execute Shell buildstep
 
-```bash
+```shell
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$BUILD_ID-$BUILD_TIMESTAMP.war
 ```
@@ -191,7 +191,7 @@ Name - VERSION
 
 **Execute Shell**
 
-```bash
+```shell
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$VERSION.war
 ```
@@ -665,7 +665,7 @@ pipeline {
 
 jenkins-remote-trigger.txt
 
-```text
+```properties
 http://3.82.20.58:8080/job/Build/build?token=mybuildtoken
 
 Token

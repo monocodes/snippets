@@ -68,7 +68,7 @@ You'll need:
 
 `firewalld` is run as a service on your machine. It starts when the machine does, or it should. If for some reason `firewalld` is not already enabled on your machine, you can do that with a simple command:
 
-```bash
+```shell
 systemctl enable --now firewalld
 ```
 
@@ -76,19 +76,19 @@ The `--now` flag starts the service as soon as its enabled, and let's you skip t
 
 As with all services on Rocky Linux, you can check if the firewall is running with:
 
-```bash
+```shell
 systemctl status firewalld
 ```
 
 To stop it altogether:
 
-```bash
+```shell
 systemctl stop firewalld
 ```
 
 And to give the service a hard restart:
 
-```bash
+```shell
 systemctl restart firewalld
 ```
 
@@ -96,13 +96,13 @@ systemctl restart firewalld
 
 `firewalld` is configured with the `firewall-cmd` command. You can, for example, check the status of `firewalld` with:
 
-```bash
+```shell
 firewall-cmd --state
 ```
 
 After every *permanent* change to your firewall, you'll need to reload it to see the changes. You can give the firewall configurations a "soft restart" with:
 
-```bash
+```shell
 firewall-cmd --reload
 ```
 
@@ -112,13 +112,13 @@ If you reload your configurations that haven't been made permanent, they'll disa
 
 You can see all of your configurations and settings at once with:
 
-```bash
+```shell
 firewall-cmd --list-all
 ```
 
 That command will output something that looks like this:
 
-```bash
+```shell
 public (active)
   target: default
   icmp-block-inversion: no
@@ -145,13 +145,13 @@ It's best practice to test all of your changes one by one, reloading your firewa
 
 But once you have a working configuration, you can save your changes permanently with:
 
-```bash
+```shell
 firewall-cmd --runtime-to-permanent
 ```
 
 However, if you're absolutely sure about what you're doing, and just want to add the rule and move on with your life, you can add the `--permanent` flag to any configuration command:
 
-```bash
+```shell
 firewall-cmd --permanent [the rest of your command]
 ```
 
@@ -194,13 +194,13 @@ Okay, so some of those explanations get complicated, but Honestly? The average b
 
 To see your default zone, run:
 
-```bash
+```shell
 firewall-cmd --get-default-zone
 ```
 
 To see which zones are active and doing things, run:
 
-```bash
+```shell
 firewall-cmd --get-active-zones
 ```
 
@@ -210,31 +210,31 @@ If you're running Rocky Linux on a VPS, it's probable that a basic configuration
 
 To change the default zone:
 
-```bash
+```shell
 firewall-cmd --set-default-zone [your-zone]
 ```
 
 To add a network interface to a zone:
 
-```bash
+```shell
 firewall-cmd --zone=[your-zone] --add-interface=[your-network-device]
 ```
 
 To change the zone of a network interface:
 
-```bash
+```shell
 firewall-cmd --zone=[your-zone] --change-interface=[your-network-device]
 ```
 
 To remove an interface from a zone completely:
 
-```bash
+```shell
 firewall-cmd --zone=[your-zone] --remove-interface=[your-network-device]
 ```
 
 To make your own brand new zone with a completely custom set of rules, and to check that it was added properly:
 
-```bash
+```shell
 firewall-cmd --new-zone=[your-new-zone]
 firewall-cmd --get-zones
 ```
@@ -265,13 +265,13 @@ For this section, I'll be using `--zone=public`... and port 9001 as a random exa
 
 To see all open ports:
 
-```bash
+```shell
 firewall-cmd --list-ports
 ```
 
 To add a port to your firewall zone (thus opening it for use), just run this command:
 
-```bash
+```shell
 firewall-cmd --zone=public --add-port=9001/tcp
 ```
 
@@ -285,7 +285,7 @@ Alternatives like UDP are for debugging, or other very specific kinds of stuff t
 
 To remove a port, just reverse the command with a single word change:
 
-```bash
+```shell
 firewall-cmd --zone=public --remove-port=9001/tcp
 ```
 
@@ -312,25 +312,25 @@ You'll either need to contact support to get your access back, or reinstall the 
 
 To see a list of all available service services that you could potentially add to your firewall, run:
 
-```bash
+```shell
 firewall-cmd --get-services
 ```
 
 To see what services you currently have active on your firewall, use:
 
-```bash
+```shell
 firewall-cmd --list-services
 ```
 
 To open up a service in your firewall (eg. HTTP in the public zone), use:
 
-```bash
+```shell
 firewall-cmd --zone=public --add-service=http
 ```
 
 To remove/close a service on your firewall, just change one word again:
 
-```bash
+```shell
 firewall-cmd --zone=public --remove-service=http
 ```
 
@@ -344,13 +344,13 @@ Let's say you have a server, and you just don't want to make it public. if you w
 
 There are a couple of methods to accomplish this. First, for a more locked-down server, you can pick one of the more restrictive zones, assign your network device to it, add the SSH service to it as shown above, and then whitelist your own public IP address like so:
 
-```bash
+```shell
 firewall-cmd --permanent --zone=trusted --add-source=192.168.1.0 [< insert your IP here]
 ```
 
 You can make it a range of IP addresses by adding a higher number at the end like so:
 
-```bash
+```shell
 firewall-cmd --permanent --zone=trusted --add-source=192.168.1.0/24 [< insert your IP here]
 ```
 
@@ -360,7 +360,7 @@ However, if you're managing a remote server with a website on it that needs to b
 
 First, you can use a "rich rule" to your public zone, and it would look something like this:
 
-```bash
+```shell
 # firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept'
 ```
 
@@ -368,7 +368,7 @@ Once the rich rule is in place, *don't* make the rules permanent yet. First, rem
 
 Your configuration should now look like this:
 
-```bash
+```shell
 your@server ~# firewall-cmd --list-all
 public (active)
   target: default
@@ -391,7 +391,7 @@ Secondly, you can use two different zones at a time. If you have your interface 
 
 When you're done, the output should look a bit like this:
 
-```bash
+```shell
 your@server ~# firewall-cmd --list-all
 public (active)
   target: default

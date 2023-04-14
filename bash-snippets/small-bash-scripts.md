@@ -17,13 +17,13 @@ url: https://github.com/wandering-mono/snippets.git
 
 remhosts
 
-```bash
+```properties
 web01
 web02
 web03
 ```
 
-```bash
+```shell
 for host in `cat remhosts`; do ssh devops@$host uptime;done
 ```
 
@@ -33,13 +33,13 @@ for host in `cat remhosts`; do ssh devops@$host uptime;done
 
 stress.sh
 
-```bash
+```shell
 #!/bin/bash
 sudo stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 360 && sleep  && stress -c 4 -t 460 && sleep 30 && stress -c 4 -t 360 && sleep 60
 ```
 
 run it in background
 
-```bash
+```shell
 nohup ./stress.sh &
 ```

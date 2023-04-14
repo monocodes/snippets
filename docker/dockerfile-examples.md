@@ -214,7 +214,7 @@ nodejs image with app - `feedback-web-nodejs`
 
 - `.dockerignore`  
 
-    ```text
+    ```properties
     nodejs
     node_modules/
     
@@ -278,7 +278,7 @@ nodejs image with app - `goals-multi-web-nodejs`
 
   - `.dockerignore`
 
-    - ```text
+    - ```properties
             node_modules
             Dockerfile
             .git
@@ -306,7 +306,7 @@ nodejs image with app - `goals-multi-web-nodejs`
 
   - `.dockerignore`
 
-    - ```text
+    - ```properties
             node_modules
             Dockerfile
             .git
@@ -343,7 +343,7 @@ nodejs image with app - `goals-web-nodejs-comp`
 
   - `.dockerignore`
 
-    - ```text
+    - ```properties
             node_modules
             Dockerfile
             .git
@@ -371,7 +371,7 @@ nodejs image with app - `goals-web-nodejs-comp`
 
   - `.dockerignore`
 
-    - ```text
+    - ```properties
             node_modules
             .git
             Dockerfile
@@ -471,7 +471,7 @@ deployed to AWS ECS and MongoDB Atlas
 
   - `backend.env`
 
-    - ```text
+    - ```properties
             MONGODB_USERNAME=
             MONGODB_PASSWORD=
             MONGODB_URL=cluster0.ilhh8s7.mongodb.net
@@ -480,7 +480,7 @@ deployed to AWS ECS and MongoDB Atlas
 
   - `mongo.env`
 
-    - ```text
+    - ```properties
             MONGO_INITDB_ROOT_USERNAME=
             MONGO_INITDB_ROOT_PASSWORD=
             ```

@@ -16,10 +16,14 @@ url: https://github.com/wandering-mono/snippets.git
     - [user-data](#user-data)
   - [Amazon Linux 2 AMIs](#amazon-linux-2-amis)
     - [amazon-linux-extras](#amazon-linux-extras)
+  - [CloudWatch Logs](#cloudwatch-logs)
+    - [CloudWatch Logs agent](#cloudwatch-logs-agent)
   - [Amazon EFS](#amazon-efs)
     - [amazon-efs-utils](#amazon-efs-utils)
     - [mount EFS volume](#mount-efs-volume)
   - [AWS Network](#aws-network)
+    - [Classic Load Balancer](#classic-load-balancer)
+      - [Classic Load Balancer logs](#classic-load-balancer-logs)
 
 ## instances deploying
 
@@ -27,7 +31,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 ssh to aws instance
 
-```bash
+```shell
 ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
 ```
 
@@ -43,7 +47,7 @@ username for different OS
 
 check the user-data provided during deployment and debug it
 
-```bash
+```shell
 curl http://169.254.169.254/latest/user-data
 ```
 
@@ -55,7 +59,7 @@ curl http://169.254.169.254/latest/user-data
 
 install docker
 
-```bash
+```shell
 sudo amazon-linux-extras install docker
 ```
 
@@ -69,13 +73,13 @@ sudo amazon-linux-extras install docker
 
 install CloudWatch Logs agent on **Amazon Linux 2**
 
-```bash
+```shell
 sudo yum update -y && sudo yum install -y awslogs
 ```
 
 install CloudWatch Logs agent on **Ubuntu Server, CentOS, or Red Hat instance**
 
-```bash
+```shell
 curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
 
 # install and configure with the needed region
@@ -85,7 +89,7 @@ sudo python ./awslogs-agent-setup.py --region us-east-1
 
 config of CloudWatch Logs agent
 
-```bash
+```shell
 vim /var/awslogs/etc/awslogs.conf
 ```
 
@@ -98,7 +102,7 @@ vim /var/awslogs/etc/awslogs.conf
 > install amazon-efs-utils on Amazon Linux 2 to access EFS  
 > <https://docs.aws.amazon.com/efs/latest/ug/installing-amazon-efs-utils.html>
 
-```bash
+```shell
 sudo yum install -y amazon-efs-utils
 ```
 
@@ -117,41 +121,41 @@ sudo yum install -y amazon-efs-utils
 
 To mount permanently
 
-```bash
+```shell
 sudo vim /etc/fstab
 ```
 
 you can use this command in `fstab`
 
-```bash
+```shell
 file_system_id:/ /var/www/html/img efs _netdev,noresvport,tls,iam,accesspoint=access-point-id 0 0
 ```
 
 > example
 
-```bash
+```shell
 fs-09684528ab385583f:/ /var/www/html/img efs _netdev,noresvport,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
 ```
 
 or this
 
-```bash
+```shell
 file_system_id /var/www/html/img efs _netdev,tls,accesspoint=access-point-id 0 0
 ```
 
 > example
 
-```bash
+```shell
 fs-09684528ab385583f /var/www/html/img efs _netdev,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
 ```
 
 Test the `fstab` entry by using the mount command with the `fake` option along with the `all` and `verbose` options.
 
-```bash
+```shell
 sudo mount -fav
 ```
 
-```text
+```properties
 home/ec2-user/efs      : successfully mounted
 ```
 
@@ -184,4 +188,3 @@ sample S3 policy to store logs of Classic Load Balancer in S3 bucket
     ]
   }
 ```
-

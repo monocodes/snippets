@@ -40,26 +40,27 @@ url: https://github.com/wandering-mono/snippets.git
       - [Delete file or folder from the local and remote repos from every commit](#delete-file-or-folder-from-the-local-and-remote-repos-from-every-commit)
     - [delete a repository](#delete-a-repository)
   - [git best practices](#git-best-practices)
+    - [change remote origin](#change-remote-origin)
     - [git commit -m ""](#git-commit--m-)
 
 ## install and files
 
 ### install git macos
 
-```bash
+```shell
 brew install git
 ```
 
 check version  
 don't forget to reset terminal
 
-```bash
+```shell
 git --version
 ```
 
 configure git
 
-```bash
+```shell
 git config --global user.name "username"
 git config --global user.email "username@example.com"
 ```
@@ -77,7 +78,7 @@ for python add `__pycache__/`
 
 repo git config file
 
-```bash
+```shell
 cat .git/config
 ```
 
@@ -87,19 +88,19 @@ cat .git/config
 
 1. add remote repository to local one  
 
-    ```bash
+    ```shell
     git remote add origin https://github.com/username/repo-name.git
     ```
 
 2. change branch name `master` to `main`  
 
-    ```bash
+    ```shell
     git branch -M main
     ```
 
 3. push all repo data with all commits to remote repo in branch `main`  
 
-    ```bash
+    ```shell
     git push -u origin main
     ```
 
@@ -111,7 +112,7 @@ cat .git/config
 
 initialise a repository
 
-```bash
+```shell
 git init
 ```
 
@@ -121,7 +122,7 @@ git init
 
 check the repository
 
-```bash
+```shell
 git status
 ```
 
@@ -131,19 +132,19 @@ git status
 
 show differences from last commit
 
-```bash
+```shell
 git diff
 ```
 
 show cached differences from last commit and staged files (for example, after `git add .` command)
 
-```bash
+```shell
 git diff --cached
 ```
 
 show differences between commits
 
-```bash
+```shell
 git log --oneline # grab commit ids
 git diff 44423ee..9276d47
 ```
@@ -154,19 +155,19 @@ git diff 44423ee..9276d47
 
 add all files to repository and stage them
 
-```bash
+```shell
 git add .
 ```
 
 revert file from last staging (`git add .`)
 
-```bash
+```shell
 git restore --staged filename
 ```
 
 display last changes before commit
 
-```bash
+```shell
 git add -p
 ```
 
@@ -174,7 +175,7 @@ add internal directory in project
 
 > If you want to add a directory and all the files which are located inside it recursively, go to the directory where the directory you want to add is located.
 
-```bash
+```shell
 cd directory
 git add directoryname
 ```
@@ -185,25 +186,25 @@ git add directoryname
 
 commit with message after `git add filename`
 
-```bash
+```shell
 git commit -m "Commentary"
 ```
 
 commit with message and add automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
 
-```bash
+```shell
 git commit -am "Commentary"
 ```
 
 change the last commit message (comment) if there were a mistakes or typos
 
-```bash
+```shell
 git commit --amend
 ```
 
 if old commit has already been pushed
 
-```bash
+```shell
 git push --force-with-lease
 ```
 
@@ -215,7 +216,7 @@ go back to previous commit
 
 > use `git revert` if you are ok with history been stored. Instead use `got reset --hard`
 
-```bash
+```shell
 git revert Head
 # or specific commit
 git revert 44423ee
@@ -227,7 +228,7 @@ git revert 44423ee
 
 go back to commit without history been saved
 
-```bash
+```shell
 git reset --hard 44423ee
 ```
 
@@ -237,19 +238,19 @@ git reset --hard 44423ee
 
 check all commits in current branch
 
-```bash
+```shell
 git log
 ```
 
 check all commit in current branch oneline
 
-```bash
+```shell
 git log --oneline
 ```
 
 check all commits in current branch with short message in one line
 
-```bash
+```shell
 git log --pretty=oneline
 ```
 
@@ -259,7 +260,7 @@ git log --pretty=oneline
 
 show changes in commit
 
-```bash
+```shell
 git show commit-name
 ```
 
@@ -269,25 +270,25 @@ git show commit-name
 
 clone repository
 
-```bash
+```shell
 git clone repository-url-name
 ```
 
 > example
 
-```bash
+```shell
 git clone https://github.com/devopshydclub/vprofile-project.git
 ```
 
 git clone only single branch
 
-```bash
+```shell
 git clone -b mybranch --single-branch git://sub.domain.com/repo.git
 ```
 
 > example
 
-```bash
+```shell
 git clone -b local-setup --single-branch https://github.com/devopshydclub/vprofile-project.git
 ```
 
@@ -297,19 +298,19 @@ git clone -b local-setup --single-branch https://github.com/devopshydclub/vprofi
 
 show all available branches
 
-```bash
+```shell
 git branch -a
 ```
 
 switch to deferent branch
 
-```bash
+```shell
 git checkout branch-name
 ```
 
 > example
 
-```bash
+```shell
 git clone https://github.com/devopshydclub/vprofile-project.git
 cd vprofile-project
 git branch -a
@@ -318,7 +319,7 @@ git checkout aws-Refactor
 
 create a copy of current branch
 
-```bash
+```shell
 git branch -c branch-name
 ```
 
@@ -328,39 +329,39 @@ git branch -c branch-name
 
 switch to different branch
 
-```bash
+```shell
 git checkout branch-name
 ```
 
 revert the changes to the last commit in particular file
 
-```bash
+```shell
 git checkout filename
 ```
 
 revert all to the last commit
 
-```bash
+```shell
 git checkout .
 ```
 
 - revert changes to the specific commit - use first six symbols of a commit
 
-    - ```bash
+  - ```shell
       git checkout ee7641
       ```
 
-    - > When you check out to a previous commit, you leave the master branch and enter what Git refers to as a detached `HEAD` state ➊. `HEAD` is the current committed state of the project; you’re detached because you’ve left a named branch (`main`, in this case).
+  - > When you check out to a previous commit, you leave the master branch and enter what Git refers to as a detached `HEAD` state ➊. `HEAD` is the current committed state of the project; you’re detached because you’ve left a named branch (`main`, in this case).
 
-    - get back to the main branch
+  - get back to the main branch
 
-      - ```bash
+    - ```shell
         git checkout main
         ```
 
-    - get back to previous commit
+  - get back to previous commit
 
-      - ```bash
+    - ```shell
         git reset --hard ee7641
         ```
 
@@ -370,7 +371,7 @@ git checkout .
 
 switch to different branch
 
-```bash
+```shell
 git switch branch-name
 ```
 
@@ -380,25 +381,25 @@ git switch branch-name
 
 sync changes from local repo to external (to the current branch)
 
-```bash
+```shell
 git push
 ```
 
 forced push
 
-```bash
+```shell
 git push --force
 ```
 
 push changes to `main` branch
 
-```bash
+```shell
 git push origin main
 ```
 
 push all changes in all branches
 
-```bash
+```shell
 git push --all origin
 ```
 
@@ -408,7 +409,7 @@ git push --all origin
 
 merge changes to current branch from another branch
 
-```bash
+```shell
 git merge branch-name
 ```
 
@@ -418,7 +419,7 @@ git merge branch-name
 
 pull latest changes
 
-```bash
+```shell
 git pull
 ```
 
@@ -428,7 +429,7 @@ git pull
 
 display files in repository
 
-```bash
+```shell
 git ls-files
 ```
 
@@ -438,7 +439,7 @@ git ls-files
 
 rename or move the file inside working dir and git index
 
-```bash
+```shell
 git mv filename path/to/dir
 git mv filename filename1
 ```
@@ -449,13 +450,13 @@ git mv filename filename1
 
 delete file from repository and filesystem
 
-```bash
+```shell
 git rm filename
 ```
 
 delete file only from repository
 
-```bash
+```shell
 git rm filename --cached
 ```
 
@@ -468,13 +469,13 @@ git rm filename --cached
 2. remove dir or file from the repo  
     use relative path of the project and `""` if you have any spaces in path  
 
-    ```bash
+    ```shell
     git rm -r --cached "Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs"
     ```
 
 3. do commit  
 
-    ```bash
+    ```shell
     git commit -am "Start ignoring Section 5. Building Multi-Container Applications with Docker/goals-multi-web-nodejs/backend/logs"
     ```
 
@@ -486,7 +487,7 @@ git rm filename --cached
 
 if you want to use file in future locally update `.gitignore` file to ignore file or dir
 
-```text
+```properties
 dir-name/
 filename
 ```
@@ -494,31 +495,31 @@ filename
 1. delete file from local repo globally from every commit  
     `--invert-paths` - indicates to exclude, not include the following paths  
 
-    ```bash
+    ```shell
     git filter-repo --invert-paths --force --path filename
     ```
 
 2. link again local repo to remote repo  
 
-    ```bash
+    ```shell
     git remote add repo-name repo-url
     ```
 
     >   example
 
-    ```bash
+    ```shell
     git remote add commands https://github.com/wandering-mono/commands.git
     ```
 
 3. push to master branch  
 
-    ```bash
+    ```shell
     git push --set-upstream repo-name main/master branch --force
     ```
 
     >   example
 
-    ```bash
+    ```shell
     git push --set-upstream commands main --force
     ```
 
@@ -526,7 +527,7 @@ filename
 
 ### delete a repository
 
-```bash
+```shell
 rm -rf .git
 git init
 ```
@@ -539,11 +540,11 @@ git init
 
 Switch from **GitHub** to **CodeCommit**
 
-1.  Checkout all branches in local repo to push them to another repo after that (branches need to be checked out to be pushed)
+1. Checkout all branches in local repo to push them to another repo after that (branches need to be checked out to be pushed)
 
-2.  View all branches without `/` and store them to the text file
+2. View all branches without `/` and store them to the text file
 
-    ```bash
+    ```shell
     git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master
     
     git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master > ~/tmp/branches
@@ -552,41 +553,41 @@ Switch from **GitHub** to **CodeCommit**
     vim ~/tmp/branches
     ```
 
-3.  Check output of the script first and the checkout all branches
+3. Check output of the script first and the checkout all branches
 
-    ```bash
+    ```shell
     for i in `cat ~/tmp/branches`; do echo $i;done
     
     for i in `cat ~/tmp/branches`; do git checkout $i;done
     ```
 
-4.  Fetch tags
+4. Fetch tags
 
-    ```bash
+    ```shell
     git fetch --tags
     ```
 
-5.  Check that all branches was checked out
+5. Check that all branches was checked out
 
-    ```bash
+    ```shell
     git branch -a
     ```
 
-6.  Remove old **GitHub** **origin** from local repo
+6. Remove old **GitHub** **origin** from local repo
 
-    ```bash
+    ```shell
     git remote rm origin
     ```
 
-7.  Add new **CodeCommit** **origin** to the local repo (you need ssh access to the repo)
+7. Add new **CodeCommit** **origin** to the local repo (you need ssh access to the repo)
 
-    ```bash
+    ```shell
     git remote add origin ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/vprofile-code-repo
     ```
 
-8.  Check new remote repo in **git** config
+8. Check new remote repo in **git** config
 
-    ```bash
+    ```shell
     cat .git/config
     
     # Output
@@ -602,9 +603,9 @@ Switch from **GitHub** to **CodeCommit**
     	fetch = +refs/heads/*:refs/remotes/origin/*
     ```
 
-9.  Push all branches and tags to the remote repo
+9. Push all branches and tags to the remote repo
 
-    ```bash
+    ```shell
     git push origin --all
     
     git push --tags
