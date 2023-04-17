@@ -57,6 +57,10 @@ url: https://github.com/wandering-mono/snippets.git
       - [hostname, hostnamectl](#hostname-hostnamectl)
       - [ssh](#ssh)
         - [ssh-keygen](#ssh-keygen)
+          - [generate secured keys and use ssh-agent and `~/.ssh/config`](#generate-secured-keys-and-use-ssh-agent-and-sshconfig)
+          - [ssh-keygen guide from DO](#ssh-keygen-guide-from-do)
+        - [ssh-agent](#ssh-agent)
+          - [SSH-agent forwarding, ProxyJump](#ssh-agent-forwarding-proxyjump)
         - [scp](#scp)
       - [https, curl, wget](#https-curl-wget)
       - [open ports](#open-ports)
@@ -1615,7 +1619,7 @@ sudo hostnamectl set-hostname web03
 
 ##### ssh-keygen
 
-###### generate secured keys and use ssh-agent
+###### generate secured keys and use ssh-agent and `~/.ssh/config`
 
 1. Generate **Ed25519** key pair
 
@@ -1629,7 +1633,7 @@ sudo hostnamectl set-hostname web03
    ssh-keygen -t rsa -b 4096 -C "user@hostname"
    ```
 
-3. On macOS use `~/.ssh/config` file
+3. On macOS use `~/.ssh/config` file and use multiple ssh-keys
 
    ```properties
    Host *
@@ -1643,7 +1647,7 @@ sudo hostnamectl set-hostname web03
 
 ---
 
-[ssh-keygen full guide on DO](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server)
+###### [ssh-keygen guide from DO](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server)
 
 generate new pair of ssh keys
 
@@ -1734,6 +1738,62 @@ ssh -i ~/.ssh/id_rsa_name username@hostname
 
 # aws example
 ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
+```
+
+---
+
+##### ssh-agent
+
+**SSH-agent** is manager for ssh-keys  
+ssh-keys should *not* get automatically added to the agent just because you SSH'ed to a server...
+
+list the ssh-agent keys
+
+```shell
+ssh-add -l
+```
+
+delete all ssh-agent-keys
+
+```shell
+ssh-add -D
+```
+
+---
+
+###### SSH-agent forwarding, ProxyJump
+
+> Best way to go through **Bastion-host** is to use **SSH ProxyJump**
+
+[Про SSH Agent](https://habr.com/ru/companies/skillfactory/articles/503466/) - хорошая статья на [habr.com](habr.com).
+
+Instead of forwarding **SSH-agent** and all ssh keys use **ProxyJump**
+
+1. Connect to remote host through **Bastion-host**
+
+   ```shell
+   ssh -J bastion.example.com cloud.computer.internal
+   ```
+
+2. Local ssh-keys will be used to connect to remote host
+
+3. It's like *ssh-session* inside another *ssh-session*, but actually ssh-session never launched on **Bastion-host**
+
+Configure **ProxyJump** inside `~/.ssh/config`
+
+```properties
+Host bastion.example.com
+	User username
+
+Host *.computer.internal
+	ProxyJump bastion.example.com
+	User username
+```
+
+And connect to the remote host
+
+```shell
+ssh cloud.computer.internal
 ```
 
 ---
