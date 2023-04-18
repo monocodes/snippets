@@ -34,6 +34,24 @@ sudo amazon-linux-extras install docker
 
 ### Ubuntu or deb-type
 
+**One-liner** install
+
+```shell
+sudo apt-get remove docker docker-engine docker.io containerd runc && \
+	sudo apt update && \
+ 	sudo apt install ca-certificates curl gnupg lsb-release -y && \
+	sudo mkdir -p /etc/apt/keyrings && \
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg -f --dearmor -o /etc/apt/keyrings/docker.gpg && \
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+	sudo apt update && \
+	sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion -y && \
+	sudo usermod -aG docker $USER && \
+	newgrp docker
+```
+
+**Normal** install
+
 1. Uninstall old versions:
 
     ```shell
@@ -110,7 +128,7 @@ sudo amazon-linux-extras install docker
 
     ---
 
-7. Install a specific version of Docker Engine. optional
+7. Install a specific version of Docker Engine.
 
     - optional
 
@@ -145,7 +163,7 @@ sudo amazon-linux-extras install docker
 8. To install the latest version, run:
 
     ```shell
-    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion -y
     ```
 
     ---
@@ -232,6 +250,20 @@ sudo amazon-linux-extras install docker
 
 ### Rocky Linux
 
+**One-liner install**
+
+```shell
+sudo dnf remove docker docker-engine docker.io containerd runc -y && \
+	sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
+	sudo dnf makecache && \
+	sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion && \
+	sudo systemctl --now enable docker && \
+	sudo usermod -aG docker $USER && \
+	newgrp docker
+```
+
+**Normal install**
+
 1. Uninstall old versions
 
     ```shell
@@ -270,3 +302,17 @@ sudo amazon-linux-extras install docker
     ```shell
     sudo systemctl --now enable docker
     ```
+
+6. Add your user to the docker group:
+
+    ```shell
+    sudo usermod -aG docker $USER
+    ```
+
+7. Log out and log back in so that your group membership is re-evaluated or:
+
+    ```shell
+    newgrp docker
+    ```
+
+---

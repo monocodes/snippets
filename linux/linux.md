@@ -18,7 +18,7 @@ url: https://github.com/wandering-mono/snippets.git
       - [`& && || ; \`](#----)
       - [`--help`](#--help)
       - [sysinfo](#sysinfo)
-      - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`, `ln`](#mkdir-touch-rm-cp-mv-tree-find-echo-ln)
+      - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `ln`, `du`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-ln-du)
       - [locate](#locate)
       - [export](#export)
       - [needrestart](#needrestart)
@@ -84,6 +84,7 @@ url: https://github.com/wandering-mono/snippets.git
       - [rpm](#rpm)
       - [firewalld](#firewalld)
   - [third-party packages](#third-party-packages)
+    - [useful packages](#useful-packages)
     - [jdk](#jdk)
     - [apache2, httpd](#apache2-httpd)
     - [tomcat](#tomcat)
@@ -266,7 +267,7 @@ clear
 
 ---
 
-#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `tree`, `find`, `echo`, `ln`
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `ln`, `du`
 
 make a directory
 
@@ -365,6 +366,12 @@ mv path/to/dir/* path/to/another/dir
 mv /tmp/img-backup/* /var/www/html/images/
 ```
 
+show everything recursively in current dir with `ls`
+
+```shell
+ls -R
+```
+
 show dirs in tree format
 
 ```shell
@@ -397,6 +404,18 @@ ln -s /path/to/filename /path/to/filename
 
 # example
 ln -s /opt/dev/ops/devops/test/commands.txt cmds
+```
+
+show disk usage of the current dir and all dirs and files in it
+
+```shell
+du -h
+```
+
+show total size of current dir
+
+```shell
+du -sh
 ```
 
 #### locate
@@ -2471,11 +2490,21 @@ sudo firewall-cmd --reload
 
 ## third-party packages
 
-package for  `ip -a` command - `iproute2`
+### useful packages
+
+`bash-completions` (used for `docker` for example)
 
 ```shell
-apt update
-apt install iproute2 -y
+sudo dnf install bash-completion
+
+sudo apt install bash-completion
+```
+
+`colordiff` - coloured `diff` - packages for file comparisons  
+`-y` - for side-by-side comparison
+
+```shell
+colordiff -y /path/to/filename /path/to/filename
 ```
 
 ---

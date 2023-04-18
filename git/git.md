@@ -302,15 +302,12 @@ show all available branches
 git branch -a
 ```
 
-switch to deferent branch
+switch to different branch
 
 ```shell
 git checkout branch-name
-```
 
-> example
-
-```shell
+# example
 git clone https://github.com/devopshydclub/vprofile-project.git
 cd vprofile-project
 git branch -a

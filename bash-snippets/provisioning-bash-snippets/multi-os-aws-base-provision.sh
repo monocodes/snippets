@@ -106,10 +106,11 @@ function bat-install() {
     sudo apt autoremove --purge -y
     
     message "Installing software and cleaning up..."
-    sudo apt-get install stress -y
+    sudo apt-get install stress bash-completion -y
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
       wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
-      sudo dpkg -i bat-musl_0.22.1_amd64.deb
+      sudo dpkg -i bat-musl_0.23.0_amd64.deb
+      sudo apt-get install bash-completion -y
       sudo apt-get clean
     else
       sudo apt-get install bat -y
@@ -130,7 +131,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop stress -y
+    sudo yum install vim htop stress bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y
@@ -160,7 +161,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop stress -y
+    sudo yum install vim htop stress bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y

@@ -18,6 +18,7 @@ url: https://github.com/wandering-mono/snippets.git
     - [docker compose control startup](#docker-compose-control-startup)
     - [docker compose healthchecks](#docker-compose-healthchecks)
   - [Dockerfile building blocks](#dockerfile-building-blocks)
+    - [Dockerfile Instructions](#dockerfile-instructions)
     - [Dockerfile runtime ENV](#dockerfile-runtime-env)
       - [Environment Variables \& Security](#environment-variables--security)
       - [nodejs example](#nodejs-example)
@@ -30,6 +31,7 @@ url: https://github.com/wandering-mono/snippets.git
     - [docker build](#docker-build)
       - [docker build command on macos m1 linux/amd64 images](#docker-build-command-on-macos-m1-linuxamd64-images)
     - [docker exec](#docker-exec)
+      - [docker useful packages for containers](#docker-useful-packages-for-containers)
     - [docker tag](#docker-tag)
     - [docker start](#docker-start)
     - [docker stop](#docker-stop)
@@ -65,7 +67,8 @@ url: https://github.com/wandering-mono/snippets.git
 
 ### docker compose commands
 
-> `docker compose` is v2 of `docker-compose`
+> `docker compose` is v2 of `docker-compose`  
+> `docker-compose` deprecated in 2023
 
 create and run containers specified in `docker-compose.yaml` in current dir  
 
@@ -78,11 +81,8 @@ create and run only specific services from current `docker-compose.yaml`
 
 ```shell
 docker compose up -d service-name
-```
 
-> example
-
-```shell
+# example
 docker compose up -d server php mysql
 ```
 
@@ -102,12 +102,21 @@ run the service described in `docker-compose.yaml` file with specified command
 
 ```shell
 docker compose run service-name command-name
+
+# example
+docker compose run npm init
 ```
 
-> example
+show running **docker-compose** containers
 
 ```shell
-docker compose run npm init
+docker compose ps
+```
+
+show top of running **docker-compose** containers
+
+```shell
+docker compose top
 ```
 
 ---
@@ -300,11 +309,32 @@ depends_on:
 
 ## Dockerfile building blocks
 
+### Dockerfile Instructions
+
+[Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+
+| Instruction | Description                                                  | Notes                                                        | Example                                                      |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| FROM        | Specify the base image                                       |                                                              | `FROM mysql:5.7`, `FROM ubuntu:latest`                       |
+| LABELS      | Adds metadata to an image                                    | Like **tags** on AWS                                         | `LABEL "Author"="mono"`, `LABEL "Project"="nano"`            |
+| RUN         | Execute commands in a new layer and commit the results       | Install a package, create dir, etc                           | `RUN apt-get update && apt-get install apache2 git -y`       |
+| ADD/COPY    | Adds files and folders into image                            | **ADD** can download, unarchive, etc                         | `ADD nano.tar.gz /var/www/html`                              |
+| CMD         | Runs binaries/commands on docker run                         |                                                              | `CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]`           |
+| ENTRYPOINT  | Allows to configure a container that will run as an executable | Similar to **CMD** but with higher priority. For example, mention command in **ENTRYPOINT** and argument to that command by using **CMD** |                                                              |
+| VOLUME      | Creates a mount point and marks it as holding externally mounted volumes |                                                              | `VOLUME mydbdata:/var/lib/mysql`, `VOLUME /var/log/apache2`  |
+| EXPOSE      | Container listens on the specified network ports at runtime  | Expose port that container needs to work properly            | `EXPOSE 80`, `EXPOSE 3306`                                   |
+| ENV         | Sets the environment variable                                |                                                              | `ENV DEBIAN_FRONTEND=noninteractive` to make commands non-interactive |
+| USER        | Sets the user name (or UID)                                  | Specify what user will be running the process                |                                                              |
+| WORKDIR     | Sets the working dir                                         |                                                              | `WORKDIR /var/www/html`                                      |
+| ARG         | Defines a variable that users can pass at build-time         | Specify variables that the user can pass during build        |                                                              |
+| ONBUILD     | Adds to the image a *trigger* instruction to be executed at a later time | Specify the commands that will be running when using this image as base image |                                                              |
+
+---
+
 ### Dockerfile runtime ENV
 
-> To use `ENV` parameters, first, you need to define this `ENV` parameter in code.
->
-> Place `ENV` variables at the bottom of the `Dockerfile`. So, **docker** will not reexecute unnessesary layers.
+> To use `ENV` parameters, first, you need to define this `ENV` parameter in code.  
+>Place `ENV` variables at the bottom of the `Dockerfile`. So, **docker** will not reexecute unnessesary layers.
 
 ---
 
@@ -333,11 +363,8 @@ If you use a separate file, the values are not part of the image since you point
     ```dockerfile
     ENV PORT $port-number
     EXPOSE $PORT
-    ```
-
-    >   example
-
-    ```dockerfile
+    
+    # example
     ENV PORT 80
     EXPOSE $PORT
     ```
@@ -346,13 +373,9 @@ If you use a separate file, the values are not part of the image since you point
 
     ```shell
     docker run -p host-port:container-port --env PORT=port-number
-    
     docker run -p host-port:container-port -e PORT=port-number
-    ```
-
-    >   example
-
-    ```shell
+    
+    # example
     docker run -d --rm -p 3000:8000 -e PORT=8000 --name feedback-web-nodejs -v feedback:/app/feedback -v "$(pwd):/app" -v /app/node_modules -v /app/temp account-name/repo-name:v0.41-env
     ```
 
@@ -360,11 +383,8 @@ If you use a separate file, the values are not part of the image since you point
 
     ```shell
     docker run -p host-port:container-port --env-file ./filename
-    ```
-
-    >   example
-
-    ```shell
+    
+    # example
     docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-web-nodejs -v feedback:/app/feedback -v "$(pwd):/app" -v /app/node_modules -v /app/temp account-name/repo-name:v0.41-env
     ```
 
@@ -385,11 +405,8 @@ If you use a separate file, the values are not part of the image since you point
 
     ```dockerfile
     ARG arg-name=arg-value
-    ```
-
-    >   example
-
-    ```dockerfile
+    
+    # example
     ARG DEFAULT_PORT=80
     ENV PORT $DEFAULT_PORT
     EXPOSE $PORT
@@ -399,11 +416,8 @@ If you use a separate file, the values are not part of the image since you point
 
     ```shell
     docker build -t image-name --build-arg arg-name=arg-value .
-    ```
-
-    >   example
-
-    ```shell
+    
+    # example
     docker build -t account-name/repo-name:v0.42-arg-p8000 --build-arg DEFAULT_PORT=8000 .
     ```
 
@@ -433,6 +447,8 @@ docker login -u username
 inspect the image  
 
 ```shell
+docker inspect image-name:tag-name
+
 docker image inspect image-name
 ```
 
@@ -516,18 +532,19 @@ run the container and login inside
 -t tty pseudo terminal to container
 
 ```shell
-docker run -it image-name
+docker run -it image-name /bin/bash
+docker run -it image-name /bin/sh
+
+# example
+docker run -it ubuntu /bin/bash
 ```
 
 run container on specific port
 
 ```shell
 docker run -p host-port:container-port
-```
 
-> example
-
-```shell
+# example
 docker run -p 3000:80 image-name
 ```
 
@@ -560,11 +577,8 @@ run docker container with specified name
 
 ```shell
 docker run --name container-name image-name
-```
 
-> example
-
-```shell
+# example
 docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
 ```
 
@@ -589,6 +603,16 @@ docker build -t image-name:tag-name .
 # examples
 docker build -t rng_py_app:latest .
 docker build -t static-website:beta .
+```
+
+build image from different dir
+
+```shell
+docker build -t image-name:tag-name path/to/Dockerfile
+
+# example
+docker build -t printer:v1 cmd/
+# don't need to mention Dockerfile
 ```
 
 build image with different dir and different `Dockerfile` name
@@ -627,12 +651,18 @@ execute some command inside docker container
 
 ```shell
 docker exec container-name command-name
+
+# example
+docker exec mynginx ls /
 ```
 
 login inside the container
 
 ```shell
 docker exec -it container-name /bin/bash
+
+# if container doesn't have bash use sh
+docker exec -it container-name /bin/sh
 ```
 
 execute some command inside the docker container interactively
@@ -646,6 +676,23 @@ docker exec -it objective_swartz npm init
 
 ---
 
+#### docker useful packages for containers
+
+`iproute2` - package for  `ip -a` command (not installed on really thin distros)
+
+```shell
+apt update
+apt install iproute2 -y
+```
+
+`procps` - `ps` command
+
+```shell
+apt install procps
+```
+
+---
+
 ### docker tag
 
 > docker tag for renaming images
@@ -654,11 +701,8 @@ create renamed copy of the image
 
 ```shell
 docker tag image-name:tag account-name/repo-name:tag
-```
 
-> example
-
-```shell
+# example
 docker tag webapp_node:latest  wanderingmono/node-hello-world:latest
 ```
 
@@ -709,16 +753,15 @@ docker attach container-name
 
 ### docker push
 
-pushes the image to the repo, dockerhub by default or different provider
+pushes the image to the repo, **DockerHub** by default or different provider  
+just push image and new public repo on **DockerHub** will be created automatically
 
 ```shell
 docker push account-name/repo-name:tag
-```
 
-> example
-
-```shell
+# example
 docker push wanderingmono/node-hello-world:latest
+docker push wanderingmono/nanoimg:v2
 ```
 
 ---
@@ -735,11 +778,8 @@ pull the image from specific repo
 
 ```shell
 docker pull account-name/repo-name:tag
-```
 
-> example
-
-```shell
+# example
 docker pull wanderingmono/node-hello-world:latest
 ```
 
@@ -787,23 +827,17 @@ copy something inside the running container
 
 ```shell
 docker cp local/path/. container-name:/container/path
-```
 
-> example
-
-```shell
+# example
 docker cp dummy/. fervent_almeida:/test
 ```
 
 copy from the container to local machine
 
 ```shell
-docker co container-name:/container/path/file.txt local/path
-```
+docker cp container-name:/container/path/file.txt local/path
 
-> example
-
-```shell
+# example
 docker cp fervent_almeida:/test/test.txt dummy
 ```
 
@@ -811,11 +845,8 @@ copy full directory from the container to local machine
 
 ```shell
 docker cp container-name:/container/path local/path
-```
 
-> example
-
-```shell
+# example
 docker cp fervent_almeida:/test dummy
 ```
 
@@ -894,13 +925,16 @@ docker volume ls
 remove the container
 
 ```shell
-docker rm -f container-ID-or-name
+docker rm -f container-id\container-name
 ```
 
 remove docker images
 
 ```shell
-docker rmi -f image-name-or-image-ID
+docker rmi -f image-name:tag-name/image-ID
+
+# if tag = latest
+docker rmi -f image-name/image-ID
 ```
 
 remove all stopped containers
@@ -1057,11 +1091,8 @@ create a bind mount that mounts folder in local system managed by you
 
 ```shell
 -v "local/path:/container/path"
-```
 
-> example
-
-```shell
+# example
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "/full/path with whitespaces/docker-edu/Section 3. Managing Data & Working with Volumes/feedback-web-nodejs/:/app" account-name/repo-name:tag-name
 ```
 
@@ -1079,15 +1110,10 @@ Windows
 
 ```powershell
 -v "%cd%":/app
-```
 
-> example
-
-```shell
+# examples
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app"  account-name/repo-name:tag-name
-```
 
-```shell
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd)/feedback:/app/feedback" -v "$(pwd):/app" -v /app/node_modules account-name/repo-name:tag-name
 ```
 
@@ -1099,11 +1125,8 @@ Volumes are read-write by default, use `:ro` to make them read-only
 
 ```shell
 docker run -v local/path:/container/path:ro
-```
 
-> example
-
-```shell
+# example
 docker run -d --rm -p 3000:80 --name feedback-web-nodej
 s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/node_modules account-name/repo-name:tag-name
 ```
@@ -1135,11 +1158,8 @@ docker network ls
 
 ```shell
 docker run -d --name container-name --network network-name image-name
-```
 
-> examples
-
-```shell
+# examples
 docker run -d --name mongodb --network favorites-net mongo
 
 docker run --name favorites-web-nodejs --network favorites-net -d --rm -p 3000:3000 account-name/repo-name:tag-name
@@ -1149,11 +1169,8 @@ address your app to another container in the same docker network use container-n
 
 ```javascript
 protocol-name://container-name:27017/
-```
 
-> example
-
-```javascript
+# example
 mongodb://mongodb:27017/swfavorites
 ```
 
@@ -1199,11 +1216,8 @@ or with `docker run`
 
 ```shell
 docker run -d --add-host host.docker.internal:host-gateway image-name
-```
 
-> examples in code
-
-```javascript
+# examples in code
 <http://host.docker.internal:3000>
 mongodb://host.docker.internal:27017
 ```
@@ -1280,6 +1294,19 @@ docker user folder
 
 ```shell
 ~/.docker
+```
+
+docker containers are just dirs on host  
+docker containers dir on linux
+
+```shell
+/var/lib/docker/containers
+```
+
+docker named volumes dir on Linux
+
+```shell
+/var/lib/docker/volumes
 ```
 
 ---
@@ -1428,11 +1455,8 @@ run container interactively and execute some command inside of it
 
 ```shell
 docker run -it --name container-name image-name command-name
-```
 
-> example
-
-```shell
+# example
 docker run -it --name util-nodejs account-name/repo-name:v0.1 npm init
 ```
 
@@ -1462,11 +1486,8 @@ run the service described in `docker-compose.yaml` file
 
 ```shell
 docker compose run service-name command-name
-```
 
-> example
-
-```shell
+# example
 docker compose run --rm npm init
 ```
 

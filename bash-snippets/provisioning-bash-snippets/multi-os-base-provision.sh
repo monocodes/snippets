@@ -106,6 +106,7 @@ function bat-install() {
     sudo apt autoremove --purge -y
     
     message "Installing software and cleaning up..."
+    sudo apt-get install bash-completion -y
 
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
       wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
@@ -130,7 +131,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop -y
+    sudo yum install vim htop bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y
@@ -155,7 +156,7 @@ function bat-install() {
     sudo dnf update -y
 
     message "Installing software..."
-    sudo yum install vim htop bat -y
+    sudo yum install vim htop bat bash-completion wget unzip git -y
 
     message "Cleaning up..."
     sudo dnf autoremove -y
@@ -182,7 +183,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop -y
+    sudo yum install vim htop bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y
