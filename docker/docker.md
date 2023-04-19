@@ -57,6 +57,8 @@ url: https://github.com/wandering-mono/snippets.git
     - [CAdvisor monitoring tool](#cadvisor-monitoring-tool)
     - [docker paths](#docker-paths)
   - [Timezone in docker](#timezone-in-docker)
+  - [docker notes](#docker-notes)
+    - [mysql - connect to db in container](#mysql---connect-to-db-in-container)
   - [deploying examples](#deploying-examples)
     - [nodejs setup example](#nodejs-setup-example)
     - [nodejs + reactjs + mongodb example](#nodejs--reactjs--mongodb-example)
@@ -107,7 +109,8 @@ docker compose run service-name command-name
 docker compose run npm init
 ```
 
-show running **docker-compose** containers
+show running **docker-compose** containers  
+need to be in `docker-compose.yaml` dir
 
 ```shell
 docker compose ps
@@ -117,6 +120,12 @@ show top of running **docker-compose** containers
 
 ```shell
 docker compose top
+```
+
+just build all images from `docker-compose.yaml`
+
+```shell
+docker compose build
 ```
 
 ---
@@ -695,7 +704,7 @@ apt install procps
 
 ### docker tag
 
-> docker tag for renaming images
+> `docker tag` for renaming images
 
 create renamed copy of the image
 
@@ -994,7 +1003,8 @@ fully delete all containers, images and cache
 docker system prune -a
 ```
 
-fully delete all containers, images, volumes and cache
+delete all containers, images, volumes and cache  
+*actually it will not delete **named** volumes*
 
 ```shell
 docker system prune -a --volumes
@@ -1028,7 +1038,8 @@ remove volume
 docker volume rm volume-name
 ```
 
-remove all unused volumes
+remove all unused **anonymous** volumes  
+it will not delete **named** volumes
 
 ```shell
 docker volume prune
@@ -1354,6 +1365,40 @@ There are multiple ways to sync timezone between host and containers
         environment:
           - TZ=Asia/Yerevan
     ```
+
+## docker notes
+
+### mysql - connect to db in container
+
+The simplest way to connect is to connect from another container in the same network.  
+By default **mysql** will block connections outside of local network.
+
+For example, with `docker-compose.yaml` with **app** and **db**
+
+1. Check **IP** and name of the **service** of the **db** container
+
+   ```shell
+   docker compose ps
+   docker inspect db-container-name | grep -i address
+   ```
+
+2. Login inside **app** container
+
+   ```shell
+   docker exec container-name /bin/bash
+   ```
+
+3. Install **mysql-client**
+
+   ```shell
+   apt update ; apt install mysql-client -y
+   ```
+
+4. Login into db
+
+   ```shell
+   mysql -h service-name-or-ip -u root -ppass
+   ```
 
 ---
 

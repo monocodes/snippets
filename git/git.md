@@ -272,11 +272,8 @@ clone repository
 
 ```shell
 git clone repository-url-name
-```
 
-> example
-
-```shell
+# example
 git clone https://github.com/devopshydclub/vprofile-project.git
 ```
 
@@ -284,11 +281,8 @@ git clone only single branch
 
 ```shell
 git clone -b mybranch --single-branch git://sub.domain.com/repo.git
-```
 
-> example
-
-```shell
+# example
 git clone -b local-setup --single-branch https://github.com/devopshydclub/vprofile-project.git
 ```
 
@@ -500,11 +494,8 @@ filename
 
     ```shell
     git remote add repo-name repo-url
-    ```
-
-    >   example
-
-    ```shell
+    
+    # example
     git remote add commands https://github.com/wandering-mono/commands.git
     ```
 
@@ -512,11 +503,8 @@ filename
 
     ```shell
     git push --set-upstream repo-name main/master branch --force
-    ```
-
-    >   example
-
-    ```shell
+    
+    # example
     git push --set-upstream commands main --force
     ```
 

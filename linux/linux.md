@@ -89,6 +89,7 @@ url: https://github.com/wandering-mono/snippets.git
     - [apache2, httpd](#apache2-httpd)
     - [tomcat](#tomcat)
     - [mysql, mariadb](#mysql-mariadb)
+      - [mysql commands](#mysql-commands)
   - [network notes](#network-notes)
     - [private IP ranges](#private-ip-ranges)
     - [ifconfig.io](#ifconfigio)
@@ -320,6 +321,13 @@ force delete everything in current directory
 rm -rf *
 ```
 
+delete everything except something
+
+```shell
+rm -rf !("filename")
+rm -rf !("*.war")
+```
+
 copy file
 
 ```shell
@@ -395,6 +403,9 @@ find anything
 
 ```shell
 find /path/to -name filename*
+
+# example
+find . -name "foo*"
 ```
 
 create softlink
@@ -1313,6 +1324,226 @@ chmod 770 /path/to/filename
 ---
 
 ### partitioning, mounting, fdisk, gparted
+
+#### lvm
+
+##### Resizing of VM with **LVM**
+
+- Check available free space with `vgdisplay` or `cfdisk` if there are no free space in VG
+
+  ```shell
+  sudo vgdisplay
+  
+  # Output
+    --- Volume group ---
+    VG Name               rl
+    System ID             
+    Format                lvm2
+    Metadata Areas        1
+    Metadata Sequence No  3
+    VG Access             read/write
+    VG Status             resizable
+    MAX LV                0
+    Cur LV                2
+    Open LV               2
+    Max PV                0
+    Cur PV                1
+    Act PV                1
+    VG Size               <12.00 GiB
+    PE Size               4.00 MiB
+    Total PE              3071
+    Alloc PE / Size       3071 / <12.00 GiB
+    Free  PE / Size       0 / 0   
+    VG UUID               nUJC6V-id1M-sAk0-gCTw-FQzr-hobx-UwPyF6
+  ```
+
+  ```shell
+  sudo cfdisk
+  
+  # If it's online resizing and you see no free space use command to rescan disks
+  echo 1 > /sys/class/block/sda/device/rescan
+  
+  # Output
+   Disk: /dev/sda
+               Size: 20 GiB, 21474836480 bytes, 41943040 sectors
+                       Label: dos, identifier: 0xa01be5a7
+  
+      Device       Boot       Start        End    Sectors  Size  Id Type
+      /dev/sda1    *           2048    2099199    2097152    1G  83 Linux
+  >>  /dev/sda2             2099200   41943039   39843840   19G  8e Linux LVM 
+  
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │ Partition type: Linux LVM (8e)                                         │
+   │Filesystem UUID: GtlmtF-KxKH-oAC7-yrMq-gYqb-DdVK-2re6ph		  │
+   │     Filesystem: LVM2_member                                            │
+   └────────────────────────────────────────────────────────────────────────┘
+     [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]
+     [  Write ]  [  Dump  ]
+  ```
+
+  - `vgdisplay` shows free space  
+    check `LV path` of the **LV** that you want to extend
+
+    ```shell
+    sudo lvdisplay
+    
+    # Output
+      --- Logical volume ---
+      LV Path                /dev/rl/swap
+      LV Name                swap
+      VG Name                rl
+      LV UUID                5EoWMk-xLse-soIc-5cU7-eSNE-btca-VPgaD5
+      LV Write Access        read/write
+      LV Creation host, time rl9-01, 2023-04-13 19:54:02 +0400
+      LV Status              available
+      # open                 2
+      LV Size                <2.00 GiB
+      Current LE             511
+      Segments               1
+      Allocation             inherit
+      Read ahead sectors     auto
+      - currently set to     256
+      Block device           253:1
+       
+      --- Logical volume ---
+      LV Path                /dev/rl/root
+      LV Name                root
+      VG Name                rl
+      LV UUID                zbzeXH-W6Wx-qeEV-Sd2H-djOp-whwW-F9XV9S
+      LV Write Access        read/write
+      LV Creation host, time rl9-01, 2023-04-13 19:54:02 +0400
+      LV Status              available
+      # open                 1
+      LV Size                10.00 GiB
+      Current LE             2560
+      Segments               1
+      Allocation             inherit
+      Read ahead sectors     auto
+      - currently set to     256
+      Block device           253:0
+    ```
+
+    - extend **LV**
+
+      ```shell
+      sudo lvextend -l +100%FREE -r /dev/rl/root
+      ```
+
+      >The `lvextend` command with the -l option specifies the size in extents. If you use `-L`, you need to specify the size (`+10 GB` to extend by 10 GB, for example).
+      >
+      >- The `+100%FREE` option indicates that all remaining free space in the volume group should be added.
+      >- The `-r` option resizes the underlying file system together with the logical volume. If you skip this option, you need to use the `sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv` command separately to extend the actual file system.
+
+  - `cfdisk` shows free space
+
+    - choose `Device` you want to resize
+
+    - `Resize` -> `Enter`
+
+    - `Write` -> `Enter`
+
+    - `Quit` -> `Enter`
+
+    - Resize physical volume - **PV**
+
+      - check **PV** name
+
+        ```shell
+        sudo pvdisplay
+        
+        # Output
+          --- Physical volume ---
+          PV Name               /dev/sda2
+          VG Name               rl
+          PV Size               <12.00 GiB / not usable 3.00 MiB
+          Allocatable           yes (but full)
+          PE Size               4.00 MiB
+          Total PE              3071
+          Free PE               0
+          Allocated PE          3071
+          PV UUID               GtlmtF-KxKH-oAC7-yrMq-gYqb-DdVK-2re6ph
+        ```
+
+      - resize **PV**
+
+        ```shell
+        sudo pvresize /dev/sda2
+        
+        # Output
+          Physical volume "/dev/sda2" changed
+          1 physical volume(s) resized or updated / 0 physical volume(s) not resized
+        ```
+
+      - check **PV** size again
+
+        ```shell
+        sudo pvdisplay
+        
+        # Output
+          --- Physical volume ---
+          PV Name               /dev/sda2
+          VG Name               rl
+          PV Size               <19.00 GiB / not usable 2.00 MiB
+          Allocatable           yes 
+          PE Size               4.00 MiB
+          Total PE              4863
+          Free PE               1792
+          Allocated PE          3071
+          PV UUID               GtlmtF-KxKH-oAC7-yrMq-gYqb-DdVK-2re6ph
+        ```
+
+      - check added free space to **VG**
+
+        ```shell
+        sudo vgdisplay
+        
+        # Output
+          --- Volume group ---
+          VG Name               rl
+          System ID             
+          Format                lvm2
+          Metadata Areas        1
+          Metadata Sequence No  4
+          VG Access             read/write
+          VG Status             resizable
+          MAX LV                0
+          Cur LV                2
+          Open LV               2
+          Max PV                0
+          Cur PV                1
+          Act PV                1
+          VG Size               <19.00 GiB
+          PE Size               4.00 MiB
+          Total PE              4863
+          Alloc PE / Size       3071 / <12.00 GiB
+          Free  PE / Size       1792 / 7.00 GiB
+          VG UUID               nUJC6V-id1M-sAk0-gCTw-FQzr-hobx-UwPyF6
+        ```
+
+      - extend **LV**
+
+        ```shell
+        sudo lvdisplay # to get LV path
+        
+        sudo lvextend -l +100%FREE -r /dev/rl/root
+        
+        # Output
+          Size of logical volume rl/root changed from 10.00 GiB (2560 extents) to 17.00 GiB (4352 extents).
+          Logical volume rl/root successfully resized.
+        meta-data=/dev/mapper/rl-root    isize=512    agcount=4, agsize=655360 blks
+                 =                       sectsz=512   attr=2, projid32bit=1
+                 =                       crc=1        finobt=1, sparse=1, rmapbt=0
+                 =                       reflink=1    bigtime=1 inobtcount=1
+        data     =                       bsize=4096   blocks=2621440, imaxpct=25
+                 =                       sunit=0      swidth=0 blks
+        naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+        log      =internal log           bsize=4096   blocks=2560, version=2
+                 =                       sectsz=512   sunit=0 blks, lazy-count=1
+        realtime =none                   extsz=4096   blocks=0, rtextents=0
+        data blocks changed from 2621440 to 4456448
+        ```
+
+---
 
 #### grub
 
@@ -2572,16 +2803,22 @@ install mysql on **deb-based distro**
 apt install mysql
 ```
 
-install mysql on **rpm-based distro**
+install mysql on **rpm-based** distro
 
 ```shell
 dnf install mariadb-server
 ```
 
-install **mysql** client to connect to the mysql remote host
+install **mysql** client on **deb-based** distro
 
 ```shell
 apt install mysql-client
+```
+
+install **mysql** client on **rpm-based** distro
+
+```shell
+sudo dnf install mysql
 ```
 
 connect with mysql-client to remote host
@@ -2597,6 +2834,30 @@ restore mysql backup to a running mysql instance
 
 ```shell
 mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQuz9qrKNPY97jqVa5T8B accounts < src/main/resources/db_backup.sql
+```
+
+#### mysql commands
+
+```mysql
+show databases;
+```
+
+```mysql
+use database-name;
+```
+
+```mysql
+show tables;
+```
+
+check table entries
+
+```mysql
+describe table-name;
+
+select quaries;
+
+select * from table-name;
 ```
 
 ---
