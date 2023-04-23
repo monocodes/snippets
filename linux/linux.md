@@ -651,6 +651,10 @@ sed -i 's/word-to-replace/word-that-replace/g' *
 # example
 sed 's/coronavirus/covid19/g' samplefile.txt
 sed -i 's/coronavirus/covid19/g' samplefile.txt
+
+# gsed examples
+# gsed is macOS GNU sed
+gsed -i 's/url = git@github.com:wandering-mono/url = git@github.com:monocodes/g' config
 ```
 
 - `sed` command example for `/etc/apt/sources.list` to switch to location repos or main repos
