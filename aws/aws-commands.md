@@ -31,7 +31,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 ssh to aws instance
 
-```shell
+```sh
 ssh -i ~/.ssh/key-name.pem -o ServerAliveInterval=200 username@ip
 ```
 
@@ -47,7 +47,7 @@ username for different OS
 
 check the user-data provided during deployment and debug it
 
-```shell
+```sh
 curl http://169.254.169.254/latest/user-data
 ```
 
@@ -59,7 +59,7 @@ curl http://169.254.169.254/latest/user-data
 
 install docker
 
-```shell
+```sh
 sudo amazon-linux-extras install docker
 ```
 
@@ -73,13 +73,13 @@ sudo amazon-linux-extras install docker
 
 install CloudWatch Logs agent on **Amazon Linux 2**
 
-```shell
+```sh
 sudo yum update -y && sudo yum install -y awslogs
 ```
 
 install CloudWatch Logs agent on **Ubuntu Server, CentOS, or Red Hat instance**
 
-```shell
+```sh
 curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
 
 # install and configure with the needed region
@@ -89,7 +89,7 @@ sudo python ./awslogs-agent-setup.py --region us-east-1
 
 config of CloudWatch Logs agent
 
-```shell
+```sh
 vim /var/awslogs/etc/awslogs.conf
 ```
 
@@ -102,7 +102,7 @@ vim /var/awslogs/etc/awslogs.conf
 > install amazon-efs-utils on Amazon Linux 2 to access EFS  
 > <https://docs.aws.amazon.com/efs/latest/ug/installing-amazon-efs-utils.html>
 
-```shell
+```sh
 sudo yum install -y amazon-efs-utils
 ```
 
@@ -121,37 +121,37 @@ sudo yum install -y amazon-efs-utils
 
 To mount permanently
 
-```shell
+```sh
 sudo vim /etc/fstab
 ```
 
 you can use this command in `fstab`
 
-```shell
+```sh
 file_system_id:/ /var/www/html/img efs _netdev,noresvport,tls,iam,accesspoint=access-point-id 0 0
 ```
 
 > example
 
-```shell
+```sh
 fs-09684528ab385583f:/ /var/www/html/img efs _netdev,noresvport,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
 ```
 
 or this
 
-```shell
+```sh
 file_system_id /var/www/html/img efs _netdev,tls,accesspoint=access-point-id 0 0
 ```
 
 > example
 
-```shell
+```sh
 fs-09684528ab385583f /var/www/html/img efs _netdev,tls,accesspoint=fsap-03b05a76b9a9a96d4 0 0
 ```
 
 Test the `fstab` entry by using the mount command with the `fake` option along with the `all` and `verbose` options.
 
-```shell
+```sh
 sudo mount -fav
 ```
 

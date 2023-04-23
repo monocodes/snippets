@@ -23,7 +23,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 2. search for proper `jdk` package needed for your project  
 
-    ```shell
+    ```sh
     sudo apt search jdk
     sudo apt install openjdk-8-jdk -y
     
@@ -35,7 +35,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 3. install `maven`  
 
-    ```shell
+    ```sh
     sudo apt install maven -y
     mvn -version # check installed version of mvn and used version of Java
     Apache Maven 3.6.3
@@ -57,25 +57,25 @@ url: https://github.com/wandering-mono/snippets.git
 
 3. download **tarball**
 
-    ```shell
+    ```sh
     wget https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
     ```
 
 4. extract archive  
 
-    ```shell
+    ```sh
     tar xzvf apache-maven-3.3.9-bin.tar.gz
     ```
 
 5. move to the `/opt/` dir for example  
 
-    ```shell
+    ```sh
     sudo mv apache-maven-3.3.9 /opt/
     ```
 
 6. check maven binary version  
 
-    ```shell
+    ```sh
     /opt/apache-maven-3.3.9/bin/mvn -version
     
     Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T16:41:47+00:00)
@@ -90,7 +90,7 @@ url: https://github.com/wandering-mono/snippets.git
 
     >   example with vprofile-project
 
-    ```shell
+    ```sh
     cd ~/vprofile-project
     /opt/apache-maven-3.3.9/bin/mvn clean install
     ```
@@ -140,7 +140,7 @@ url: https://github.com/wandering-mono/snippets.git
 results of tests would be in `target/` dir  
 all downloaded dependencies will be in a user home dir `/home/username/.m2/repository`
 
-```shell
+```sh
 mvn test
 ```
 
@@ -149,13 +149,13 @@ artefact would be in `target/` dir
 all downloaded dependencies will be in a user home dir `/home/username/.m2/repository`  
 it's good to run `mvn clean install` instead of `mvn install`
 
-```shell
+```sh
 mvn install
 ```
 
 **clean `target/` dir**
 
-```shell
+```sh
 mvn clean
 ```
 

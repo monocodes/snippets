@@ -48,19 +48,19 @@ show tables;
 connect to mysql instance via `mysql-client`  
 `-h` - host
 
-```shell
+```sh
 mysql -h hostname -u username -pPassword
 ```
 
 > example
 
-```shell
+```sh
 mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pG6TfrbTYjU2uM3TidgP0
 ```
 
 connect to mysql instance and select database
 
-```shell
+```sh
 mysql -h hostname -u username -pPassword database-name
 ```
 
@@ -70,13 +70,13 @@ mysql -h hostname -u username -pPassword database-name
 
 restore mysql database backup
 
-```shell
+```sh
 mysql -h hostname -u username -pPassword database-name < backup-name.sql
 ```
 
 > example
 
-```shell
+```sh
 mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pG6TfrbTYjU2uM3TidgP0 accounts < db_backup.sql
 ```
 

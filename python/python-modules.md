@@ -15,13 +15,29 @@ url: https://github.com/wandering-mono/snippets.git
   - [fabric](#fabric)
     - [how to use fabric example](#how-to-use-fabric-example)
 
+## pip install
+
+Install `pip` on **Ubuntu 22**
+
+```sh
+sudo apt install python3-pip
+```
+
+check `pip` version
+
+```sh
+pip3 --version
+```
+
+---
+
 ## fabric
 
 there are different ways how to install fabric
 
 one of them is using `pip`
 
-```shell
+```sh
 pip install fabric
 ```
 
@@ -98,7 +114,7 @@ def web_setup(WEBURL, DIRNAME):
 
 check available functions
 
-```shell
+```sh
 fab -l
 
 # output
@@ -113,7 +129,7 @@ Available commands:
 
 call `greeting` function with `Evening` arg
 
-```shell
+```sh
 fab greeting:Evening
 
 # output
@@ -126,13 +142,13 @@ Done.
 
 `system_info` function
 
-```shell
+```sh
 fab system_info
 ```
 
 `remote_exec` function example on remote host
 
-```shell
+```sh
 fab -H 192.168.10.3 -u devops remote_exec
 # -H - host
 # -u - user
@@ -141,7 +157,7 @@ fab -H 192.168.10.3 -u devops remote_exec
 
 `web_setup` function example on remote host
 
-```shell
+```sh
 fab -H 192.168.10.3 -u devops web_setup:https://www.tooplate.com/zip-templates/2121_wave_cafe.zip,2121_wave_cafe
 # must be no spaces between args!!!
 

@@ -45,6 +45,8 @@ url: https://github.com/wandering-mono/snippets.git
         - [chown](#chown)
         - [chmod](#chmod)
     - [partitioning, mounting, fdisk, gparted](#partitioning-mounting-fdisk-gparted)
+      - [lvm](#lvm)
+        - [Resizing of VM with **LVM**](#resizing-of-vm-with-lvm)
       - [grub](#grub)
       - [gparted](#gparted)
       - [df](#df)
@@ -82,9 +84,11 @@ url: https://github.com/wandering-mono/snippets.git
         - [paths yum](#paths-yum)
       - [epel](#epel)
       - [rpm](#rpm)
+        - [remove gpg-key and repo](#remove-gpg-key-and-repo)
       - [firewalld](#firewalld)
   - [third-party packages](#third-party-packages)
     - [useful packages](#useful-packages)
+    - [awscli](#awscli)
     - [jdk](#jdk)
     - [apache2, httpd](#apache2-httpd)
     - [tomcat](#tomcat)
@@ -95,48 +99,59 @@ url: https://github.com/wandering-mono/snippets.git
     - [ifconfig.io](#ifconfigio)
   - [notes](#notes)
     - [DevOps tools usage](#devops-tools-usage)
+    - [bash '', ""](#bash--)
+    - [sed '', ""](#sed--)
+  - [guides](#guides)
+    - [sed guide](#sed-guide)
+      - [Find and replace text within a file using sed command](#find-and-replace-text-within-a-file-using-sed-command)
+      - [Syntax: sed find and replace text](#syntax-sed-find-and-replace-text)
+      - [Examples that use sed to find and replace](#examples-that-use-sed-to-find-and-replace)
+      - [A note about \*BSD and macOS sed version](#a-note-about-bsd-and-macos-sed-version)
+      - [`sed` command problems](#sed-command-problems)
+      - [How to use sed to match word and perform find and replace](#how-to-use-sed-to-match-word-and-perform-find-and-replace)
+      - [Recap and conclusion – Using sed to find and replace text in given files](#recap-and-conclusion--using-sed-to-find-and-replace-text-in-given-files)
 
 ## paths
 
 users info
 
-```shell
+```sh
 /etc/passwd
 ```
 
 groups info
 
-```shell
+```sh
 /etc/group
 ```
 
 logs
 
-```shell
+```sh
 /var/log
 ```
 
 starting/stopping/reloading configs of the services
 
-```shell
+```sh
 /etc/systemd/system/multi-user.target.wants
 ```
 
 default webserver data, webhosting
 
-```shell
+```sh
 /var/www/html
 ```
 
 all processes path
 
-```shell
+```sh
 /var/run/
 ```
 
 show `PID`
 
-```shell
+```sh
 cat /var/run/process-name/process-name.pid
 
 # example
@@ -145,7 +160,7 @@ cat /var/run/httpd/httpd.pid
 
 network config, more info here -> [network](#network)
 
-```shell
+```sh
 # Ubuntu 22
 /etc/netplan/00-installer-config.yaml
 
@@ -156,7 +171,7 @@ network config, more info here -> [network](#network)
 banner file (info when login into the system)  
 create it with any text
 
-```shell
+```sh
 /etc/motd
 ```
 
@@ -166,7 +181,7 @@ create it with any text
 
 search any directory (`**`) any file with `.war` extension (`*.war`)
 
-```shell
+```sh
 **/*.war
 ```
 
@@ -182,31 +197,31 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 
 Run A and then B, regardless of success of A
 
-```shell
+```sh
 A ; B
 ```
 
 Run B if A succeeded
 
-```shell
+```sh
 A && B
 ```
 
 Run B if A failed
 
-```shell
+```sh
 A || B
 ```
 
 Run A in background
 
-```shell
+```sh
 A &
 ```
 
 Multiline command with `\`
 
-```shell
+```sh
 # docker install example
 sudo apt remove docker.io -y ; \
 	sudo apt remove containerd -y ; \
@@ -221,26 +236,26 @@ sudo apt remove docker.io -y ; \
 
 get help for the command
 
-```shell
+```sh
 command-name --help
 ```
 
 what is it
 
-```shell
+```sh
 file filename
 file directory-name
 ```
 
 show version of the OS
 
-```shell
+```sh
 cat /etc/os-release
 ```
 
 logout with current user
 
-```shell
+```sh
 exit
 ```
 
@@ -250,19 +265,19 @@ exit
 
 show free ram
 
-```shell
+```sh
 free -mh
 ```
 
 show uptime
 
-```shell
+```sh
 uptime
 ```
 
 clear terminal
 
-```shell
+```sh
 clear
 ```
 
@@ -272,13 +287,13 @@ clear
 
 make a directory
 
-```shell
+```sh
 mkdir directory-name
 ```
 
 make directory forcefully with all needed parents
 
-```shell
+```sh
 mkdir -p directory/path
 
 # example
@@ -287,87 +302,87 @@ mkdir -p /opt/dev/ops/devops/test
 
 make a file
 
-```shell
+```sh
 touch filename
 ```
 
 make multiple files with numbers
 
-```shell
+```sh
 touch filename{1..10}.txt
 ```
 
 delete multiple files with the same name + numbers
 
-```shell
+```sh
 rm -rf filename{1..10}.txt
 ```
 
 delete file
 
-```shell
+```sh
 rm filename
 ```
 
 delete dir
 
-```shell
+```sh
 rm -r directory-name
 ```
 
 force delete everything in current directory
 
-```shell
+```sh
 rm -rf *
 ```
 
 delete everything except something
 
-```shell
+```sh
 rm -rf !("filename")
 rm -rf !("*.war")
 ```
 
 copy file
 
-```shell
+```sh
 cp filename directory-name
 ```
 
 copy directory
 
-```shell
+```sh
 cp -r /path/to/dir /path/to/another/dir
 ```
 
 copy all files and dirs
 
-```shell
+```sh
 cp -r * /path/to/dir
 ```
 
 move with mv
 
-```shell
+```sh
 mv filename /path/to/dir
 ```
 
 rename with mv
 
-```shell
+```sh
 mv filename another-filename
 mv directory-name another-directory-name
 ```
 
 move everything with mv
 
-```shell
+```sh
 mv *.txt directory-name
 ```
 
 move everything in dir to another dir
 
-```shell
+```sh
 mv path/to/dir/* path/to/another/dir
 
 # example
@@ -376,13 +391,13 @@ mv /tmp/img-backup/* /var/www/html/images/
 
 show everything recursively in current dir with `ls`
 
-```shell
+```sh
 ls -R
 ```
 
 show dirs in tree format
 
-```shell
+```sh
 tree /path/to/dir
 
 # example
@@ -393,7 +408,7 @@ tree /var/log
 
 print text to the file
 
-```shell
+```sh
 # example
 
 echo "text" > /tmp/sysinfo.txt
@@ -401,7 +416,7 @@ echo "text" > /tmp/sysinfo.txt
 
 find anything
 
-```shell
+```sh
 find /path/to -name filename*
 
 # example
@@ -410,7 +425,7 @@ find . -name "foo*"
 
 create softlink
 
-```shell
+```sh
 ln -s /path/to/filename /path/to/filename
 
 # example
@@ -419,13 +434,13 @@ ln -s /opt/dev/ops/devops/test/commands.txt cmds
 
 show disk usage of the current dir and all dirs and files in it
 
-```shell
+```sh
 du -h
 ```
 
 show total size of current dir
 
-```shell
+```sh
 du -sh
 ```
 
@@ -435,13 +450,13 @@ du -sh
 
 install locate in rpm-based distrib
 
-```shell
+```sh
 sudo dnf install mlocate
 ```
 
 >every time before search use `updatedb` command
 
-```shell
+```sh
 updatedb
 locate host
 ```
@@ -451,13 +466,13 @@ locate host
 export environmental variables temporarily  
 change default text editor
 
-```shell
+```sh
 export EDITOR=vim
 ```
 
 to make it permanent for user add export command to `~/.bashrc` or `~/.bash_profile`
 
-```shell
+```sh
 vim ~/.bashrc
 
 export EDITOR=vim
@@ -465,7 +480,7 @@ export EDITOR=vim
 
 to make it permanent for all users add export command to `/etc/profile`
 
-```shell
+```sh
 vim /etc/profile
 
 export EDITOR=vim
@@ -477,19 +492,19 @@ export EDITOR=vim
 
 what needs to be restarted using machine-friendly show
 
-```shell
+```sh
 sudo needrestart -b
 ```
 
 what needs to be restarted using human-friendly show
 
-```shell
+```sh
 sudo needrestart -u NeedRestart::UI::stdio -r l
 ```
 
 restart services with needrestart, reboot if doesn't help
 
-```shell
+```sh
 sudo needrestart -u NeedRestart::UI::stdio -r a
 ```
 
@@ -501,13 +516,13 @@ sudo needrestart -u NeedRestart::UI::stdio -r a
 
 show file contents
 
-```shell
+```sh
 cat filename
 ```
 
 show first 10 lines of the file or any number of lines
 
-```shell
+```sh
 head filename
 
 head -20 filename
@@ -515,7 +530,7 @@ head -20 filename
 
 show last 10 lines of the file or any number of lines
 
-```shell
+```sh
 tail filename
 
 tail -20 filename
@@ -523,13 +538,13 @@ tail -20 filename
 
 show continuously last 10 lines of the file
 
-```shell
+```sh
 tail -f filename
 ```
 
 show file contents with pager `less`
 
-```shell
+```sh
 less filename
 ```
 
@@ -541,7 +556,7 @@ less filename
 >
 > To install on Ubuntu before 20:
 >
->   ```shell
+>   ```sh
 >   wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb \
 >   	sudo dpkg -i bat-musl_0.22.1_amd64.deb
 >   ```
@@ -550,13 +565,13 @@ less filename
 
 print `bat` without line numbers and header
 
-```shell
+```sh
 bat -p filename
 ```
 
 print `bat` without line numbers but with header
 
-```shell
+```sh
 bat --style=plain,header filename
 ```
 
@@ -564,19 +579,19 @@ bat --style=plain,header filename
 
 find word in file
 
-```shell
+```sh
 grep word filename
 ```
 
 find word in file and ignore case
 
-```shell
+```sh
 grep -i word filename
 ```
 
 find word in the file in all files and dirs
 
-```shell
+```sh
 grep -iR word *
 
 # example
@@ -585,13 +600,13 @@ grep -R SELINUX /etc/*
 
 `-v` - grep process excluding grep process
 
-```shell
+```sh
 ps -ef | grep -i process-name | grep -v 'grep'
 ```
 
 `grep` examples
 
-```shell
+```sh
 ls /etc/host* | grep host
 
 ls host | grep host
@@ -605,7 +620,7 @@ free -h | grep -i mem
 
 show needed part of file with cut
 
-```shell
+```sh
 cut -d delimiter -f field-number /path/to/filename
 
 # example
@@ -614,7 +629,7 @@ cut -d: -f1,7 /etc/passwd
 
 show needed part of file with awk
 
-```shell
+```sh
 awk -F'delimiter' '{print $field-number$field-number}' /path/tofilename
 
 # example
@@ -627,7 +642,7 @@ replace text in files
 `g` - globally (more than one time in line)  
 without `-i` to show what will be changed
 
-```shell
+```sh
 sed 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' *.cfg
@@ -642,7 +657,7 @@ sed -i 's/coronavirus/covid19/g' samplefile.txt
 
   - switch to main repos
 
-    - ```shell
+    - ```sh
                 sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
                 # or
                 sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
@@ -650,7 +665,7 @@ sed -i 's/coronavirus/covid19/g' samplefile.txt
 
   - switch to Armenia repos
 
-    - ```shell
+    - ```sh
                 sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
                 # or
                 sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
@@ -662,7 +677,7 @@ sed -i 's/coronavirus/covid19/g' samplefile.txt
 
 count how many lines in file
 
-```shell
+```sh
 wc -l /path/to/filename
 
 # example
@@ -671,7 +686,7 @@ wc -l /etc/passwd
 
 count how many dirs and files
 
-```shell
+```sh
 ls | wc -l
 ```
 
@@ -688,20 +703,20 @@ create archives
 > - `-v` - verbose
 > - `-f` - file
 
-```shell
+```sh
 tar -czvf archive-name.tar.gz /path/to/dir
 ```
 
 extract archive  
 `-x` - extract
 
-```shell
+```sh
 tar -xzvf filename
 ```
 
 extract archive to some dir
 
-```shell
+```sh
 tar -xzvf filename -C /path/to/dir
 ```
 
@@ -712,20 +727,20 @@ tar -xzvf filename -C /path/to/dir
 create archive  
 `-r` - recursively
 
-```shell
+```sh
 zip -r filename.zip /path/to/dir
 ```
 
 unzip for unarchive  
 `-d` - to point to dir
 
-```shell
+```sh
 unzip filename.zip -d /path/to/dir
 ```
 
 unzip and overwrite, non-interactive
 
-```shell
+```sh
 unzip -o filename.zip /path/to/dir
 ```
 
@@ -737,7 +752,7 @@ unzip -o filename.zip /path/to/dir
 
 `>` - output command result to a file
 
-```shell
+```sh
 command-name > /path/to/filename
 
 # examples
@@ -748,7 +763,7 @@ echo "text" > /tmp/sysinfo.txt
 
 output command result to a file and did not overwrite its contents and just append
 
-```shell
+```sh
 command-name >> /path/to/filename
 
 # exapmle
@@ -757,7 +772,7 @@ uptime >> /tmp/sysinfo.txt
 
 output command result to nowhere
 
-```shell
+```sh
 command-name > /dev/null
 
 # example
@@ -766,7 +781,7 @@ yum install vim -y > /dev/null
 
 remove everything in file with `cat`
 
-```shell
+```sh
 cat /dev/null > /path/to/filename
 
 # example
@@ -775,7 +790,7 @@ cat /dev/null > /tmp/sysinfo.txt
 
 redirect error output
 
-```shell
+```sh
 command-name 2> /path/to/filename
 
 # example
@@ -784,7 +799,7 @@ freeee 2>> /tmp/error.log
 
 to redirect standard output `1>` (default) **and** error output `2>` use `&>`
 
-```shell
+```sh
 command-name &> /path/to/filename
 
 # examples
@@ -794,7 +809,7 @@ freddfefe -m &>> /tmp/error.log
 
 ##### input redirection
 
-```shell
+```sh
 command-name < /path/to/filename
 
 # example
@@ -807,7 +822,7 @@ wc -l < /etc/passwd
 
 check timezone
 
-```shell
+```sh
 date
 # or
 timedatectl
@@ -815,7 +830,7 @@ timedatectl
 
 list avalaible timezone
 
-```shell
+```sh
 timedatectl list-timezones
 
 timedatectl list-timezones | grep Berlin
@@ -823,7 +838,7 @@ timedatectl list-timezones | grep Berlin
 
 set new timezone
 
-```shell
+```sh
 sudo timedatectl set-timezone timezone-name
 ```
 
@@ -833,19 +848,19 @@ sudo timedatectl set-timezone timezone-name
 
 show used locale
 
-```shell
+```sh
 localectl
 ```
 
 show installed locales
 
-```shell
+```sh
 localectl list-locales
 ```
 
 search for langpack and install it
 
-```shell
+```sh
 # for rpm-based distros
 dnf search langpacks- | grep -i en
 
@@ -854,31 +869,49 @@ dnf install langpacks-en
 
 set locale
 
-```shell
+```sh
 localectl set-locale LANG=en_US.UTF-8
 ```
 
 show specific locale keymaps
 
-```shell
+```sh
 localectl list-maps | grep -i us
 ```
 
 set keymap locale
 
-```shell
+```sh
 localectl set-keymap us
 ```
 
 > fix for us locale error
 >
-> ```shell
+> ```sh
 > setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
 > ```
 
-```shell
+```sh
 echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment && \
 echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
+```
+
+---
+
+#### crontab examples
+
+[crontab guru](https://crontab.guru/) - The quick and simple editor for cron schedule expressions by [Cronitor](https://cronitor.io/cron-job-monitoring?utm_source=crontabguru&utm_campaign=cronitor_top)
+
+```sh
+#       30      20      *               *       1-5     /opt/scripts/11_monit.sh
+# run the script every day during monday-friday at 20:30
+
+
+
+#       minute  hour    day of month    month   day of week # 0 for sunday
+#       MM      HH      DOM             mm      DOW     COMMAND
+        *       *       *               *       *       /opt/scripts/11_monit.sh &>> /var/log/monit_httpd.log
+# run the script every minute
 ```
 
 ---
@@ -887,55 +920,55 @@ echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 
 service status
 
-```shell
+```sh
 systemctl status service-name
 ```
 
 check service active or not
 
-```shell
+```sh
 systemctl is-active service-name
 ```
 
 check service in autorun or not
 
-```shell
+```sh
 systemctl is-enabled service-name
 ```
 
 start service
 
-```shell
+```sh
 systemctl start service-name
 ```
 
 restart service
 
-```shell
+```sh
 systemctl restart service-name
 ```
 
 reload config of the service without restarting
 
-```shell
+```sh
 systemctl reload service-name
 ```
 
 stop service
 
-```shell
+```sh
 systemctl stop service-name
 ```
 
 add service to autorun
 
-```shell
+```sh
 systemctl enable service-name
 ```
 
 remove service from autorun
 
-```shell
+```sh
 systemctl disable service-name
 ```
 
@@ -945,13 +978,13 @@ systemctl disable service-name
 
 all processes path
 
-```shell
+```sh
 /var/run/
 ```
 
 show process `PID`
 
-```shell
+```sh
 cat /var/run/process-name/process-name.pid
 
 # example
@@ -960,32 +993,32 @@ cat /var/run/httpd/httpd.pid
 
 process managers, activity monitors
 
-```shell
+```sh
 top
 htop
 ```
 
 top for specified process
 
-```shell
+```sh
 top -b | grep java
 ```
 
 show all processes and exit
 
-```shell
+```sh
 ps aux
 ```
 
 show all processes with displaying parent processes
 
-```shell
+```sh
 ps -ef
 ```
 
 show all processes sorted by memory usage with `Mb` not `%`
 
-```shell
+```sh
 ps -eo size,pid,user,command --sort -size | \
   awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
   cut -d "" -f2 | cut -d "-" -f1
@@ -994,20 +1027,20 @@ ps -eo size,pid,user,command --sort -size | \
 find specific process PID and kill it  
 kill the parent process
 
-```shell
+```sh
 ps -ef | grep -i process-name | grep -v 'grep'
 kill PID
 ```
 
 forcefully kill the process but without the child processes
 
-```shell
+```sh
 kill -9 PID
 ```
 
 forcefully kill all child processes with filtering  
 
-- ```shell
+- ```sh
     ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
     ```
 
@@ -1018,13 +1051,13 @@ forcefully kill all child processes with filtering
 
 list all logged in users
 
-```shell
+```sh
 who
 ```
 
 logout user and kill all its processes
 
-```shell
+```sh
 pkill -KILL -u username
 ```
 
@@ -1034,44 +1067,44 @@ pkill -KILL -u username
 
 which user you are now
 
-```shell
+```sh
 whoami
 ```
 
 show all current logged in users with useful info including ip
 
-```shell
+```sh
 who
 ```
 
 show current path
 
-```shell
+```sh
 pws
 ```
 
 show info about any user
 
-```shell
+```sh
 id username
 ```
 
 add user
 
-```shell
-adduser username # for ubuntu, also adds home dir
-useradd username # for centos, doesn't add home dir
+```sh
+adduser username # for ubuntu and modern rpm-based, also adds home dir
+useradd username # for old centos, doesn't add home dir
 ```
 
 add group
 
-```shell
+```sh
 groupadd group-name
 ```
 
 add user to the supplementary group without changing primary group
 
-```shell
+```sh
 usermod -aG group-name username
 # or
 vim /etc/group
@@ -1079,61 +1112,61 @@ vim /etc/group
 
 change current user password
 
-```shell
+```sh
 passwd
 ```
 
 change any user password
 
-```shell
+```sh
 passwd username
 ```
 
 switch to root user
 
-```shell
+```sh
 sudo -i
 ```
 
 switch to any user, change user
 
-```shell
+```sh
 su - username
 ```
 
 delete user
 
-```shell
+```sh
 userdel username
 ```
 
 delete user with home dir
 
-```shell
+```sh
 userdel -r username
 ```
 
 delete group
 
-```shell
+```sh
 groupdel group-name
 ```
 
 show last users logged in into the system
 
-```shell
+```sh
 last
 ```
 
 show all opened files by user
 
-```shell
+```sh
 lsof -u username
 ```
 
 show all opened files in particular dir
 
-```shell
+```sh
 lsof /path/to/dir
 
 # example
@@ -1142,7 +1175,7 @@ lsof /var/www/html/images
 
 > ubuntu 22 LTS default groups after install with user `username`
 
-```shell
+```sh
 adm:x:4:syslog,username
 cdrom:x:24:username
 sudo:x:27:username
@@ -1165,13 +1198,13 @@ Foo’s new `GID`: `3000`
 
 To assign a new `UID` to user called `foo`, enter:
 
-```shell
+```sh
 usermod -u 2005 foo
 ```
 
 To assign a new `GID` to group called `foo`, enter:
 
-```shell
+```sh
 groupmod -g 3000 foo
 ```
 
@@ -1179,14 +1212,14 @@ groupmod -g 3000 foo
 >
 > **WARNING!** The following examples may change ownership of unwanted files on your Linux computer if not executed with care.
 
-```shell
+```sh
 find / -group 2000 -exec chgrp -h foo {} \;
 find / -user 1005 -exec chown -h foo {} \;
 ```
 
 > The `-exec` command executes `chgrp` command or `chmod` command on each file. The `-h` option passed to the `chgrp`/`chmod` command affect each symbolic link instead of any referenced file. Use the following command to verify the same:
 
-```shell
+```sh
 ls -l /home/foo/
 id -u foo
 id -g foo
@@ -1194,19 +1227,19 @@ id -g foo
 
 search for `foo` in the passswd file
 
-```shell
+```sh
 grep foo /etc/passwd
 ```
 
 search for 'foo' in the group file
 
-```shell
+```sh
 grep foo /etc/group
 ```
 
 use the find command to locate files owned by `foo`
 
-```shell
+```sh
 find / -user foo -ls
 find / -group sales -ls # maybe -group foo here...
 ```
@@ -1219,25 +1252,25 @@ find / -group sales -ls # maybe -group foo here...
 >
 >Allow `sudo` without pass for user `username`
 
-```shell
+```sh
 echo "username ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/username
 ```
 
 to add group to sudoers file use `%`
 
-```shell
+```sh
 echo "%group-name ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/group-name
 ```
 
 show all `/etc/sudoers.d` files
 
-```shell
+```sh
 cat /etc/sudoers.d/* # maybe working only under root
 ```
 
 edit `/etc/sudoers` with default text editor
 
-```shell
+```sh
 visudo
 # or
 vim /etc/sudoers
@@ -1245,7 +1278,7 @@ vim /etc/sudoers
 
 normal `sudoers` example
 
-```shell
+```sh
 root ALL=(ALL) ALL
 username ALL=(ALL) NOPASSWD: ALL
 ```
@@ -1256,13 +1289,13 @@ username ALL=(ALL) NOPASSWD: ALL
 
 change `user:group` owners of the dir or file
 
-```shell
+```sh
 chown username:group-name /path/to/filename
 ```
 
 `-R` - recursively, `-v` - verbose
 
-```shell
+```sh
 chown -R username:group-name /path/to/filename
 ```
 
@@ -1282,7 +1315,7 @@ change permissions for the file or dirs
 > - `w` = write
 > - `x` = execute
 
-```shell
+```sh
 # examples
 
 chmod o-x /path/to/filename
@@ -1291,7 +1324,7 @@ chmod g+w /path/to/filename
 
 just make file executable for user, group, others
 
-```shell
+```sh
 chmod +x ./name
 ```
 
@@ -1307,7 +1340,7 @@ chmod +x ./name
 > - `2` - for write
 > - `1` - for execute
 
-```shell
+```sh
 # examples
 
 chmod 640 /path/to/filename
@@ -1331,7 +1364,7 @@ chmod 770 /path/to/filename
 
 - Check available free space with `vgdisplay` or `cfdisk` if there are no free space in VG
 
-  ```shell
+  ```sh
   sudo vgdisplay
   
   # Output
@@ -1357,7 +1390,7 @@ chmod 770 /path/to/filename
     VG UUID               nUJC6V-id1M-sAk0-gCTw-FQzr-hobx-UwPyF6
   ```
 
-  ```shell
+  ```sh
   sudo cfdisk
   
   # If it's online resizing and you see no free space use command to rescan disks
@@ -1384,7 +1417,7 @@ chmod 770 /path/to/filename
   - `vgdisplay` shows free space  
     check `LV path` of the **LV** that you want to extend
 
-    ```shell
+    ```sh
     sudo lvdisplay
     
     # Output
@@ -1425,7 +1458,7 @@ chmod 770 /path/to/filename
 
     - extend **LV**
 
-      ```shell
+      ```sh
       sudo lvextend -l +100%FREE -r /dev/rl/root
       ```
 
@@ -1448,7 +1481,7 @@ chmod 770 /path/to/filename
 
       - check **PV** name
 
-        ```shell
+        ```sh
         sudo pvdisplay
         
         # Output
@@ -1466,7 +1499,7 @@ chmod 770 /path/to/filename
 
       - resize **PV**
 
-        ```shell
+        ```sh
         sudo pvresize /dev/sda2
         
         # Output
@@ -1476,7 +1509,7 @@ chmod 770 /path/to/filename
 
       - check **PV** size again
 
-        ```shell
+        ```sh
         sudo pvdisplay
         
         # Output
@@ -1494,7 +1527,7 @@ chmod 770 /path/to/filename
 
       - check added free space to **VG**
 
-        ```shell
+        ```sh
         sudo vgdisplay
         
         # Output
@@ -1522,7 +1555,7 @@ chmod 770 /path/to/filename
 
       - extend **LV**
 
-        ```shell
+        ```sh
         sudo lvdisplay # to get LV path
         
         sudo lvextend -l +100%FREE -r /dev/rl/root
@@ -1553,19 +1586,19 @@ force boot with specific kernel
 
 1. edit grub config  
 
-    ```shell
+    ```sh
     vim /etc/default/grub
     ```
 
 2. in that file edit this line, in menu count starts with 0  
 
-    ```shell
+    ```sh
     GRUB_DEFAULT="1>2"
     ```
 
 3. update grub config  
 
-    ```shell
+    ```sh
     update-grub
     ```
 
@@ -1573,7 +1606,7 @@ force boot with specific kernel
 
 1. don't need to change anything in grub config, just use the command  
 
-    ```shell
+    ```sh
     grub2-set-default number
     
     # example
@@ -1582,7 +1615,7 @@ force boot with specific kernel
 
 2. check the boot  
 
-    ```shell
+    ```sh
     reboot now
     ```
 
@@ -1596,7 +1629,7 @@ force boot with specific kernel
 
 show partitions
 
-```shell
+```sh
 df -h
 ```
 
@@ -1604,19 +1637,19 @@ df -h
 
 show disks
 
-```shell
+```sh
 fdisk -l
 ```
 
 show disks with `ls` (including unmounted)
 
-```shell
+```sh
 ls -lh /dev/ | grep disk
 ```
 
 start disk partitioning
 
-```shell
+```sh
 fdisk /dev/disk-name
 
 # example
@@ -1625,7 +1658,7 @@ fdisk /dev/xvdf
 
 > partitioning example
 
-```shell
+```sh
 m # for help
 n # add a new partition
 p # primary
@@ -1643,13 +1676,13 @@ w # write table to disk and exit
 
 show avalaible formatting utilities
 
-```shell
+```sh
 mkfs # press Tab 2 times
 ```
 
 do ext4 formatting
 
-```shell
+```sh
 mkfs.ext4 /dev/disk-name
 
 # example
@@ -1662,34 +1695,34 @@ mkfs.ext4 /dev/xvdf1
 
 mount dir to partition temporarily
 
-```shell
+```sh
 mount /dev/xvdf1 /var/www/html/images/
 ```
 
 check mounting
 
-```shell
+```sh
 df -h
 ```
 
 unmount dir from partition
 
-```shell
+```sh
 umount /var/www/html/images/
 ```
 
 mount dir to partition permanently
 
-```shell
+```sh
 vim /etc/fstab
 
 # add this to file
 /dev/xvdf1      /var/www/html/images    ext4    defaults        0 0
 ```
 
-> `/etc/fstab` example
+`/etc/fstab` example
 
-```shell
+```sh
 # Created by anaconda on Sun Nov 14 11:52:41 2021
 #
 # Accessible filesystems, by reference, are maintained under '/dev/disk'
@@ -1700,9 +1733,9 @@ UUID=44a6a613-4e21-478b-a909-ab653c9d39df /                       xfs     defaul
 /dev/xvdg1      /var/lib/mysql  ext4    defaults        0 0
 ```
 
-> **DON'T FORGET** after that mount all mounts from `/etc/fstab`
+**DON'T FORGET** after that mount all mounts from `/etc/fstab`
 
-```shell
+```sh
 mount -a
 ```
 
@@ -1712,7 +1745,7 @@ mount -a
 
 show network adapters
 
-```shell
+```sh
 ip a
 ip r
 ip address
@@ -1723,7 +1756,7 @@ ifconfig
 
 restarting network
 
-```shell
+```sh
 # Ubuntu 22
 sudo systemctl restart systemd-networkd
 ```
@@ -1734,7 +1767,7 @@ sudo systemctl restart systemd-networkd
 
 edit network config
 
-```shell
+```sh
 sudo vim /etc/netplan/00-installer-config.yaml
 
 # example config Ubuntu 22 with DHCP + static IP adapters
@@ -1753,7 +1786,7 @@ network:
 
 apply new config
 
-```shell
+```sh
 sudo netplan apply
 # or debug
 sudo netplan --debug apply
@@ -1761,7 +1794,7 @@ sudo netplan --debug apply
 
 check network adapters
 
-```shell
+```sh
 ip a
 ```
 
@@ -1771,13 +1804,13 @@ ip a
 
 choose adapter config to edit
 
-```shell
+```sh
 sudo vim /etc/sysconfig/network-scripts/ifcfg-*
 ```
 
 > examples
 
-- ```shell
+- ```sh
     sudo vim /etc/sysconfig/network-scripts/ifcfg-eth0
     
     # dhcp adapter created via installing CentOS
@@ -1799,7 +1832,7 @@ sudo vim /etc/sysconfig/network-scripts/ifcfg-*
     IPV6_PRIVACY=no
     ```
 
-- ```shell
+- ```sh
     sudo vim /etc/sysconfig/network-scripts/ifcfg-eth1
     
     # static IP adapter created via installing CentOS
@@ -1825,13 +1858,13 @@ sudo vim /etc/sysconfig/network-scripts/ifcfg-*
 
 restart the network
 
-```shell
+```sh
 sudo systemctl restart network
 ```
 
 check network adapters
 
-```shell
+```sh
 ip a
 ```
 
@@ -1841,13 +1874,13 @@ ip a
 
 show hostname
 
-```shell
+```sh
 hostnamectl hostname
 ```
 
 change hostname
 
-```shell
+```sh
 # Ubuntu 22
 sudo hostnamectl hostname web03
 
@@ -1857,7 +1890,7 @@ sudo hostnamectl set-hostname web03
 
 > NOTE about `hostname` command
 >
->   ```shell
+>   ```sh
 >   hostname your-hostname
 >   ```
 >
@@ -1873,13 +1906,13 @@ sudo hostnamectl set-hostname web03
 
 1. Generate **Ed25519** key pair
 
-   ```shell
+   ```sh
    ssh-keygen -t ed25519 -a 100 -C "user@hostname"
    ```
 
 2. Or generate **RSA** key pair if you need compatibility
 
-   ```shell
+   ```sh
    ssh-keygen -t rsa -b 4096 -C "user@hostname"
    ```
 
@@ -1901,13 +1934,13 @@ sudo hostnamectl set-hostname web03
 
 generate new pair of ssh keys
 
-```shell
+```sh
 ssh-keygen
 ```
 
 generate new pair of ssh keys in specified dir
 
-```shell
+```sh
 ssh-keygen
 
 # Enter file in which to save the key (/Users/mono/.ssh/id_rsa):
@@ -1916,31 +1949,31 @@ ssh-keygen
 
 public key default location
 
-```shell
+```sh
 cat ~/.ssh/id_rsa.pub
 ```
 
 identification (private key or closed key)
 
-```shell
+```sh
 cat ~/.ssh/id_rsa
 ```
 
 copy public key to remote server for specific user
 
-```shell
+```sh
 ssh-copy-id username@remote_host
 ```
 
 copy public key to remote server without ssh-copy-id
 
-```shell
+```sh
 cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 ```
 
 disable password authentication on remote server
 
-```shell
+```sh
 sudo nano /etc/ssh/sshd_config
 
 # edit in file
@@ -1952,20 +1985,20 @@ sudo service sshd restart # rpm-based distro
 
 list all local private and public ssh keys
 
-```shell
+```sh
 ls -l ~/.ssh/
 ls -l ~/.ssh/id_*
 ```
 
 change the passphrase for default SSH private key
 
-```shell
+```sh
 ssh-keygen -p
 ```
 
 change the passphrase for specific private key
 
-```shell
+```sh
 ssh-keygen -p -f ~/.ssh/private_key_name
 # or
 ssh-keygen -f private_key_name -p
@@ -1973,7 +2006,7 @@ ssh-keygen -f private_key_name -p
 
 remove a passphrase from private key
 
-```shell
+```sh
 ssh-keygen -f ~/.ssh/private_key_name -p
 # or
 ssh-keygen -f ~/.ssh/private_key_name -p -N ""
@@ -1983,7 +2016,7 @@ ssh-keygen -p -N ""
 
 ssh to host with specific public key
 
-```shell
+```sh
 ssh -i ~/.ssh/id_rsa_name username@hostname
 
 # aws example
@@ -1999,13 +2032,13 @@ ssh-keys should *not* get automatically added to the agent just because you SSH'
 
 list the ssh-agent keys
 
-```shell
+```sh
 ssh-add -l
 ```
 
 delete all ssh-agent-keys
 
-```shell
+```sh
 ssh-add -D
 ```
 
@@ -2021,7 +2054,7 @@ Instead of forwarding **SSH-agent** and all ssh keys use **ProxyJump**
 
 1. Connect to remote host through **Bastion-host**
 
-   ```shell
+   ```sh
    ssh -J bastion.example.com cloud.computer.internal
    ```
 
@@ -2042,7 +2075,7 @@ Host *.computer.internal
 
 And connect to the remote host
 
-```shell
+```sh
 ssh cloud.computer.internal
 ```
 
@@ -2052,7 +2085,7 @@ ssh cloud.computer.internal
 
 push file to another host
 
-```shell
+```sh
 scp filename username@hostname:/absolute/path/to/dir
 
 # example
@@ -2061,7 +2094,7 @@ scp testfile.txt devops@web01:/tmp
 
 fetch file from another host
 
-```shell
+```sh
 scp username@hostname:/absolute/path/to/filename
 
 # example
@@ -2070,7 +2103,7 @@ scp devops@web01:/home/devops/testfile.txt .
 
 push file to another host with specified key
 
-```shell
+```sh
 scp -i /path/to/key-filename /path/to/filename username@hostname:/path/to/dest
 
 # aws example
@@ -2085,7 +2118,7 @@ scp -i ~/.ssh/aws/bastion-key.pem ~/.ssh/aws/wave-key.pem ec2-user@52.53.251.116
 
 download anything with `curl`
 
-```shell
+```sh
 curl https://link -o filename
 
 # example
@@ -2094,19 +2127,19 @@ curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch
 
 check curl
 
-```shell
+```sh
 curl parrot.live
 ```
 
 check working webserver (**httpd**, **apache2**, **nginx**)
 
-```shell
+```sh
 curl localhost
 ```
 
 download file with `wget`
 
-```shell
+```sh
 wget filelink
 ```
 
@@ -2118,13 +2151,13 @@ wget filelink
 
 show open ports of localhost
 
-```shell
+```sh
 nmap localhost
 ```
 
 show open ports of local server
 
-```shell
+```sh
 nmap hostname
 
 # example
@@ -2135,7 +2168,7 @@ nmap db01
 
 show all open TCP ports
 
-```shell
+```sh
 netstat -antp
 
 # example
@@ -2144,7 +2177,7 @@ netstat -antp | grep apache2
 
 search `PID`, and use it to know on what port app is running, if you don't see process name with `netstat`
 
-```shell
+```sh
 ps -ef | grep apache2 # copy PID
 
 netstat -antp | grep PID
@@ -2154,7 +2187,7 @@ netstat -antp | grep PID
 
 show all open TCP ports
 
-```shell
+```sh
 ss -tunlp
 
 # example
@@ -2165,7 +2198,7 @@ ss -tunlp | grep 80
 
 use telnet to check the connection via any port
 
-```shell
+```sh
 telnet ip-address port
 
 # examples
@@ -2188,7 +2221,7 @@ telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 
 `dig` - dns lookup
 
-```shell
+```sh
 dig adress-name
 
 # example
@@ -2197,7 +2230,7 @@ dig google.com
 
 `nslookup` - dns lookup (older version of dig)
 
-```shell
+```sh
 nslookup address-name
 
 # example
@@ -2208,7 +2241,7 @@ nslookup google.com
 
 show path to the server and latency problems
 
-```shell
+```sh
 traceroute address-name
 
 # example
@@ -2220,7 +2253,7 @@ traceroute google.com
 
 show path to the server and latency problems online (live)
 
-```shell
+```sh
 mrt adress-name
 
 # example
@@ -2231,7 +2264,7 @@ mtr google.com
 
 show gateways
 
-```shell
+```sh
 route -n
 route
 ```
@@ -2240,7 +2273,7 @@ route
 
 show arp table
 
-```shell
+```sh
 arp
 ```
 
@@ -2257,91 +2290,91 @@ arp
 
 apt repos
 
-```shell
+```sh
 cat /etc/apt/sources.list
 ```
 
 before installing any package update repos list
 
-```shell
+```sh
 apt update
 ```
 
 update all packages
 
-```shell
+```sh
 apt upgrade
 ```
 
 update specific package
 
-```shell
+```sh
 apt upgrade package-name
 ```
 
 search package from avalaible repos
 
-```shell
+```sh
 apt search package-name
 ```
 
 install package without prompts
 
-```shell
+```sh
 apt install package-name -y
 ```
 
 reinstall package
 
-```shell
+```sh
 apt reinstall package-name
 ```
 
 remove package
 
-```shell
+```sh
 apt remove package-name
 ```
 
 remove package and all its configs and data
 
-```shell
+```sh
 apt purge package-name
 ```
 
 list all available *Group Packages*
 
-```shell
+```sh
 apt grouplist
 ```
 
 install all the packages in a group
 
-```shell
+```sh
 apt groupinstall group-name
 ```
 
 show enabled apt repos
 
-```shell
+```sh
 apt repolist
 ```
 
 clean apt cache
 
-```shell
+```sh
 apt clean all
 ```
 
 show apt history
 
-```shell
+```sh
 apt history
 ```
 
 show info of the package
 
-```shell
+```sh
 apt show package-name
 ```
 
@@ -2351,13 +2384,13 @@ apt show package-name
 
 delete all unused packages that was installed as dependencies
 
-```shell
+```sh
 apt autoremove
 ```
 
 delete all unused packages that was installed as dependencies with all config files and data
 
-```shell
+```sh
 apt autoremove --purge
 # 1st preffered or
 apt autopurge
@@ -2369,7 +2402,7 @@ apt autopurge
 
 > Hold specific packages from upgrading. Useful to not update the kernel packages.
 
-```shell
+```sh
 apt-mark hold package-name
 
 # example for ubuntu m1 vm
@@ -2384,25 +2417,25 @@ apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-head
 
 install downloaded package with dpkg
 
-```shell
+```sh
 dpkg -i filename
 ```
 
 show all installed packages
 
-```shell
+```sh
 dpkg -l
 ```
 
 search for specific installed package
 
-```shell
+```sh
 dpkg -l | grep -i package-name
 ```
 
 remove package
 
-```shell
+```sh
 dpkg -r package-name
 ```
 
@@ -2420,13 +2453,13 @@ dpkg -r package-name
 
 repos location
 
-```shell
+```sh
 /etc/yum.repos.d/
 ```
 
 if there are a problem with repos metalink, comment metalink and enter baseurl
 
-```shell
+```sh
 vim /etc/yum.repos.d/fedora.repo
 
 # comment metalink and enter baseurl
@@ -2442,92 +2475,92 @@ https://admin.fedoraproject.org/mirrormanager/
 
 search package
 
-```shell
+```sh
 dnf search package-name
 ```
 
 install something without prompts
 
-```shell
+```sh
 dnf install -y package-name
 ```
 
 reinstall package
 
-```shell
+```sh
 dnf reinstall package-name
 ```
 
 remove package and its config files not touched by user
 
-```shell
+```sh
 dnf remove package-name
 ```
 
 update all packages
 
-```shell
+```sh
 dnf update
 ```
 
 update specific package
 
-```shell
+```sh
 dnf update package-name
 ```
 
 list all avalaible *Group Packages*
 
-```shell
+```sh
 dnf grouplist
 ```
 
 install all the packages in a group
 
-```shell
+```sh
 dnf groupinstall group-name
 ```
 
 show enabled dnf repos
 
-```shell
+```sh
 dnf repolist
 ```
 
 clean dnf cache
 
-```shell
+```sh
 dnf clean all
 ```
 
 show history of dnf
 
-```shell
+```sh
 dnf history
 ```
 
 show info of package
 
-```shell
+```sh
 dnf info package-name
 ```
 
 create metadata cache (dnf will do it automatically)
 
-```shell
+```sh
 dnf makecache
 ```
 
 exclude package in dnf from updating
 
-```shell
+```sh
 # example for kernel updates
 echo "exclude=kernel*" >> /etc/dnf/dnf.conf
 ```
 
 exclude package in yum from updating
 
-```shell
+```sh
 # deprecated in Fedora 35 and maybe previously versions
 echo "exclude=kernel*" >> /etc/yum.conf
 ```
@@ -2538,39 +2571,39 @@ echo "exclude=kernel*" >> /etc/yum.conf
 
 **epel** - additional package repository with commonly used software
 
-```shell
+```sh
 sudo dnf install epel-release
 sudo dnf makecache
 ```
 
 **Rocky Linux 9**
 
-```shell
+```sh
 sudo dnf -y install epel-release
 sudo dnf makecache
 ```
 
 **Amazon Linux 2**
 
-```shell
+```sh
 sudo amazon-linux-extras install epel -y
 ```
 
 **RHEL 8**
 
-```shell
+```sh
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
 ```
 
 **RHEL 7**
 
-```shell
+```sh
 sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 ```
 
 **CentOS 8**
 
-```shell
+```sh
 sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
@@ -2579,14 +2612,14 @@ sudo dnf config-manager --set-enabled PowerTools
 
 **CentOS 7**
 
-```shell
+```sh
 sudo yum -y install epel-release
 ```
 
 List repositories that are turned on  
 To verify that the EPEL repository is turned on, run the repolist command:
 
-```shell
+```sh
 sudo yum repolist
 ```
 
@@ -2599,7 +2632,7 @@ sudo yum repolist
 install downloaded package  
 `-i` - install, `-v` - verbose, `-h` - human readable
 
-```shell
+```sh
 rmp -ivh package-name
 
 # examples
@@ -2609,7 +2642,7 @@ rpm -ivh --test mozilla-mail-1.7.5-17.i586.rpm
 
 show all installed rpms
 
-```shell
+```sh
 rpm -qa
 
 # examples
@@ -2619,13 +2652,13 @@ rpm -qa | less
 
 show latest installed rpms
 
-```shell
+```sh
 rpm -qa --last
 ```
 
 upgrade installed package
 
-```shell
+```sh
 rpm -Uvh package-name
 
 # examples
@@ -2635,7 +2668,7 @@ rpm -Uvh --test mozilla-mail-1.7.6-12.i586.rpm
 
 remove installed package
 
-```shell
+```sh
 rpm -ev package-name
 
 # example
@@ -2644,7 +2677,7 @@ rpm -ev mozilla-mail
 
 remove installed package without checking its dependencies
 
-```shell
+```sh
 rpm -ev --nodeps
 
 # example
@@ -2653,7 +2686,7 @@ rpm -ev --nodeps mozilla-mail
 
 show info about installed package
 
-```shell
+```sh
 rpm -qi package-name
 
 # example
@@ -2662,7 +2695,7 @@ rpm -qi mozilla-mail
 
 find out what package owns the file
 
-```shell
+```sh
 rpm -qf /path/to/dir
 
 # examples
@@ -2671,7 +2704,7 @@ rpm -qf /etc/passwd
 
 show list of configuration file(s) for a package
 
-```shell
+```sh
 rpm -qc package-name
 
 # example
@@ -2680,7 +2713,7 @@ rpm -qc httpd
 
 show list of configuration files for a command
 
-```shell
+```sh
 rpm -qcf /path/to/filename
 
 # example
@@ -2689,7 +2722,7 @@ rpm -qcf /usr/X11R6/bin/xeyes
 
 show what dependencies a rpm file has
 
-```shell
+```sh
 rpm -qpR filename.rpm
 rpm -qR package-name
 
@@ -2698,20 +2731,42 @@ rpm -qpR mediawiki-1.4rc1-4.i586.rpm
 rpm -qR bash
 ```
 
+##### remove gpg-key and repo
+
+- Remove installed gpg-key and repo
+
+  1. List last installed packages
+
+     ```sh
+     sudo rpm -qa --last | grep gpg
+     ```
+
+  2. Remove gpg
+
+     ```sh
+     sudo rpm -ev package-name
+     ```
+
+  3. Remove repo
+
+     ```sh
+     sudo rm -rf /etc/yum.repos.d/repo-name.repo
+     ```
+
 ---
 
 #### firewalld
 
 open 443, https
 
-```shell
+```sh
 sudo firewall-cmd --add-service=http --add-service=https --permanent
 sudo systemctl restart firewalld
 ```
 
 firewalld open specific port, for example `mysql` (`mariadb`)
 
-```shell
+```sh
 sudo firewall-cmd --get-active-zones
 sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
 sudo firewall-cmd --reload
@@ -2723,9 +2778,9 @@ sudo firewall-cmd --reload
 
 ### useful packages
 
-`bash-completions` (used for `docker` for example)
+`bash-completion` (used for `docker`, `kubectl` for example)
 
-```shell
+```sh
 sudo dnf install bash-completion
 
 sudo apt install bash-completion
@@ -2734,8 +2789,42 @@ sudo apt install bash-completion
 `colordiff` - coloured `diff` - packages for file comparisons  
 `-y` - for side-by-side comparison
 
-```shell
+```sh
 colordiff -y /path/to/filename /path/to/filename
+```
+
+`stress` - utility to stress a hardware
+
+start stress on cpu with 4 processes for 300 seconds in background
+
+```sh
+nohup stress -c 4 -t 300 &
+```
+
+small `stress` script to test monitoring alarms
+
+`stress.sh`
+
+```bash
+#!/bin/bash
+sudo stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 360 && sleep  && stress -c 4 -t 460 && sleep 30 && stress -c 4 -t 360 && sleep 60
+```
+
+```sh
+# run it in background
+nohup ./stress.sh &
+```
+
+---
+
+### awscli
+
+intall **awscli v2** on linux (complete guide [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions))
+
+```sh
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+  unzip awscliv2.zip && \
+	sudo ./aws/install
 ```
 
 ---
@@ -2746,20 +2835,20 @@ Installation of different versions of `java` here [maven.md](maven.md)
 
 check current main version
 
-```shell
+```sh
 java -version
 ```
 
 check installed jdk versions
 
-```shell
+```sh
 ls /usr/lib/jvm
 ```
 
 > example  
 > here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
 
-```shell
+```sh
 ls /usr/lib/jvm
 java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
 java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
@@ -2771,7 +2860,7 @@ java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
 
 default path for website for **apache2**, **httpd**
 
-```shell
+```sh
 /var/www/html
 ```
 
@@ -2782,7 +2871,7 @@ default path for website for **apache2**, **httpd**
 default path for website for tomcat  
 `?` - **tomcat** version
 
-```shell
+```sh
 /var/lib/tomcat?/webapps/
 /var/lib/tomcat8/webapps/
 ```
@@ -2793,37 +2882,37 @@ default path for website for tomcat
 
 default path for **mysql** db
 
-```shell
+```sh
 /var/lib/mysql
 ```
 
 install mysql on **deb-based distro**
 
-```shell
+```sh
 apt install mysql
 ```
 
 install mysql on **rpm-based** distro
 
-```shell
+```sh
 dnf install mariadb-server
 ```
 
 install **mysql** client on **deb-based** distro
 
-```shell
+```sh
 apt install mysql-client
 ```
 
 install **mysql** client on **rpm-based** distro
 
-```shell
+```sh
 sudo dnf install mysql
 ```
 
 connect with mysql-client to remote host
 
-```shell
+```sh
 mysql -h hostname -u username -ppassword
 
 # example
@@ -2832,7 +2921,7 @@ mysql -h vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -p
 
 restore mysql backup to a running mysql instance
 
-```shell
+```sh
 mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQuz9qrKNPY97jqVa5T8B accounts < src/main/resources/db_backup.sql
 ```
 
@@ -2905,10 +2994,326 @@ Great diagnostic website. You can diagnose just with `curl` command from anywher
 
 ### DevOps tools usage
 
-**Vagrant** for local
+- **Vagrant** for local
+- **Terraform** for Cloud
 
-**Terraform** for Cloud
+- **Ansible** for Servers
 
-**Ansible** for Servers
+- **Cloudformation** for AWS
 
-**Cloudformation** for AWS
+---
+
+### bash '', ""
+
+[Difference between single and double quotes in Bash](https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash)
+
+The [accepted answer](https://stackoverflow.com/a/6697781/6862601) is great. I am making a table that helps in quick comprehension of the topic. The explanation involves a simple variable `a` as well as an indexed array `arr`.
+
+If we set
+
+```bash
+a=apple      # a simple variable
+arr=(apple)  # an indexed array with a single element
+```
+
+and then `echo` the expression in the second column, we would get the result / behavior shown in the third column. The fourth column explains the behavior.
+
+| #    | Expression     | Result      | Comments                                                     |
+| ---- | -------------- | ----------- | ------------------------------------------------------------ |
+| 1    | `"$a"`         | `apple`     | variables are expanded inside `""`                           |
+| 2    | `'$a'`         | `$a`        | variables are not expanded inside `''`                       |
+| 3    | `"'$a'"`       | `'apple'`   | `''` has no special meaning inside `""`                      |
+| 4    | `'"$a"'`       | `"$a"`      | `""` is treated literally inside `''`                        |
+| 5    | `'\''`         | **invalid** | can not escape a `'` within `''`; use `"'"` or `$'\''` (ANSI-C quoting) |
+| 6    | `"red$arocks"` | `red`       | `$arocks` does not expand `$a`; use `${a}rocks` to preserve `$a` |
+| 7    | `"redapple$"`  | `redapple$` | `$` followed by no variable name evaluates to `$`            |
+| 8    | `'\"'`         | `\"`        | `\` has no special meaning inside `''`                       |
+| 9    | `"\'"`         | `\'`        | `\'` is interpreted inside `""` but has no significance for `'` |
+| 10   | `"\""`         | `"`         | `\"` is interpreted inside `""`                              |
+| 11   | `"*"`          | `*`         | glob does not work inside `""` or `''`                       |
+| 12   | `"\t\n"`       | `\t\n`      | `\t` and `\n` have no special meaning inside `""` or `''`; use ANSI-C quoting |
+| 13   | `"`echo hi`"`  | `hi`        | ```` and `$()` are evaluated inside `""` (backquotes are retained in actual output) |
+| 14   | `'`echo hi`'`  | ``echo hi`` | ```` and `$()` are not evaluated inside `''` (backquotes are retained in actual output) |
+| 15   | `'${arr[0]}'`  | `${arr[0]}` | array access not possible inside `''`                        |
+| 16   | `"${arr[0]}"`  | `apple`     | array access works inside `""`                               |
+| 17   | `$'$a\''`      | `$a'`       | single quotes can be escaped inside ANSI-C quoting           |
+| 18   | `"$'\t'"`      | `$'\t'`     | ANSI-C quoting is not interpreted inside `""`                |
+| 19   | `'!cmd'`       | `!cmd`      | history expansion character `'!'` is ignored inside `''`     |
+| 20   | `"!cmd"`       | `cmd args`  | expands to the most recent command matching `"cmd"`          |
+| 21   | `$'!cmd'`      | `!cmd`      | history expansion character `'!'` is ignored inside ANSI-C quotes |
+
+---
+
+See also:
+
+- [ANSI-C quoting with `$''` - GNU Bash Manual](https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html)
+- [Locale translation with `$""` - GNU Bash Manual](https://www.gnu.org/software/bash/manual/html_node/Locale-Translation.html#Locale-Translation)
+- [A three-point formula for quotes](https://stackoverflow.com/a/42104627/6862601)
+
+**Accepted answer**
+
+Single quotes won't interpolate anything, but double quotes will. For example: variables, backticks, certain `\` escapes, etc.
+
+Example:
+
+```bash
+$ echo "$(echo "upg")"
+upg
+$ echo '$(echo "upg")'
+$(echo "upg")
+```
+
+The Bash manual has this to say:
+
+> [3.1.2.2 Single Quotes](http://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html)
+>
+> Enclosing characters in single quotes (`'`) preserves the literal value of each character within the quotes. A single quote may not occur between single quotes, even when preceded by a backslash.
+>
+> [3.1.2.3 Double Quotes](http://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html)
+>
+> Enclosing characters in double quotes (`"`) preserves the literal value of all characters within the quotes, with the exception of `$`, \`, \\, and, when history expansion is enabled, `!`. The characters `$` and \` retain their special meaning within double quotes (see [Shell Expansions](https://www.gnu.org/software/bash/manual/html_node/Shell-Expansions.html#Shell-Expansions)). The backslash retains its special meaning only when followed by one of the following characters: `$`, \`, `"`, \\, or newline. Within double quotes, backslashes that are followed by one of these characters are removed. Backslashes preceding characters without a special meaning are left unmodified. A double quote may be quoted within double quotes by preceding it with a backslash. If enabled, history expansion will be performed unless an `!` appearing in double quotes is escaped using a backslash. The backslash preceding the `!` is not removed.
+>
+> The special parameters `*` and `@` have special meaning when in double quotes (see [Shell Parameter Expansion](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html#Shell-Parameter-Expansion)).
+
+---
+
+### sed '', ""
+
+[Escaping ' (single quote) in sed replace string](https://unix.stackexchange.com/questions/542454/escaping-single-quote-in-sed-replace-string)
+
+You don't need to escape in sed, where `'` has no special significance. You need to escape it in bash.
+
+```bash
+$ sed -e "s/'/singlequote/g" <<<"'"
+singlequote
+```
+
+You can see here that the double quotes protect the single quote from bash, and sed does fine with it. Here's what happens when you switch the single quotes.
+
+```bash
+$ sed -e 's/'/singlequote/g' <<<"'"
+>
+```
+
+The strange thing about `'` in bourne like shells (all?) is that it functions less like `"` and more like a flag to disable other character interpretation until another `'` is seen. If you enclose it in double quotes it won't have it's special significance. Observe:
+
+```bash
+$ echo 'isn'"'"'t this hard?'
+isn't this hard?
+```
+
+You can also escape it with a backslash as shown in the other answer. But you have to *leave* the single quoted block before that will work. So while this seems like it would work:
+
+```bash
+echo '\''
+```
+
+it does not; the first `'` disables the meaning of the `\` character.
+
+I suggest you take a different approach. `sed` expressions can be specified as command line arguments - but at the expense of having to escape from the shell. It's not bad to escape a short and simple sed expression, but yours is pretty long and has a lot of special characters.
+
+I would put your `sed` command in a file, and invoke `sed` with the `-f` argument to specify the command file instead of specifying it at the command line. <http://man7.org/linux/man-pages/man1/sed.1.html> or `man sed` will go into detail. This way the `sed` commands aren't part of what the shell sees (it only sees the filename) and the shell escaping conundrum disappears.
+
+```bash
+$ cat t.sed
+s/'*/singlequote(s)/g
+
+$ sed -f t.sed <<<"' ' '''"
+singlequote(s) singlequote(s) singlequote(s)
+```
+
+---
+
+## guides
+
+### sed guide
+
+[How to use sed to find and replace text in files in Linux / Unix shell](https://www.cyberciti.biz/faq/how-to-use-sed-to-find-and-replace-text-in-files-in-linux-unix-shell/)
+
+am a new Linux user. I wanted to find the text called “foo” and replaced to “bar” in the file named “hosts.txt.” How do I use the sed command to find and replace text/string on Linux or UNIX-like system?
+
+The sed stands for stream editor. It reads the given file, modifying the input as specified by a list of sed commands. By default, the input is written to the screen, but you can force to update file.
+
+#### Find and replace text within a file using sed command
+
+The procedure to change the text in files under Linux/Unix using sed:
+
+1. Use Stream EDitor (sed) as follows:
+2. `sed -i 's/old-text/new-text/g' input.txt`
+3. The s is the substitute command of sed for find and replace
+4. It tells sed to find all occurrences of ‘old-text’ and replace with ‘new-text’ in a file named input.txt
+5. Verify that file has been updated:
+6. **more input.txt**
+
+Let us see syntax and usage in details.
+
+| Tutorial details  |                                                              |
+| :---------------: | ------------------------------------------------------------ |
+| Difficulty level  | [Easy](https://www.cyberciti.biz/faq/tag/easy/)              |
+|  Root privileges  | No                                                           |
+|   Requirements    | Linux or Unix terminal                                       |
+|     Category      | [Linux shell scripting](https://bash.cyberciti.biz/guide/Main_Page) |
+|   Prerequisites   | sed utility                                                  |
+| OS compatibility  | BSD • [Linux](https://www.cyberciti.biz/faq/category/linux/) • [macOS](https://www.cyberciti.biz/faq/category/mac-os-x/) • [Unix](https://www.cyberciti.biz/faq/category/unix/) • WSL |
+| Est. reading time | 4 minutes                                                    |
+
+#### Syntax: sed find and replace text
+
+The syntax is:
+
+```sh
+sed 's/word1/word2/g' input.file
+## *BSD/macOS sed syntax ##
+sed 's/word1/word2/g' input.file > output.file
+## GNU/Linux sed syntax ##
+sed -i 's/word1/word2/g' input.file
+sed -i -e 's/word1/word2/g' -e 's/xx/yy/g' input.file
+## Use + separator instead of / ##
+sed -i 's+regex+new-text+g' file.txt
+```
+
+The above replace all occurrences of characters in word1 in the pattern space with the corresponding characters from word2.
+
+#### Examples that use sed to find and replace
+
+Let us [create a text file](https://www.cyberciti.biz/faq/create-a-file-in-linux-using-the-bash-shell-terminal/) called hello.txt as follows:
+
+```sh
+cat hello.txt
+```
+
+Sample file:
+
+```properties
+The is a test file created by nixCrft for demo purpose.
+foo is good.
+Foo is nice.
+I love FOO.
+```
+
+I am going to use s/ for substitute the found expression foo with bar as follows:
+
+```sh
+sed 's/foo/bar/g' hello.txt
+```
+
+Sample outputs:
+
+```properties
+The is a test file created by nixCrft for demo purpose.
+bar is good.
+Foo is nice.
+I love FOO.
+```
+
+To update file pass the -i option when using GNU/sed version:
+
+```sh
+sed -i 's/foo/bar/g' hello.txt$ cat hello.txt
+```
+
+The g/ means global replace i.e. find all occurrences of foo and replace with bar using sed. If you removed the /g only first occurrence is changed. For instance:
+
+```sh
+sed -i 's/foo/bar/' hello.txt
+```
+
+The / act as delimiter characters. [To match all cases of foo (foo, FOO, Foo, FoO) add I (capitalized I) option](https://www.cyberciti.biz/faq/unixlinux-sed-case-insensitive-search-replace-matching/) as follows:
+
+```sh
+sed -i 's/foo/bar/g**I**' hello.txt$ cat hello.txt
+```
+
+Sample outputs:
+
+```properties
+The is a test file created by nixCrft for demo purpose.
+bar is good.
+bar is nice.
+I love bar.
+```
+
+#### A note about *BSD and macOS sed version
+
+Please note that the BSD implementation of sed (FreeBSD/OpenBSD/NetBSD/MacOS and co) does NOT support case-insensitive matching including file updates with the help of -i option. Hence, you need to install gnu sed. Run the following command on Apple macOS (first [set up home brew on macOS](https://www.cyberciti.biz/faq/how-to-install-homebrew-on-macos-package-manager/)):
+
+```sh
+brew install gnu-sed
+######################################
+### now use gsed command as follows ##
+######################################
+gsed -i 's/foo/bar/gI' hello.txt
+#########################################
+### make a backup and then update file ##
+#########################################
+gsed -i'.BAK' 's/foo/bar/gI' hello.txt
+cat hello.txt
+```
+
+#### `sed` command problems
+
+Consider the following text file:
+`$ **cat input.txt**http:// is outdate.Consider using https:// for all your needs.`
+Find word ‘<http://>’ and replace with ‘<https://www.cyberciti.biz>’:
+
+```sh
+sed 's/**http://**/**https://www.cyberciti.biz**/g' input.txt
+```
+
+You will get an error that read as follows:
+
+```sh
+sed: 1: "s/http:///https://www.c ...": bad flag in substitute command: '/'
+```
+
+Our syntax is correct but the / delimiter character is also part of word1 and word2 in above example. Sed command allows you to change the delimiter / to something else. So I am going to use +:
+
+```sh
+sed 's+**http://**+**https://www.cyberciti.biz**+g' input.txt
+```
+
+Sample outputs:
+
+```sh
+https://www.cyberciti.biz is outdate.
+Consider using https:// for all your needs.
+```
+
+#### How to use sed to match word and perform find and replace
+
+In this example only find word ‘love’ and replace it with ‘sick’ if line content a specific string such as FOO:
+
+```sh
+sed -i -e '/FOO/s/love/sick/' input.txt
+```
+
+Use [cat command](https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-cat-command-examples/) to verify new changes:
+
+```sh
+cat input.txt
+```
+
+#### Recap and conclusion – Using sed to find and replace text in given files
+
+The general syntax is as follows:
+
+```sh
+## find word1 and replace with word2 using sed ##
+sed -i 's/word1/word2/g' input
+## you can change the delimiter to keep syntax simple ##
+sed -i 's+word1+word2+g' input
+sed -i 's_word1_word2_g' input
+## you can add I option to GNU sed to case insensitive search ##
+sed -i 's/word1/word2/gI' input
+sed -i 's_word1_word2_gI' input
+```
+
+See [BSD (used on macOS too)](https://www.freebsd.org/cgi/man.cgi?sed) sed or [GNU](https://www.gnu.org/software/sed/manual/sed.html) sed man page by typing the following [man command](https://bash.cyberciti.biz/guide/Man_command)/info command or [help command](https://bash.cyberciti.biz/guide/Help_command):
+
+```sh
+man sed # gnu sed options #$ sed --help$ info sed
+```
+
+**About the author:** Vivek Gite is the founder of nixCraft, the oldest running blog about Linux and open source. He wrote more than 7k+ posts and helped numerous readers to master IT topics. Join the nixCraft community via [RSS Feed](https://www.cyberciti.com/atom/atom.xml) or [Email Newsletter](https://newsletter.cyberciti.com/subscription?f=1ojtmiv8892KQzyMsTF4YPr1pPSAhX2rq7Qfe5DiHMgXwKo892di4MTWyOdd976343rcNR6LhdG1f7k9H8929kMNMdWu3g).
+
+---

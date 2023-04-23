@@ -103,10 +103,11 @@ function bat-install() {
     sudo apt-get upgrade -y
 
     message "Cleaning up..."
-    sudo apt autoremove --purge -y
+    sudo apt-get autoremove --purge -y
     
     message "Installing software and cleaning up..."
-    sudo apt-get install stress bash-completion -y
+    sudo apt-get install stress bash-completion unzip -y
+
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
       wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
       sudo dpkg -i bat-musl_0.23.0_amd64.deb

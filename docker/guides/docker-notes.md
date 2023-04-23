@@ -96,7 +96,7 @@ FROM node:14-slim
 WORKDIR /app
 ```
 
-```shell
+```sh
 $ docker build -t node-util:perm .
 
 $ docker run -it --rm -v $(pwd):/app node-util:perm npm init
@@ -146,7 +146,7 @@ WORKDIR /app
 
 If I rebuild my Utility Container in the normal way and re-run "npm init", the ownership of the package.json file is written as if "scott" wrote the file.
 
-```shell
+```sh
 $ ls -la
 
 total 12
@@ -190,7 +190,7 @@ docker build -t node-util:cliuser --build-arg USER_ID=$(id -u) --build-arg GROUP
 
 And finally running it with:
 
-```shell
+```sh
 $ docker run -it --rm -v $(pwd):/app node-util:cliuser npm init
 
 $ ls -la

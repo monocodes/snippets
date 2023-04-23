@@ -1,4 +1,21 @@
-# Using Homebrew on a multi-user system (don’t)
+---
+title: Using Homebrew on a multi-user system (don’t)
+categories:
+  - software
+  - guides
+  - macos
+author: Val (Valérian Galliat)
+url: https://www.codejam.info/2021/11/homebrew-multi-user.html
+---
+
+# [Using Homebrew on a multi-user system (don’t)](https://www.codejam.info/2021/11/homebrew-multi-user.html#:~:text=The%20solution%20is%20simple.,in%20order%20to%20use%20it.)
+
+- [Using Homebrew on a multi-user system (don’t)](#using-homebrew-on-a-multi-user-system-dont)
+  - [Sharing a homebrew is nice 🍺, but `brew` not so much](#sharing-a-homebrew-is-nice--but-brew-not-so-much)
+    - [The evil: shared group writable permissions](#the-evil-shared-group-writable-permissions)
+    - [The bad: separate Homebrew installations](#the-bad-separate-homebrew-installations)
+    - [The good: dedicate a single user account to Homebrew](#the-good-dedicate-a-single-user-account-to-homebrew)
+  - [Wrapping up](#wrapping-up)
 
 November 17, 2021
 
@@ -26,7 +43,7 @@ Out of the box, if you install it from one user, it’ll just fail to do anythin
 
 Turns out I’m [not](https://medium.com/@leifhanack/homebrew-multi-user-setup-e10cb5849d59) [the](https://stackoverflow.com/questions/41840479/how-to-use-homebrew-on-a-multi-user-macos-sierra-setup) [only](https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925) [one](https://newbedev.com/how-to-use-homebrew-on-a-multi-user-macos-sierra-setup) to try to do this, a simple search for this yields a fuckton of results! And they all mostly share the same “tip” which is some variant of:
 
-```shell
+```sh
 chgrp -R admin /usr/local/*
 chmod -R g+w /usr/local/*
 ```
@@ -73,7 +90,7 @@ Sounds annoying? Just use `sudo`! While Homebrew [documents](https://docs.brew.s
 
 Typically, if you installed Homebrew in its default location from the user `foo`, and now you’re user `bar` and want to run `brew update`:
 
-```shell
+```sh
 sudo -Hu foo brew update
 ```
 
@@ -86,7 +103,7 @@ And for what it’s worth, you don’t need to create a new, dedicated user for 
 
 To make things even nicer, you can even add an alias in the `~/.zshrc` of the user that needs to use `sudo`:
 
-```shell
+```sh
 alias brew='sudo -Hu foo brew'
 ```
 

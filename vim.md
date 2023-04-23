@@ -79,7 +79,7 @@ Extended Mode is used for save and quit or save without quit using `Esc` Key wit
 
 search and replace only once every line
 
-```shell
+```sh
 :%s/word-to-replace/word-that-replace
 
 # example
@@ -88,7 +88,7 @@ search and replace only once every line
 
 search and replace g - globally (more than one time in line)
 
-```shell
+```sh
 :%s/word-to-replace/word-that-replace/g
 
 # example
@@ -97,7 +97,7 @@ search and replace g - globally (more than one time in line)
 
 search and replace g - globally (more than one time in line) with nothing
 
-```shell
+```sh
 :%s/word-to-replace//g
 
 # example
@@ -106,7 +106,7 @@ search and replace g - globally (more than one time in line) with nothing
 
 search and replace whitespaces from the start of each line
 
-```shell
+```sh
 # example with 4 spaces
 
 :%s/^    //
@@ -118,11 +118,11 @@ search and replace with delimiters
 
   - make `sources.list` backup
 
-  - ```shell
+  - ```sh
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
     ```
 
-  - ```shell
+  - ```sh
     sudo vim /etc/apt/sources.list
     ```
 
@@ -146,7 +146,7 @@ search and replace with delimiters
 
 Enable syntax in vim
 
-```shell
+```sh
 echo "syntax on" >> ~/.vimrc
 ```
 

@@ -29,13 +29,13 @@ Make **VS Code** default editor for all programming languages.
 
 1. Install `duti` and `python-yq`  
 
-    ```shell
+    ```sh
     brew install duti python-yq
     ```
 
 2. Make **VS Code** default editor for all languages known to GitHub [languages.yml](https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml)
 
-    ```shell
+    ```sh
     curl "https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml" \
       | yq -r "to_entries | (map(.value.extensions) | flatten) - [null] | unique | .[]" \
       | xargs -L 1 -I "{}" duti -s com.microsoft.VSCode {} all
@@ -43,7 +43,7 @@ Make **VS Code** default editor for all programming languages.
 
 Use duti to set defaults for specific files to **VS Code**
 
-```shell
+```sh
 # example
 
 duti -s com.microsoft.VSCode public.plain-text all

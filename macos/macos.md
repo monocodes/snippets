@@ -4,6 +4,7 @@ categories:
   - software
   - guides
   - notes
+  - snippets
 author: wandering-mono
 url: https://github.com/wandering-mono/snippets.git
 ---
@@ -23,7 +24,7 @@ GPT and MBR partitioning tool, clone of linux variant.
 This tool is able to create partitions without useless `EFI` partitions as macOS `Disk Utility` does.  
 Can create GPT/MBR table, also can create partition and mark it. Can restore GPT tables.
 
-```shell
+```sh
 sudo gdisk /dev/disk4 # disk4 is external drive for example
 ```
 

@@ -7,7 +7,7 @@
 
 > <https://youtu.be/uJ8PsImiDrM>
 
-1. ```shell
+1. ```sh
     sudo tailscale up --advertise-routes=192.168.1.0/24 --reset
     ```
 
@@ -15,7 +15,7 @@
 
 To disable subnet routing on nas:
 
-1. ```shell
+1. ```sh
     sudo tailscale ip --reset
     ```
 

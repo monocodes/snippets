@@ -22,7 +22,7 @@ In this guide we will create separate keys for three different hosts/environment
 
 We'll start with the key for GitLab. The only thing you need to do to generate a key is to open your terminal and type this command:
 
-```shell
+```sh
 ssh-keygen -t rsa -b 4096 -C "An optional comment"
 ```
 
@@ -59,7 +59,7 @@ If you run `ls -l ~/.ssh` you should see six files:
 
 To organize our keys and set what hosts they should be used for we need a config file in our SSH folder. We create and start editing the file by typing `vim ~/.ssh/config`. This will open an editor where we first will add the configuration for DigitalOcean.
 
-```shell
+```sh
 # Personal homepage on DigitalOcean
 Host homepage 10.123.123.123 example.com
     User john
@@ -82,7 +82,7 @@ There are a lot of properties here, I'll desbribe each one of them.
 
 Adding a Host for GitLab is pretty much the same expect the User is the same for everyone and the HostName is not an IP. This will be used when working with git and not connecting to a server directly.
 
-```shell
+```sh
 # GitLab with all my cool repositories
 Host gitlab.com
     User git
@@ -94,7 +94,7 @@ Host gitlab.com
 
 Lets add some configurations for the LAN now. This is a little more fun, some new stuff here.
 
-```shell
+```sh
 # My local servers and devices at home
 Host homeserver.local 192.168.1.20
     User server
@@ -117,13 +117,13 @@ Here we've created three hosts. The first two are for actual hosts with specific
 
 If connecting to a host without this set up you would need to type something like this to connect to your host:
 
-```shell
+```sh
 ssh john@10.123.123.123 -i ~/.ssh/id_rsa_do -p 12312
 ```
 
 Then followed by the password for your private key. Not easy to remember or type, right? After our configuration it is much easier to connect, we only need to type this:
 
-```shell
+```sh
 ssh homepage
 ```
 
@@ -131,13 +131,13 @@ Everything is taken care of by our configuration. What hostname to use for "home
 
 When connecting to a local server in you network you can of course add and use a Host like we did with `homeserver.local` but because we have a wildcard you don't need to specify all hosts in your config. You still need to specify a User and a valid HostName such as the IP (or a .local address if setup in your DNS settings) when connecting though. Like this:
 
-```shell
+```sh
 ssh bob@192.168.1.22
 ```
 
 or
 
-```shell
+```sh
 ssh bob@toothbrush.local
 ```
 

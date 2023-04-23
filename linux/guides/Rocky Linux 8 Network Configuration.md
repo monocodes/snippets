@@ -44,7 +44,7 @@ You can't do much with a computer these days without network connectivity. Wheth
 
 At the user level, the networking stack is managed by *NetworkManager*. This tool runs as a service, and you can check its state with the following command:
 
-```shell
+```sh
 systemctl status NetworkManager
 ```
 
@@ -52,7 +52,7 @@ systemctl status NetworkManager
 
 NetworkManager simply applies a configuration read from the files found in `/etc/sysconfig/network-scripts/ifcfg-<IFACE_NAME>`. Each network interface has its configuration file. The following shows an example for the default configuration of a server:
 
-```shell
+```sh
 TYPE=Ethernet
 PROXY_METHOD=none
 BROWSER_ONLY=no
@@ -109,7 +109,7 @@ To get proper name resolution, the following parameters must be set:
 
 You can check that the configuration has been correctly applied with the following `nmcli` command:
 
-```shell
+```sh
 [user@server ~]$ sudo nmcli device show enp1s0
 ```
 
@@ -137,7 +137,7 @@ IP6.GATEWAY:                            --
 
 NetworkManager's primary function is managing "connections", which map a physical device to more logical network components like an IP address and DNS settings. To view the existing connections NetworkManager maintains, you can run `nmcli connection show`.
 
-```shell
+```sh
 [user@server ~]$ sudo nmcli connection show
 NAME    UUID                                  TYPE      DEVICE
 enp1s0  625a8aef-175d-4692-934c-2c4a85f11b8c  ethernet  enp1s0
@@ -185,7 +185,7 @@ If instead you want to configure the system to use a static IP address scheme, y
 
 To modify a setting, you can use the nmcli command `nmcli connection modify [connection] [setting] [value]`.
 
-```shell
+```sh
 # set 10.0.0.10 as the static ipv4 address
 [user@server ~]$ sudo nmcli connection modify enp1s0 ipv4.addresses 10.0.0.10
 
@@ -202,7 +202,7 @@ When does the connection get updated?
 
 To configure your DNS servers with NetworkManager via the CLI, you can modify the `ipv4.dns` setting.
 
-```shell
+```sh
 # set 10.0.0.1 and 1.1.1.1 as the primary and secondary DNS servers
 [user@server ~]$ sudo nmcli connection modify enp1s0 ipv4.dns '10.0.0.1 1.1.1.1'
 ```
@@ -211,14 +211,14 @@ To configure your DNS servers with NetworkManager via the CLI, you can modify th
 
 To apply the network configuration, you can use the `nmcli connection up [connection]` command.
 
-```shell
+```sh
 [user@server ~]$ sudo nmcli connection up enp1s0
 Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/2)
 ```
 
 To get the connection state, simply use:
 
-```shell
+```sh
 [user@server ~]$ sudo nmcli connection show
 NAME    UUID                                  TYPE      DEVICE
 enp1s0  625a8aef-175d-4692-934c-2c4a85f11b8c  ethernet  enp1s0
@@ -226,7 +226,7 @@ enp1s0  625a8aef-175d-4692-934c-2c4a85f11b8c  ethernet  enp1s0
 
 You can also use the `ifup` and `ifdown` commands to bring the interface up and down (they are simple wrappers around `nmcli`):
 
-```shell
+```sh
 [user@server ~]$ sudo ifup enp1s0
 [user@server ~]$ sudo ifdown enp1s0
 ```
@@ -246,7 +246,7 @@ In this example, we will assume the following parameters:
 
 To see the detailed state of all interfaces, use
 
-```shell
+```sh
 ip a
 ```
 
@@ -263,25 +263,25 @@ To bring the *ens19* interface up, simply use `ip link set ens19 up` and to brin
 
 The command to be used is of the form:
 
-```shell
+```sh
 ip addr add <IP ADDRESS/CIDR> dev <IFACE NAME>
 ```
 
 To assign the above example parameters, we will use:
 
-```shell
+```sh
 ip a add 192.168.20.10/24 dev ens19
 ```
 
 Then, checking the result with:
 
-```shell
+```sh
 ip a show dev ens19
 ```
 
 will output:
 
-```shell
+```sh
 3: ens19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 4a:f2:f5:b6:aa:9f brd ff:ff:ff:ff:ff:ff
     inet 192.168.20.10/24 scope global ens19
@@ -294,19 +294,19 @@ Our interface is up and configured, but is still lacking something!
 
 To add the *ens19* interface our new example IP address, use the following command:
 
-```shell
+```sh
 ifcfg ens19 add 192.168.20.10/24
 ```
 
 To remove the address:
 
-```shell
+```sh
 ifcfg ens19 del 192.168.20.10/24
 ```
 
 To completely disable IP addressing on this interface:
 
-```shell
+```sh
 ifcfg ens19 stop
 ```
 
@@ -316,13 +316,13 @@ ifcfg ens19 stop
 
 Now that the interface has an address, we have to set its default route, this can be done with:
 
-```shell
+```sh
 ip route add default via 192.168.20.254 dev ens19
 ```
 
 The kernel routing table can be displayed with
 
-```shell
+```sh
 ip route
 ```
 
@@ -334,13 +334,13 @@ At this point, you should have your network interface up and properly configured
 
 By *pinging* another IP address in the same network (we will use `192.168.20.42` as an example):
 
-```shell
+```sh
 ping -c3 192.168.20.42
 ```
 
 This command will issue 3 *pings* (known as ICMP request) and wait for a reply. If everything went fine, you should get this output:
 
-```shell
+```sh
 PING 192.168.20.42 (192.168.20.42) 56(84) bytes of data.
 64 bytes from 192.168.20.42: icmp_seq=1 ttl=64 time=1.07 ms
 64 bytes from 192.168.20.42: icmp_seq=2 ttl=64 time=0.915 ms
@@ -353,13 +353,13 @@ rtt min/avg/max/mdev = 0.850/0.946/1.074/0.097 ms
 
 Then, to make sure your routing configuration is fine, try to *ping* a external host, such as this well known public DNS resolver:
 
-```shell
+```sh
 ping -c3 8.8.8.8
 ```
 
 If your machine has several network interface and you want to make ICMP request via a specific interface, you can use the `-I` flag:
 
-```shell
+```sh
 ping -I ens19 -c3 192.168.20.42
 ```
 
@@ -367,7 +367,7 @@ It is now time to make sure that DNS resolution is working correctly. As a remin
 
 If the `/etc/resolv.conf` file indicates a reachable DNS server, then the following should work:
 
-```shell
+```sh
 host rockylinux.org
 ```
 

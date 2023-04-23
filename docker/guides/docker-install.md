@@ -26,7 +26,7 @@ url: https://github.com/wandering-mono/snippets.git
 
 install docker
 
-```shell
+```sh
 sudo amazon-linux-extras install docker
 ```
 
@@ -36,7 +36,7 @@ sudo amazon-linux-extras install docker
 
 **One-liner** install
 
-```shell
+```sh
 sudo apt-get remove docker docker-engine docker.io containerd runc && \
 	sudo apt update && \
  	sudo apt install ca-certificates curl gnupg lsb-release -y && \
@@ -54,13 +54,13 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 1. Uninstall old versions:
 
-    ```shell
+    ```sh
     sudo apt-get remove docker docker-engine docker.io containerd runc
     ```
 
     or
 
-    ```shell
+    ```sh
     sudo apt remove docker.io -y ; \
     	sudo apt remove containerd -y ; \
     	sudo apt remove runc -y ; \
@@ -72,7 +72,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 2. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
-    ```shell
+    ```sh
     sudo apt update && \
      sudo apt install \
        ca-certificates \
@@ -87,7 +87,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
     > need to check: `mkdir`, maybe unnecessary
 
-    ```shell
+    ```sh
     ls -d /etc/apt/keyrings
     
     sudo mkdir -p /etc/apt/keyrings && \
@@ -98,7 +98,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 4. Use the following command to set up the repository:
 
-    ```shell
+    ```sh
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -109,7 +109,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 5. Install Docker Engine:
     update the apt package list
 
-    ```shell
+    ```sh
     sudo apt update
     ```
 
@@ -121,7 +121,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
         Your default umask may be incorrectly configured, preventing detection of the repository public key file. Try granting read permission for the Docker public key file before updating the package index:
 
-        ```shell
+        ```sh
         sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
          sudo apt update
         ```
@@ -134,11 +134,11 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
         1. List the available versions in the repository:
 
-            ```shell
+            ```sh
             apt-cache madison docker-ce | awk '{ print $3 }’
             ```
 
-             ```shell
+             ```sh
             5:20.10.16~3-0~ubuntu-jammy
             5:20.10.15~3-0~ubuntu-jammy
             5:20.10.14~3-0~ubuntu-jammy
@@ -148,13 +148,13 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
         2. Select the desired version and install:
             `VERSION_STRING=5:20.10.13~3-0~ubuntu-jammy`
 
-            ```shell
+            ```sh
             sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-compose-plugin
             ```
 
         3. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-            ```shell
+            ```sh
             sudo docker run hello-world
             ```
 
@@ -162,7 +162,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 8. To install the latest version, run:
 
-    ```shell
+    ```sh
     sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion -y
     ```
 
@@ -170,7 +170,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 9. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-    ```shell
+    ```sh
     sudo docker run hello-world
     ```
 
@@ -182,13 +182,13 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
         1. Create the docker group:
 
-            ```shell
+            ```sh
             sudo groupadd docker
             ```
 
         2. Add your user to the docker group:
 
-            ```shell
+            ```sh
             sudo usermod -aG docker $USER
             ```
 
@@ -196,7 +196,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
             1. You can also run the following command to activate the changes to groups:
 
-                ```shell
+                ```sh
                 newgrp docker
                 ```
 
@@ -204,7 +204,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
         4. Verify that you can run docker commands without sudo:
 
-            ```shell
+            ```sh
             docker run hello-world
             ```
 
@@ -214,7 +214,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
     - Configure Docker to start on boot with systemd
 
-        ```shell
+        ```sh
         sudo systemctl enable docker.service
         sudo systemctl enable containerd.service
         ```
@@ -232,7 +232,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
     - If you initially ran Docker CLI commands using sudo before adding your user to the docker group, you may see the following error: error
 
-        ```shell
+        ```sh
         WARNING: Error loading config file: /home/user/.docker/config.json -
         stat /home/user/.docker/config.json: permission denied
         ```
@@ -241,7 +241,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
         To fix this problem, either remove the `~/.docker/` directory (it’s recreated automatically, but any custom settings are lost), or change its ownership and permissions using the following commands:
 
-        ```shell
+        ```sh
         sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
         sudo chmod g+rwx "$HOME/.docker" -R
         ```
@@ -250,9 +250,9 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 ### Rocky Linux
 
-**One-liner install**
+**One-liner install Rocky Linux**
 
-```shell
+```sh
 sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 	sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
 	sudo dnf makecache && \
@@ -266,25 +266,25 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 
 1. Uninstall old versions
 
-    ```shell
+    ```sh
     sudo dnf remove docker docker-engine docker.io containerd runc -y
     ```
 
 2. Add docker repo
 
-    ```shell
+    ```sh
     sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     ```
 
 3. Create metadata cache
 
-    ```shell
+    ```sh
     sudo dnf makecache
     ```
 
 4. Install docker and other needed packages
 
-    ```shell
+    ```sh
     sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     ```
 
@@ -299,19 +299,19 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 
 5. Enable auto startup and start dockerd daemon now
 
-    ```shell
+    ```sh
     sudo systemctl --now enable docker
     ```
 
 6. Add your user to the docker group:
 
-    ```shell
+    ```sh
     sudo usermod -aG docker $USER
     ```
 
 7. Log out and log back in so that your group membership is re-evaluated or:
 
-    ```shell
+    ```sh
     newgrp docker
     ```
 

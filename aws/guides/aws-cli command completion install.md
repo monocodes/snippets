@@ -1,5 +1,16 @@
 # Command completion
 
+- [Command completion](#command-completion)
+  - [How it works](#how-it-works)
+  - [Configuring command completion on Linux or macOS](#configuring-command-completion-on-linux-or-macos)
+    - [Confirm the completer's folder is in your path](#confirm-the-completers-folder-is-in-your-path)
+      - [Step 1: Locate the AWS completer](#step-1-locate-the-aws-completer)
+      - [Step 2: Identify your shell](#step-2-identify-your-shell)
+      - [Step 3: Add the completer to your path](#step-3-add-the-completer-to-your-path)
+    - [Enable command completion](#enable-command-completion)
+    - [Verify command completion](#verify-command-completion)
+  - [Configuring command completion on Windows](#configuring-command-completion-on-windows)
+
 The AWS Command Line Interface (AWS CLI) includes a bash-compatible command-completion feature that enables you to use the **Tab** key to complete a partially entered command. On most systems you need to configure this manually.
 
 For information on the AWS CLI version 2 auto-prompt feature instead, see [Having the AWS CLI prompt you for commands](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html).
@@ -18,7 +29,7 @@ The following examples show different ways that you can use command completion:
 
 - Partially enter a command and press `Tab` to display a suggested list of commands.
 
-    ```shell
+    ```sh
     $ aws dynamodb dTAB
     delete-backup                        describe-global-table
     delete-item                          describe-global-table-settings
@@ -31,7 +42,7 @@ The following examples show different ways that you can use command completion:
 
 - Partially enter a parameter and press `Tab` to display a suggested list of parameters.
 
-    ```shell
+    ```sh
     $ aws dynamodb delete-table --TAB
     --ca-bundle              --endpoint-url           --profile              
     --cli-connect-timeout    --generate-cli-skeleton  --query                
@@ -43,7 +54,7 @@ The following examples show different ways that you can use command completion:
 
 - Enter a parameter and press `Tab` to display a suggested list of resource values. This feature is available only in the AWS CLI version 2.
 
-    ```shell
+    ```sh
     $ aws dynamodb db delete-table --table-name TAB
     Table 1                  Table 2                  Table 3
     ```
@@ -66,7 +77,7 @@ Command completion is automatically configured and enabled by default on Amazon 
 
 For the AWS completer to work successfully, the `aws_completer` needs to be in your shell's path. The `which` command can check if the completer is in your path.
 
-```shell
+```sh
 $ which aws_completer
 /usr/local/bin/aws_completer
 ```
@@ -84,7 +95,7 @@ The location of the AWS completer can vary depending on the installation method 
 
 If all else fails, you can use the `find` command to search your file system for the AWS completer.
 
-```shell
+```sh
 $ find / -name aws_completer
 /usr/local/bin/aws_completer
 ```
@@ -95,14 +106,14 @@ To identify which shell you're using, you can use one of the following commands.
 
 - **echo $SHELL** – Displays the shell's program file name. This usually matches the name of the in-use shell, unless you launched a different shell after logging in.
 
-    ```shell
+    ```sh
     $ echo $SHELL
     /bin/bash
     ```
 
 - **ps** – Displays the processes running for the current user. One of them is the shell.
 
-    ```shell
+    ```sh
     $ ps
       PID TTY          TIME CMD
      2148 pts/1    00:00:00 bash
@@ -113,7 +124,7 @@ To identify which shell you're using, you can use one of the following commands.
 
 1. Find your shell's profile script in your user folder.
 
-    ```shell
+    ```sh
     $ ls -a ~/
     .  ..  .bash_logout  .bash_profile  .bashrc  Desktop  Documents  Downloads
     ```
@@ -124,13 +135,13 @@ To identify which shell you're using, you can use one of the following commands.
 
 2. Add an export command at the end of your profile script that's similar to the following example. Replace `/usr/local/bin/` with the folder that you discovered in the previous section.
 
-    ```shell
+    ```sh
     export PATH=/usr/local/bin/:$PATH
     ```
 
 3. Reload the profile into the current session to put those changes into effect. Replace `.bash_profile` with the name of the shell script you discovered in the first section.
 
-    ```shell
+    ```sh
     source ~/.bash_profile
     ```
 
@@ -140,7 +151,7 @@ After confirming the completer is in your path, enable command completion by run
 
 - **`bash`** – Use the built-in command `complete`.
 
-    ```shell
+    ```sh
     complete -C '/usr/local/bin/aws_completer' aws
     ```
 
@@ -148,14 +159,14 @@ After confirming the completer is in your path, enable command completion by run
 
 - **`zsh`** – To run command completion, you need to run `bashcompinit` by adding the following autoload line at the end of your `~/.zshrc` profile script.
 
-    ```shell
+    ```sh
     autoload bashcompinit && bashcompinit
     autoload -Uz compinit && compinit
     ```
 
     To enable command completion, use the built-in command `complete`.
 
-    ```shell
+    ```sh
     complete -C '/usr/local/bin/aws_completer' aws
     ```
 
@@ -163,7 +174,7 @@ After confirming the completer is in your path, enable command completion by run
 
 - **`tcsh`** – Complete for `tcsh` takes a word type and pattern to define the completion behavior.
 
-    ```shell
+    ```sh
     > complete aws 'p/*/`aws_completer`/'
     ```
 
@@ -175,7 +186,7 @@ After you've enabled command completion, [Verify command completion](https://doc
 
 After enabling command completion, reload your shell, enter a partial command, and press **Tab** to see the available commands.
 
-```shell
+```sh
 $ aws sTAB
 s3              ses             sqs             sts             swf
 s3api           sns             storagegateway  support

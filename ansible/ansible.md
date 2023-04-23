@@ -35,14 +35,14 @@ url: https://github.com/wandering-mono/snippets.git
 
 via apt
 
-```shell
+```sh
 sudo apt update && \
 	sudo apt install software-properties-common -y && \
 	sudo add-apt-repository --yes --update ppa:ansible/ansible && \
 	sudo apt install ansible -y
 ```
 
-```shell
+```sh
 sudo apt update
 sudo apt install software-properties-common -y
 sudo add-apt-repository --yes --update ppa:ansible/ansible
@@ -55,7 +55,7 @@ sudo apt install ansible -y
 
 ansible config - [Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings)
 
-```shell
+```sh
 /etc/ansible/ansible.cfg
 ```
 
@@ -63,7 +63,7 @@ default global inventory file
 
 > best practice is to create new inventory file in the project dir
 
-```shell
+```sh
 /etc/ansible/hosts
 ```
 
@@ -84,7 +84,7 @@ default global inventory file
 
 disable host key checking (need to do that)
 
-```shell
+```sh
 sudo vim /etc/ansible/ansible.cfg
 
 host_key_checking = False
@@ -98,19 +98,19 @@ host_key_checking = False
 
 check ansible version and its configuration
 
-```shell
+```sh
 ansible --version
 ```
 
 execute ansible module command
 
-```shell
+```sh
 ansible -i /path/to/inventory-file -m module-name target-name
 ```
 
 ping servers
 
-```shell
+```sh
 # examples ping
 ansible -i inventory -m ping web01
 ansible -i inventory -m ping all
@@ -120,14 +120,14 @@ ansible -i inventory -m ping websrvgrp
 
 copy file to remote host
 
-```shell
+```sh
 ansible -i inventory -m copy -a "src=index.html dest=/var/www/html/index.html" web01 --become
 ```
 
 gather facts about remote machine, run **OHAI** tool  
 show all **Facts Variables**
 
-```shell
+```sh
 ansible -m setup hostname
 ```
 
@@ -137,13 +137,13 @@ ansible -m setup hostname
 
 show all available modules
 
-```shell
+```sh
 ansible-doc -l
 ```
 
 show help for module
 
-```shell
+```sh
 ansible-doc module-name
 
 # example
@@ -156,7 +156,7 @@ ansible-doc yum
 
 check playbook syntax before executing
 
-```shell
+```sh
 ansible-playbook -i /path/to.inventory-file playbook-name.yaml --syntax-check
 
 # example
@@ -165,19 +165,19 @@ ansible-playbook -i inventory web_db.yaml --syntax-check
 
 execute playbook
 
-```shell
+```sh
 ansible-playbook -i inventory web_db.yaml
 ```
 
 test playbook with `-C`, check only, dry-run
 
-```shell
+```sh
 ansible-playbook -i inventory web_db.yaml -C
 ```
 
 **debug**, increase log level
 
-```shell
+```sh
 ansible-playbook db.yaml -vv
 
 # -vv - second log level, maximum is -vvvv
@@ -189,7 +189,7 @@ ansible-playbook db.yaml -vv
 
 initialize role-based approach and create needed dirs
 
-```shell
+```sh
 ansible-galaxy init role-name
 
 
@@ -227,7 +227,7 @@ post-install/
 
 install package with `yum`
 
-```shell
+```sh
 ansible -i /path/to/inventory-file -m yum -a "name=package-name state=operation-name" --become remote-hostname
 # --become = sudo, become root
 
@@ -237,13 +237,13 @@ ansible -i inventory -m yum -a "name=httpd state=present" web01 --become
 
 start and enable service
 
-```shell
+```sh
 ansible -i inventory -m service -a "name=httpd state=started enabled=yes" web01 --become
 ```
 
 uninstall package with `yum`
 
-```shell
+```sh
 ansible -i inventory -m yum -a "name=httpd state=absent" --become web01
 ```
 
@@ -305,7 +305,7 @@ Some modules needs dependencies installed on host machine, because execution is 
 
     - Connect to remote host and search with `yum` or `pip` for dependency
 
-        - ```shell
+        - ```sh
             yum search python | grep -i mysql
             
             # output
