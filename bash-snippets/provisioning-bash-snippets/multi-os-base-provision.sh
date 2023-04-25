@@ -6,7 +6,11 @@
 #   - scripts
 #   - provisioning
 # author: wandering-mono
-# url: https://github.com/wandering-mono/snippets.git
+# url: https://github.com/monocodes/snippets.git
+
+#################################################
+# Defining variables
+#################################################
 
 #################################################
 # Defining functions
@@ -106,11 +110,11 @@ function bat-install() {
     sudo apt-get autoremove --purge -y
     
     message "Installing software and cleaning up..."
-    sudo apt-get install bash-completion unzip -y
+    sudo apt-get install bash-completion git unzip -y
 
     if [  -n "$(uname -a | grep -i 18.04.1-Ubuntu)" ]; then
       wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb
-      sudo dpkg -i bat-musl_0.22.1_amd64.deb
+      sudo dpkg -i bat-musl_0.23.0_amd64.deb
       sudo apt-get clean
     else
       sudo apt-get install bat -y
@@ -131,7 +135,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop bash-completion -y
+    sudo yum install vim git htop unzip bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y
@@ -183,7 +187,7 @@ function bat-install() {
     sudo yum update -y
 
     message "Installing software..."
-    sudo yum install vim htop bash-completion -y
+    sudo yum install vim htop git wget unzip bash-completion -y
 
     message "Cleaning up..."
     sudo yum autoremove -y

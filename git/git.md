@@ -5,7 +5,7 @@ categories:
   - notes
   - guides
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # git
@@ -39,8 +39,9 @@ url: https://github.com/wandering-mono/snippets.git
       - [Example to ignore previously committed dir `logs/`](#example-to-ignore-previously-committed-dir-logs)
       - [Delete file or folder from the local and remote repos from every commit](#delete-file-or-folder-from-the-local-and-remote-repos-from-every-commit)
     - [delete a repository](#delete-a-repository)
-  - [git best practices](#git-best-practices)
-    - [change remote origin](#change-remote-origin)
+  - [git guides](#git-guides)
+    - [Sync local repos with remote repos and renamed account on GitHub](#sync-local-repos-with-remote-repos-and-renamed-account-on-github)
+    - [Change remote origin](#change-remote-origin)
     - [git commit -m ""](#git-commit--m-)
 
 ## install and files
@@ -496,7 +497,7 @@ filename
     git remote add repo-name repo-url
     
     # example
-    git remote add commands https://github.com/wandering-mono/commands.git
+    git remote add commands https://github.com/monocodes/commands.git
     ```
 
 3. push to master branch  
@@ -519,9 +520,13 @@ git init
 
 ---
 
-## git best practices
+## git guides
 
-### change remote origin
+### Sync local repos with remote repos and renamed account on GitHub
+
+If all local repos are in **GitHub Desktop** local repos will switch automatically.
+
+### Change remote origin
 
 Switch from **GitHub** to **CodeCommit**
 

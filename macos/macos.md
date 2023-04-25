@@ -6,7 +6,7 @@ categories:
   - notes
   - snippets
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # macos
@@ -15,6 +15,269 @@ url: https://github.com/wandering-mono/snippets.git
   - [partitioning](#partitioning)
     - [gdisk](#gdisk)
     - [newfs\_type](#newfs_type)
+
+## macOS paths
+
+`PATH` variable
+
+```sh
+echo $PATH
+
+cat /etc/paths
+```
+
+`PATH` files
+
+```sh
+ls -lh /etc/paths.d
+```
+
+### `.zshrc`, `.zprofile`
+
+`.zshrc`, `.zprofile` locations
+
+```sh
+$HOME/.zshrc
+$HOME/.zprofile
+~/.zshrc
+~/.zprofile
+```
+
+source `.zshrc`, `.zprofile`
+
+```sh
+source $HOME/.zprofile
+# or
+. $HOME/.zprofile
+```
+
+### system variables
+
+show current environmental variables
+
+```sh
+printenv
+```
+
+unset var
+
+```sh
+unset var-name
+# don't forget to check ~/.zprofile and ~/.zshrc
+
+# check results
+printenv
+```
+
+set `LDFLAGS` and `CPPFLAGS`
+
+```sh
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+```
+
+set multiple `LDFLAGS` and `CPPFLAGS`
+
+```sh
+export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include -I/opt/homebrew/opt/libffi/include"
+export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib -L/opt/homebrew/opt/libffi/lib"
+```
+
+show active flags
+
+```sh
+echo ${LDFLAGS}
+echo ${CPPFLAGS}
+```
+
+unset flags
+
+```sh
+unset LDFLAGS
+unset CPPFLAGS
+```
+
+---
+
+## useful commands
+
+restart terminal
+
+```sh
+exec zsh -l
+```
+
+show help for BSD command
+
+```sh
+man command-name
+man sed
+```
+
+show help for GNU command
+
+```sh
+command-name --help
+```
+
+---
+
+### users and groups
+
+list all users
+
+```sh
+dscl . list /users
+```
+
+list all groups
+
+```sh
+dscl . list /groups
+```
+
+### useful shorcuts
+
+show dotfiles in Finder
+
+```properties
+Cmd + Shift + Dot
+```
+
+smiles menu in any text editor
+
+```properties
+Cmd + Ctrl + Space
+```
+
+### apps
+
+**Google Chrome**
+
+disable Chrome's two-finger back/forward navigation
+
+```sh
+defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
+
+# restart chrome
+chrome://restart
+```
+
+**Time Machine**
+
+Time Machine settings
+
+```sh
+/Library/Preferences/com.apple.TimeMachine.plist
+```
+
+to edit com.apple.TimeMachine.plist
+
+1) `cp` it anywhere
+
+2) edit it with xml editor or xcode
+
+3) copy file back
+
+   ```sh
+   sudo cp com.apple.TimeMachine.plist /Library/Preferences/
+   ```
+
+**Terminal**
+
+switch between tabs
+
+```sh
+Ctrl + Tab # forward
+Ctrl + Shift + Tab # backward
+```
+
+---
+
+#### console apps
+
+**grep**
+
+make `grep` colorful in macOS
+
+```sh
+vim ~/.zprofile
+
+export GREP_OPTIONS='--color=auto'
+
+source ~/.zprofile
+```
+
+**vim**
+
+turn on syntax highlighting in vim
+
+```sh
+echo "syntax on" >> ~/.vimrc
+
+```
+
+---
+
+## network
+
+flush dns
+
+```sh
+sudo killall -HUP mDNSResponder
+sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
+```
+
+show arp table
+
+```sh
+arp -a
+```
+
+delete cache for interface
+
+```sh
+sudo arp -d 192.168.1.10 ifscope en0
+```
+
+clear all arp cache
+
+```sh
+sudo arp -a -d
+```
+
+show network path to the server and diagnose latency problems
+
+```sh
+traceroute google.com
+```
+
+add second IP address to an existing network adapter  
+non-persistent, will be deleted after reboot
+
+```sh
+sudo ifconfig en0 alias 192.168.10.5/24 up
+```
+
+remove alias
+
+```sh
+sudo ifconfig en0 -alias 192.168.10.5
+```
+
+---
+
+## filesystem
+
+`fs_usage`
+
+The file system usage tool is ideal since it taps in to the real time file system events and dumps activity to a file or the screen. Since you know the exact path of the file, you can filter out all the thousands of irrelevant (to this case) filesystem changes and see what reads / writes to that file pretty quickly.
+
+```sh
+sudo fs_usage | grep /Users/me/aa
+```
+
+---
 
 ## partitioning
 
@@ -28,9 +291,273 @@ Can create GPT/MBR table, also can create partition and mark it. Can restore GPT
 sudo gdisk /dev/disk4 # disk4 is external drive for example
 ```
 
----
-
 ### newfs_type
 
-newfs_apfs  newfs_exfat newfs_hfs  newfs_msdos newfs_udf  
 macOS partitioning tools, never used them.
+
+- newfs_apfs
+- newfs_exfat
+- newfs_hfs
+- newfs_msdos
+- newfs_udf
+
+---
+
+## macOS guides
+
+### sed
+
+use `sed` from macOS or use `gsed` from GNU
+
+```sh
+brew install gsed
+```
+
+find text in files recursively and change it
+
+```sh
+LC_ALL=C find . -type f -name 'filename-regex' -exec sed -i '' s/word-to-replace/word-that-replace/g {} +
+
+# example
+LC_ALL=C find . -type f -name '*' -exec sed -i '' s/venv-data_vis/venv-data-vis/g {} +
+```
+
+#### [Recursive search and replace in text files on Mac and Linux](https://stackoverflow.com/questions/9704020/recursive-search-and-replace-in-text-files-on-mac-and-linux)
+
+OS X uses a mix of BSD and GNU tools, so best always check the documentation (although I had it that `less` didn't even conform to the OS X manpage):
+
+<https://web.archive.org/web/20170808213955/https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/sed.1.html>
+
+sed takes the argument after `-i` as the extension for backups. Provide an empty string (`-i ''`) for no backups.
+
+The following should do:
+
+```sh
+find . -type f -name '*.txt' -exec sed -i '' s/this/that/g {} +
+```
+
+The `-type f` is just good practice; sed will complain if you give it a directory or so.
+
+`-exec` is preferred over `xargs`; you needn't bother with `-print0` or anything.
+
+The `{} +` at the end means that `find` will append all results as arguments to one instance of the called command, instead of re-running it for each result. (One exception is when the maximal number of command-line arguments allowed by the OS is breached; in that case `find` will run more than one instance.)
+
+If you get an error like "invalid byte sequence," it might help to force the standard locale by adding `LC_ALL=C` at the start of the command, like so:
+
+```sh
+LC_ALL=C find . -type f -name '*.txt' -exec sed -i '' s/this/that/g {} +
+```
+
+---
+
+### symlinks
+
+**Remove Python symbolic links example**
+
+The symlinks referencing Python frameworks are in the `/usr/local/bin` directory. If you would like to see the broken symlinks, please use the following command.
+
+1. become root
+
+   ```sh
+   sudo -i
+   ```
+
+2. check symlinks first
+
+   ```sh
+   ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework'
+   ```
+
+3. delete symlinks
+
+   ```sh
+   ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{print $9}' | tr -d @ | xargs rm
+   ```
+
+4. check symlinks again
+
+   ```sh
+   ls /usr/local/bin
+   ```
+
+---
+
+### `PATH` guide
+
+[MacOS – Set / Change $PATH Variable Command](https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/)
+
+| Tutorial details  |                                                              |
+| :---------------: | ------------------------------------------------------------ |
+| Difficulty level  | [Easy](https://www.cyberciti.biz/faq/tag/easy/)              |
+|  Root privileges  | No                                                           |
+|   Requirements    | macOS terminal                                               |
+|     Category      | [Linux shell scripting](https://bash.cyberciti.biz/guide/Main_Page) |
+|   Prerequisites   | Apple macOS/OS X with bash                                   |
+| OS compatibility  | BSD • [Linux](https://www.cyberciti.biz/faq/category/linux/) • [macOS](https://www.cyberciti.biz/faq/category/mac-os-x/) • OS X • [Unix](https://www.cyberciti.biz/faq/category/unix/) |
+| Est. reading time | 4 minutes                                                    |
+
+[$PATH is nothing but an environment variable on Linux, OS X, Unix-like](https://bash.cyberciti.biz/guide/Variables#Commonly_Used_Shell_Variables) operating systems, and Microsoft Windows. You can specify a set of directories where executable programs are located using $PATH. The $PATH variable is specified as a list of directory names separated by colon (:) characters.
+
+#### MacOS Print $PATH Settings
+
+To print the current settings, open the Terminal application and then [printf command](https://bash.cyberciti.biz/guide/Printf_command) or [echo command](https://bash.cyberciti.biz/guide/Echo_Command)
+
+```sh
+echo "$PATH"
+```
+
+OR
+
+```sh
+printf "%s\n" $PATH
+```
+
+Here is what I see
+
+```sh
+echo "$PATH"
+
+# Output
+/opt/homebrew/Cellar/pyenv-virtualenv/1.2.1/shims:/Users/mono/.pyenv/shims:/Users/mono/Documents/code/apps/apache-maven-3.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+```
+
+```sh
+printf "%s\n" $PATH
+
+# Output
+/opt/homebrew/Cellar/pyenv-virtualenv/1.2.1/shims:/Users/mono/.pyenv/shims:/Users/mono/Documents/code/apps/apache-maven-3.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+```
+
+#### macOS (OS X): Change your PATH environment variable
+
+You can add path to any one of the following method:
+
+1. `$HOME/.bash_profile` file using export syntax.
+2. `/etc/paths.d` directory.
+
+##### Method #1: `$HOME/.bash_profile` file to set or change $PATH under macOS
+
+1. Open the Terminal app on macOS
+
+2. The syntax is as follows using the [export command](https://www.cyberciti.biz/faq/linux-unix-shell-export-command/) to add to the PATH on macOS:
+
+   ```sh
+   export PATH=$PATH:/new/dir/location1
+   export PATH=$PATH:/new/dir1:/dir2:/dir/path/no3
+   ```
+
+3. In this example, add the /usr/local/sbin/modemZapp/ directory to $PATH variable. Edit the file `$HOME/.bash_profile`, enter:
+
+   ```sh
+   vi $HOME/.bash_profile
+   # or
+   nano ~/.bash_profile
+   ```
+
+4. Append the following export command:
+
+   ```sh
+   export PATH=$PATH:/usr/local/sbin/modemZapp
+   ```
+
+5. [Save and close the file](https://www.cyberciti.biz/faq/linux-unix-vim-save-and-quit-command/) when using vim/vi as a text editor. Then, to apply changes immediately enter the following [source command](https://bash.cyberciti.biz/guide/Source_command):
+
+   ```sh
+   source $HOME/.bash_profile
+   # or
+   . $HOME/.bash_profile
+   ```
+
+6. Finally, verify your new path settings, enter:
+
+   ```sh
+   echo "$PATH"
+   ```
+
+   Sample outputs:
+
+   ```sh
+   /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/sbin/modemZapp
+   ```
+
+##### Method #2: `/etc/paths.d` directory
+
+Apple recommends the path_helper tool to generate the PATH variable i.e. helper for constructing PATH environment variable. From the man page:
+
+> The path_helper utility reads the contents of the files in the directories **/etc/paths.d** and **/etc/manpaths.d** and appends their contents to the PATH and MANPATH environment variables respectively.
+>
+> (The MANPATH environment variable will not be modified unless it is already set in the environment.)
+>
+> Files in these directories should contain one path element per line.
+>
+> Prior to reading these directories, default PATH and MANPATH values are obtained from the files **/etc/paths** and /etc/manpaths respectively.
+
+To list existing path, enter:
+
+```sh
+ls -l /etc/paths.d/
+```
+
+Sample outputs:
+
+```sh
+total 16
+-rw-r--r--  1 root  wheel  13 Sep 28  2012 40-XQuartz
+```
+
+You can use the cat command to see path settings in 40-XQuartz:
+
+```sh
+cat /etc/paths.d/40-XQuartz
+```
+
+Sample outputs:
+
+```sh
+/opt/X11/bin
+```
+
+To set /usr/local/sbin/modemZapp to $PATH, enter:
+
+```sh
+sudo -s 'echo "/usr/local/sbin/modemZapp" > /etc/paths.d/zmodemapp'
+```
+
+OR use vi text editor as follows to create /etc/paths.d/zmodemapp file:
+
+```sh
+sudo vi /etc/paths.d/zmodemapp
+```
+
+and append the following text:
+
+```sh
+/usr/local/sbin/modemZapp
+```
+
+Save and close the file. You need to reboot the system. Alternatively, you can close and reopen the Terminal app to see new $PATH changes.
+
+#### Conclusion
+
+MacOS Set or Change $PATH settings:
+
+1. Use the [.bash_profile](https://bash.cyberciti.biz/guide/.bash_profile) file when you need to generate the PATH variable for a single user account.
+2. Use the `/etc/paths.d/` directory or folder via the path_helper command tool to generate the PATH variable for all user accounts on the system. This method only works on OS X Leopard and higher macOS version.
+
+See the following manual pages using the [help command](https://bash.cyberciti.biz/guide/Help_command) or [man command](https://bash.cyberciti.biz/guide/Man_command) on your macOS / OS X machine:
+
+```sh
+man bash
+man path_helper
+help export
+```
+
+##### See also
+
+- [Customize the bash shell environments](https://bash.cyberciti.biz/guide/Customize_the_bash_shell_environments) from the Linux shell scripting wiki.
+- [$PATH variable](https://bash.cyberciti.biz/guide/$PATH)
+- [UNIX: Set Environment Variable](https://www.cyberciti.biz/faq/set-environment-variable-unix/)
+
+**About the author:** Vivek Gite is the founder of nixCraft, the oldest running blog about Linux and open source. He wrote more than 7k+ posts and helped numerous readers to master IT topics.
+
+---

@@ -6,12 +6,13 @@ categories:
   - notes
   - code
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # python-modules
 
 - [python-modules](#python-modules)
+  - [pip install](#pip-install)
   - [fabric](#fabric)
     - [how to use fabric example](#how-to-use-fabric-example)
 
@@ -164,3 +165,5 @@ fab -H 192.168.10.3 -u devops web_setup:https://www.tooplate.com/zip-templates/2
 # simultaniosly for two hosts
 fab -H 192.168.10.3,192.168.10.4 -u devops web_setup:https://www.tooplate.com/zip-templates/2121_wave_cafe.zip,2121_wave_cafe
 ```
+
+---

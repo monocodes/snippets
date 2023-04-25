@@ -6,7 +6,11 @@
 #   - scripts
 #   - provisioning
 # author: wandering-mono
-# url: https://github.com/wandering-mono/snippets.git
+# url: https://github.com/monocodes/snippets.git
+
+#################################################
+# Defining variables
+#################################################
 
 #################################################
 # Defining functions

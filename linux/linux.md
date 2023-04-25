@@ -5,7 +5,7 @@ categories:
   - guides
   - notes
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # linux
@@ -1256,11 +1256,23 @@ find / -group sales -ls # maybe -group foo here...
 >
 >Allow `sudo` without pass for user `username`
 
+add passwordless sudo for user
+
 ```sh
-echo "username ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/username
+echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/$USER
 ```
 
-to add group to sudoers file use `%`
+append linuxbrew to root's `secure_path` in the end
+
+- `sudo sh -c` to preserve root's `$PATH`
+- `tee -a` will append to a file named like user that executes script
+
+```sh
+sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+	| sudo tee -a /etc/sudoers.d/$USER
+```
+
+add group to sudoers file use `%`
 
 ```sh
 echo "%group-name ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/group-name
@@ -2239,6 +2251,15 @@ nslookup address-name
 
 # example
 nslookup google.com
+
+# check NS example
+nslookup -type=ns kubevpro.wandering-mono.top
+```
+
+install `nslookup` on rpm-based distro
+
+```sh
+sudo dnf install -y bind-utils
 ```
 
 ##### traceroute, tracert, mtr
@@ -3129,6 +3150,53 @@ singlequote(s) singlequote(s) singlequote(s)
 ---
 
 ## guides
+
+### dependencies version ranges and requirements syntax
+
+#### [package.json](https://docs.npmjs.com/cli/v9/configuring-npm/package-json)
+
+See [semver](https://github.com/npm/node-semver#versions) for more details about specifying version ranges.
+
+- `version` Must match `version` exactly
+- `>version` Must be greater than `version`
+- `>=version` etc
+- `<version`
+- `<=version`
+- `~version` "Approximately equivalent to version" See [semver](https://github.com/npm/node-semver#versions)
+- `^version` "Compatible with version" See [semver](https://github.com/npm/node-semver#versions)
+- `1.2.x` 1.2.0, 1.2.1, etc., but not 1.3.0
+- `http://...` See 'URLs as Dependencies' below
+- `*` Matches any version
+- `""` (just an empty string) Same as `*`
+- `version1 - version2` Same as `>=version1 <=version2`.
+- `range1 || range2` Passes if either range1 or range2 are satisfied.
+- `git...` See 'Git URLs as Dependencies' below
+- `user/repo` See 'GitHub URLs' below
+- `tag` A specific version tagged and published as `tag` See [`npm dist-tag`](https://docs.npmjs.com/cli/v9/commands/npm-dist-tag)
+- `path/path/path` See [Local Paths](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#local-paths) below
+
+For example `package.json`, these are all valid:
+
+```json
+{
+  "dependencies": {
+    "foo": "1.0.0 - 2.9999.9999",
+    "bar": ">=1.0.2 <2.1.2",
+    "baz": ">1.0.2 <=2.3.4",
+    "boo": "2.0.1",
+    "qux": "<1.0.0 || >=2.3.1 <2.4.5 || >=2.5.2 <3.0.0",
+    "asd": "http://asdf.com/asdf.tar.gz",
+    "til": "~1.2",
+    "elf": "~1.2.3",
+    "two": "2.x",
+    "thr": "3.3.x",
+    "lat": "latest",
+    "dyl": "file:../dyl"
+  }
+}
+```
+
+---
 
 ### sed guide
 

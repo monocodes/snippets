@@ -5,7 +5,7 @@ categories:
   - notes
   - guides
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # aws-cli
@@ -38,9 +38,7 @@ url: https://github.com/wandering-mono/snippets.git
 one-liner install linuxbrew
 
 ```sh
-brew update && brew install awscli && \
-	echo "complete -C aws_completer aws" >> ~/.bashrc && \
-	source ~/.bashrc
+brew update && brew install awscli
 ```
 
 ### Linux
@@ -264,6 +262,12 @@ show all instances
 
 ```sh
 aws ec2 describe-instances
+```
+
+show availability-zones description
+
+```sh
+aws ec2 describe-availability-zones --region us-east-1
 ```
 
 ---

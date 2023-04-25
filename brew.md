@@ -5,7 +5,7 @@ categories:
   - notes
   - guides
 author: wandering-mono
-url: https://github.com/wandering-mono/snippets.git
+url: https://github.com/monocodes/snippets.git
 ---
 
 # brew
@@ -26,6 +26,11 @@ url: https://github.com/wandering-mono/snippets.git
 
 ## brew install
 
+- [Install Homebrew](https://brew.sh/)
+- [`brew` Shell Completion](https://docs.brew.sh/Shell-Completion)
+- [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux)
+- [Interesting Taps and Forks](https://docs.brew.sh/Interesting-Taps-and-Forks)
+
 ### macOS
 
 one-liner install macOS (non-interactive)  
@@ -40,25 +45,20 @@ xcode-select --install && \
 	brew tap homebrew/cask && \
   brew tap homebrew/cask-drivers && \
   brew tap homebrew/cask-versions && \
-  brew tap homebrew/core && \
   brew tap beeftornado/rmtree && \
   sudo chmod 750 /opt/homebrew/bin/brew && \
 	cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
-  then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-  else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-    do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-    done
-  fi
+  FPATH="\$(brew --prefix)/share/zsh/site-functions:\${FPATH}"
+
+  autoload -Uz compinit
+  compinit
 fi
 EOF
+	source $HOME/.zshrc
+	cat $HOME/.zshrc
 ```
 
 one-liner install macOS (interactive)
@@ -79,18 +79,14 @@ xcode-select --install && \
 # brew completions
 if type brew &>/dev/null
 then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
-  then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-  else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-    do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-    done
-  fi
+  FPATH="\$(brew --prefix)/share/zsh/site-functions:\${FPATH}"
+
+  autoload -Uz compinit
+  compinit
 fi
 EOF
+	source $HOME/.zshrc
+	cat $HOME/.zshrc
 ```
 
 ---
@@ -102,30 +98,31 @@ one-liner install Ubuntu 22
 ```sh
 sudo apt-get update && sudo apt-get install -y build-essential procps curl file git && \
 	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.profile && \
-	source $HOME/.profile && \
+	test -r $HOME/.profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> $HOME/.profile && \
+  source $HOME/.profile && \
   brew analytics off && \
-  brew tap homebrew/core && \
   brew update && brew upgrade && \
   brew install gcc && \
   brew tap beeftornado/rmtree && \
-  sudo chmod 750 /home/linuxbrew/.linuxbrew/Homebrew/bin/brew
+  sudo chmod 750 $(brew --prefix)/Homebrew/bin/brew && \
 	cat <<EOF | sudo tee -a $HOME/.profile
 # brew completions
 if type brew &>/dev/null
 then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
   then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
     do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
     done
   fi
 fi
 EOF
+	sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+	| sudo tee -a /etc/sudoers.d/$USER
 ```
 
 one-liner install Rocky Linux 9
@@ -134,33 +131,50 @@ one-liner install Rocky Linux 9
 sudo dnf groupinstall -y "Development Tools" && \
 	sudo dnf install -y procps-ng curl file git && \
 	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bash_profile && \
+	test -r $HOME/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> $HOME/.bash_profile
   source $HOME/.bash_profile && \
   brew analytics off && \
-  brew tap homebrew/core && \
   brew update && brew upgrade && \
   brew install gcc && \
   brew tap beeftornado/rmtree && \
-  sudo chmod 750 /home/linuxbrew/.linuxbrew/Homebrew/bin/brew && \
+  sudo chmod 750 /$(brew --prefix)/Homebrew/bin/brew && \
 	cat <<EOF | sudo tee -a $HOME/.bash_profile
 # brew completions
 if type brew &>/dev/null
 then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
   then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
     do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
     done
   fi
 fi
 EOF
+	sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+	| sudo tee -a /etc/sudoers.d/$USER
 ```
 
 >The installation script installs Homebrew to `/home/linuxbrew/.linuxbrew` using `sudo`. Homebrew does not use `sudo` after installation. Using `/home/linuxbrew/.linuxbrew` allows the use of most binary packages (bottles) which will not work when installing in e.g. your personal home directory.
+
+## brew uninstall
+
+uninstall brew non-interactively
+
+```sh
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
+	sudo rm -rf /home/linuxbrew
+```
+
+uninstall brew interactively
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
+	sudo rm -rf /home/linuxbrew
+```
 
 ---
 
