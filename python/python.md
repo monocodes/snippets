@@ -89,7 +89,7 @@ check pyenv installed python versions
 pyenv versions
 ```
 
-check global version in use
+check what version is used in current session in current dir and how version set
 
 ```sh
 pyenv version
