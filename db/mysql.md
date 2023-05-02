@@ -8,12 +8,19 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# mysql
+- [mysql commands](#mysql-commands)
+- [mysql-client commands](#mysql-client-commands)
+- [mysql backup](#mysql-backup)
 
-- [mysql](#mysql)
-  - [mysql commands](#mysql-commands)
-  - [mysql-client commands](#mysql-client-commands)
-  - [mysql backup](#mysql-backup)
+## mysql paths
+
+mysql default db path
+
+```sh
+/var/lib/path
+```
+
+---
 
 ## mysql commands
 

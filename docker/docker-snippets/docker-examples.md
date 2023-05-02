@@ -8,24 +8,21 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# docker-examples
-
-- [docker-examples](#docker-examples)
-  - [docker-edu](#docker-edu)
-    - [docker-s1](#docker-s1)
-    - [docker-s2](#docker-s2)
-    - [docker-s3](#docker-s3)
-    - [docker-s4](#docker-s4)
-    - [docker-s5](#docker-s5)
-    - [docker-s6-goals-web-nodejs-comp-docker-compose.yaml](#docker-s6-goals-web-nodejs-comp-docker-composeyaml)
-    - [docker-s7-util-nodejs-docker-compose.yaml](#docker-s7-util-nodejs-docker-composeyaml)
-    - [docker-s8-laravel-php-web-docker-compose.yaml](#docker-s8-laravel-php-web-docker-composeyaml)
-    - [docker-s9-goals-web-nodejs-docker-compose.yaml](#docker-s9-goals-web-nodejs-docker-composeyaml)
-    - [docker-s9-goals-web-nodejs-test-docker-compose.yaml](#docker-s9-goals-web-nodejs-test-docker-composeyaml)
-  - [devops-project-ud-01](#devops-project-ud-01)
-    - [Section 20 - Docker](#section-20---docker)
-      - [vprofile-project](#vprofile-project)
-      - [emartapp](#emartapp)
+- [docker-edu](#docker-edu)
+  - [docker-s1](#docker-s1)
+  - [docker-s2](#docker-s2)
+  - [docker-s3](#docker-s3)
+  - [docker-s4](#docker-s4)
+  - [docker-s5](#docker-s5)
+  - [docker-s6-goals-web-nodejs-comp-docker-compose.yaml](#docker-s6-goals-web-nodejs-comp-docker-composeyaml)
+  - [docker-s7-util-nodejs-docker-compose.yaml](#docker-s7-util-nodejs-docker-composeyaml)
+  - [docker-s8-laravel-php-web-docker-compose.yaml](#docker-s8-laravel-php-web-docker-composeyaml)
+  - [docker-s9-goals-web-nodejs-docker-compose.yaml](#docker-s9-goals-web-nodejs-docker-composeyaml)
+  - [docker-s9-goals-web-nodejs-test-docker-compose.yaml](#docker-s9-goals-web-nodejs-test-docker-composeyaml)
+- [devops-project-ud-01](#devops-project-ud-01)
+  - [Section 20 - Docker](#section-20---docker)
+    - [vprofile-project](#vprofile-project)
+    - [emartapp](#emartapp)
 
 ## docker-edu
 

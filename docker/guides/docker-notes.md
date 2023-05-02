@@ -8,23 +8,16 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# Docker Notes
-
----
-
-- [Docker Notes](#docker-notes)
-  - [Docker \& Kubernetes. The Practical Guide \[2023 Edition\] \[Udemy\]](#docker--kubernetes-the-practical-guide-2023-edition-udemy)
-    - [Section 2. Docker Images \& Containers. The Core Building Blocks](#section-2-docker-images--containers-the-core-building-blocks)
-      - [23. EXPOSE \& A Little Utility Functionality](#23-expose--a-little-utility-functionality)
-    - [Section 4. Networking. (Cross-)Container Communication](#section-4-networking-cross-container-communication)
-      - [76. Docker Network Drivers](#76-docker-network-drivers)
-    - [Section 7. Working with "Utility Containers" \& Executing Commands In Containers](#section-7-working-with-utility-containers--executing-commands-in-containers)
-      - [108. Utility Containers, Permissions \& Linux](#108-utility-containers-permissions--linux)
-        - [Solution 1:  Use  predefined "node" user (if you're lucky)](#solution-1--use--predefined-node-user-if-youre-lucky)
-        - [Solution 2:  Remove the predefined "node" user and add yourself as the user](#solution-2--remove-the-predefined-node-user-and-add-yourself-as-the-user)
-      - [118. Fixing Errors With The Next Lecture](#118-fixing-errors-with-the-next-lecture)
-
----
+- [Docker \& Kubernetes. The Practical Guide \[2023 Edition\] \[Udemy\]](#docker--kubernetes-the-practical-guide-2023-edition-udemy)
+  - [Section 2. Docker Images \& Containers. The Core Building Blocks](#section-2-docker-images--containers-the-core-building-blocks)
+    - [23. EXPOSE \& A Little Utility Functionality](#23-expose--a-little-utility-functionality)
+  - [Section 4. Networking. (Cross-)Container Communication](#section-4-networking-cross-container-communication)
+    - [76. Docker Network Drivers](#76-docker-network-drivers)
+  - [Section 7. Working with "Utility Containers" \& Executing Commands In Containers](#section-7-working-with-utility-containers--executing-commands-in-containers)
+    - [108. Utility Containers, Permissions \& Linux](#108-utility-containers-permissions--linux)
+      - [Solution 1:  Use  predefined "node" user (if you're lucky)](#solution-1--use--predefined-node-user-if-youre-lucky)
+      - [Solution 2:  Remove the predefined "node" user and add yourself as the user](#solution-2--remove-the-predefined-node-user-and-add-yourself-as-the-user)
+    - [118. Fixing Errors With The Next Lecture](#118-fixing-errors-with-the-next-lecture)
 
 ## Docker & Kubernetes. The Practical Guide [2023 Edition] [Udemy]
 

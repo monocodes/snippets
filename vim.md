@@ -8,16 +8,11 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# Vim
-
-- [Vim](#vim)
-  - [vim commands](#vim-commands)
-    - [Command Mode](#command-mode)
-    - [Extended Mode: (Colon Mode)](#extended-mode-colon-mode)
-      - [Extended Mode - additional commands](#extended-mode---additional-commands)
-  - [vim.rc](#vimrc)
-
----
+- [vim commands](#vim-commands)
+  - [Command Mode](#command-mode)
+  - [Extended Mode: (Colon Mode)](#extended-mode-colon-mode)
+    - [Extended Mode - additional commands](#extended-mode---additional-commands)
+- [vim.rc](#vimrc)
 
 ## vim commands
 

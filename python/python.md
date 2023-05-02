@@ -9,18 +9,15 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# python
-
-- [python](#python)
-  - [install python](#install-python)
-    - [macOS brew and pyenv](#macos-brew-and-pyenv)
-    - [pyenv](#pyenv)
-    - [uninstall python](#uninstall-python)
-  - [built-in functions and methods](#built-in-functions-and-methods)
-    - [dir()](#dir)
-  - [useful hints](#useful-hints)
-    - [Python variables in docker](#python-variables-in-docker)
-    - [Evaluate boolean environment variable in Python](#evaluate-boolean-environment-variable-in-python)
+- [install python](#install-python)
+  - [macOS brew and pyenv](#macos-brew-and-pyenv)
+  - [pyenv](#pyenv)
+  - [uninstall python](#uninstall-python)
+- [built-in functions and methods](#built-in-functions-and-methods)
+  - [dir()](#dir)
+- [python notes](#python-notes)
+  - [Python variables in docker](#python-variables-in-docker)
+  - [Evaluate boolean environment variable in Python](#evaluate-boolean-environment-variable-in-python)
 
 ## install python
 
@@ -205,7 +202,7 @@ print(dir([]))
 
 ---
 
-## useful hints
+## python notes
 
 ### Python variables in docker
 

@@ -8,26 +8,23 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# aws-cli
-
-- [aws-cli](#aws-cli)
-  - [awscli install](#awscli-install)
-    - [linuxbrew](#linuxbrew)
-    - [Linux](#linux)
-    - [macOS](#macos)
-    - [pip](#pip)
-  - [aws configure](#aws-configure)
-  - [aws help](#aws-help)
-  - [aws sts](#aws-sts)
-  - [aws ec2](#aws-ec2)
-    - [attach volume](#attach-volume)
-  - [aws s3](#aws-s3)
-    - [`aws s3 mb` - make bucket](#aws-s3-mb---make-bucket)
-    - [`aws s3 cp` - copy](#aws-s3-cp---copy)
-    - [`aws s3 ls` - list](#aws-s3-ls---list)
-  - [aws-cli example scripts](#aws-cli-example-scripts)
-    - [Amazon Linux 2](#amazon-linux-2)
-    - [CentOS 7](#centos-7)
+- [awscli install](#awscli-install)
+  - [linuxbrew](#linuxbrew)
+  - [Linux](#linux)
+  - [macOS](#macos)
+  - [pip](#pip)
+- [aws configure](#aws-configure)
+- [aws help](#aws-help)
+- [aws sts](#aws-sts)
+- [aws ec2](#aws-ec2)
+  - [attach volume](#attach-volume)
+- [aws s3](#aws-s3)
+  - [`aws s3 mb` - make bucket](#aws-s3-mb---make-bucket)
+  - [`aws s3 cp` - copy](#aws-s3-cp---copy)
+  - [`aws s3 ls` - list](#aws-s3-ls---list)
+- [aws-cli example scripts](#aws-cli-example-scripts)
+  - [Amazon Linux 2](#amazon-linux-2)
+  - [CentOS 7](#centos-7)
 
 ## awscli install
 

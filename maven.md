@@ -8,14 +8,11 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# maven
-
-- [maven](#maven)
-  - [maven install ubuntu](#maven-install-ubuntu)
-    - [maven install different version](#maven-install-different-version)
-  - [maven phases](#maven-phases)
-  - [maven commands](#maven-commands)
-    - [mvn phase commands](#mvn-phase-commands)
+- [maven install ubuntu](#maven-install-ubuntu)
+  - [maven install different version](#maven-install-different-version)
+- [maven phases](#maven-phases)
+- [maven commands](#maven-commands)
+  - [mvn phase commands](#mvn-phase-commands)
 
 ## maven install ubuntu
 

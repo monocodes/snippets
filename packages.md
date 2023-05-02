@@ -8,17 +8,10 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# Packages
-
----
-
-- [Packages](#packages)
-  - [macOS](#macos)
-    - [packages](#packages-1)
-    - [casks](#casks)
-  - [linux](#linux)
-
----
+- [macOS](#macos)
+  - [packages](#packages)
+  - [casks](#casks)
+- [linux](#linux)
 
 ## macOS
 

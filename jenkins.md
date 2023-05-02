@@ -9,24 +9,21 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# jenkins
-
-- [jenkins](#jenkins)
-  - [install](#install)
-    - [ubuntu](#ubuntu)
-    - [java, jdk](#java-jdk)
-    - [github webhooks](#github-webhooks)
-  - [paths](#paths)
-  - [jenkins build steps examples](#jenkins-build-steps-examples)
-    - [Post-build Actions](#post-build-actions)
-    - [Build step](#build-step)
-    - [This project is parameterized](#this-project-is-parameterized)
-  - [troubleshooting](#troubleshooting)
-    - [Host Key verification failed](#host-key-verification-failed)
-  - [Jenkinsfile pipeline examples](#jenkinsfile-pipeline-examples)
-    - [devops-project-ud-01](#devops-project-ud-01)
-      - [Section 15 - Continuous Integration with Jenkins](#section-15---continuous-integration-with-jenkins)
-  - [jenkins `ENV` environmental variables](#jenkins-env-environmental-variables)
+- [install](#install)
+  - [ubuntu](#ubuntu)
+  - [java, jdk](#java-jdk)
+  - [github webhooks](#github-webhooks)
+- [paths](#paths)
+- [jenkins build steps examples](#jenkins-build-steps-examples)
+  - [Post-build Actions](#post-build-actions)
+  - [Build step](#build-step)
+  - [This project is parameterized](#this-project-is-parameterized)
+- [troubleshooting](#troubleshooting)
+  - [Host Key verification failed](#host-key-verification-failed)
+- [Jenkinsfile pipeline examples](#jenkinsfile-pipeline-examples)
+  - [devops-project-ud-01](#devops-project-ud-01)
+    - [Section 15 - Continuous Integration with Jenkins](#section-15---continuous-integration-with-jenkins)
+- [jenkins `ENV` environmental variables](#jenkins-env-environmental-variables)
 
 ## install
 

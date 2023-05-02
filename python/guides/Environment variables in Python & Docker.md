@@ -5,10 +5,6 @@
   - [Docker](#docker)
   - [Summary](#summary)
 
-![img](https://miro.medium.com/v2/resize:fit:1400/1*cw4r2TQwzJnzRTqBReC49w@2x.jpeg)
-
-Generated using OpenAI DALL·E 2.
-
 Using environment variables is a useful way of providing inputs into programs. It can be used to:
 
 - add configurations

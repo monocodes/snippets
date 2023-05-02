@@ -9,12 +9,9 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# python-modules
-
-- [python-modules](#python-modules)
-  - [pip install](#pip-install)
-  - [fabric](#fabric)
-    - [how to use fabric example](#how-to-use-fabric-example)
+- [pip install](#pip-install)
+- [fabric](#fabric)
+  - [how to use fabric example](#how-to-use-fabric-example)
 
 ## pip install
 

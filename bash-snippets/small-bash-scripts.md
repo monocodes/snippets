@@ -7,11 +7,8 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# Small Bash Scripts
-
-- [Small Bash Scripts](#small-bash-scripts)
-  - [ssh to different hosts and execute commands there](#ssh-to-different-hosts-and-execute-commands-there)
-  - [small script to test monitoring alarms](#small-script-to-test-monitoring-alarms)
+- [ssh to different hosts and execute commands there](#ssh-to-different-hosts-and-execute-commands-there)
+- [small script to test monitoring alarms](#small-script-to-test-monitoring-alarms)
 
 ## ssh to different hosts and execute commands there
 

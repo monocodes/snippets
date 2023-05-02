@@ -8,14 +8,13 @@ author: Val (Valérian Galliat)
 url: https://www.codejam.info/2021/11/homebrew-multi-user.html
 ---
 
-# [Using Homebrew on a multi-user system (don’t)](https://www.codejam.info/2021/11/homebrew-multi-user.html#:~:text=The%20solution%20is%20simple.,in%20order%20to%20use%20it.)
+[Using Homebrew on a multi-user system (don’t)](https://www.codejam.info/2021/11/homebrew-multi-user.html#:~:text=The%20solution%20is%20simple.,in%20order%20to%20use%20it.)
 
-- [Using Homebrew on a multi-user system (don’t)](#using-homebrew-on-a-multi-user-system-dont)
-  - [Sharing a homebrew is nice 🍺, but `brew` not so much](#sharing-a-homebrew-is-nice--but-brew-not-so-much)
-    - [The evil: shared group writable permissions](#the-evil-shared-group-writable-permissions)
-    - [The bad: separate Homebrew installations](#the-bad-separate-homebrew-installations)
-    - [The good: dedicate a single user account to Homebrew](#the-good-dedicate-a-single-user-account-to-homebrew)
-  - [Wrapping up](#wrapping-up)
+- [Sharing a homebrew is nice 🍺, but `brew` not so much](#sharing-a-homebrew-is-nice--but-brew-not-so-much)
+  - [The evil: shared group writable permissions](#the-evil-shared-group-writable-permissions)
+  - [The bad: separate Homebrew installations](#the-bad-separate-homebrew-installations)
+  - [The good: dedicate a single user account to Homebrew](#the-good-dedicate-a-single-user-account-to-homebrew)
+- [Wrapping up](#wrapping-up)
 
 November 17, 2021
 

@@ -8,26 +8,23 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# ansible
-
-- [ansible](#ansible)
-  - [Ansible install](#ansible-install)
-    - [ubuntu](#ubuntu)
-  - [Ansible paths](#ansible-paths)
-  - [Ansible configuration](#ansible-configuration)
-    - [Order of Ansible Config](#order-of-ansible-config)
-    - [config hints](#config-hints)
-  - [Ansible commands](#ansible-commands)
-    - [`ansible-doc` = `--help`](#ansible-doc----help)
-    - [ansible-playbook](#ansible-playbook)
-    - [ansible-galaxy](#ansible-galaxy)
-    - [rpm-based](#rpm-based)
-  - [Ansible playbook hints](#ansible-playbook-hints)
-  - [Ansible modules](#ansible-modules)
-    - [**MySQL** and **MariaDB** modules example](#mysql-and-mariadb-modules-example)
-  - [Ansible variables](#ansible-variables)
-    - [Understanding variable precedence](#understanding-variable-precedence)
-  - [Python-JSON-YAML](#python-json-yaml)
+- [Ansible install](#ansible-install)
+  - [ubuntu](#ubuntu)
+- [Ansible paths](#ansible-paths)
+- [Ansible configuration](#ansible-configuration)
+  - [Order of Ansible Config](#order-of-ansible-config)
+  - [config hints](#config-hints)
+- [Ansible commands](#ansible-commands)
+  - [`ansible-doc` = `--help`](#ansible-doc----help)
+  - [ansible-playbook](#ansible-playbook)
+  - [ansible-galaxy](#ansible-galaxy)
+  - [rpm-based](#rpm-based)
+- [Ansible playbook hints](#ansible-playbook-hints)
+- [Ansible modules](#ansible-modules)
+  - [**MySQL** and **MariaDB** modules example](#mysql-and-mariadb-modules-example)
+- [Ansible variables](#ansible-variables)
+  - [Understanding variable precedence](#understanding-variable-precedence)
+- [Python-JSON-YAML](#python-json-yaml)
 
 ## Ansible install
 

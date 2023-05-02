@@ -7,19 +7,14 @@ categories:
 url: https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
 ---
 
-# [YAML Syntax](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-syntax)
-
 This page provides a basic overview of correct YAML syntax, which is how Ansible playbooks (our configuration management language) are expressed.
 
 We use YAML because it is easier for humans to read and write than other common data formats like XML or JSON. Further, there are libraries available in most programming languages for working with YAML.
 
 You may also wish to read [Working with playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html#working-with-playbooks) at the same time to see how this is used in practice.
 
-- [YAML Syntax](#yaml-syntax)
-  - [YAML Basics](#yaml-basics)
-  - [Gotchas](#gotchas)
-
----
+- [YAML Basics](#yaml-basics)
+- [Gotchas](#gotchas)
 
 ## [YAML Basics](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-basics)
 

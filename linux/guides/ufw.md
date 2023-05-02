@@ -7,18 +7,17 @@ author: Ubuntu Documentation
 url: https://ubuntu.com/server/docs/security-firewall
 ---
 
-# [ufw](https://ubuntu.com/server/docs/security-firewall)
+[ufw](https://ubuntu.com/server/docs/security-firewall)
 
-- [ufw](#ufw)
-  - [Introduction](#introduction)
-  - [ufw - Uncomplicated Firewall](#ufw---uncomplicated-firewall)
-    - [ufw Application Integration](#ufw-application-integration)
-  - [IP Masquerading](#ip-masquerading)
-    - [ufw Masquerading](#ufw-masquerading)
-    - [iptables Masquerading](#iptables-masquerading)
-  - [Logs](#logs)
-  - [Other Tools](#other-tools)
-  - [References](#references)
+- [Introduction](#introduction)
+- [ufw - Uncomplicated Firewall](#ufw---uncomplicated-firewall)
+  - [ufw Application Integration](#ufw-application-integration)
+- [IP Masquerading](#ip-masquerading)
+  - [ufw Masquerading](#ufw-masquerading)
+  - [iptables Masquerading](#iptables-masquerading)
+- [Logs](#logs)
+- [Other Tools](#other-tools)
+- [References](#references)
 
 ## Introduction
 

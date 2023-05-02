@@ -7,24 +7,23 @@ author: Rocky Linux Documentation
 url: https://docs.rockylinux.org/guides/network/basic_network_configuration/
 ---
 
-# Rocky Linux 9 Network Configuration[¶](https://docs.rockylinux.org/guides/network/basic_network_configuration/#introduction)
+Rocky Linux 9 Network Configuration[¶](https://docs.rockylinux.org/guides/network/basic_network_configuration/#introduction)
 
-- [Rocky Linux 9 Network Configuration¶](#rocky-linux-9-network-configuration)
-  - [Prerequisites¶](#prerequisites)
-  - [Network Configuration - Rocky Linux 9¶](#network-configuration---rocky-linux-9)
-  - [Prerequisites¶](#prerequisites-1)
-  - [Using NetworkManager service¶](#using-networkmanager-service)
-  - [Configuration files¶](#configuration-files)
-  - [IP Address¶](#ip-address)
-    - [IP Address Changing with `nmcli`¶](#ip-address-changing-with-nmcli)
-  - [DNS resolution¶](#dns-resolution)
-  - [Using The `ip` Utility¶](#using-the-ip-utility)
-    - [Get general information¶](#get-general-information)
-    - [Bring interface up or down¶](#bring-interface-up-or-down)
-    - [Assign the interface a static address¶](#assign-the-interface-a-static-address)
-    - [Gateway configuration¶](#gateway-configuration)
-  - [Checking network connectivity¶](#checking-network-connectivity)
-  - [Conclusions¶](#conclusions)
+- [Prerequisites¶](#prerequisites)
+- [Network Configuration - Rocky Linux 9¶](#network-configuration---rocky-linux-9)
+- [Prerequisites¶](#prerequisites-1)
+- [Using NetworkManager service¶](#using-networkmanager-service)
+- [Configuration files¶](#configuration-files)
+- [IP Address¶](#ip-address)
+  - [IP Address Changing with `nmcli`¶](#ip-address-changing-with-nmcli)
+- [DNS resolution¶](#dns-resolution)
+- [Using The `ip` Utility¶](#using-the-ip-utility)
+  - [Get general information¶](#get-general-information)
+  - [Bring interface up or down¶](#bring-interface-up-or-down)
+  - [Assign the interface a static address¶](#assign-the-interface-a-static-address)
+  - [Gateway configuration¶](#gateway-configuration)
+- [Checking network connectivity¶](#checking-network-connectivity)
+- [Conclusions¶](#conclusions)
 
 You can't do much with a computer these days without network connectivity. Whether you need to update the packages on a server or simply browse external websites from your laptop, you will need network access! This guide aims to provide Rocky Linux users the basic knowledge on setting up network connectivity.
 

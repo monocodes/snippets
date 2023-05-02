@@ -9,12 +9,30 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# macos
-
-- [macos](#macos)
-  - [partitioning](#partitioning)
-    - [gdisk](#gdisk)
-    - [newfs\_type](#newfs_type)
+- [macOS paths](#macos-paths)
+  - [`.zshrc`, `.zprofile`](#zshrc-zprofile)
+  - [system variables](#system-variables)
+- [useful commands](#useful-commands)
+  - [users and groups](#users-and-groups)
+  - [useful shorcuts](#useful-shorcuts)
+  - [apps](#apps)
+    - [console apps](#console-apps)
+- [network](#network)
+- [filesystem](#filesystem)
+- [partitioning](#partitioning)
+  - [gdisk](#gdisk)
+  - [newfs\_type](#newfs_type)
+- [macOS guides](#macos-guides)
+  - [sed](#sed)
+    - [Recursive search and replace in text files on Mac and Linux](#recursive-search-and-replace-in-text-files-on-mac-and-linux)
+  - [symlinks](#symlinks)
+  - [`PATH` guide](#path-guide)
+    - [MacOS Print $PATH Settings](#macos-print-path-settings)
+    - [macOS (OS X): Change your PATH environment variable](#macos-os-x-change-your-path-environment-variable)
+      - [Method #1: `$HOME/.bash_profile` file to set or change $PATH under macOS](#method-1-homebash_profile-file-to-set-or-change-path-under-macos)
+      - [Method #2: `/etc/paths.d` directory](#method-2-etcpathsd-directory)
+    - [Conclusion](#conclusion)
+      - [See also](#see-also)
 
 ## macOS paths
 

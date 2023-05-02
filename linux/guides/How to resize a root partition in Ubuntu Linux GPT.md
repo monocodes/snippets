@@ -1,13 +1,10 @@
-# HOW TO RESIZE A ROOT PARTITION IN UBUNTU (LINUX) (GPT)
+# [HOW TO RESIZE A ROOT PARTITION IN UBUNTU (LINUX) (GPT)](https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/)
 
-<https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/>
-
-**Table of Contents**
-
-- [Check Disk status with parted command](https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/#0-toc-title)
-- [Remove Current Partition:](https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/#1-toc-title)
-- [Create and Resize partition with parted](https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/#2-toc-title)
-- [Final step settings:](https://dade2.net/kb/how-to-resize-a-root-partition-in-ubuntu/#3-toc-title)
+- [HOW TO RESIZE A ROOT PARTITION IN UBUNTU (LINUX) (GPT)](#how-to-resize-a-root-partition-in-ubuntu-linux-gpt)
+  - [Check Disk status with parted command](#check-disk-status-with-parted-command)
+  - [Remove Current Partition](#remove-current-partition)
+  - [Create and Resize partition with parted](#create-and-resize-partition-with-parted)
+  - [Final step settings](#final-step-settings)
 
 **In this article, I will teach you how to resize a root partition on Linux servers. In this scenario, according to which I have prepared the training, it is based on the fact that the partition of hard disk tables is based on GPT patition table and is non-logical (non-LVM) . Also I am teching this Article on Ubunto.
 Note that this method may be risky, so I recommend backing up your server data before doing so.**

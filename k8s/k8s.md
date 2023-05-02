@@ -9,39 +9,46 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# k8s
-
-- [k8s](#k8s)
-  - [k8s install](#k8s-install)
-    - [kubectl paths](#kubectl-paths)
-    - [Linux](#linux)
-    - [linuxbrew](#linuxbrew)
-      - [Ubuntu 22](#ubuntu-22)
-      - [Ubuntu \<22, Debian \<12](#ubuntu-22-debian-12)
-      - [Red Hat-based distros (CentOS, Fedora, RHEL, Rocky)](#red-hat-based-distros-centos-fedora-rhel-rocky)
-      - [kubectl shell autocompletion](#kubectl-shell-autocompletion)
-    - [macOS](#macos)
-      - [k8s paths macos](#k8s-paths-macos)
-    - [minikube](#minikube)
-      - [minikube install macos](#minikube-install-macos)
-        - [change minikube resources](#change-minikube-resources)
-      - [minikube service](#minikube-service)
-  - [k8s commands](#k8s-commands)
-    - [get](#get)
-    - [apply](#apply)
-    - [delete](#delete)
-    - [create](#create)
-    - [run](#run)
-    - [expose](#expose)
-    - [set](#set)
-    - [rollout](#rollout)
-    - [scale](#scale)
-  - [k8s notes](#k8s-notes)
-    - [Namespace](#namespace)
-      - [Namespaces documentation](#namespaces-documentation)
-  - [kops](#kops)
-    - [kops commands](#kops-commands)
-      - [devops-project-ud-01-21 examples](#devops-project-ud-01-21-examples)
+- [k8s install](#k8s-install)
+  - [kubectl paths](#kubectl-paths)
+  - [Linux](#linux)
+  - [linuxbrew](#linuxbrew)
+    - [Ubuntu 22](#ubuntu-22)
+    - [Ubuntu \<22, Debian \<12](#ubuntu-22-debian-12)
+    - [Red Hat-based distros (CentOS, Fedora, RHEL, Rocky)](#red-hat-based-distros-centos-fedora-rhel-rocky)
+    - [kubectl shell autocompletion](#kubectl-shell-autocompletion)
+  - [macOS](#macos)
+    - [k8s paths macos](#k8s-paths-macos)
+  - [minikube](#minikube)
+    - [minikube install macos](#minikube-install-macos)
+      - [change minikube resources](#change-minikube-resources)
+    - [minikube service](#minikube-service)
+- [k8s commands](#k8s-commands)
+  - [kubectl get](#kubectl-get)
+  - [kubectl describe](#kubectl-describe)
+  - [kubectl logs](#kubectl-logs)
+  - [kubectl edit](#kubectl-edit)
+  - [kubectl apply = kubectl create](#kubectl-apply--kubectl-create)
+  - [kubectl delete](#kubectl-delete)
+  - [kubectl run](#kubectl-run)
+  - [kubectl expose](#kubectl-expose)
+  - [kubectl set](#kubectl-set)
+  - [kubectl rollout](#kubectl-rollout)
+  - [kubectl scale](#kubectl-scale)
+- [k8s network](#k8s-network)
+- [k8s objects](#k8s-objects)
+  - [Pod](#pod)
+  - [Service](#service)
+  - [ReplicaSet](#replicaset)
+  - [ReplicationController](#replicationcontroller)
+  - [Deployment](#deployment)
+- [k8s notes](#k8s-notes)
+  - [Namespace](#namespace)
+    - [Namespaces documentation](#namespaces-documentation)
+- [Define a Command and Arguments for a Container](#define-a-command-and-arguments-for-a-container)
+- [kops](#kops)
+  - [kops commands](#kops-commands)
+    - [devops-project-ud-01-21 examples](#devops-project-ud-01-21-examples)
 
 ## k8s install
 
@@ -279,61 +286,147 @@ kubectl config view
 
 ---
 
-### get
+### kubectl get
 
-show everything in current namespace
+show everything in current Namespace
 
 ```sh
 kubectl get all
 ```
 
-show everything in all namespaces
+show everything in all Namespaces
 
 ```sh
 kubectl get all --all-namespaces
 ```
 
-show all nodes
+show all Nodes
 
 ```sh
 kubectl get nodes
 ```
 
-show all deployments and its status
+show all Deployments and its status
 
 ```sh
+kubectl get deploy
 kubectl get deployments
 ```
 
-show all pods created by deployments
+show all Pods created by deployments
 
 ```sh
 kubectl get pods
 ```
 
-show all services
+show all Services
 
 ```sh
 kubectl get svc
 kubectl get service
 ```
 
-show services from namespace
+show Services from namespace
 
 ```sh
 kubectl get svc -n kube-system
 ```
 
-show namespaces
+show Namespaces
 
 ```sh
 kubectl get ns
 kubectl get namespaces
 ```
 
+show ReplicaSets
+
+```sh
+kubectl get rs
+kubectl get replicaset
+```
+
+show ConfigMaps
+
+```sh
+kubectl get cm
+kubectl get configmap
+kubectl get cm db-config -o yaml
+```
+
+describe object fully
+
+```sh
+kubectl get object-type object-name -o format
+
+# example
+kubectl get pod webapp-pod -o yaml
+```
+
+describe object briefly with more info, including ip address
+
+```sh
+kubectl get object-type -o wide
+
+# example
+kubectl get pod -o wide
+```
+
+describe object in file
+
+```sh
+kubectl get object-type object-name -o format > filename
+
+# example
+kubectl get pod webapp-pod -o yaml > webpod-definition.yaml
+```
+
 ---
 
-### apply
+### kubectl describe
+
+show extensive info about object including last events
+
+```sh
+kubectl describe object-type object-name
+
+# example
+kubectl describe pod webapp-pod
+kubectl describe svc webapp-service
+kubectl describe cm db-config
+```
+
+---
+
+### kubectl logs
+
+show logs of the object, the full output of the container process
+
+```sh
+kubectl logs object-name
+
+# example
+kubectl logs web2
+```
+
+---
+
+### kubectl edit
+
+edit object
+
+```sh
+kubectl edit object-type object-name
+
+# example
+kubectl edit pod webapp-pod
+kubectl edit rs frontend
+kubectl edit replicaset/frontend
+```
+
+---
+
+### kubectl apply = kubectl create
 
 start the deployment from `*.yaml` file
 
@@ -350,9 +443,65 @@ kubectl apply -f pod.yaml
 
 >Can change anything in deployment just changing the `*.yaml` files and apply them again. For example, change number of replicas or image.
 
+create namespace
+
+```sh
+kubectl create ns namespace-name
+```
+
+create new deployment
+
+```sh
+kubectl create deployment deployment-name --image=image-name
+
+# example
+kubectl create deployment first-app --image=account-name/repo-name:app-web-nodejs-kub
+```
+
+create multiple containers based on images separate images with comma
+
+```sh
+kubectl create deployment deployment-name --image=image-name,image-name2
+```
+
+create any object from file
+
+```sh
+kubectl create -f filename.yaml
+
+# check object after creation
+kubectl get object-name
+
+# examples
+# pod
+kubectl create -f vproapp-pod.yaml
+kubectl get pod
+kubectl describe pod vproapp
+
+# service
+kubectl create -f vproapp-nodeport-svc.yaml
+kubectl get svc
+kubectl describe svc helloworld-service
+```
+
+create ConfigMap - avoid creating ConfigMaps imperatively
+
+```sh
+kubectl create configmap db-config \
+--from-literal=MYSQL_DATABASE=accounts \
+--from-literal=MYSQL_ROOT_PASSWORD=somecomplexpass \
+
+# output
+configmap/db-config created
+
+# check created ConfigMap
+kubectl get cm
+kubectl get cm db-config -o yaml
+```
+
 ---
 
-### delete
+### kubectl delete
 
 delete namespace - **ATTENTION!** it will delete everything in namespace
 
@@ -401,32 +550,7 @@ kubectl delete deployments,services -l group=example
 
 ---
 
-### create
-
-create namespace
-
-```sh
-kubectl create ns namespace-name
-```
-
-create new deployment
-
-```sh
-kubectl create deployment deployment-name --image=image-name
-
-# example
-kubectl create deployment first-app --image=account-name/repo-name:app-web-nodejs-kub
-```
-
-to create multiple containers based on images separate images with comma
-
-```sh
-kubectl create deployment deployment-name --image=image-name,image-name2
-```
-
----
-
-### run
+### kubectl run
 
 run new pod in **default** namespace
 
@@ -446,9 +570,18 @@ kubectl run pod-name --image=image-name -n namespace-name
 kubectl run nginx1 --image=nginx -n kubekart
 ```
 
+run new pod and run specified command
+
+```sh
+kubectl run object-name --image=image-name command-name
+
+# example
+kubectl run web2 --image=nginx ls
+```
+
 ---
 
-### expose
+### kubectl expose
 
 expose port of the running deployment with load balancer  
 actually it creates a service object
@@ -462,9 +595,9 @@ kubectl expose deployment first-app --type=LoadBalancer --port=8080
 
 ---
 
-### set
+### kubectl set
 
-`set` to update deployment's image
+`set` - update deployment's image
 
 > Image must be with the new name, new tag or `:latest` tag.
 >
@@ -483,7 +616,7 @@ kubectl set image deployment/first-app docker-s12=account-name/repo-name:kub-fir
 
 ---
 
-### rollout
+### kubectl rollout
 
 check update status of the deployment after setting new image
 
@@ -499,8 +632,9 @@ undo deployment updating
 ```sh
 kubectl rollout undo deployment/deployment-name
 
-# example
+# examples
 kubectl rollout undo deployment/first-app
+kubectl rollout undo deployment/nginx-deployment
 ```
 
 show rollout deployment history
@@ -532,7 +666,7 @@ kubectl rollout undo deployment/first-app --to-revision=1
 
 ---
 
-### scale
+### kubectl scale
 
 scale the deployment  
 create copies of pods to endure the high load and achieve high availability
@@ -542,6 +676,492 @@ kubectl scale deployment/deployment-name --replicas=number
 
 # example
 kubectl scale deployment/first-app --replicas=3
+```
+
+scale ReplicaSet with command
+
+```sh
+kubectl scale --replicas=number rs/replicaset-name
+kubectl scale --replicas=number rs replicaset-name
+
+# example
+kubectl scale --replicas=1 rs/frontend
+```
+
+---
+
+### kubectl exec
+
+login inside pod
+
+```sh
+kubectl exec --stdin --tty pod-name -- /bin/bash
+kubectl exec --stdin --tty pod-name -- /bin/sh
+
+# example
+kubectl exec --stdin --tty configmap-demo-pod -- /bin/sh
+```
+
+---
+
+## k8s network
+
+- Service
+  - Frontend
+    - **NodePort** - exposes the Service on each Node's IP at a static port (the `NodePort`). To make the node port available, Kubernetes sets up a cluster IP address, the same as if you had requested a Service of `type: ClusterIP`.
+    - **LoadBalancer** - exposes the Service externally using a cloud provider's load balancer
+  - Backend
+    - **ClusterIP** - exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default that is used if you don't explicitly specify a `type` for a Service. You can expose the service to the public with an [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) or the [Gateway API](https://gateway-api.sigs.k8s.io/).
+
+---
+
+## k8s objects
+
+### [Pod](https://kubernetes.io/docs/concepts/workloads/pods/)
+
+*Pods* are the smallest deployable units of computing that you can create and manage in Kubernetes.
+
+[`pods/simple-pod.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/pods/simple-pod.yaml)
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+```
+
+`pod-setup.yaml`
+
+```yaml
+apiVersion: v1 # string
+kind: Pod # string
+metadata: # dict
+	name: webapp-pod
+	labels: # dict, like tags in aws
+		app: frontend
+		project: infinity
+spec:
+	containers: # dict
+		- name: httpd-container # first value name is a list
+			image: httpd
+			ports: # dict
+				- name: http-port # first value name is a list
+					containerPort: 80
+```
+
+`tom-app.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: app-pod
+	labels:
+		app: backend
+		project: infinity
+spec:
+	containers:
+  - name: tomcat-container
+    image: tomcat
+    ports:
+      - name: app-port
+        containerPort: 8080
+```
+
+### [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+
+In Kubernetes, a Service is a method for exposing a network application that is running as one or more [Pods](https://kubernetes.io/docs/concepts/workloads/pods/) in your cluster.
+
+`service-setup.yaml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+	name: webapp-service
+spec:
+	type: NodePort # ClusterIP and LoadBalancer
+	ports:
+	- targetPort: 80 # Backend port, should be the same port app behind service listens
+		port: 80 # Service internal frontend port
+		nodePort: 30005 # Service external (exposed) port, that will redirect content to the app behind service
+		# nodePort range: 30000-32767
+		protocol: TCP
+	selector:
+		app: frontend
+```
+
+`vproapp-loadbalancer-svc.yaml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-service
+spec:
+  ports:
+  - port: 80
+    targetPort: vproapp-port
+    protocol: TCP
+  selector:
+    app: vproapp
+  type: LoadBalancer
+```
+
+`tom-svc-clusterip.yaml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+	name: app-service
+spec:
+	type: ClusterIP
+	ports:
+	- targetPort: 8080
+		port: 8080
+		protocol: TCP
+	selector:
+		app: backend
+```
+
+### [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
+
+**When to use a ReplicaSet**
+
+A ReplicaSet ensures that a specified number of pod replicas are running at any given time. However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features. Therefore, we recommend using Deployments instead of directly using ReplicaSets, unless you require custom update orchestration or don't require updates at all.
+
+This actually means that you may never need to manipulate ReplicaSet objects: use a Deployment instead, and define your application in the spec section.
+
+[`controllers/frontend.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/frontend.yaml)
+
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: php-redis
+        image: gcr.io/google_samples/gb-frontend:v3
+```
+
+### [ReplicationController](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/)
+
+A [`Deployment`](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) that configures a [`ReplicaSet`](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) is now the recommended way to set up replication.
+
+[`controllers/replication.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/replication.yaml)
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+`tom-replset.yaml`
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+	name: app-controller
+spec:
+	template:
+		metadata:
+			labels:
+				app: backend
+		spec:
+			containers:
+			- name: tomcat-container
+				image: tomcat
+				ports:
+				- name: app-port
+					containerPort: 8080
+	replicas: 2
+	selector:
+		app: backend
+```
+
+### [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+
+[`controllers/nginx-deployment.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/nginx-deployment.yaml)
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+`tom-dep.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: app-controller
+spec:
+	template:
+		metadata:
+			labels:
+				app: backend
+		spec:
+			containers:
+      - name: tomcat-container
+        image: tomcat
+        ports:
+          - name: app-port
+            containerPort: 8080
+	replicas: 3
+	selector:
+		matchLabels:
+			app: backend
+```
+
+### [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/)
+
+`mysqlpod.yaml` - it's not a production solution, because data from the container will be stored in WorkerNode dir.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dbpod
+spec:
+  containers:
+  - image: mysql:5.7
+    name: mysql
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: secter
+    volumeMounts:
+    - mountPath: /var/lib/mysql
+      name: dbvol
+  volumes:
+  - name: dbvol
+    hostPath:
+      # directory location on host
+      path: /data
+      # this field is optional
+      type: DirectoryOrCreate
+```
+
+### [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/)
+
+A ConfigMap is an API object used to store non-confidential data in key-value pairs. [Pods](https://kubernetes.io/docs/concepts/workloads/pods/) can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a [volume](https://kubernetes.io/docs/concepts/storage/volumes/).
+
+A ConfigMap allows you to decouple environment-specific configuration from your [container images](https://kubernetes.io/docs/reference/glossary/?all=true#term-image), so that your applications are easily portable.
+
+> **Caution:** ConfigMap does not provide secrecy or encryption. If the data you want to store are confidential, use a [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) rather than a ConfigMap, or use additional (third party) tools to keep your data private.
+
+`db-config-configmap.yaml`
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+	name: db-config
+data:
+	MYSQL_ROOT-PASSWORD: somecomplexpass
+	MYSQL_DATABASE: accounts
+```
+
+`sample-cm.yaml` - sample ConfigMap from k8s documentation
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+data:
+  # property-like keys; each key maps to a simple value
+  player_initial_lives: "3"
+  ui_properties_file_name: "user-interface.properties"
+
+  # file-like keys
+  game.properties: |
+    enemy.types=aliens,monsters
+    player.maximum-lives=5    
+  user-interface.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true  
+```
+
+#### Injecting ConfigMap data as environmental variables
+
+`db-pod.yaml` - all variables will be exported to the container
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: db-pod
+	labels:
+		app: db
+		project: infinity
+spec:
+	containers:
+		- name: mysql-container
+			image: mysql:5.7
+			envFrom:
+				- configMapRef:
+						name: db-config
+      ports:
+        - name: db-port
+          containerPort: 3306
+```
+
+`db-pod-selective.yaml` - selected variables will be exported into the container
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: db-pod
+	labels:
+		app: db
+		project: infinity
+spec:
+	containers:
+		- name: mysql-container
+			image: mysql:5.7
+			env:
+				- name: DB_HOST
+					valueFrom:
+						configMapKeyRef:
+							name: db-config
+							key: DB_HOST
+      ports:
+        - name: db-port
+          containerPort: 3306
+```
+
+#### Injecting ConfigMap data as volumes
+
+Mounting a config file as a volume has some advantages over directly importing the config file using `**envFrom: -configMapRef**`.
+
+When you mount a config file as a volume, the file is available in the container's file system. This means that you can modify the contents of the file without having to restart the container. This is useful if you need to update the configuration of your application at runtime.
+
+In addition, mounting a config file as a volume allows you to use tools like `**grep**` and `**sed**` to modify the contents of the file. This can be very useful if you have a large configuration file and you need to update multiple values.
+
+On the other hand, using `**envFrom: -configMapRef**` directly imports the config map into the environment variables of the container. This can be useful if your application is designed to read configuration values from environment variables. However, it may be more difficult to modify the configuration at runtime using this approach, as you would need to update the config map and then restart the container to pick up the changes.
+
+`sample-cm.yaml`
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+data:
+  # property-like keys; each key maps to a simple value
+  player_initial_lives: "3"
+  ui_properties_file_name: "user-interface.properties"
+
+  # file-like keys
+  game.properties: |
+    enemy.types=aliens,monsters
+    player.maximum-lives=5    
+  user-interface.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true
+```
+
+[`configmap/configure-pod.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/configmap/configure-pod.yaml) - injecting as environmental variables and as volumes
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo-pod
+spec:
+  containers:
+    - name: demo
+      image: alpine
+      command: ["sleep", "3600"]
+      env:
+        # Define the environment variable
+        - name: PLAYER_INITIAL_LIVES # Notice that the case is different here
+                                     # from the key name in the ConfigMap.
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo           # The ConfigMap this value comes from.
+              key: player_initial_lives # The key to fetch.
+        - name: UI_PROPERTIES_FILE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              key: ui_properties_file_name
+      volumeMounts:
+      - name: config
+        mountPath: "/config"
+        readOnly: true
+  volumes:
+  # You set volumes at the Pod level, then mount them into containers inside that Pod
+  - name: config
+    configMap:
+      # Provide the name of the ConfigMap you want to mount.
+      name: game-demo
+      # An array of keys from the ConfigMap to create as files
+      items:
+      - key: "game.properties"
+        path: "game.properties"
+      - key: "user-interface.properties"
+        path: "user-interface.properties"
 ```
 
 ---
@@ -623,6 +1243,19 @@ kops create cluster \
   --node-count=2 \
   --node-size=t3a.small \
   --master-size=t3a.medium \
+  --dns-zone=kubevpro.wandering-mono.top \
+  --node-volume-size=8 \
+  --master-volume-size=8
+```
+
+```sh
+kops create cluster \
+  --name=kubevpro.wandering-mono.top \
+  --state=s3://vprofile-kops-state-mono \
+  --zones=us-east-1a,us-east-1b \
+  --node-count=2 \
+  --node-size=t2.micro \
+  --master-size=t3a.small \
   --dns-zone=kubevpro.wandering-mono.top \
   --node-volume-size=8 \
   --master-volume-size=8

@@ -8,20 +8,14 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# VS-Code
-
----
-
-- [VS-Code](#vs-code)
-  - [File associations](#file-associations)
-  - [Useful Keybindings](#useful-keybindings)
-  - [settings.json](#settingsjson)
-  - [Extensions](#extensions)
-    - [Black Formatter](#black-formatter)
-    - [autoDocstring - Python Docstring Generator](#autodocstring---python-docstring-generator)
-    - [Best linters list](#best-linters-list)
-
----
+- [File associations](#file-associations)
+- [Useful Keybindings](#useful-keybindings)
+- [settings.json](#settingsjson)
+- [Extensions](#extensions)
+  - [YAML](#yaml)
+  - [Black Formatter](#black-formatter)
+  - [autoDocstring - Python Docstring Generator](#autodocstring---python-docstring-generator)
+  - [Best linters list](#best-linters-list)
 
 ## File associations
 
@@ -98,7 +92,7 @@ Useful hints and suggests
         "*.html": "default"
     },
     "files.associations": {
-        "*.env": "properties"
+        "*.env": "properties",
     },
     "python.formatting.provider": "none",
     "[python]": {
@@ -113,15 +107,15 @@ Useful hints and suggests
     "[ruby]": {
         "editor.tabSize": 2
     },
+    "[dockercompose]": {
+        "editor.defaultFoldingRangeProvider": "redhat.vscode-yaml",
+    },
     "telemetry.telemetryLevel": "off",
     "docker.images.label": "FullTag",
     "editor.indentSize": "tabSize",
     "window.autoDetectColorScheme": true,
     "workbench.preferredDarkColorTheme": "Default Dark+ Experimental",
     "workbench.colorTheme": "Default Dark+ Experimental",
-    "terminal.integrated.env.osx": {
-        "FIG_NEW_SESSION": "1"
-    },
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
         "editor.tabSize": 2,
@@ -132,24 +126,60 @@ Useful hints and suggests
         }
     },
     "markdownlint.config": {
-            // "MD033": false,
-            "MD025": false,
-            "MD028": false,
-            "MD036": false,
-            "MD010": {
-                "code_blocks":false,
-            },
+        // "MD033": false,
+        "MD025": false,
+        "MD028": false,
+        "MD036": false,
+        "MD010": {
+            "code_blocks":false,
+        },
     },
-    "preview.previewTheme": "Dark",
-    "yaml.format.singleQuote": true,
-    "yaml.recommendations.show": true,
-    "yaml.schemaStore.enable": false,
+    "yaml.schemas": {
+        "Kubernetes": [
+            "*pod*.yaml",
+            "*svc*.yaml",
+            "*service*.yaml",
+        ]
+    },
 }
 ```
 
 ---
 
 ## Extensions
+
+### YAML
+
+[How to enable syntax auto-completion for Kubernetes manifest files in Red Hat's YAML plugin for VSCode](https://brain2life.hashnode.dev/how-to-enable-syntax-auto-completion-for-kubernetes-manifest-files-in-red-hats-yaml-plugin-for-vscode)
+
+**Problem:**
+When using a plugin for YAML syntax support for VSCode editor developed by Red Hat, it does not enable the auto-completion feature for Kubernetes manifest files by default. As an auto-completion feature, it offers to use the *CTRL + Space* shortcut key. But this may not be a good option to choose, as the plugin has automatic syntax completion for Kubernetes manifest files during typing without using a shortcut key.
+
+**Solution:**
+
+1. Install the plugin in VSCode from [here](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).
+
+2. On the plugin page click on the gear button and select *Extension Settings*
+   ![yaml.png](./vs-code.assets/M6ABTacwU.jpeg)
+
+3. Scroll down and in *YAML: Schemas* select *Edit in settings.json*:
+   ![settings.png](./vs-code.assets/ekhSBX-Ov.jpeg)
+
+4. In settings add the following code and save the changes:
+
+   COPY
+
+   ```json
+    "yaml.schemas": {
+        "kubernetes": "*.yaml"
+    }
+   ```
+
+5. Restart VSCode.
+
+6. Enjoy auto-completion for Kubernetes manifest files!
+
+---
 
 ### Black Formatter
 

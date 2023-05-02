@@ -8,22 +8,19 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# aws-commands
-
-- [aws-commands](#aws-commands)
-  - [instances deploying](#instances-deploying)
-    - [ssh to aws instances](#ssh-to-aws-instances)
-    - [user-data](#user-data)
-  - [Amazon Linux 2 AMIs](#amazon-linux-2-amis)
-    - [amazon-linux-extras](#amazon-linux-extras)
-  - [CloudWatch Logs](#cloudwatch-logs)
-    - [CloudWatch Logs agent](#cloudwatch-logs-agent)
-  - [Amazon EFS](#amazon-efs)
-    - [amazon-efs-utils](#amazon-efs-utils)
-    - [mount EFS volume](#mount-efs-volume)
-  - [AWS Network](#aws-network)
-    - [Classic Load Balancer](#classic-load-balancer)
-      - [Classic Load Balancer logs](#classic-load-balancer-logs)
+- [instances deploying](#instances-deploying)
+  - [ssh to aws instances](#ssh-to-aws-instances)
+  - [user-data](#user-data)
+- [Amazon Linux 2 AMIs](#amazon-linux-2-amis)
+  - [amazon-linux-extras](#amazon-linux-extras)
+- [CloudWatch Logs](#cloudwatch-logs)
+  - [CloudWatch Logs agent](#cloudwatch-logs-agent)
+- [Amazon EFS](#amazon-efs)
+  - [amazon-efs-utils](#amazon-efs-utils)
+  - [mount EFS volume](#mount-efs-volume)
+- [AWS Network](#aws-network)
+  - [Classic Load Balancer](#classic-load-balancer)
+    - [Classic Load Balancer logs](#classic-load-balancer-logs)
 
 ## instances deploying
 

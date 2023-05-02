@@ -5,20 +5,12 @@ categories:
   - guides
 author: wandering-mono
 url: https://github.com/monocodes/snippets.git
-
 ---
 
-# Docker Install
-
----
-
-- [Docker Install](#docker-install)
-  - [GNU/Linux](#gnulinux)
-    - [Amazon Linux 2](#amazon-linux-2)
-    - [Ubuntu or deb-type](#ubuntu-or-deb-type)
-    - [Rocky Linux](#rocky-linux)
-
----
+- [GNU/Linux](#gnulinux)
+  - [Amazon Linux 2](#amazon-linux-2)
+  - [Ubuntu or deb-type](#ubuntu-or-deb-type)
+  - [Rocky Linux](#rocky-linux)
 
 ## GNU/Linux
 

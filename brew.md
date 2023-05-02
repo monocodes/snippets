@@ -8,21 +8,19 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-# brew
-
-- [brew](#brew)
-  - [brew install](#brew-install)
-    - [macOS](#macos)
-    - [Linux](#linux)
-  - [brew paths](#brew-paths)
-  - [brew commands](#brew-commands)
-    - [diagnostics](#diagnostics)
-    - [update and upgrade](#update-and-upgrade)
-    - [search](#search)
-    - [install](#install)
-    - [uninstall](#uninstall)
-    - [link](#link)
-  - [homebrew terminology and theory](#homebrew-terminology-and-theory)
+- [brew install](#brew-install)
+  - [macOS](#macos)
+  - [Linux](#linux)
+- [brew uninstall](#brew-uninstall)
+- [brew paths](#brew-paths)
+- [brew commands](#brew-commands)
+  - [diagnostics](#diagnostics)
+  - [update and upgrade](#update-and-upgrade)
+  - [search](#search)
+  - [install](#install)
+  - [uninstall](#uninstall)
+  - [link](#link)
+- [homebrew terminology and theory](#homebrew-terminology-and-theory)
 
 ## brew install
 
