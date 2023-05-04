@@ -8,14 +8,7 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
-- [File associations](#file-associations)
-- [Useful Keybindings](#useful-keybindings)
-- [settings.json](#settingsjson)
-- [Extensions](#extensions)
-  - [YAML](#yaml)
-  - [Black Formatter](#black-formatter)
-  - [autoDocstring - Python Docstring Generator](#autodocstring---python-docstring-generator)
-  - [Best linters list](#best-linters-list)
+[TOC]
 
 ## File associations
 
