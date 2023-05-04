@@ -114,8 +114,6 @@ Useful hints and suggests
     "docker.images.label": "FullTag",
     "editor.indentSize": "tabSize",
     "window.autoDetectColorScheme": true,
-    "workbench.preferredDarkColorTheme": "Default Dark+ Experimental",
-    "workbench.colorTheme": "Default Dark+ Experimental",
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
         "editor.tabSize": 2,
@@ -126,8 +124,6 @@ Useful hints and suggests
         }
     },
     "markdownlint.config": {
-        // "MD033": false,
-        "MD025": false,
         "MD028": false,
         "MD036": false,
         "MD010": {
@@ -139,6 +135,9 @@ Useful hints and suggests
             "*pod*.yaml",
             "*svc*.yaml",
             "*service*.yaml",
+            "*repl*.yaml",
+            "*dep*.yaml",
+            "*secr*.yaml",
         ]
     },
 }

@@ -2,6 +2,7 @@
 title: Define a Command and Arguments for a Container
 content_type: task
 weight: 10
+url: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/
 ---
 
 <!-- overview -->

@@ -414,6 +414,23 @@ print text to the file
 echo "text" > /tmp/sysinfo.txt
 ```
 
+encode and decode string with base64
+
+```sh
+echo -n "secretpass" | base64
+
+# output
+c2VjcmV0cGFzcw==
+
+echo 'c2VjcmV0cGFzcw==' | base64 --decode
+
+# output
+secretpass
+
+# output on macOS
+secretpass%
+```
+
 find anything
 
 ```sh

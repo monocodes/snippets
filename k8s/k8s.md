@@ -26,15 +26,17 @@ url: https://github.com/monocodes/snippets.git
 - [k8s commands](#k8s-commands)
   - [kubectl get](#kubectl-get)
   - [kubectl describe](#kubectl-describe)
+  - [kubectl label](#kubectl-label)
   - [kubectl logs](#kubectl-logs)
   - [kubectl edit](#kubectl-edit)
-  - [kubectl apply = kubectl create](#kubectl-apply--kubectl-create)
+  - [kubectl apply ~ kubectl create](#kubectl-apply--kubectl-create)
   - [kubectl delete](#kubectl-delete)
   - [kubectl run](#kubectl-run)
   - [kubectl expose](#kubectl-expose)
   - [kubectl set](#kubectl-set)
   - [kubectl rollout](#kubectl-rollout)
   - [kubectl scale](#kubectl-scale)
+  - [kubectl exec](#kubectl-exec)
 - [k8s network](#k8s-network)
 - [k8s objects](#k8s-objects)
   - [Pod](#pod)
@@ -42,13 +44,27 @@ url: https://github.com/monocodes/snippets.git
   - [ReplicaSet](#replicaset)
   - [ReplicationController](#replicationcontroller)
   - [Deployment](#deployment)
+  - [Volumes](#volumes)
+  - [ConfigMaps](#configmaps)
+    - [Injecting ConfigMap data as environmental variables](#injecting-configmap-data-as-environmental-variables)
+    - [Injecting ConfigMap data as volumes](#injecting-configmap-data-as-volumes)
+  - [Secret](#secret)
+    - [example 1](#example-1)
+    - [example 2](#example-2)
+  - [Ingress](#ingress)
+    - [Ingress example with vprofile project](#ingress-example-with-vprofile-project)
+  - [Taints and Tolerations](#taints-and-tolerations)
+  - [Resource Management for Pods and Containers](#resource-management-for-pods-and-containers)
+  - [Jobs](#jobs)
+  - [Cronjob](#cronjob)
+  - [DaemonSet](#daemonset)
 - [k8s notes](#k8s-notes)
   - [Namespace](#namespace)
     - [Namespaces documentation](#namespaces-documentation)
-- [Define a Command and Arguments for a Container](#define-a-command-and-arguments-for-a-container)
 - [kops](#kops)
   - [kops commands](#kops-commands)
     - [devops-project-ud-01-21 examples](#devops-project-ud-01-21-examples)
+    - [Shutdown cluster and bring all nodes down](#shutdown-cluster-and-bring-all-nodes-down)
 
 ## k8s install
 
@@ -58,6 +74,12 @@ kubectl configuration
 
 ```sh
 ~/.kube/config
+```
+
+show kubectl config without certs
+
+```sh
+kubectl config view
 ```
 
 kubectl version
@@ -294,16 +316,40 @@ show everything in current Namespace
 kubectl get all
 ```
 
+show everything in specified namespace
+
+```sh
+kubectl get all -n namespace-name
+
+# example
+kubectl get all -n ingress-nginx
+```
+
 show everything in all Namespaces
 
 ```sh
 kubectl get all --all-namespaces
 ```
 
+show something continuosly
+
+```sh
+kubectl get type-name --watch
+
+# example
+kubectl get ingress --watch
+```
+
 show all Nodes
 
 ```sh
 kubectl get nodes
+```
+
+show all labels for nodes
+
+```sh
+kubectl get nodes --show-lables
 ```
 
 show all Deployments and its status
@@ -398,6 +444,19 @@ kubectl describe cm db-config
 
 ---
 
+### kubectl label
+
+label node
+
+```sh
+kubectl label node-name key-name=value-name
+
+# example
+kubectl label nodes i-01c0e0a46f6cecc50 zone=us-east-1a
+```
+
+---
+
 ### kubectl logs
 
 show logs of the object, the full output of the container process
@@ -426,9 +485,9 @@ kubectl edit replicaset/frontend
 
 ---
 
-### kubectl apply = kubectl create
+### kubectl apply ~ kubectl create
 
-start the deployment from `*.yaml` file
+start the deployment from YAML file
 
 > use multiple `-f` in command to deploy something, or use comma  
 > `-f` = file
@@ -442,6 +501,14 @@ kubectl apply -f pod.yaml
 ```
 
 >Can change anything in deployment just changing the `*.yaml` files and apply them again. For example, change number of replicas or image.
+
+create all objects from YAML files
+
+```sh
+kubectl create -f .
+# or use kubectl apply to not redeploy existing objects
+kubectl apply -f .
+```
 
 create namespace
 
@@ -488,8 +555,8 @@ create ConfigMap - avoid creating ConfigMaps imperatively
 
 ```sh
 kubectl create configmap db-config \
---from-literal=MYSQL_DATABASE=accounts \
---from-literal=MYSQL_ROOT_PASSWORD=somecomplexpass \
+	--from-literal=MYSQL_DATABASE=accounts \
+	--from-literal=MYSQL_ROOT_PASSWORD=somecomplexpass \
 
 # output
 configmap/db-config created
@@ -498,6 +565,67 @@ configmap/db-config created
 kubectl get cm
 kubectl get cm db-config -o yaml
 ```
+
+create Secret - avoid creating Secrets imperatively
+
+```sh
+kubectl create secret generic db-secret \
+	--from-literal=MYSQL_ROOT_PASSWORD=somecomplexpassword
+	
+# output
+secret/db-secret created
+
+# check created Secret, value will be encoded, NOT ENCRYPTED
+kubectl get secret db-secret
+kubectl get secret db-secret -o yaml
+```
+
+create Secret from file
+
+```sh
+# Create files needed for example
+echon -n 'admin' > ./username.txt
+echo -n '1f2d1e2e67df' > ./password.txt
+
+kubectl create secret generic db-user-pass \
+	--from-file=./username.txt \
+	--from-file=./password.txt
+```
+
+**Create manifest for deployment from the `create` command**
+
+1. ```sh
+   kubectl create deployment ngdep --image=nginx --dry-run=client -o yaml > ngdep.yaml
+   ```
+
+2. `ngdep.yaml`
+
+   ```yaml
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     creationTimeStamp: null
+     labels:
+       app: ngdep
+     name: ngdep
+   spec:
+     replicas: 1
+     selector:
+       matchLabels:
+         app: ngdep
+     strategy: {}
+     template:
+       metadata:
+         creationTimeStamp: null
+         labels:
+           app: ngdep
+       spec:
+         containers:
+         - image: nginx
+           name: nginx
+           resources: {}
+   status: {}
+   ```
 
 ---
 
@@ -578,6 +706,41 @@ kubectl run object-name --image=image-name command-name
 # example
 kubectl run web2 --image=nginx ls
 ```
+
+run pod and login into container
+
+```sh
+kubectl run -i -tty pod-name --image=image-name -- sh
+
+# example
+kubectl run -i --tty busybox --image=busybox:1.28 -- sh
+```
+
+**Create manifest for pod from the `run` command**
+
+1. ```sh
+   kubectl run nginxpod --image=nginx --dry-run=client -o yaml > ngpod.yaml
+   ```
+
+2. `ngpod.yaml`
+
+   ```yaml
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     creationTimestamp: null
+     labels:
+       run: nginxpod
+     name: nginxpod
+   spec:
+     containers:
+     - image: nginx
+       name: nginxpod
+       resources: {}
+     dnsPolicy: ClusterFirst
+     restartPolicy: Always
+   status: {}
+   ```
 
 ---
 
@@ -972,6 +1135,14 @@ spec:
 
 ### [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/)
 
+> To attach EBS volume in AWS you need to label volume with tags like that:
+>
+> | Tag-name          | Cluster-name                |
+> | ----------------- | --------------------------- |
+> | KubernetesCluster | kubevpro.wandering-mono.top |
+>
+> Otherwise you'll get "Permission denied" errors.
+
 `mysqlpod.yaml` - it's not a production solution, because data from the container will be stored in WorkerNode dir.
 
 ```yaml
@@ -1042,7 +1213,7 @@ data:
 
 #### Injecting ConfigMap data as environmental variables
 
-`db-pod.yaml` - all variables will be exported to the container
+`db-pod-cm-all.yaml` - all variables will be exported to the container
 
 ```yaml
 apiVersion: v1
@@ -1064,7 +1235,7 @@ spec:
           containerPort: 3306
 ```
 
-`db-pod-selective.yaml` - selected variables will be exported into the container
+`db-pod-cm-selective.yaml` - selected variables will be exported into the container
 
 ```yaml
 apiVersion: v1
@@ -1162,6 +1333,377 @@ spec:
         path: "game.properties"
       - key: "user-interface.properties"
         path: "user-interface.properties"
+```
+
+---
+
+### [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+#### example 1
+
+Decode secret with base64 and use it as Secret
+
+```sh
+echo -n "somecomplexpassword" | base64
+
+# output
+c29tZWNvbXBsZXhwYXNzd29yZA==
+```
+
+`db-secret.yaml`
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+	name: mysecret
+type: Opaque
+data:
+	my_root_pass: c29tZWNvbXBsZXhwYXNzd29yZA==
+```
+
+`db-pod-secret-all.yaml` - all secrets will be exported to the container
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: db-pod
+	labels:
+		app: db
+		project: infinity
+spec:
+	containers:
+		- name: mysql-container
+			image: mysql:5.7
+			envFrom:
+				- secretRef:
+						name: db-secret
+      ports:
+        - name: db-port
+          containerPort: 3306
+```
+
+`db-pod-secret-selective.yaml` - selected secrets will be exported into the container
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: db-pod
+	labels:
+		app: db
+		project: infinity
+spec:
+	containers:
+		- name: mysql-container
+			image: mysql:5.7
+			env:
+				- name: MYSQL_ROOT_PASSWORD
+					valueFrom:
+						secretKeyRef:
+							name: db-secret
+							key: my_root_pass
+      ports:
+        - name: db-port
+          containerPort: 3306
+```
+
+#### example 2
+
+Decode secret with base64 and use it as Secret
+
+```sh
+echo -n "admin" | base64
+# output
+YWRtaW4=
+
+echo -n "mysecretpass" | base64
+# output
+bXlzZWNyZXRwYXNz
+```
+
+`mysecret.yaml`
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+data:
+  username: YWRtaW4=
+  password: bXlzZWNyZXRwYXNz
+type: Opaque
+```
+
+`readsecret.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: mycontainer
+    image: redis
+    env:
+      - name: SECRET_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: username
+            optional: false # same as default: "mysecret" must exist
+                            # and include a key named "username"
+      - name: SECRET_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: password
+            optional: false # same as default: "mysecret" must exist
+                            # and include a key named "password"
+  restartPolicy: Never
+```
+
+---
+
+### [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+An API object that manages external access to the services in a cluster, typically HTTP.
+
+Ingress may provide load balancing, SSL termination and name-based virtual hosting.
+
+#### Ingress example with vprofile project
+
+1. Create NGINX Ingress Controller with this [guide](https://kubernetes.github.io/ingress-nginx/deploy/#aws)
+
+   ```sh
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/aws/deploy.yaml
+   ```
+
+2. Create deployment `vprodep.yaml`
+
+   ```yaml
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: my-app
+   spec:
+     selector:
+       matchLabels:
+         run: my-app
+     replicas: 1
+     template:
+       metadata:
+         labels:
+           run: my-app
+       spec:
+         containers:
+         - name: my-app
+           image: imranvisualpath/vproappfix
+           ports:
+           - containerPort: 8080
+   ```
+
+3. Apply deployment
+
+   ```sh
+   kubectl apply -f vprodep.yaml
+   ```
+
+4. Create service `vprosvc.yaml`
+
+   ```yaml
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: my-app
+   spec:
+     ports:
+     - port: 8080
+       protocol: TCP
+       targetPort: 8080
+     selector:
+       run: my-app
+     type: ClusterIP
+   ```
+
+5. Apply service
+
+   ```sh
+   kubectl apply -f vprosvc.yaml
+   ```
+
+6. Create DNS Cname Record for LB
+
+   - Go to your domain hosted records
+   - Add CNAME record
+   - Hostname -> Load balancer Endpoint URL
+
+7. Create ingress
+
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: vpro-ingress
+     annotations:
+       nginx.ingress.kubernetes.io/use-regex: "true"
+   spec:
+     ingressClassName: nginx
+     rules:
+     - host: vprofile.wandering-mono.top
+       http:
+         paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: my-app
+               port:
+                 number: 8080
+   ```
+
+8. Apply ingress
+
+   ```sh
+   kubectl apply -f vproingress.yaml
+   ```
+
+9. Check in browser <http://vprofile.wandering-mono.top>
+
+10. Delete NGINX Ingress Controller
+
+    ```sh
+    kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/aws/deploy.yaml
+    # or by deleting NGINX Ingress Controller Namespace
+    ```
+
+---
+
+### [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+
+[*Node affinity*](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) is a property of [Pods](https://kubernetes.io/docs/concepts/workloads/pods/) that *attracts* them to a set of [nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) (either as a preference or a hard requirement). *Taints* are the opposite -- they allow a node to repel a set of pods.
+
+*Tolerations* are applied to pods. Tolerations allow the scheduler to schedule pods with matching taints. Tolerations allow scheduling but don't guarantee scheduling: the scheduler also [evaluates other parameters](https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/) as part of its function.
+
+Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints.
+
+---
+
+### [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+
+When you specify a [Pod](https://kubernetes.io/docs/concepts/workloads/pods/), you can optionally specify how much of each resource a [container](https://kubernetes.io/docs/concepts/containers/) needs. The most common resources to specify are CPU and memory (RAM); there are others.
+
+When you specify the resource *request* for containers in a Pod, the [kube-scheduler](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/) uses this information to decide which node to place the Pod on. When you specify a resource *limit* for a container, the kubelet enforces those limits so that the running container is not allowed to use more of that resource than the limit you set. The kubelet also reserves at least the *request* amount of that system resource specifically for that container to use.
+
+---
+
+### [Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
+
+A Job creates one or more Pods and will continue to retry execution of the Pods until a specified number of them successfully terminate. As pods successfully complete, the Job tracks the successful completions. When a specified number of successful completions is reached, the task (ie, Job) is complete. Deleting a Job will clean up the Pods it created. Suspending a Job will delete its active Pods until the Job is resumed again.
+
+A simple case is to create one Job object in order to reliably run one Pod to completion. The Job object will start a new Pod if the first Pod fails or is deleted (for example due to a node hardware failure or a node reboot).
+
+You can also use a Job to run multiple Pods in parallel.
+
+If you want to run a Job (either a single task, or several in parallel) on a schedule, see [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/).
+
+---
+
+### [Cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
+
+A *CronJob* creates [Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/) on a repeating schedule.
+
+CronJob is meant for performing regular scheduled actions such as backups, report generation, and so on. One CronJob object is like one line of a *crontab* (cron table) file on a Unix system. It runs a job periodically on a given schedule, written in [Cron](https://en.wikipedia.org/wiki/Cron) format.
+
+CronJobs have limitations and idiosyncrasies. For example, in certain circumstances, a single CronJob can create multiple concurrent Jobs. See the [limitations](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations) below.
+
+When the control plane creates new Jobs and (indirectly) Pods for a CronJob, the `.metadata.name` of the CronJob is part of the basis for naming those Pods. The name of a CronJob must be a valid [DNS subdomain](https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-subdomain-names) value, but this can produce unexpected results for the Pod hostnames. For best compatibility, the name should follow the more restrictive rules for a [DNS label](https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-label-names). Even when the name is a DNS subdomain, the name must be no longer than 52 characters. This is because the CronJob controller will automatically append 11 characters to the name you provide and there is a constraint that the length of a Job name is no more than 63 characters.
+
+[`application/job/cronjob.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/job/cronjob.yaml)
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+```
+
+---
+
+### [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+
+A *DaemonSet* ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
+
+Some typical uses of a DaemonSet are:
+
+- running a cluster storage daemon on every node
+- running a logs collection daemon on every node
+- running a node monitoring daemon on every node
+
+In a simple case, one DaemonSet, covering all nodes, would be used for each type of daemon. A more complex setup might use multiple DaemonSets for a single type of daemon, but with different flags and/or different memory and cpu requests for different hardware types.
+
+[`controllers/daemonset.yaml`](https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/daemonset.yaml)
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
 ```
 
 ---
@@ -1280,7 +1822,16 @@ kops validate cluster \
   --wait 10m
 ```
 
-**shutdown cluster and bring all nodes down**
+delete cluster
+
+```sh
+kops delete cluster \
+  --name=kubevpro.wandering-mono.top \
+  --state=s3://vprofile-kops-state-mono \
+  --yes
+```
+
+#### Shutdown cluster and bring all nodes down
 
 - show cluster nodes
 
@@ -1310,6 +1861,15 @@ kops validate cluster \
   kops update cluster --yes --state=s3://vprofile-kops-state-mono
   ```
 
+- validate cluster
+
+  ```sh
+  kops validate cluster \
+    --name kubevpro.wandering-mono.top \
+    --state=s3://vprofile-kops-state-mono \
+    --wait 10m
+  ```
+
 - changes may require instances to restart
 
   ```sh
@@ -1317,14 +1877,5 @@ kops validate cluster \
   ```
 
 - to turn your cluster back on, revert the settings, changing your master to at least 1, and your nodes to your liking
-
-delete cluster
-
-```sh
-kops delete cluster \
-  --name=kubevpro.wandering-mono.top \
-  --state=s3://vprofile-kops-state-mono \
-  --yes
-```
 
 ---

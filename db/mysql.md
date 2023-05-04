@@ -8,9 +8,11 @@ author: wandering-mono
 url: https://github.com/monocodes/snippets.git
 ---
 
+- [mysql paths](#mysql-paths)
 - [mysql commands](#mysql-commands)
 - [mysql-client commands](#mysql-client-commands)
 - [mysql backup](#mysql-backup)
+- [mysql notes](#mysql-notes)
 
 ## mysql paths
 
@@ -88,3 +90,16 @@ mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -p
 ```
 
 ---
+
+## mysql notes
+
+ignore if directory not empty, example with k8s
+
+```yaml
+spec:
+      containers:
+        - name: vprodb
+          image: vprofile/vprofiledb:V1
+          args:
+            - "--ignore-db-dir=lost+found"
+```

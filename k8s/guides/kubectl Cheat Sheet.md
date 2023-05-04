@@ -9,13 +9,12 @@ weight: 10 # highlight it
 card:
   name: reference
   weight: 30
+url: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ---
 
 <!-- overview -->
 
 This page contains a list of commonly used `kubectl` commands and flags.
-
-<!-- body -->
 
 - [Kubectl autocomplete](#kubectl-autocomplete)
   - [BASH](#bash)
@@ -38,6 +37,8 @@ This page contains a list of commonly used `kubectl` commands and flags.
   - [Formatting output](#formatting-output)
   - [Kubectl output verbosity and debugging](#kubectl-output-verbosity-and-debugging)
 - [What's next](#whats-next)
+
+<!-- body -->
 
 ## Kubectl autocomplete
 
