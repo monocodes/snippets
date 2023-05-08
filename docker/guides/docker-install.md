@@ -3,7 +3,7 @@ title: Docker Install
 categories:
   - software
   - guides
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 

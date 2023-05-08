@@ -4,7 +4,7 @@ categories:
   - vim
   - notes
   - guides
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
@@ -137,12 +137,29 @@ search and replace with delimiters
 
 ---
 
-## vim.rc
+## .vimrc
 
 Enable syntax in vim
 
 ```sh
 echo "syntax on" >> ~/.vimrc
 ```
+
+If you get this error:
+
+```sh
+No Syntax items defined for this buffer
+```
+
+Add this to `~/.vimrc`
+
+```sh
+filetype plugin indent on
+syntax on
+# or
+echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
+```
+
+
 
 ---

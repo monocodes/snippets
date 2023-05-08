@@ -4,7 +4,7 @@ categories:
   - software
   - CI/CD
   - examples
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 

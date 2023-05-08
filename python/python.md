@@ -5,7 +5,7 @@ categories:
   - guides
   - notes
   - code
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 

@@ -3,7 +3,7 @@ title: Small Bash Scripts
 categories:
   - bash
   - scripts
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 

@@ -4,7 +4,7 @@ categories:
   - software
   - guides
   - notes
-author: wandering-mono
+author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
@@ -15,7 +15,7 @@ url: https://github.com/monocodes/snippets.git
     - [`& && || ; \`](#----)
     - [`--help`](#--help)
     - [sysinfo](#sysinfo)
-    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `ln`, `du`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-ln-du)
+    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-alias-ln-du)
     - [locate](#locate)
     - [export](#export)
     - [needrestart](#needrestart)
@@ -112,6 +112,34 @@ url: https://github.com/monocodes/snippets.git
     - [Recap and conclusion – Using sed to find and replace text in given files](#recap-and-conclusion--using-sed-to-find-and-replace-text-in-given-files)
 
 ## paths
+
+`$PATH`
+
+```sh
+# global
+/etc/environment
+/etc/profile
+
+# user bash
+~/.bashrc
+~/.profile # deb-based
+~/.bash_profile # rpm-based
+
+# user zsh
+~/.zshrc
+~/.zprofile
+```
+
+binaries
+
+```sh
+/bin
+/sbin
+/usr/sbin
+/usr/local/bin
+/usr/local/sbin
+$HOME/.local
+```
 
 users info
 
@@ -283,7 +311,7 @@ clear
 
 ---
 
-#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `ln`, `du`
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`
 
 make a directory
 
@@ -406,12 +434,40 @@ tree /var/log
 
 `echo` - print command
 
-print text to the file
+print help for `echo`
 
 ```sh
-# example
+/bin/echo --help
+```
 
-echo "text" > /tmp/sysinfo.txt
+delete everything in file and add text to the file
+
+```sh
+echo "text" > /tmp/filename.txt
+```
+
+append text with new line into file  
+`-e` - enable interpretation of backslash escapes
+
+```sh
+echo -e "text\nnew-line-text" >> filename
+# example
+echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
+```
+
+`alias` - aliases for commands
+
+show current user aliases
+
+```sh
+alias
+```
+
+add alias to `~/.bashrc` or `~/.zshrc`
+
+```sh
+# alias vim example
+echo 'alias vim="/volume1/@appstore/vim/bin/vim"' >> ~/.bashrc
 ```
 
 encode and decode string with base64
