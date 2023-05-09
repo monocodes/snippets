@@ -43,7 +43,7 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 
    ```sh
    # via $PATH
-   echo 'export PATH="/volume1/@appstore/vim/bin/vim:$PATH"' >> ~/.bashrc && \
+   echo 'export PATH="/volume1/@appstore/vim/bin/:$PATH"' >> ~/.bashrc && \
      source ./.bashrc && \
      echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc && \
      vim --version

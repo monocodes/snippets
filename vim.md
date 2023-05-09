@@ -12,7 +12,11 @@ url: https://github.com/monocodes/snippets.git
   - [Command Mode](#command-mode)
   - [Extended Mode: (Colon Mode)](#extended-mode-colon-mode)
     - [Extended Mode - additional commands](#extended-mode---additional-commands)
-- [vim.rc](#vimrc)
+- [.vimrc](#vimrc)
+- [neovim install](#neovim-install)
+  - [neovim paths](#neovim-paths)
+  - [macos](#macos)
+  - [linux](#linux)
 
 ## vim commands
 
@@ -160,6 +164,54 @@ syntax on
 echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
 ```
 
+---
 
+## neovim install
+
+> This scripts will be usable when I decide to migrate to **neovim** from **vim**.
+>
+> `set number` + `set mouse=` are not very usable because in that way you will copy numbers with text from terminal.
+>
+> So, I need to use **VISUAL** mode of **neovim/vim** or do not use line numbers.
+
+### neovim paths
+
+user config
+
+```sh
+~/.config/nvim/init.vim
+```
+
+### macos
+
+neovim install one-liner
+
+```sh
+brew install neovim && \
+  mkdir -p ~/.config/nvim/ ; \
+  echo -e 'set number\nset mouse=' >> ~/.config/nvim/init.vim && \
+  if test ~/.profile
+  echo -e 'export EDITOR=nvim' >> ~/.bash_profile
+```
+
+### linux
+
+Install it with default package manager or use **linuxbrew**
+
+```sh
+brew install neovim && \
+	mkdir -p ~/.config/nvim/ ; \
+  echo -e 'set number\nset mouse=' >> ~/.config/nvim/init.vim && \
+  sudo mkdir -p /root/.config/nvim ; \
+  echo -e 'set number\nset mouse=' | sudo tee -a /root/.config/nvim/init.vim && \
+  [ -e ~/.bash_profile ] && \
+  echo -e 'export EDITOR=nvim\nalias vim=nvim' >> ~/.bash_profile && \
+  echo -e 'export EDITOR=nvim\nalias vim=nvim' | sudo tee -a /root/.bash_profile && \
+  source ~/.bash_profile ; \
+  [ -e ~/.profile ] && \
+  echo -e 'export EDITOR=nvim\nalias vim=nvim' >> ~/.profile && \
+  echo -e 'export EDITOR=nvim\nalias vim=nvim' | sudo tee -a /root/.profile && \
+  source ~/.profile
+```
 
 ---

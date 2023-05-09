@@ -9,7 +9,7 @@ author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
-- [macOS paths](#macos-paths)
+- [macos paths](#macos-paths)
   - [`.zshrc`, `.zprofile`](#zshrc-zprofile)
   - [system variables](#system-variables)
 - [useful commands](#useful-commands)
@@ -34,7 +34,7 @@ url: https://github.com/monocodes/snippets.git
     - [Conclusion](#conclusion)
       - [See also](#see-also)
 
-## macOS paths
+## macos paths
 
 `PATH` variable
 
@@ -67,6 +67,12 @@ source `.zshrc`, `.zprofile`
 source $HOME/.zprofile
 # or
 . $HOME/.zprofile
+```
+
+software user configs
+
+```sh
+~/.config
 ```
 
 ### system variables

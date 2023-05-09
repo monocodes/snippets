@@ -12,7 +12,7 @@ url: https://github.com/monocodes/snippets.git
 - [bash wildcards](#bash-wildcards)
 - [linux commands](#linux-commands)
   - [basic commands and system packages](#basic-commands-and-system-packages)
-    - [`& && || ; \`](#----)
+    - [`& && || ; ;; \`](#-----)
     - [`--help`](#--help)
     - [sysinfo](#sysinfo)
     - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-alias-ln-du)
@@ -52,8 +52,9 @@ url: https://github.com/monocodes/snippets.git
     - [mkfs, formatting](#mkfs-formatting)
     - [mount, umount, mounting](#mount-umount-mounting)
   - [network](#network)
-    - [network config Ubuntu 22](#network-config-ubuntu-22)
-    - [network config CentOS 7](#network-config-centos-7)
+    - [network Ubuntu 22](#network-ubuntu-22)
+    - [network Rocky Linux 9](#network-rocky-linux-9)
+    - [network CentOS 7](#network-centos-7)
     - [hostname, hostnamectl](#hostname-hostnamectl)
     - [ssh](#ssh)
       - [ssh-keygen](#ssh-keygen)
@@ -86,12 +87,9 @@ url: https://github.com/monocodes/snippets.git
     - [firewalld](#firewalld)
 - [third-party packages](#third-party-packages)
   - [useful packages](#useful-packages)
-  - [awscli](#awscli)
   - [jdk](#jdk)
   - [apache2, httpd](#apache2-httpd)
   - [tomcat](#tomcat)
-  - [mysql, mariadb](#mysql-mariadb)
-    - [mysql commands](#mysql-commands)
 - [network notes](#network-notes)
   - [private IP ranges](#private-ip-ranges)
   - [ifconfig.io](#ifconfigio)
@@ -139,6 +137,12 @@ binaries
 /usr/local/bin
 /usr/local/sbin
 $HOME/.local
+```
+
+software user configs
+
+```sh
+~/.config
 ```
 
 users info
@@ -219,7 +223,7 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 
 ### basic commands and system packages
 
-#### `& && || ; \`
+#### `& && || ; ;; \`
 
 >`A` and `B` are any commands
 
@@ -228,6 +232,8 @@ Run A and then B, regardless of success of A
 ```sh
 A ; B
 ```
+
+`;;` should be used in a `case` statement only
 
 Run B if A succeeded
 
@@ -1011,6 +1017,12 @@ check service in autorun or not
 
 ```sh
 systemctl is-enabled service-name
+```
+
+start service and add it to autorun
+
+```sh
+sudo systemctl enable --now service-name
 ```
 
 start service
@@ -1852,7 +1864,7 @@ sudo systemctl restart systemd-networkd
 
 ---
 
-#### network config Ubuntu 22
+#### network Ubuntu 22
 
 edit network config
 
@@ -1889,7 +1901,17 @@ ip a
 
 ---
 
-#### network config CentOS 7
+#### network Rocky Linux 9
+
+restart network
+
+```sh
+sudo systemctl stop NetworkManager.service
+```
+
+---
+
+#### network CentOS 7
 
 choose adapter config to edit
 
@@ -2915,18 +2937,6 @@ nohup ./stress.sh &
 
 ---
 
-### awscli
-
-intall **awscli v2** on linux (complete guide [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions))
-
-```sh
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-  unzip awscliv2.zip && \
-	sudo ./aws/install
-```
-
----
-
 ### jdk
 
 Installation of different versions of `java` here [maven.md](maven.md)
@@ -2976,79 +2986,6 @@ default path for website for tomcat
 
 ---
 
-### mysql, mariadb
-
-default path for **mysql** db
-
-```sh
-/var/lib/mysql
-```
-
-install mysql on **deb-based distro**
-
-```sh
-apt install mysql
-```
-
-install mysql on **rpm-based** distro
-
-```sh
-dnf install mariadb-server
-```
-
-install **mysql** client on **deb-based** distro
-
-```sh
-apt install mysql-client
-```
-
-install **mysql** client on **rpm-based** distro
-
-```sh
-sudo dnf install mysql
-```
-
-connect with mysql-client to remote host
-
-```sh
-mysql -h hostname -u username -ppassword
-
-# example
-mysql -h vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -plicgiTGxfz8iu128mGHg
-```
-
-restore mysql backup to a running mysql instance
-
-```sh
-mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQuz9qrKNPY97jqVa5T8B accounts < src/main/resources/db_backup.sql
-```
-
-#### mysql commands
-
-```mysql
-show databases;
-```
-
-```mysql
-use database-name;
-```
-
-```mysql
-show tables;
-```
-
-check table entries
-
-```mysql
-describe table-name;
-
-select quaries;
-
-select * from table-name;
-```
-
----
-
 ## network notes
 
 ### private IP ranges
@@ -3063,9 +3000,13 @@ Class C - `192.168.0.0 - 192.168.255.255`
 
 ### ifconfig.io
 
-<https://ifconfig.io/>
+simply check your ip
 
-Great diagnostic website. You can diagnose just with `curl` command from anywhere. Great for testing proper VPN connection.
+```sh
+curl -4 icanhazip.com
+```
+
+[ifconfig.io](https://ifconfig.io/) - great diagnostic website. You can diagnose just with `curl` command from anywhere. Great for testing proper VPN connection.
 
 **Simple cURL API**!
 
