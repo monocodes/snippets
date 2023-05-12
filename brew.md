@@ -31,21 +31,21 @@ url: https://github.com/monocodes/snippets.git
 
 ### macOS
 
-one-liner install macOS (non-interactive)  
+brew install one-liner macOS (non-interactive)  
 if user has `ALL=(ALL) NOPASSWD: ALL` in `/etc/sudoers.d`
 
 ```sh
 xcode-select --install && \
-	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
-	eval "$(/opt/homebrew/bin/brew shellenv)" && \
-	brew analytics off && \
-	brew tap homebrew/cask && \
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
+  eval "$(/opt/homebrew/bin/brew shellenv)" && \
+  brew analytics off && \
+  brew tap homebrew/cask && \
   brew tap homebrew/cask-drivers && \
   brew tap homebrew/cask-versions && \
   brew tap beeftornado/rmtree && \
   sudo chmod 750 /opt/homebrew/bin/brew && \
-	cat <<EOF | sudo tee -a $HOME/.zshrc
+  cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
@@ -55,25 +55,25 @@ then
   compinit
 fi
 EOF
-	source $HOME/.zshrc
-	cat $HOME/.zshrc
+  source $HOME/.zshrc
+  cat $HOME/.zshrc
 ```
 
-one-liner install macOS (interactive)
+brew install one-liner macOS (interactive)
 
 ```sh
 xcode-select --install && \
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
-	eval "$(/opt/homebrew/bin/brew shellenv)" && \
-	brew analytics off && \
-	brew tap homebrew/cask && \
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
+  eval "$(/opt/homebrew/bin/brew shellenv)" && \
+  brew analytics off && \
+  brew tap homebrew/cask && \
   brew tap homebrew/cask-drivers && \
   brew tap homebrew/cask-versions && \
   brew tap homebrew/core && \
   brew tap beeftornado/rmtree && \
   sudo chmod 750 /opt/homebrew/bin/brew && \
-	cat <<EOF | sudo tee -a $HOME/.zshrc
+  cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
@@ -83,27 +83,27 @@ then
   compinit
 fi
 EOF
-	source $HOME/.zshrc
-	cat $HOME/.zshrc
+  source $HOME/.zshrc
+  cat $HOME/.zshrc
 ```
 
 ---
 
 ### Linux
 
-one-liner install Ubuntu 22
+brew install one-liner Ubuntu 22
 
 ```sh
 sudo apt-get update && sudo apt-get install -y build-essential procps curl file git && \
-	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	test -r $HOME/.profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> $HOME/.profile && \
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+  test -r $HOME/.profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.profile && \
   source $HOME/.profile && \
   brew analytics off && \
   brew update && brew upgrade && \
   brew install gcc && \
   brew tap beeftornado/rmtree && \
   sudo chmod 750 $(brew --prefix)/Homebrew/bin/brew && \
-	cat <<EOF | sudo tee -a $HOME/.profile
+  cat <<EOF | sudo tee -a $HOME/.profile
 # brew completions
 if type brew &>/dev/null
 then
@@ -119,24 +119,24 @@ then
   fi
 fi
 EOF
-	sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
-	| sudo tee -a /etc/sudoers.d/$USER
+  sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+  | sudo tee -a /etc/sudoers.d/$USER
 ```
 
-one-liner install Rocky Linux 9
+brew install one-liner Rocky Linux 9
 
 ```sh
 sudo dnf groupinstall -y "Development Tools" && \
-	sudo dnf install -y procps-ng curl file git && \
-	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-	test -r $HOME/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> $HOME/.bash_profile
+  sudo dnf install -y procps-ng curl file git && \
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+  test -r $HOME/.bash_profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bash_profile
   source $HOME/.bash_profile && \
   brew analytics off && \
   brew update && brew upgrade && \
   brew install gcc && \
   brew tap beeftornado/rmtree && \
   sudo chmod 750 /$(brew --prefix)/Homebrew/bin/brew && \
-	cat <<EOF | sudo tee -a $HOME/.bash_profile
+  cat <<EOF | sudo tee -a $HOME/.bash_profile
 # brew completions
 if type brew &>/dev/null
 then
@@ -152,8 +152,8 @@ then
   fi
 fi
 EOF
-	sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
-	| sudo tee -a /etc/sudoers.d/$USER
+  sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+  | sudo tee -a /etc/sudoers.d/$USER
 ```
 
 >The installation script installs Homebrew to `/home/linuxbrew/.linuxbrew` using `sudo`. Homebrew does not use `sudo` after installation. Using `/home/linuxbrew/.linuxbrew` allows the use of most binary packages (bottles) which will not work when installing in e.g. your personal home directory.

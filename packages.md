@@ -26,7 +26,10 @@ colordiff
 *Color-highlighted diff(1) output*
 
 duti  
-Command-line utility capable of setting default applications for various document types on macOS
+*Command-line utility capable of setting default applications for various document types on macOS*
+
+gcc  
+*package to build another packages*
 
 gnu-sed, gsed  
 *GNU implementation of the famous stream editor*
@@ -41,7 +44,7 @@ pyenv-virtualenv
 *Pyenv plugin to manage virtualenv*
 
 python-yq  
-Command-line YAML and XML processor that wraps jq
+*Command-line YAML and XML processor that wraps jq*
 
 telnet  
 *User interface to the TELNET protocol*

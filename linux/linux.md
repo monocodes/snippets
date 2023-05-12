@@ -9,6 +9,7 @@ url: https://github.com/monocodes/snippets.git
 ---
 
 - [paths](#paths)
+  - [Filesystem Hierarchy Standard](#filesystem-hierarchy-standard)
 - [bash wildcards](#bash-wildcards)
 - [linux commands](#linux-commands)
   - [basic commands and system packages](#basic-commands-and-system-packages)
@@ -206,6 +207,59 @@ create it with any text
 ```sh
 /etc/motd
 ```
+
+---
+
+### Filesystem Hierarchy Standard
+
+The **Filesystem Hierarchy Standard** (**FHS**) is a reference describing the conventions used for the layout of a UNIX system.
+
+| Directory         | Description                                                  |
+| :---------------- | :----------------------------------------------------------- |
+| `/`               | *Primary hierarchy* root and [root directory](https://en.wikipedia.org/wiki/Root_directory) of the entire file system hierarchy. |
+| `/bin`            | Essential command [binaries](https://en.wikipedia.org/wiki/Executable) that need to be available in [single-user mode](https://en.wikipedia.org/wiki/Single-user_mode), including to bring up the system or repair it,[[3\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-3) for all users (e.g., [cat](https://en.wikipedia.org/wiki/Cat_(Unix)), [ls](https://en.wikipedia.org/wiki/Ls), [cp](https://en.wikipedia.org/wiki/Cp_(Unix))). |
+| `/boot`           | [Boot loader](https://en.wikipedia.org/wiki/Boot_loader) files (e.g., [kernels](https://en.wikipedia.org/wiki/Kernel_(operating_system)), [initrd](https://en.wikipedia.org/wiki/Initrd)). |
+| `/dev`            | [Device files](https://en.wikipedia.org/wiki/Device_file) (e.g., `/dev/null`, `/dev/disk0`, `/dev/sda1`, `/dev/tty`, `/dev/random`). |
+| `/etc`            | Host-specific system-wide [configuration files](https://en.wikipedia.org/wiki/Configuration_file). There has been controversy over the meaning of the name itself. In early versions of the UNIX Implementation Document from Bell labs, `/etc` is referred to as the *[etcetera](https://en.wikipedia.org/wiki/Et_cetera) directory*,[[4\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-4) as this directory historically held everything that did not belong elsewhere (however, the FHS restricts `/etc` to static configuration files and may not contain binaries).[[5\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-/etc-5) Since the publication of early documentation, the directory name has been re-explained in various ways. Recent interpretations include [backronyms](https://en.wikipedia.org/wiki/Backronym) such as "Editable Text Configuration" or "Extended Tool Chest".[[6\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-6) |
+| `/etc/opt`        | Configuration files for add-on packages stored in `/opt`.    |
+| `/etc/sgml`       | Configuration files, such as catalogs, for software that processes [SGML](https://en.wikipedia.org/wiki/SGML). |
+| `/etc/X11`        | Configuration files for the [X Window System](https://en.wikipedia.org/wiki/X_Window_System), version 11. |
+| `/etc/xml`        | Configuration files, such as catalogs, for software that processes [XML](https://en.wikipedia.org/wiki/XML). |
+| `/home`           | Users' [home directories](https://en.wikipedia.org/wiki/Home_directory), containing saved files, personal settings, etc. |
+| `/lib`            | [Libraries](https://en.wikipedia.org/wiki/Library_(computer_science)) essential for the [binaries](https://en.wikipedia.org/wiki/Binaries) in `/bin` and `/sbin`. |
+| `/lib<qual>`      | Alternate format essential libraries. These are typically used on systems that support more than one executable code format, such as systems supporting [32-bit](https://en.wikipedia.org/wiki/32-bit) and [64-bit](https://en.wikipedia.org/wiki/64-bit) versions of an [instruction set](https://en.wikipedia.org/wiki/Instruction_set). Such directories are optional, but if they exist, they have some requirements. |
+| `/media`          | Mount points for [removable media](https://en.wikipedia.org/wiki/Removable_media) such as [CD-ROMs](https://en.wikipedia.org/wiki/CD-ROM) (appeared in FHS-2.3 in 2004). |
+| `/mnt`            | Temporarily [mounted](https://en.wikipedia.org/wiki/Mount_(computing)) filesystems. |
+| `/opt`            | Add-on [application software](https://en.wikipedia.org/wiki/Application_software) [packages](https://en.wikipedia.org/wiki/Software_package_(installation)).[[7\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-/opt-7) |
+| `/proc`           | Virtual [filesystem](https://en.wikipedia.org/wiki/File_system) providing [process](https://en.wikipedia.org/wiki/Process_(computing)) and [kernel](https://en.wikipedia.org/wiki/Kernel_(operating_system)) information as files. In Linux, corresponds to a [procfs](https://en.wikipedia.org/wiki/Procfs) mount. Generally, automatically generated and populated by the system, on the fly. |
+| `/root`           | [Home directory](https://en.wikipedia.org/wiki/Home_directory) for the [root](https://en.wikipedia.org/wiki/Superuser) user. |
+| `/run`            | Run-time variable data: Information about the running system since last boot, e.g., currently logged-in users and running [daemons](https://en.wikipedia.org/wiki/Daemon_(computer_software)). Files under this directory must be either removed or truncated at the beginning of the boot process, but this is not necessary on systems that provide this directory as a [temporary filesystem](https://en.wikipedia.org/wiki/Temporary_filesystem) ([tmpfs](https://en.wikipedia.org/wiki/Tmpfs)). |
+| `/sbin`           | Essential system binaries (e.g., [fsck](https://en.wikipedia.org/wiki/Fsck), [init](https://en.wikipedia.org/wiki/Init), [route](https://en.wikipedia.org/wiki/Route_(command))). |
+| `/srv`            | Site-specific data served by this system, such as data and scripts for web servers, data offered by [FTP](https://en.wikipedia.org/wiki/FTP) servers, and repositories for [version control systems](https://en.wikipedia.org/wiki/Version_control_systems) (appeared in FHS-2.3 in 2004). |
+| `/sys`            | Contains information about devices, drivers, and some kernel features.[[8\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-/sys-8) |
+| `/tmp`            | [Directory for temporary files](https://en.wikipedia.org/wiki/Temporary_folder) (see also `/var/tmp`). Often not preserved between system reboots and may be severely size-restricted. |
+| `/usr`            | *Secondary hierarchy* for read-only user data; contains the majority of ([multi-](https://en.wikipedia.org/wiki/Multi-user))user utilities and applications. Should be shareable and read-only.[[9\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-9)[[10\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-10) |
+| `/usr/bin`        | Non-essential command [binaries](https://en.wikipedia.org/wiki/Executable) (not needed in [single-user mode](https://en.wikipedia.org/wiki/Single-user_mode)); for all users. |
+| `/usr/include`    | Standard [include files](https://en.wikipedia.org/wiki/Header_file). |
+| `/usr/lib`        | [Libraries](https://en.wikipedia.org/wiki/Library_(computer_science)) for the [binaries](https://en.wikipedia.org/wiki/Binaries) in `/usr/bin` and `/usr/sbin`. |
+| `/usr/libexec`    | Binaries run by other programs that are not intended to be executed directly by users or shell scripts (optional). |
+| `/usr/lib<qual>`  | Alternative-format libraries (e.g., `/usr/lib32` for 32-bit libraries on a 64-bit machine (optional)). |
+| `/usr/local`      | *Tertiary hierarchy* for local data, specific to this host. Typically has further subdirectories (e.g., `bin`, `lib`, `share`).[[NB 1\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-11) |
+| `/usr/sbin`       | Non-essential system binaries (e.g., [daemons](https://en.wikipedia.org/wiki/Daemon_(computer_software)) for various [network services](https://en.wikipedia.org/wiki/Network_service)). |
+| `/usr/share`      | Architecture-independent (shared) data.                      |
+| `/usr/src`        | [Source code](https://en.wikipedia.org/wiki/Source_code) (e.g., the kernel source code with its header files). |
+| `/usr/X11R6`      | [X Window System](https://en.wikipedia.org/wiki/X_Window_System), Version 11, Release 6 (up to FHS-2.3, optional). |
+| `/var`            | Variable files: files whose content is expected to continually change during normal operation of the system, such as logs, spool files, and temporary e-mail files. |
+| `/var/cache`      | Application cache data. Such data are locally generated as a result of time-consuming I/O or calculation. The application must be able to regenerate or restore the data. The cached files can be deleted without loss of data. |
+| `/var/lib`        | State information. Persistent data modified by programs as they run (e.g., databases, packaging system metadata, etc.). |
+| `/var/lock`       | Lock files. Files keeping track of resources currently in use. |
+| `/var/log`        | Log files. Various logs.                                     |
+| `/var/mail`       | Mailbox files. In some distributions, these files may be located in the deprecated `/var/spool/mail`. |
+| `/var/opt`        | Variable data from add-on packages that are stored in `/opt`. |
+| `/var/run`        | Run-time variable data. This directory contains system information data describing the system since it was booted.[[11\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-12) In FHS 3.0, `/var/run` is replaced by `/run`; a system should either continue to provide a `/var/run` directory or provide a symbolic link from `/var/run` to `/run` for backwards compatibility.[[12\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-13) |
+| `/var/spool`      | [Spool](https://en.wikipedia.org/wiki/Spooling) for tasks waiting to be processed (e.g., print queues and outgoing mail queue). |
+| `/var/spool/mail` | [Deprecated](https://en.wikipedia.org/wiki/Deprecated) location for users' mailboxes.[[13\]](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#cite_note-14) |
+| `/var/tmp`        | Temporary files to be preserved between reboots.             |
 
 ---
 
@@ -2226,6 +2280,8 @@ scp -i ~/.ssh/aws/bastion-key.pem ~/.ssh/aws/wave-key.pem ec2-user@52.53.251.116
 #### https, curl, wget
 
 > `curl` and `wget` to download something
+>
+> `curl` also to analyse websites
 
 download anything with `curl`
 
@@ -2242,10 +2298,46 @@ check curl
 curl parrot.live
 ```
 
+request webpage and get response and all headers
+
+```sh
+curl -i address-name
+
+# example
+curl -i http://nginx-handbook.test
+
+# output
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 12 May 2023 14:49:27 GMT
+Content-Type: text/plain
+Content-Length: 41
+Connection: keep-alive
+
+this will be logged to the default file.
+```
+
+request webpage and get only all headers
+
+```sh
+curl -I address-name
+
+# example
+curl -i http://nginx-handbook.test
+
+# output
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 12 May 2023 14:50:47 GMT
+Content-Type: text/plain
+Content-Length: 41
+Connection: keep-alive
+```
+
 check working webserver (**httpd**, **apache2**, **nginx**)
 
 ```sh
-curl localhost
+curl -i localhost
 ```
 
 download file with `wget`
