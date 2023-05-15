@@ -89,6 +89,10 @@ url: https://github.com/monocodes/snippets.git
 - [third-party packages](#third-party-packages)
   - [useful packages](#useful-packages)
   - [jdk](#jdk)
+  - [Node.js](#nodejs)
+    - [Node.js install Ubuntu](#nodejs-install-ubuntu)
+    - [Node.js unintall Ubuntu](#nodejs-unintall-ubuntu)
+  - [php](#php)
   - [apache2, httpd](#apache2-httpd)
   - [tomcat](#tomcat)
 - [network notes](#network-notes)
@@ -2530,6 +2534,12 @@ search package from avalaible repos
 apt search package-name
 ```
 
+search package and if the list is too big view it with pager
+
+```sh
+apt search nodejs | less
+```
+
 install package without prompts
 
 ```sh
@@ -3052,6 +3062,189 @@ ls /usr/lib/jvm
 ls /usr/lib/jvm
 java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
 java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
+```
+
+---
+
+### Node.js
+
+#### Node.js install Ubuntu
+
+**Node.js v20.x**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
+apt-get install -y nodejs
+```
+
+**Node.js v19.x**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
+apt-get install -y nodejs
+```
+
+**Node.js v18.x**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
+apt-get install -y nodejs
+```
+
+**Node.js v16.x**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
+apt-get install -y nodejs
+```
+
+**Node.js LTS (v18.x)**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
+apt-get install -y nodejs
+```
+
+**Node.js Current (v20.x)**:
+
+Using Ubuntu
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
+Using Debian, as root
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
+apt-get install -y nodejs
+```
+
+***Optional***: install build tools
+
+To compile and install native addons from npm you may also need to install build tools:
+
+use `sudo` on Ubuntu or run this as root on debian
+
+```sh
+apt-get install -y build-essential
+```
+
+#### Node.js unintall Ubuntu
+
+To completely remove Node.js installed from the deb.nodesource.com package methods above:
+
+use `sudo` on Ubuntu or run this as root on debian
+
+```sh
+apt-get purge nodejs &&\
+rm -r /etc/apt/sources.list.d/nodesource.list
+```
+
+---
+
+PM2
+
+**PM2** - is a daemon process manager that will help you manage and keep your application online 24/7.
+
+install PM2
+
+```sh
+sudo npm install -g pm2
+```
+
+monitor all launched node.js processes
+
+```sh
+pm2 monit
+```
+
+show all launched node.js processes
+
+```sh
+pm2 list
+```
+
+act on node.js processes
+
+```sh
+pm2 start app.js
+pm2 stop
+pm2 restart
+pm2 delete
+```
+
+---
+
+### php
+
+install php-fpm in Ubuntu
+
+```sh
+sudo apt install php-fpm -y
+```
+
+start php app inside the php app dir
+
+```sh
+php -S localhost:8000
+```
+
+If you have multiple PHP-FPM versions installed, you can simply list all the socket file locations by executing the following command:
+
+```sh
+sudo find / -name *fpm.sock
+
+# output
+/run/php/php8.1-fpm.sock
+/run/php/php-fpm.sock
+/var/lib/dpkg/alternatives/php-fpm.sock
 ```
 
 ---

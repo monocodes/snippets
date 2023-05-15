@@ -7,12 +7,19 @@ author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
+- [test load-balancing with `curl`](#test-load-balancing-with-curl)
 - [ssh to different hosts and execute commands there](#ssh-to-different-hosts-and-execute-commands-there)
 - [small script to test monitoring alarms](#small-script-to-test-monitoring-alarms)
 
+## test load-balancing with `curl`
+
+```sh
+while sleep 0.5; do curl http://nginx-handbook.test; done
+```
+
 ## ssh to different hosts and execute commands there
 
-remhosts
+`remhosts`
 
 ```properties
 web01
@@ -24,11 +31,9 @@ web03
 for host in `cat remhosts`; do ssh devops@$host uptime;done
 ```
 
----
-
 ## small script to test monitoring alarms
 
-stress.sh
+`stress.sh`
 
 ```sh
 #!/bin/bash
