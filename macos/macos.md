@@ -585,3 +585,35 @@ help export
 **About the author:** Vivek Gite is the founder of nixCraft, the oldest running blog about Linux and open source. He wrote more than 7k+ posts and helped numerous readers to master IT topics.
 
 ---
+
+### [How to transfer SD card Nintendo Switch data using macOS](https://www.reddit.com/r/NintendoSwitch/comments/emjvdf/how_to_transfer_sd_card_data_using_macos/) by enrogle
+
+If you're using windows, just follow [Nintendo's advice](https://en-americas-support.nintendo.com/app/answers/detail/a_id/27595/~/how-to-transfer-data-between-microsd-cards-for-use-on-nintendo-switch), but if you're using macOS / OSX you end up with annoying error messages telling you your card is corrupt. It took me ages to figure this out, so I thought I'd share. I read [this post](https://www.reddit.com/r/NintendoSwitch/comments/9s7ljc/save_you_time_copying_sd_card_on_mac_does_not_work/) and was convinced it might not be possible, but I just upgraded my 128GB card to a 256GB without losing (or having to re-download) any content. Hope this helps someone here.
+
+Steps are as follows:
+
+1. Backup the Nintendo folder from your original SD card. You can just drag and drop it to your Desktop, but just to be on the safe side I ran **Disk Utility** and selected **File -> New Image -> Image from "disk2s1"**. Your SD card may be named differently.
+2. Format the new SD card in the Switch
+3. Eject the old SD card and insert the new SD card into your mac
+4. Copy *contents* of the Nintendo folder from your copy onto the new SD card (if you did it via an image, then double-click on your image file to mount it, then copy from there). Select *Replace all files* if prompted.
+5. Wait for ages for the data to copy...
+6. Close all Finder windows then run **Terminal**
+7. From the Terminal, run the following commands (After formatting my SD card was called "Untitled", if yours isn't called then, then adjust accordingly). These commands will require your admin password.
+
+```sh
+    sudo chflags -R arch /Volumes/Untitled/
+    sudo chflags -R noarch /Volumes/Untitled/Nintendo/
+    sudo mdutil -i off /Volumes/Untitled/
+    sudo mdutil -E /Volumes/Untitled/
+    dot_clean -m /Volumes/Untitled/
+```
+
+You're now done, eject the SD card and it should work in the Switch.
+
+If you want to know what the commands do, in order they:
+
+- Set the archive bit ON for the SD Card
+- Set the archive bit OFF for the Nintendo folder
+- Stop macOS from indexing the SD Card
+- Removes hidden files added by Finder
+- Another way to remove hidden files added by Finder - running both won't cause any harm

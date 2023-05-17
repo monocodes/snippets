@@ -16,7 +16,7 @@ url: https://github.com/monocodes/snippets.git
     - [`& && || ; ;; \`](#-----)
     - [`--help`](#--help)
     - [sysinfo](#sysinfo)
-    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-alias-ln-du)
+    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`, `source`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-alias-ln-du-source)
     - [locate](#locate)
     - [export](#export)
     - [needrestart](#needrestart)
@@ -58,13 +58,14 @@ url: https://github.com/monocodes/snippets.git
     - [network CentOS 7](#network-centos-7)
     - [hostname, hostnamectl](#hostname-hostnamectl)
     - [ssh](#ssh)
+      - [ssh paths](#ssh-paths)
       - [ssh-keygen](#ssh-keygen)
         - [generate secured keys and use ssh-agent and `~/.ssh/config`](#generate-secured-keys-and-use-ssh-agent-and-sshconfig)
         - [ssh-keygen guide from DO](#ssh-keygen-guide-from-do)
       - [ssh-agent](#ssh-agent)
         - [SSH-agent forwarding, ProxyJump](#ssh-agent-forwarding-proxyjump)
       - [scp](#scp)
-    - [https, curl, wget](#https-curl-wget)
+    - [curl, wget](#curl-wget)
     - [open ports](#open-ports)
       - [nmap](#nmap)
       - [netstat](#netstat)
@@ -373,9 +374,21 @@ clear terminal
 clear
 ```
 
+show number of CPU cores (useful for **NGINX** `worker_processes`)
+
+```sh
+nproc
+```
+
+show the number of files your OS is allowed to open per core (useful for **NGINX** `worker_connections`)
+
+```sh
+ulimit -n
+```
+
 ---
 
-#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`, `source`
 
 make a directory
 
@@ -569,6 +582,14 @@ ln -s /path/to/filename /path/to/filename
 ln -s /opt/dev/ops/devops/test/commands.txt cmds
 ```
 
+create softlink for nginx config
+
+```sh
+sudo ln -s /etc/nginx/sites-available/nginx-handbook.conf /etc/nginx/sites-enabled/nginx-handbook.conf
+```
+
+> Always use **full paths** for symlinks!
+
 show disk usage of the current dir and all dirs and files in it
 
 ```sh
@@ -579,6 +600,12 @@ show total size of current dir
 
 ```sh
 du -sh
+```
+
+source something for root (need to test it)
+
+```sh
+sudo -s source /root/.profile
 ```
 
 #### locate
@@ -710,6 +737,14 @@ print `bat` without line numbers but with header
 
 ```sh
 bat --style=plain,header filename
+```
+
+print `bat` without paging
+
+```sh
+bat -P filename
+# or
+bat --paging=never filename
 ```
 
 ##### grep
@@ -2069,6 +2104,20 @@ sudo hostnamectl set-hostname web03
 
 #### ssh
 
+##### ssh paths
+
+ssh config path
+
+```sh
+/etc/ssh/sshd_config
+```
+
+check all ssh settings
+
+```sh
+sudo sshd -T
+```
+
 ##### ssh-keygen
 
 ###### generate secured keys and use ssh-agent and `~/.ssh/config`
@@ -2281,7 +2330,7 @@ scp -i ~/.ssh/aws/bastion-key.pem ~/.ssh/aws/wave-key.pem ec2-user@52.53.251.116
 
 ---
 
-#### https, curl, wget
+#### curl, wget
 
 > `curl` and `wget` to download something
 >
@@ -2342,6 +2391,13 @@ check working webserver (**httpd**, **apache2**, **nginx**)
 
 ```sh
 curl -i localhost
+```
+
+check website element with custom header
+
+```sh
+# example with gzip compression
+curl -I -H "Accept-Encoding: gzip" http://nginx-handbook.test/mini.min.css
 ```
 
 download file with `wget`

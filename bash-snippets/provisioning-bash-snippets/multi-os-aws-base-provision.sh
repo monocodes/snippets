@@ -26,6 +26,14 @@ function message() {
   echo
 }
 
+# fix us locale function
+function fix-us-locale() {
+    message "Fixing US locale..."
+    sudo grep -wq '^LANG=en_US.utf-8' /etc/environment || echo 'LANG=en_US.utf-8' | sudo tee -a /etc/environment
+    sudo grep -wq 'LC_ALL=en_US.utf-8' /etc/environment || echo 'LC_ALL=en_US.utf-8' | sudo tee -a /etc/environment
+    sudo localectl set-locale LANG=en_US.UTF-8
+    sudo localectl set-keymap us
+}
 
 # bat install function
 function bat-install() {
@@ -99,8 +107,8 @@ function bat-install() {
     message "Distro - Ubuntu"
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a /home/ubuntu/.bashrc
-    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
+    grep -wq '^export EDITOR=vim' /home/ubuntu/.bashrc || echo 'export EDITOR=vim' | tee -a /home/ubuntu/.bashrc
+    sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
 
     message "Updating system..."
     sudo apt-get update
@@ -125,11 +133,7 @@ function bat-install() {
   elif [  -n "$(uname -a | grep -i amzn)" ]; then
     message "Distro - Amazon Linux"
 
-    message "Fixing US locale..."
-    echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
-    echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
-    sudo localectl set-locale LANG=en_US.UTF-8
-    sudo localectl set-keymap us
+    fix-us-locale
 
     message "Installing epel and updating system..."
     sudo amazon-linux-extras install epel -y
@@ -146,8 +150,8 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a /home/ec2-user/.bashrc
-    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
+    grep -wq '^export EDITOR=vim' /home/ec2-user/.bashrc || echo 'export EDITOR=vim' | tee -a /home/ec2-user/.bashrc
+    sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
     
   elif [  -n "$(uname -a | grep -i el7)" ]; then
     # el[8-99] for another upstream RHEL based
@@ -155,11 +159,7 @@ function bat-install() {
     
     message "Distro CentOS 7 / RHEL 7"
 
-    message "Fixing US locale..."
-    echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
-    echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
-    sudo localectl set-locale LANG=en_US.UTF-8
-    sudo localectl set-keymap us
+    fix-us-locale
 
     message "Installing epel and updating system..."
     sudo yum install epel-release -y
@@ -176,8 +176,9 @@ function bat-install() {
     bat-install
 
     message "Making vim default editor for default user and root..."
-    echo "export EDITOR=vim" | tee -a /home/centos/.bashrc
-    echo "export EDITOR=vim" | sudo tee -a /root/.bashrc
+    grep -wq '^export EDITOR=vim' /home/centos/.bashrc || echo 'export EDITOR=vim' | tee -a /home/centos/.bashrc
+    sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
+
   fi  
   } 2> >(tee /var/log/provision-err.log 1>&2);
 } |& tee /var/log/provision-full.log
