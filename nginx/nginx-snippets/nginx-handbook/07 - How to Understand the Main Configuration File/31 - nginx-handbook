@@ -1,0 +1,8 @@
+server {
+    listen 80;
+    server_name nginx-handbook.test;
+
+    root /srv/nginx-handbook-projects/static-demo;
+}
+
+# Files inside the /etc/nginx/sites-available/ directory are meant to be included within the main http context so they should contain server blocks only.

@@ -1,0 +1,6 @@
+server {
+    listen 80;
+    server_name nginx.wandering-mono.top;
+
+    root /srv/nginx-handbook-projects/static-demo;
+}

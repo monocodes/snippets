@@ -212,7 +212,7 @@ git push --force-with-lease
 
 go back to previous commit  
 
-> use `git revert` if you are ok with history been stored. Instead use `got reset --hard`
+> use `git revert` if you are ok with history been stored. Instead use `git reset --hard`
 
 ```sh
 git revert Head
