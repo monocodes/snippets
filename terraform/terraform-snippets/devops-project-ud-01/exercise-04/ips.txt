@@ -1,0 +1,2 @@
+aws_instance.dove-inst.private_ip
+aws_instance.dove-inst.public_ip

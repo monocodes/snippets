@@ -2,7 +2,7 @@
 title: k8s
 categories:
   - software
-  - CI/CD
+  - IAC
   - notes
   - guides
 author: monocodes

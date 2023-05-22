@@ -85,7 +85,10 @@ Useful hints and suggests
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "security.workspace.trust.untrustedFiles": "open",
     "editor.wordWrap": "on",
-    "editor.rulers": [50, 79],
+    "editor.rulers": [
+        50,
+        79
+    ],
     "editor.stickyTabStops": true,
     "python.analysis.typeCheckingMode": "off",
     "workbench.editorAssociations": {
@@ -107,13 +110,16 @@ Useful hints and suggests
     "[ruby]": {
         "editor.tabSize": 2
     },
+    "[terraform]": {
+        "editor.defaultFormatter": "hashicorp.terraform",
+        "editor.tabSize": 2
+    },
+    "[terraform-vars]": {
+        "editor.tabSize": 2
+    },
     "[dockercompose]": {
         "editor.defaultFoldingRangeProvider": "redhat.vscode-yaml",
     },
-    "telemetry.telemetryLevel": "off",
-    "docker.images.label": "FullTag",
-    "editor.indentSize": "tabSize",
-    "window.autoDetectColorScheme": true,
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
         "editor.tabSize": 2,
@@ -127,19 +133,13 @@ Useful hints and suggests
         "MD028": false,
         "MD036": false,
         "MD010": {
-            "code_blocks":false,
+            "code_blocks": false,
         },
     },
-    "yaml.schemas": {
-        "Kubernetes": [
-            "*pod*.yaml",
-            "*svc*.yaml",
-            "*service*.yaml",
-            "*repl*.yaml",
-            "*dep*.yaml",
-            "*secr*.yaml",
-        ]
-    },
+    "telemetry.telemetryLevel": "off",
+    "docker.images.label": "FullTag",
+    "editor.indentSize": "tabSize",
+    "window.autoDetectColorScheme": true,
 }
 ```
 

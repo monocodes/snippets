@@ -8,7 +8,8 @@ images/
 playground.*
 *secret*
 
-
+# terraform
+.terraform/
 
 # General
 .DS_Store

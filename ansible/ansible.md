@@ -2,6 +2,7 @@
 title: ansible
 categories:
   - software
+  - IAC
   - guides
   - notes
 author: monocodes

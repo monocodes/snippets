@@ -761,6 +761,17 @@ find word in file and ignore case
 grep -i word filename
 ```
 
+grep multiple patterns
+
+```sh
+grep -E 'pattern1|pattern2'
+grep -e pattern1 -e pattern2
+
+# examples
+ls -la ~/.ssh/aws | grep -E 'dove|vpro'
+ls -la ~/.ssh/aws | grep -e dove -e vpro
+```
+
 find word in the file in all files and dirs
 
 ```sh
@@ -1313,6 +1324,13 @@ sudo -i
 switch to any user, change user
 
 ```sh
+su - username
+```
+
+switch to any user if you don't know the password
+
+```sh
+sudo -i
 su - username
 ```
 

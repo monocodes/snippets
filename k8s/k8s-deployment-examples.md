@@ -2,7 +2,7 @@
 title: k8s-deployment-examples
 categories:
   - software
-  - CI/CD
+  - IAC
   - examples
 author: monocodes
 url: https://github.com/monocodes/snippets.git
