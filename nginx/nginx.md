@@ -10,6 +10,8 @@ url: https://github.com/monocodes/snippets.git
 
 - [install NGINX](#install-nginx)
   - [Rocky Linux 9](#rocky-linux-9)
+  - [NGINX install from sources](#nginx-install-from-sources)
+    - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[LevelUp360 DevOps\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-levelup360-devops-udemy)
 - [NGINX paths](#nginx-paths)
   - [Nginx Web Server / Directory Structure](#nginx-web-server--directory-structure)
     - [/etc/nginx/](#etcnginx)
@@ -41,6 +43,102 @@ sudo dnf install nginx -y && \
   sudo firewall-cmd --reload
 ```
 
+### NGINX install from sources
+
+#### NGINX MasterClass. NGINX Server and Custom Load Balancer [LevelUp360 DevOps] [Udemy]
+
+1. Update Packages
+
+    ```sh
+    apt-get update # Ubuntu
+    yum update # CentOS
+    ```
+
+2. Download the NGINX source code from nginx.org
+
+    <https://nginx.org/download/nginx-1.19.1.tar.gz>
+
+3. Unzip the file.
+
+    ```sh
+    tar -zxvf nginx-1.19.1.tar.gz
+    ```
+
+4. Configure source code to the build.
+
+    ```sh
+    ./configure
+    ```
+
+5. Install code compiler
+
+    ```sh
+    apt-get install build-essential # Ubuntu
+    yum groupinstall "Development Tools" # CentOS
+    ```
+
+6. Configure source code to the build.
+
+    ```sh
+    ./configure
+    ```
+
+7. GET Support Libraries
+
+    ```sh
+    apt-get install libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev make # Ubuntu
+    yum install pcre pcre-devel zlib zlib-devel openssl openssl-devel make # CentOS
+    ```
+
+8. Execute configuration again
+
+    ```sh
+    ./configure --sbin-path=/usr/bin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-pcre --pid-path=/var/run/nginx.pid --with-http_ssl_module
+    ```
+
+9. Compile and install Nginx
+
+    ```sh
+    make
+    make install
+    ```
+
+**Add NGINX Process in Systemd Services to make the WebServer Resilient.**
+
+1. NGINX Init Services File.
+
+    <https://www.nginx.com/resources/wiki/start/topics/examples/systemd/>
+
+2. Start Service
+
+    ```sh
+    systemctl start nginx
+    ```
+
+3. Stop Service
+
+    ```sh
+    systemctl stop nginx
+    ```
+
+4. Restart-Service
+
+    ```sh
+    systemctl restart nginx
+    ```
+
+5. Check Service Status
+
+    ```sh
+    systemctl status nginx
+    ```
+
+6. Enable service, auto-start on boot
+
+    ```sh
+    systemctl enable nginx
+    ```
+
 ---
 
 ## NGINX paths
@@ -49,6 +147,12 @@ main config
 
 ```sh
 /etc/nginx/nginx.conf
+```
+
+default site location
+
+```sh
+/usr/share/nginx/html
 ```
 
 logs
@@ -77,6 +181,12 @@ sudo nginx -s reopen
 ```
 
 > You need to reopen logs every time you swap main `nginx.conf` file.
+
+upload static site to user dir example
+
+```sh
+scp -r bloggingtemplate/ ub22-nginx:~/
+```
 
 ---
 

@@ -706,6 +706,12 @@ show continuously last 10 lines of the file
 tail -f filename
 ```
 
+show continuously last 10 lines of all files in current dir
+
+```sh
+tail -f *
+```
+
 show file contents with pager `less`
 
 ```sh
@@ -739,7 +745,7 @@ print `bat` without line numbers but with header
 bat --style=plain,header filename
 ```
 
-print `bat` without paging
+print `bat` without pager
 
 ```sh
 bat -P filename
@@ -2017,7 +2023,7 @@ ip a
 restart network
 
 ```sh
-sudo systemctl stop NetworkManager.service
+sudo systemctl restart NetworkManager
 ```
 
 ---

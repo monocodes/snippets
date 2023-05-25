@@ -119,6 +119,7 @@ then
   fi
 fi
 EOF
+	source $HOME/.profile && \
   sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER
 ```
@@ -152,6 +153,7 @@ then
   fi
 fi
 EOF
+	source $HOME/.bash_profile && \
   sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER
 ```
