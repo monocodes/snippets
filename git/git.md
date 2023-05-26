@@ -517,6 +517,42 @@ git init
 
 ---
 
+## git apps
+
+### Sourcetree
+
+Sourcetree has glitches with GitHub Auth and ssh keys.
+
+If it can't commit use **GitHub Access Keys** or:
+
+1. Exit Sourcetree
+
+2. Check keys in ssh-agent
+
+   ```sh
+   ssh-add -l
+   ```
+
+3. Remove your ssh key for GitHub from ssh-agent or all keys
+
+   ```sh
+   ssh-add -d
+   ```
+
+4. Add again your GitHub ssh key to key-agent
+
+   ```sh
+   # example
+   ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+   ```
+
+5. Start SourceTree
+
+6. Enter Settings with `Cmd + ,` -> Accounts -> OAuth -> SSH  
+   Sourcetree will complain that *no key found*, it's ok :)
+
+---
+
 ## git guides
 
 ### Sync local repos with remote repos and renamed account on GitHub
