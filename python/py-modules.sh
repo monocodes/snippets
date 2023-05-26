@@ -30,6 +30,9 @@ pip install -U pip
 # list oudated installed packages
 pip list --outdated
 
+# update package
+pip install package-name -U
+
 # completely uninstall pip
 pip freeze | xargs pip uninstall -y
 python -m pip uninstall pip setuptools
