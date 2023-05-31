@@ -1111,6 +1111,18 @@ echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 
 #### systemctl
 
+list all running services
+
+```sh
+systemctl --type=service --state=running
+```
+
+list all services
+
+```sh
+systemctl --type=service --all
+```
+
 service status
 
 ```sh
