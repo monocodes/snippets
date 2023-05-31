@@ -164,6 +164,18 @@ syntax on
 echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
 ```
 
+Fix “not working” `backspace` in `vim`:
+
+```sh
+$ echo "set backspace=indent,eol,start" >> ~/.vimrc
+```
+
+Fix “not working” `backspace` in `vi`:
+
+```sh
+$ echo "set backspace=indent,eol,start" >> ~/.exrc
+```
+
 ---
 
 ## Netrw Cheatsheet (Vim's File Browser)
