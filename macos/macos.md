@@ -33,6 +33,7 @@ url: https://github.com/monocodes/snippets.git
       - [Method #2: `/etc/paths.d` directory](#method-2-etcpathsd-directory)
     - [Conclusion](#conclusion)
       - [See also](#see-also)
+  - [How to transfer SD card Nintendo Switch data using macOS by enrogle](#how-to-transfer-sd-card-nintendo-switch-data-using-macos-by-enrogle)
 
 ## macos paths
 
