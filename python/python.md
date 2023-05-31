@@ -18,6 +18,18 @@ url: https://github.com/monocodes/snippets.git
 - [python notes](#python-notes)
   - [Python variables in docker](#python-variables-in-docker)
   - [Evaluate boolean environment variable in Python](#evaluate-boolean-environment-variable-in-python)
+  - [Import module from another directory or root directory](#import-module-from-another-directory-or-root-directory)
+  - [Interacting with OS](#interacting-with-os)
+  - [Break Long Lines in Python](#break-long-lines-in-python)
+    - [Breaking Long Lines of Code in Python](#breaking-long-lines-of-code-in-python)
+    - [How to Auto-Break Long Lines of Code in Python](#how-to-auto-break-long-lines-of-code-in-python)
+    - [How to Break a String into Multiple Lines](#how-to-break-a-string-into-multiple-lines)
+    - [Break a Function Arguments into Multiple Lines](#break-a-function-arguments-into-multiple-lines)
+    - [Break a List into Multiple Lines](#break-a-list-into-multiple-lines)
+    - [Break a Dictionary into Multiple Lines](#break-a-dictionary-into-multiple-lines)
+    - [Break Mathematical Operations into Multiple Lines](#break-mathematical-operations-into-multiple-lines)
+    - [Break Comparisons into Multiple Lines](#break-comparisons-into-multiple-lines)
+    - [Conclusion](#conclusion)
 
 ## install python
 
@@ -248,3 +260,281 @@ print(os.getenv("THIS_VARIABLE_DOESNT_EXIST", "Return this if it does not exist.
     ```python
     DEBUG = (os.getenv('DEBUG', 'False') == 'True')
     ```
+
+---
+
+### Import module from another directory or root directory
+
+**import sys**
+
+example:
+
+1. VS Code opened in directory 1
+
+2. Script *script.py* you are working with located in directory *1/2/script.py*
+
+3. Module that nedeed to be imported is located in root directory: *1/module.py*
+
+4. To import function from module from directory 1 you need to write in your *script.py* the following lines:
+
+   ```python
+   import sys
+   sys.path.append('')
+   from module import func
+   ```
+
+---
+
+### Interacting with OS
+
+[FileNotFoundError: [Errno 2\] No such file or directory [duplicate]](https://stackoverflow.com/questions/22282760/filenotfounderror-errno-2-no-such-file-or-directory)
+
+I am trying to open a CSV file but for some reason python cannot locate it.
+
+Here is my code (it's just a simple code but I cannot solve the problem):
+
+```py
+import csv
+
+with open('address.csv','r') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print row
+```
+
+When you open a file with the name `address.csv`, you are telling the `open()` function that your file is in the current working directory. This is called a relative path.
+
+To give you an idea of what that means, add this to your code:
+
+```py
+import os
+
+cwd = os.getcwd()  # Get the current working directory (cwd)
+files = os.listdir(cwd)  # Get all the files in that directory
+print("Files in %r: %s" % (cwd, files))
+```
+
+That will print the current working directory along with all the files in it.
+
+Another way to tell the `open()` function where your file is located is by using an absolute path, e.g.:
+
+```py
+f = open("/Users/foo/address.csv")
+```
+
+---
+
+### [Break Long Lines in Python](https://www.codingem.com/python-how-to-break-long-lines/)
+
+By [Artturi Jalli](https://www.codingem.com/author/artturijalli/)
+
+Python supports implicit line continuation. This means you can break long lines of code.
+
+For example, instead of this:
+
+```python
+math_students = ["Alice", "Bob", "Charlie", "David", "Emmanuel"]
+```
+
+You can write it like this:
+
+```py
+math_students = [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "David",
+    "Emmanuel"
+]
+```
+
+As a matter of fact, you should limit all lines of code to[ a maximum of 79 characters](<https://www.python.org/dev/peps/pep-0008/#:~:text=limit> all lines to a maximum of 79 characters.).
+
+Today, you are going to learn when and how to break long lines in Python.
+
+#### Breaking Long Lines of Code in Python
+
+Breaking lines increases the total number of lines of code. But at the same, it can drastically improve the readability of your code.
+
+It is recommended not to have lines of code longer than 79 characters.
+
+Python supports implicit line continuation. This means any expression inside the parenthesis, square brackets, or curly braces can be broken into multiple lines.
+
+For example, here is a long **print()** function call is broken into multiple lines in a couple of ways:
+
+```py
+print("Alice", "Bob", "Charlie", "David", "Emmanuel",
+      "Farao", "Gabriel", "Hilbert", "Isaac")
+
+print(
+    "Alice", "Bob", "Charlie",
+    "David", "Emmanuel", "Farao",
+    "Gabriel", "Hilbert", "Isaac"
+)
+
+print(
+    "Alice",
+    "Bob",
+    "Charlie",
+    "David",
+    "Emmanuel",
+    "Farao",
+    "Gabriel",
+    "Hilbert",
+    "Isaac"
+)
+```
+
+There are many ways you can break long lines in Python. You may want to check the [official style guide](https://www.python.org/dev/peps/pep-0008) that explains best practices more thoroughly.
+
+Before jumping into examples, notice that there is a way to automatize the line-breaking process.
+
+#### How to Auto-Break Long Lines of Code in Python
+
+Popular code editors allow you install plugins that enforce code style guidelines.
+
+A cool feature of these plugins is you can usually auto-format code. In other words, the plugin automatically takes care no line exceeds the 79 character “limit”.
+
+For example, in VSCode it is possible to automatically [format code on save](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0).
+
+Next up, let’s see some examples when you may want to split expressions into multiple lines.
+
+#### How to Break a String into Multiple Lines
+
+To break a string to multiple lines, wrap each string in the new line inbetween a pair of double quotation marks.
+
+For instance, you can do this:
+
+```python
+print(
+    "This happens to be"
+    " so long string that"
+    " it may be a better idea"
+    " to break the line not to"
+    " extend it further to the right"
+)
+```
+
+But you **cannot** do this:
+
+```python
+print(
+    "This happens to be
+    so long string that
+    it may be a better idea
+    to break the line not to
+    extend it further to the right"
+)
+```
+
+#### Break a Function Arguments into Multiple Lines
+
+If your function takes a number of arguments that extends line of code far to the right, feel free to break the expression into multiple lines.
+
+For example, instead of doing this:
+
+```python
+def example_function(first_number, second_number, third_number, fourth_number, fifth_number):
+    pass
+```
+
+You can do this:
+
+```python
+def example_function(
+    first_number,
+    second_number,
+    third_number,
+    fourth_number,
+    fifth_number
+):
+    pass
+```
+
+#### Break a List into Multiple Lines
+
+For example, let’s create a 3×3 matrix using a [list](https://medium.com/codex/python-101-working-with-lists-df46ac8cfb9f):
+
+```python
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
+
+This is fine, but as you may know, a matrix is written in a table format. This makes it look more like a table of values.
+
+To follow this convention in Python, you can split the matrix (the list of lists) into multiple lines:
+
+```python
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+```
+
+#### Break a Dictionary into Multiple Lines
+
+Just like breaking a list declaration into multiple lines, you can do it with a dictionary.
+
+For instance, instead of a long expression like this:
+
+```python
+student = {"name": "Alice", "graduated": False, "married": False, "age": 23, "hobbies": ["Jogging", "Gym", "Boxing"]}
+```
+
+Let’s split the dictionary into a bunch of lines to make it more understandable:
+
+```python
+student = {
+    "name": "Alice",
+    "graduated": False,
+    "married": False,
+    "age": 23,
+    "hobbies": ["Jogging", "Gym", "Boxing"]
+}
+```
+
+#### Break Mathematical Operations into Multiple Lines
+
+To split a chain of binary operations, break the line before the operator. This makes the code more readable as the binary operators are not all over the place.
+
+For example, instead of doing this:
+
+```python
+income = gross_wages + taxable_interest + (dividends - qualified_dividends) - ira_deduction - student_loan_interest
+```
+
+You can do this:
+
+```python
+income = (gross_wages
+          + taxable_interest
+          + (dividends - qualified_dividends)
+          - ira_deduction
+          - student_loan_interest)
+```
+
+This example is directly from the [PEP-0008 style guide](<https://www.python.org/dev/peps/pep-0008/#:~:text=continued> line appropriately.-,should a line break before or after a binary operator%3F,-For decades the).
+
+#### Break Comparisons into Multiple Lines
+
+Like any other expression, comparisons can also take some space. To avoid too long chains of comparisons, you can break the line.
+
+For instance:
+
+```python
+if (is_rainy == True and
+    is_hot == True and
+    is_sunny == True and
+    is_night == True):
+    print("How is that possible...?")
+```
+
+#### Conclusion
+
+Python’s implicit continuation makes it possible to break long expressions into multi-line expressions. This is useful for code readability.
+
+To break an expression into multiple lines, wrap the expression around a set of parenthesis and break it down as you want.
+
+If the expression is already in a set of parenthesis, square brackets, or curly braces, you can split it to multiple lines. This is true for example for lists, tuples, and dictionaries.
+
+---
