@@ -32,6 +32,23 @@ url: https://github.com/monocodes/snippets.git
 
 ## install NGINX
 
+check NGINX version and configure arguments
+
+```sh
+nginx -V
+```
+
+### Ubuntu 22
+
+nginx install
+
+```sh
+sudo apt install nginx
+sudo apt install nginx-full
+```
+
+---
+
 ### Rocky Linux 9
 
 nginx install one-liner
@@ -411,6 +428,15 @@ worker_processes auto;
 events...
 ```
 
+you can check available CPUs on machine with
+
+```sh
+nproc
+nproc --all
+lscpu
+cat /proc/cpuinfo
+```
+
 set number of `worker_connections` to match OS setup
 
 - check OS setting for number of files OS is allowed to open per core
@@ -461,6 +487,32 @@ The available signals are `stop`, `quit`, `reload` and `reopen`.
 sudo nginx -s reload
 # or
 sudo systemctl restart nginx
+```
+
+---
+
+## NGINX modules
+
+### php-fpm
+
+> NGINX worker processes must be launched with the same user as php-fpm workers. Usually it is *www-data* user.
+
+find fpm.sock to communicate with NGINX
+
+```sh
+sudo find / -name '*fpm.sock'
+
+# output
+/run/php/php-fpm.sock
+/run/php/php8.1-fpm.sock # this is correct one
+/var/lib/dpkg/alternatives/php-fpm.sock
+/etc/alternatives/php-fpm.sock
+```
+
+`info.php` file
+
+```php
+<?php phpinfo(); ?>
 ```
 
 ---
