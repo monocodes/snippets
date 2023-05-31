@@ -352,6 +352,13 @@ logout with current user
 exit
 ```
 
+reinitialize shell
+
+```sh
+exec zsh -l
+exec bash -l
+```
+
 ---
 
 #### sysinfo
@@ -3198,14 +3205,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 **Node.js v19.x**:
@@ -3214,14 +3221,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 **Node.js v18.x**:
@@ -3230,14 +3237,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 **Node.js v16.x**:
@@ -3246,14 +3253,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 **Node.js LTS (v18.x)**:
@@ -3262,14 +3269,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 **Node.js Current (v20.x)**:
@@ -3278,14 +3285,14 @@ Using Ubuntu
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
-apt-get install -y nodejs
+  apt-get install -y nodejs
 ```
 
 ***Optional***: install build tools
@@ -3306,7 +3313,7 @@ use `sudo` on Ubuntu or run this as root on debian
 
 ```sh
 apt-get purge nodejs &&\
-rm -r /etc/apt/sources.list.d/nodesource.list
+  rm -r /etc/apt/sources.list.d/nodesource.list
 ```
 
 ---
