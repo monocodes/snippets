@@ -9,6 +9,7 @@ url: https://github.com/monocodes/snippets.git
 ---
 
 - [install NGINX](#install-nginx)
+  - [Ubuntu 22](#ubuntu-22)
   - [Rocky Linux 9](#rocky-linux-9)
   - [NGINX install from sources](#nginx-install-from-sources)
     - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[Cloud99 Tech\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-cloud99-tech-udemy)
@@ -26,6 +27,8 @@ url: https://github.com/monocodes/snippets.git
   - [Optimizing NGINX config](#optimizing-nginx-config)
   - [Location Matches](#location-matches)
 - [NGINX commands](#nginx-commands)
+- [NGINX modules](#nginx-modules)
+  - [php-fpm](#php-fpm)
 - [NGINX notes](#nginx-notes)
   - [Error messages](#error-messages)
   - [WebSocket proxying](#websocket-proxying)
