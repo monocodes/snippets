@@ -11,7 +11,7 @@ url: https://github.com/monocodes/snippets.git
 - [install NGINX](#install-nginx)
   - [Rocky Linux 9](#rocky-linux-9)
   - [NGINX install from sources](#nginx-install-from-sources)
-    - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[LevelUp360 DevOps\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-levelup360-devops-udemy)
+    - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[Cloud99 Tech\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-cloud99-tech-udemy)
 - [NGINX paths](#nginx-paths)
   - [Nginx Web Server / Directory Structure](#nginx-web-server--directory-structure)
     - [/etc/nginx/](#etcnginx)
@@ -45,7 +45,7 @@ sudo dnf install nginx -y && \
 
 ### NGINX install from sources
 
-#### NGINX MasterClass. NGINX Server and Custom Load Balancer [LevelUp360 DevOps] [Udemy]
+#### NGINX MasterClass. NGINX Server and Custom Load Balancer [Cloud99 Tech] [Udemy]
 
 1. Update Packages
 
