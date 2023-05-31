@@ -104,7 +104,7 @@ function bat-install() {
 
 
 #################################################
-# Start and record all script output.
+# Start script and record all its output.
 #################################################
 {
   {
