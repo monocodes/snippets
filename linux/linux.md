@@ -374,10 +374,13 @@ clear terminal
 clear
 ```
 
-show number of CPU cores (useful for **NGINX** `worker_processes`)
+show number of CPU cores (useful for **NGINX** `worker_processes`) or CPU info
 
 ```sh
 nproc
+nproc --all
+lscpu
+cat /proc/cpuinfo
 ```
 
 show the number of files your OS is allowed to open per core (useful for **NGINX** `worker_connections`)
@@ -571,6 +574,15 @@ find /path/to -name filename*
 
 # example
 find . -name "foo*"
+
+# find fpm.sock to communicate with NGINX
+sudo find / -name '*fpm.sock'
+
+# output
+/run/php/php-fpm.sock
+/run/php/php8.1-fpm.sock
+/var/lib/dpkg/alternatives/php-fpm.sock
+/etc/alternatives/php-fpm.sock
 ```
 
 create softlink
@@ -1209,6 +1221,14 @@ top
 htop
 ```
 
+top and show CPUs
+
+```sh
+top
+# press
+1
+```
+
 top for specified process
 
 ```sh
@@ -1221,10 +1241,20 @@ show all processes and exit
 ps aux
 ```
 
-show all processes with displaying parent processes
+show all processes with parent processes
 
 ```sh
 ps -ef
+```
+
+show all processes in tree structure with master and child processes
+
+```sh
+ps -ef --forest
+ps -aux --forest
+
+# example
+ps -ef --forest | grep nginx
 ```
 
 show all processes sorted by memory usage with `Mb` not `%`
