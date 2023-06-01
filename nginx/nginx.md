@@ -29,9 +29,15 @@ url: https://github.com/monocodes/snippets.git
 - [NGINX commands](#nginx-commands)
 - [NGINX modules](#nginx-modules)
   - [php-fpm](#php-fpm)
-- [NGINX notes](#nginx-notes)
+- [NGINX notes and guides](#nginx-notes-and-guides)
   - [Error messages](#error-messages)
   - [WebSocket proxying](#websocket-proxying)
+  - [Single server, nginx as a reverse proxy, multiple domains/websites](#single-server-nginx-as-a-reverse-proxy-multiple-domainswebsites)
+    - [Question](#question)
+    - [Answer](#answer)
+  - [How to create reverse proxy for multiple websites in nginx](#how-to-create-reverse-proxy-for-multiple-websites-in-nginx)
+    - [Question](#question-1)
+    - [Answer](#answer-1)
 
 ## install NGINX
 
@@ -210,7 +216,7 @@ scp -r bloggingtemplate/ ub22-nginx:~/
 
 ---
 
-### Nginx Web Server / Directory Structure
+### [Nginx Web Server / Directory Structure](https://wiki.debian.org/Nginx/DirectoryStructure)
 
 Contents
 
@@ -465,6 +471,8 @@ set number of `worker_connections` to match OS setup
 
 ### Location Matches
 
+The list of all the matches in descending order of priority is as follows:
+
 | MATCH               | MODIFIER    |
 | :------------------ | :---------- |
 | Exact               | `=`         |
@@ -503,13 +511,19 @@ sudo systemctl restart nginx
 find fpm.sock to communicate with NGINX
 
 ```sh
-sudo find / -name '*fpm.sock'
-
+ls /run/php/ | grep php
 # output
+php-fpm.sock
+php8.1-fpm.pid
+php8.1-fpm.sock
+
+# or
+
+sudo find / -name *fpm.sock
+# output
+/run/php/php8.1-fpm.sock
 /run/php/php-fpm.sock
-/run/php/php8.1-fpm.sock # this is correct one
 /var/lib/dpkg/alternatives/php-fpm.sock
-/etc/alternatives/php-fpm.sock
 ```
 
 `info.php` file
@@ -520,7 +534,7 @@ sudo find / -name '*fpm.sock'
 
 ---
 
-## NGINX notes
+## NGINX notes and guides
 
 - [Alphabetical index of directives](https://nginx.org/en/docs/dirindex.html)
 - [Alphabetical index of variables](https://nginx.org/en/docs/varindex.html)
@@ -578,36 +592,270 @@ Since version 1.3.13, nginx implements special mode of operation that allows set
 
 As noted above, hop-by-hop headers including “Upgrade” and “Connection” are not passed from a client to proxied server, therefore in order for the proxied server to know about the client’s intention to switch a protocol to WebSocket, these headers have to be passed explicitly:
 
-> ```nginx
-> location /chat/ {
->     proxy_pass http://backend;
->     proxy_http_version 1.1;
->     proxy_set_header Upgrade $http_upgrade;
->     proxy_set_header Connection "upgrade";
-> }
-> ```
+```nginx
+location /chat/ {
+  proxy_pass http://backend;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+}
+```
 
 A more sophisticated example in which a value of the “Connection” header field in a request to the proxied server depends on the presence of the “Upgrade” field in the client request header:
 
-> ```nginx
-> http {
->     map $http_upgrade $connection_upgrade {
->         default upgrade;
->         ''      close;
->     }
-> 
->     server {
->         ...
-> 
->         location /chat/ {
->             proxy_pass http://backend;
->             proxy_http_version 1.1;
->             proxy_set_header Upgrade $http_upgrade;
->             proxy_set_header Connection $connection_upgrade;
->         }
->     }
-> ```
+```nginx
+http {
+ map $http_upgrade $connection_upgrade {
+     default upgrade;
+     ''      close;
+ }
+
+ server {
+     ...
+
+     location /chat/ {
+         proxy_pass http://backend;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection $connection_upgrade;
+     }
+ }
+```
 
 By default, the connection will be closed if the proxied server does not transmit any data within 60 seconds. This timeout can be increased with the [proxy_read_timeout](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout) directive. Alternatively, the proxied server can be configured to periodically send WebSocket ping frames to reset the timeout and check if the connection is still alive.
 
 ---
+
+### [Single server, nginx as a reverse proxy, multiple domains/websites](https://serverfault.com/questions/886582/single-server-nginx-as-a-reverse-proxy-multiple-domains-websites)
+
+#### Question
+
+I have this nginx config for my website on https where nginx is used as a reverse proxy server:
+
+```nginx
+  server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      server_name my_domain123.com www.my_domain123.com;
+      return 301 https://$server_name$request_uri;
+  }
+
+  server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name localhost www.my_domain123.com;
+    return 301 https://my_domain123.com$request_uri;
+  }
+
+  server {
+      listen 443 ssl default_server;
+      listen [::]:443 ssl default_server;
+      server_name my_domain123.com;
+
+    location / {
+      proxy_redirect      http://localhost:4000 https://my_domain123.com;
+      # ...........................
+
+    }
+```
+
+How should I adjust it so that I can host **multiple** websites with **different** domain names on the **same server**? Where in the config exactly should I insert the new configuration for that new website?
+
+Or should I create one more site-available/enabled for it also? **Yet, the question remains:** how would I combine 2 or more configurations -- same server, multiple domains -- properly?
+
+#### Answer
+
+Normally you create a new config file `/etc/nginx/sites-available/newserver.conf` for the new server and link it from `/etc/nginx/sites-enabled`.
+To use nginx as reverse proxy, you configure SSL in nginx (`ssl_certificate`, ...) and in the location section you use `proxy_pass` to the non SSL server at localhost. `proxy_redirect` is also needed, but that only modifies the `Location` header in case your non SSL local server sends one.
+You find an example in the following [article](https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl-as-a-reverse-proxy-for-jenkins).
+
+**Multiple http servers on localhost using different ports**
+
+```nginx
+server {
+    server_name mydomain-01.com;
+
+    location / {
+      proxy_redirect http://localhost:8001 https://mydomain-01.com;
+      ...
+    }
+}
+server {
+    server_name mydomain-02.com;
+
+    location / {
+      proxy_redirect http://localhost:8002 https://mydomain-02.com;
+      ...
+    }
+}
+```
+
+**Single http server on localhost using hostname based sites**
+
+```nginx
+server {
+    server_name mydomain-01.com;
+
+    location / {
+      proxy_redirect http://s1.localdomain:4000 https://mydomain-01.com;
+      ...
+    }
+}
+server {
+    server_name mydomain-02.com;
+
+    location / {
+      proxy_redirect http://s2.localdomain:4000 https://mydomain-02.com;
+      ...
+    }
+}
+```
+
+---
+
+### [How to create reverse proxy for multiple websites in nginx](https://stackoverflow.com/questions/68196179/how-to-create-reverse-proxy-for-multiple-websites-in-nginx)
+
+#### Question
+
+I have many different technologies serving APIs and sites on my local machine. I want to be able to see them via human-readable names, rather than ports.
+
+For example, I have:
+
+- localhost:8000 => laravel api for user panel
+- localhost:8001 => laravel api for admin panel
+- localhost:3000 => react client for user panel
+- localhost:3001 => nextjs client for site
+- localhost:3002 => react client for admin panel
+
+And this list goes on.
+
+Remembering all these ports is not possible of course. Thus I thought to setup a reverse proxy for them:
+
+- api.user.example.local
+- api.admin.example.local
+- example.local
+- user.example.local
+- admin.example.local
+
+I know I have to add these host headers to `/etc/hosts` file. I also read about [how to configure nginx as a reverse proxy](https://www.interserver.net/tips/kb/local-domain-names-ubuntu/) **for one domain**.
+
+I don't know how to do it for many sites. And only as a reverse proxy, not as a server.
+
+#### Answer
+
+Please note: I'm not considering myself as really super nginx expert, just starting to learn nginx, but I think I can help you with this task.
+
+Here is my approach:
+
+First, make sure your default nginx config (usually `/etc/nginx/nginx.conf`) has line `include /etc/nginx/conf.d/*.conf;` in its `http` block, so you may specify internal servers in separate config files for ease of use.
+
+Create additional config file `/etc/nginx/conf.d/local_domains.conf` and add following server blocks in it:
+
+```nginx
+server {
+    listen         80;
+    server_name    api.user.example.local;
+
+    location / {
+    set $target http://localhost:8000;
+    proxy_pass $target;
+  }
+}
+
+server {
+    listen         80;
+    server_name    api.admin.example.local;
+
+    location / {
+    set $target http://localhost:8001;
+    proxy_pass $target;
+  }
+}
+
+server {
+    listen         80;
+    server_name    example.local;
+
+    location / {
+    set $target http://localhost:3000;
+    proxy_pass $target;
+  }
+}
+
+server {
+    listen         80;
+    server_name    user.example.local;
+
+    location / {
+    set $target http://localhost:3001;
+    proxy_pass $target;
+  }
+}
+
+server {
+    listen         80;
+    server_name    admin.example.local;
+
+    location / {
+    set $target http://localhost:3002;
+    proxy_pass $target;
+  }
+}
+```
+
+On the client machine, add these records to the `hosts` file
+
+```properties
+192.168.1.1  api.user.example.local
+192.168.1.1  api.admin.example.local
+192.168.1.1  example.local
+192.168.1.1  user.example.local
+192.168.1.1  admin.example.local
+```
+
+Where `192.168.1.1` is the address of your nginx server.
+
+That's it, it should work if your internal servers are using HTTP protocol.
+
+But if you need to use HTTPS for internal servers and for the main nginx server, modify each server block as follows:
+
+```nginx
+server {
+    listen         443 ssl http2;
+    server_name    api.user.example.local;
+
+    ssl_certificate          /usr/local/share/ca-certificates/example.local.crt;
+    ssl_certificate_key      /usr/local/share/ca-certificates/example.local.key;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    location / {
+    set $target https://api.user.example.local:8000;
+    proxy_pass $target;
+  }
+}
+
+and so on
+```
+
+`ssl_certificate` and `ssl_certificate_key` should point to correct certificate and key files for the domain.
+
+If you would like nginx main server to listen port 80 and redirect all traffic to https, add additional server blocks for each server:
+
+```nginx
+server {
+    server_name api.user.example.local;
+    listen 80;
+
+  # Force redirection to https on nginx side
+  location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+and so on
+```
+
+More information on NGINX Reverse Proxy
+
+- [NGINX Reverse Proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
+- [Module ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
