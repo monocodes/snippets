@@ -2067,6 +2067,45 @@ ip a
 
 ---
 
+#### DNS Ubuntu 22
+
+> By default Ubuntu 22 will not resolve local hostnames. More here - [Hostnames cannot be resolved after upgrading to 22.04](https://askubuntu.com/questions/1406630/hostnames-cannot-be-resolved-after-upgrading-to-22-04)
+>
+> Try to ping some local server with its hostname
+>
+> ```sh
+> ping ub22-nginx
+> ping: ub22-nginx: Temporary failure in name resolution
+> ```
+
+*local-dns-resolve.sh*
+
+```sh
+ls /run/systemd/resolve/resolv.conf && sudo mv /etc/resolv.conf /etc/resolv.conf.bak && \
+  sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf && \
+  sudo systemctl restart systemd-resolved
+```
+
+flush dns
+
+```sh
+sudo resolvectl flush-caches
+```
+
+check dns queries
+
+```sh
+resolvectl statistics
+```
+
+check dns settings
+
+```sh
+resolvectl status
+```
+
+---
+
 #### network Rocky Linux 9
 
 restart network
