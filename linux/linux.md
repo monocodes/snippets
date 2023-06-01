@@ -54,6 +54,7 @@ url: https://github.com/monocodes/snippets.git
     - [mount, umount, mounting](#mount-umount-mounting)
   - [network](#network)
     - [network Ubuntu 22](#network-ubuntu-22)
+    - [DNS Ubuntu 22](#dns-ubuntu-22)
     - [network Rocky Linux 9](#network-rocky-linux-9)
     - [network CentOS 7](#network-centos-7)
     - [hostname, hostnamectl](#hostname-hostnamectl)
@@ -3407,8 +3408,15 @@ php -S localhost:8000
 If you have multiple PHP-FPM versions installed, you can simply list all the socket file locations by executing the following command:
 
 ```sh
-sudo find / -name *fpm.sock
+ls /run/php/ | grep php
+# output
+php-fpm.sock
+php8.1-fpm.pid
+php8.1-fpm.sock
 
+# or
+
+sudo find / -name *fpm.sock
 # output
 /run/php/php8.1-fpm.sock
 /run/php/php-fpm.sock
