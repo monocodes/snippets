@@ -32,6 +32,17 @@ url: https://github.com/monocodes/snippets.git
 - [NGINX notes and guides](#nginx-notes-and-guides)
   - [Error messages](#error-messages)
   - [WebSocket proxying](#websocket-proxying)
+  - [Serving Multiple Proxy Endpoints Under a Location in Nginx](#serving-multiple-proxy-endpoints-under-a-location-in-nginx)
+    - [1. Overview](#1-overview)
+    - [2. Nginx Configuration](#2-nginx-configuration)
+      - [2.1. The *server* Block Directive](#21-the-server-block-directive)
+      - [2.2. The *location* Block Directive](#22-the-location-block-directive)
+      - [2.3. Nginx Configuration Reloading](#23-nginx-configuration-reloading)
+    - [3. Serving Multiple Proxy Endpoints](#3-serving-multiple-proxy-endpoints)
+      - [3.1. Creating the Endpoints](#31-creating-the-endpoints)
+      - [3.2. The *proxy\_pass* Directive](#32-the-proxy_pass-directive)
+      - [3.3. Sample Data Creation](#33-sample-data-creation)
+      - [3.4. Testing](#34-testing)
   - [Single server, nginx as a reverse proxy, multiple domains/websites](#single-server-nginx-as-a-reverse-proxy-multiple-domainswebsites)
     - [Question](#question)
     - [Answer](#answer)
@@ -623,6 +634,174 @@ http {
 ```
 
 By default, the connection will be closed if the proxied server does not transmit any data within 60 seconds. This timeout can be increased with the [proxy_read_timeout](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout) directive. Alternatively, the proxied server can be configured to periodically send WebSocket ping frames to reset the timeout and check if the connection is still alive.
+
+---
+
+### [Serving Multiple Proxy Endpoints Under a Location in Nginx](https://www.baeldung.com/linux/nginx-multiple-proxy-endpoints)
+
+#### 1. Overview
+
+**[Nginx](https://www.baeldung.com/linux/nginx-docker-container#2-installing-nginx) is a popular web server that we can also use as a load balancer, [forward proxy](https://www.baeldung.com/nginx-forward-proxy), or reverse proxy**. Reverse proxies are applications that stand between clients and internal servers. They accept network traffic from clients and forward it to the internal network. As a result, clients can’t directly access internal servers. Instead, they can reach them only through the reverse proxy.
+
+In this tutorial, we’ll learn how we can configure Nginx to serve multiple endpoints under the same location. To that end, we’ll use the reverse proxy settings of the Nginx server.
+
+#### 2. Nginx Configuration
+
+**Nginx uses configuration files where we can define how the server processes HTTP requests**. The main Nginx configuration file is *nginx.conf*. On Ubuntu systems, we can find it under the */etc/nginx* directory. We can enter Nginx directives into this file.
+
+Furthermore, directives can be grouped into blocks. These blocks are called contexts.
+
+##### 2.1. The *server* Block Directive
+
+**The [\*server\*](https://nginx.org/en/docs/http/ngx_http_core_module.html#server) block defines a virtual server.** To set a listening port and a hostname or IP address, we use the [*listen*](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive:
+
+```nginx
+server {
+   listen 127.0.0.1:8080;
+}Copy
+```
+
+Here, we created a virtual server that listens on port *8080* on the *localhost* address (*127.0.0.1*).
+
+##### 2.2. The *location* Block Directive
+
+**A [\*location\*](https://nginx.org/en/docs/http/ngx_http_core_module.html#location) block contains configuration for how the server should handle a set of matched HTTP requests**. We define a *location* with either a prefix string or a regular expression. So, Nginx tries to match the URL of an incoming HTTP request to the string prefix or the regular expression of a *location* block. If there’s a match, it selects this *location* block to process the HTTP request.
+
+Also, we can use the [*root*](https://nginx.org/en/docs/http/ngx_http_core_module.html#root) directive to set a filesystem directory to serve the content:
+
+```nginx
+server {
+   listen 127.0.0.1:8080;
+   location /books {
+      root /data/categories;
+   }
+}Copy
+```
+
+In the above example, we added a *location* that returns files from the */data/categories* directory of the local filesystem. Moreover, we set the prefix string */books* to *location*. Consequently, we’ll match URLs starting with */books*.
+
+Notably, **the** **Nginx \*root\* directive appends the whole HTTP request’s URL path to the local directory path**. For example, the URL path */books/echo.json* will be translated to the */data/categories/books/echo.json* path of the local filesystem.
+
+An alternative to the *root* directive is the [*alias*](https://nginx.org/en/docs/http/ngx_http_core_module.html#alias) directive. **The \*alias\* directive appends the HTTP request’s URL to the local directory path, but omits the string prefix**:
+
+```nginx
+location /books { 
+   alias /data/categories; 
+}Copy
+```
+
+So, the above block translates the URL path */books/echo.json* to */data/categories/echo.json*.
+
+##### 2.3. Nginx Configuration Reloading
+
+A nice feature of the Nginx server is that we can reload the configuration without restarting the server:
+
+```sh
+sudo nginx -s reloadCopy
+```
+
+Here, we use the *-s* option to send a *reload* signal to the Nginx server. Thus, we reload the configuration files. So, we can use this option instead of restarting the server, avoiding downtime.
+
+#### 3. Serving Multiple Proxy Endpoints
+
+In this example, first, we’ll create two virtual servers that simulate two endpoints. Then, we configure the Nginx server to proxy requests to the endpoints under the same URL path.
+
+##### 3.1. Creating the Endpoints
+
+Let’s create the two dummy endpoints:
+
+```nginx
+server {
+   listen 8081;
+   location /client1 {
+      alias /data/client1;
+   }
+}
+
+server {
+   listen 8082;
+   location /client2 {
+      alias /data/client2;
+   }
+}Copy
+```
+
+As we can see, we defined two virtual servers. Each *server* block contains a *location*:
+
+- the first listens on port *8081*, serves content from the */data/client* directory, matching requests with the */client1* prefix string
+- the second listens on port *8082*, serves content from the */data/client2* directory, matching requests with the */client2* prefix string
+
+Now, we can set the forwarding.
+
+##### 3.2. The *proxy_pass* Directive
+
+To set up forwarding, we insert the [*proxy_pass*](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive inside a *location* block. **The \*proxy_pass\* directive forwards HTTP requests to a specified network address**. The latter can be an IP address or a domain name:
+
+```nginx
+server {
+   listen 8000;
+   location /api {
+      proxy_pass http://127.0.0.1:8081/client1;
+   }
+
+    location /api/client2 {
+       proxy_pass http://127.0.0.1:8082/client2;
+    }
+}Copy
+```
+
+Here, we created a virtual server that listens on port *8000*. Moreover, we created two locations inside the virtual server:
+
+- *location* */api* forwards requests to the first endpoint (*<http://127.0.0.1:8081/client1>*)
+- *location* */api/client2* forwards requests to the second endpoint (*<http://127.0.0.1/8082/client2>*)
+
+Another key point is how *proxy_pass* forwards URL paths. There are two cases:
+
+1. *proxy_pass* references a URL with a URL path, like *<http://127.0.0.1:8081/client1>*
+2. *proxy_pass* references a URL with a hostname a port and no path, like *<http://127.0.0.1:8081>*
+
+**In the first case, the request URL path is appended to the \*proxy_pass\* address without the \*location\* prefix string**. So, */api/echo.json* will be forwarded to *<http://127.0.0.1:8081/client1/echo.json>.* In other words, */api* is replaced by */client1.*
+
+**In the second case, the request URL path is appended to the \*proxy_pass\* address with the \*location\* prefix string**:
+
+```sh
+location /api {
+    proxy_pass http://127.0.0.1:8081; 
+}Copy
+```
+
+Here, a request URL path */api/echo.json* will be proxied to *<http://127.0.0.1:8081/api/echo.json>*.
+
+##### 3.3. Sample Data Creation
+
+Before we test our settings, we should create some test files in the */data/client1* and */data/client2* directories:
+
+```sh
+$ sudo echo { 'message' : 'Hello from client1' } | sudo tee /data/client1/echo.json
+{ message : Hello from client1 }
+$ sudo echo { 'message' : 'Hello from client2' } | sudo tee /data/client2/echo.json
+{ message : Hello from client2 }Copy
+```
+
+It’s worth noting that we should have [*sudo*](https://www.baeldung.com/linux/sudo-command) rights to create files or sub-directories in the */data* directory.
+
+##### 3.4. Testing
+
+Now we’re ready to test:
+
+```sh
+$ curl http://127.0.0.1:8000/api/echo.json
+{ message : Hello from client1 }
+$ curl http://127.0.0.1:8000/api/client2/echo.json
+{ message : Hello from client2 }Copy
+```
+
+As expected, the requested JSON files were printed to the output. To sum up, let’s look at the processing of the first HTTP request:
+
+1. The server forwarded the request URL *<http://127.0.0.1:8000/api/echo.json>* to *<http://127.0.0.1:8081/client1/echo.json>*
+2. The server processed the request *<http://127.0.0.1:8081/client1/echo.json>* and returned the filesystem resource */data/client1/echo.json*
+
+Moreover, the second message had similar processing. In fact, the only difference is that the HTTP request path */api/client2/echo.json* is translated to /*client2/echo.json*.
 
 ---
 
