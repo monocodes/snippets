@@ -10,7 +10,8 @@ url: https://github.com/monocodes/snippets.git
 ---
 
 - [install](#install)
-  - [ubuntu](#ubuntu)
+  - [deb-based](#deb-based)
+  - [rpm-based](#rpm-based)
   - [java, jdk](#java-jdk)
   - [github webhooks](#github-webhooks)
 - [paths](#paths)
@@ -27,9 +28,9 @@ url: https://github.com/monocodes/snippets.git
 
 ## install
 
-### ubuntu
+### deb-based
 
-`jenkins-install-ubuntu.sh`
+*jenkins-install-deb.sh*
 
 ```sh
 #!/bin/bash
@@ -39,13 +40,24 @@ sudo apt-get update
 sudo apt-get install openjdk-11-jdk -y
 
 # jenkins install
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt-get update
 sudo apt-get install jenkins -y
+```
+
+### rpm-based
+
+*jenkins-install-rpm.sh*
+
+```sh
+#!/bin/bash
+# jenkins install
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+sudo dnf install jenkins -y
 ```
 
 ---
