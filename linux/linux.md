@@ -16,7 +16,7 @@ url: https://github.com/monocodes/snippets.git
     - [`& && || ; ;; \`](#-----)
     - [`--help`](#--help)
     - [sysinfo](#sysinfo)
-    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`, `source`](#mkdir-touch-rm-cp-mv-ls-tree-find-echo-alias-ln-du-source)
+    - [`mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `whereis`, `echo`, `alias`, `ln`, `du`, `source`](#mkdir-touch-rm-cp-mv-ls-tree-find-whereis-echo-alias-ln-du-source)
     - [locate](#locate)
     - [export](#export)
     - [needrestart](#needrestart)
@@ -105,7 +105,8 @@ url: https://github.com/monocodes/snippets.git
   - [bash '', ""](#bash--)
   - [sed '', ""](#sed--)
 - [guides](#guides)
-  - [dependencies version ranges and requirements syntax](#dependencies-version-ranges-and-requirements-syntax)
+  - [Reinstall some package and restore configs](#reinstall-some-package-and-restore-configs)
+  - [Dependencies version ranges and requirements syntax](#dependencies-version-ranges-and-requirements-syntax)
     - [package.json](#packagejson)
   - [sed guide](#sed-guide)
     - [Find and replace text within a file using sed command](#find-and-replace-text-within-a-file-using-sed-command)
@@ -399,7 +400,7 @@ ulimit -n
 
 ---
 
-#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `echo`, `alias`, `ln`, `du`, `source`
+#### `mkdir`, `touch`, `rm`, `cp`, `mv`, `ls`, `tree`, `find`, `whereis`, `echo`, `alias`, `ln`, `du`, `source`
 
 make a directory
 
@@ -591,6 +592,15 @@ sudo find / -name '*fpm.sock'
 /run/php/php8.1-fpm.sock
 /var/lib/dpkg/alternatives/php-fpm.sock
 /etc/alternatives/php-fpm.sock
+```
+
+check where is data of installed package
+
+```sh
+whereis nginx
+
+# output
+nginx: /usr/sbin/nginx /usr/lib/nginx /usr/share/nginx /usr/share/man/man8/nginx.8.gz
 ```
 
 create softlink
@@ -2511,6 +2521,7 @@ check website element with custom header
 ```sh
 # example with gzip compression
 curl -I -H "Accept-Encoding: gzip" http://nginx-handbook.test/mini.min.css
+curl -H "Accept-Encoding: gzip, deflate" -I http://ub22-nginx/assets/js/jquery.js
 ```
 
 download file with `wget`
@@ -2828,6 +2839,15 @@ remove package
 
 ```sh
 dpkg -r package-name
+```
+
+show which package belongs a file
+
+```sh
+dpkg -S /etc/nginx
+
+# output
+nginx-common: /etc/nginx
 ```
 
 ---
@@ -3626,7 +3646,68 @@ singlequote(s) singlequote(s) singlequote(s)
 
 ## guides
 
-### dependencies version ranges and requirements syntax
+### Reinstall some package and restore configs
+
+To reinstall some package and restore its' configs you need to find what dependency package hold the default configs.
+
+**NGINX example**
+
+1. Install NGINX
+
+   ```sh
+   sudo apt install nginx
+   ```
+
+2. Stop the NGINX and remove all configs
+
+   ```sh
+   sudo systemctl stop nginx && rm -rf /etc/nginx
+   ```
+
+3. Try to reinstall NGINX
+
+   ```sh
+   sudo apt reinstal nginx
+   sudo apt purge nginx -y && sudo apt autopurge -y && sudo apt install nginx -y
+   ```
+
+4. The only way to get back configs is to cleanly reinstall `nginx-common`
+
+   ```sh
+   sudo apt purge nginx-common && sudo apt install nginx-common
+   ```
+
+5. Be careful because `sudo apt purge nginx-common` will delete all NGINX dirs, but that dirs may be not touched:
+
+   ```sh
+   ...
+   Purging configuration files for nginx-common (1.18.0-6ubuntu14.3) ...
+   dpkg: warning: while removing nginx-common, directory '/var/www/html' not empty so not removed
+   dpkg: warning: while removing nginx-common, directory '/usr/share/nginx/html' not empty so not removed
+   ...
+   ```
+
+6. In order to determine to which package belongs a file, you should execute:
+
+   ```sh
+   dpkg -S /etc/nginx
+   
+   # output
+   nginx-common: /etc/nginx
+   ```
+
+7. Also you can find all package's folders with `whereis`:
+
+   ```sh
+   whereis nginx
+   
+   # output
+   nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx /usr/share/man/man8/nginx.8.gz
+   ```
+
+---
+
+### Dependencies version ranges and requirements syntax
 
 #### [package.json](https://docs.npmjs.com/cli/v9/configuring-npm/package-json)
 
