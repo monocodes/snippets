@@ -519,7 +519,7 @@ sudo systemctl restart nginx
 
 > NGINX worker processes must be launched with the same user as php-fpm workers. Usually it is *www-data* user.
 
-find fpm.sock to communicate with NGINX
+If you have multiple PHP-FPM versions installed, you can simply list all the socket file locations by executing the following command:
 
 ```sh
 ls /run/php/ | grep php
@@ -533,8 +533,8 @@ php8.1-fpm.sock
 sudo find / -name *fpm.sock
 # output
 /run/php/php8.1-fpm.sock
-/run/php/php-fpm.sock
-/var/lib/dpkg/alternatives/php-fpm.sock
+/run/php/php-fpm.sock # Use this! It's a symlink to /var/lib/dpkg/alternatives/php-fpm.sock
+/var/lib/dpkg/alternatives/php-fpm.sock # It's symlink to /run/php/php8.1-fpm.sock
 ```
 
 `info.php` file
@@ -549,6 +549,8 @@ sudo find / -name *fpm.sock
 
 - [Alphabetical index of directives](https://nginx.org/en/docs/dirindex.html)
 - [Alphabetical index of variables](https://nginx.org/en/docs/varindex.html)
+- [NGINX Getting Started](https://www.nginx.com/resources/wiki/start/)
+- [NGINX as SSL-Offloader](https://www.nginx.com/resources/wiki/start/topics/examples/SSL-Offloader/)
 
 ---
 
