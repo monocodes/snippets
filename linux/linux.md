@@ -96,6 +96,7 @@ url: https://github.com/monocodes/snippets.git
     - [Node.js unintall Ubuntu](#nodejs-unintall-ubuntu)
   - [php](#php)
   - [apache2, httpd](#apache2-httpd)
+    - [Apache2 Benchmark Tool - `ab`](#apache2-benchmark-tool---ab)
   - [tomcat](#tomcat)
 - [network notes](#network-notes)
   - [private IP ranges](#private-ip-ranges)
@@ -3439,8 +3440,8 @@ php8.1-fpm.sock
 sudo find / -name *fpm.sock
 # output
 /run/php/php8.1-fpm.sock
-/run/php/php-fpm.sock
-/var/lib/dpkg/alternatives/php-fpm.sock
+/run/php/php-fpm.sock # Use this! It's a symlink to /var/lib/dpkg/alternatives/php-fpm.sock
+/var/lib/dpkg/alternatives/php-fpm.sock # It's symlink to /run/php/php8.1-fpm.sock
 ```
 
 ---
@@ -3451,6 +3452,31 @@ default path for website for **apache2**, **httpd**
 
 ```sh
 /var/www/html
+```
+
+#### Apache2 Benchmark Tool - `ab`
+
+`ab` is a tool for benchmarking your Apache Hypertext Transfer Protocol (HTTP) server. It is designed to give you an impression of how your current Apache installation performs. This especially shows you how many requests per second your Apache installation is capable of serving.
+
+install on deb-based
+
+```sh
+sudo apt install apache2-utils -y
+```
+
+install rpm-based
+
+```sh
+sudo dnf install httpd-tools
+```
+
+test server with `ab`
+
+- `-n` requests - Number of requests to perform
+- `-c` concurrency - Number of multiple requests to make at a time
+
+```sh
+ab -n 20000 -c 1000 http://ub22-nginx/:80/
 ```
 
 ---
