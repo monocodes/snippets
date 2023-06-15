@@ -12,7 +12,7 @@ url: https://github.com/monocodes/snippets.git
   - [Ubuntu 22](#ubuntu-22)
   - [Rocky Linux 9](#rocky-linux-9)
   - [NGINX install from sources](#nginx-install-from-sources)
-    - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[Cloud99 Tech\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-cloud99-tech-udemy)
+    - [NGINX MasterClass. NGINX Server and Custom Load Balancer - Cloud99 Tech - Udemy](#nginx-masterclass-nginx-server-and-custom-load-balancer-cloud99-tech-udemy)
 - [NGINX paths](#nginx-paths)
   - [Nginx Web Server / Directory Structure](#nginx-web-server--directory-structure)
     - [/etc/nginx/](#etcnginx)
