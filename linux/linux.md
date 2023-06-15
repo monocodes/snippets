@@ -54,6 +54,7 @@ url: https://github.com/monocodes/snippets.git
     - [mount, umount, mounting](#mount-umount-mounting)
   - [network](#network)
     - [network Ubuntu 22](#network-ubuntu-22)
+      - [static IP Ubuntu 22 examples](#static-ip-ubuntu-22-examples)
     - [DNS Ubuntu 22](#dns-ubuntu-22)
     - [network Rocky Linux 9](#network-rocky-linux-9)
     - [network CentOS 7](#network-centos-7)
@@ -97,6 +98,7 @@ url: https://github.com/monocodes/snippets.git
   - [php](#php)
   - [apache2, httpd](#apache2-httpd)
     - [Apache2 Benchmark Tool - `ab`](#apache2-benchmark-tool---ab)
+    - [siege](#siege)
   - [tomcat](#tomcat)
 - [network notes](#network-notes)
   - [private IP ranges](#private-ip-ranges)
@@ -3530,6 +3532,81 @@ test server with `ab`
 
 ```sh
 ab -n 20000 -c 1000 http://ub22-nginx/:80/
+```
+
+---
+
+#### [siege](https://github.com/JoeDog/siege)
+
+Siege is an open source regression test and benchmark utility. It can stress test a single URL with a user defined number of simulated users, or it can read many URLs into memory and stress them simultaneously. The program reports the total number of hits recorded, bytes transferred, response time, concurrency, and return status. Siege supports HTTP/1.0 and 1.1 protocols, the GET and POST directives, cookies, transaction logging, and basic authentication. Its features are configurable on a per user basis.
+
+**PREREQUISITES**
+
+To enable HTTPS support, you must install both openssl and openssl-devel on your system. To enable gzip transfer encoding, you will need both zlib and zlib-devel installed on your system. All prerequisites must be installed at compile time. If you add the libraries after siege has been compiled, you will have to run ./configure, make and make install again. Siege prereqs are not dependencies. If these libraries are not present, the application will still compile and function. It simply won't contain these functionalities.
+
+To change **json** output to standart edit *siege.config* file after first run:
+
+```sh
+vim ~/.siege/siege.conf
+# comment json_output
+#json_output = true
+```
+
+test url with `siege`
+
+- `-v` - verbose
+- `-r` - --reps=NUM, REPS, number of times to run the test.
+- `-c` - --concurrent=NUM, CONCURRENT users, default is 10
+
+```sh
+siege -v -r 2 -c 5 https://ub22-nginx/assets/js/custom.js
+
+# output
+** SIEGE 4.0.7
+** Preparing 5 concurrent users for battle.
+The server is now under siege...
+HTTP/1.1 200     0.04 secs:    2808 bytes ==> GET  /assets/js/custom.js ...
+
+Transactions:                     10 hits
+Availability:                 100.00 %
+Elapsed time:                   0.20 secs
+Data transferred:               0.03 MB
+Response time:                  0.08 secs
+Transaction rate:              50.00 trans/sec
+Throughput:                     0.13 MB/sec
+Concurrency:                    3.85
+Successful transactions:          10
+Failed transactions:               0
+Longest transaction:            0.10
+Shortest transaction:           0.04
+
+siege -v -r 20 -c 5000 https://ub22-nginx/assets/js/custom.js
+Transactions:                   5078 hits
+Availability:                  99.57 %
+Elapsed time:                  37.84 secs
+Data transferred:              13.60 MB
+Response time:                  1.60 secs
+Transaction rate:             134.20 trans/sec
+Throughput:                     0.36 MB/sec
+Concurrency:                  214.54
+Successful transactions:        5078
+Failed transactions:              22
+Longest transaction:           12.44
+Shortest transaction:           0.01
+
+siege -v -r 2000 -c 500 https://ub22-nginx/assets/js/custom.js
+Transactions:                  42370 hits
+Availability:                  97.62 %
+Elapsed time:                 322.78 secs
+Data transferred:             113.46 MB
+Response time:                  1.68 secs
+Transaction rate:             131.27 trans/sec
+Throughput:                     0.35 MB/sec
+Concurrency:                  220.13
+Successful transactions:       42370
+Failed transactions:            1035
+Longest transaction:           14.41
+Shortest transaction:           0.00
 ```
 
 ---
