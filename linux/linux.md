@@ -2077,6 +2077,59 @@ check network adapters
 ip a
 ```
 
+##### static IP Ubuntu 22 examples
+
+In the below configuration:
+
+- `eth0` – is the network interface name
+- `addresses` – is used to configure IPv4 address on an interface. Make sure to define CIDR. You can add multiple addresses here
+- `nameservers` – Set the name servers here. 8.8.8.8 and 8.8.4.4 are Google’s name servers
+- `routes` – This is used to set gateway on your system.
+
+Make sure the IPv4 address belongs to the system network and has the correct gateway Ip address. Once confirmed, save file content and close it.
+
+```yaml
+network:
+    version: 2
+    renderer: networkd
+    ethernets:
+        eth0: #Edit this line according to your network interface name.
+            addresses:
+                - 192.168.1.212/24
+            nameservers:
+                addresses: [8.8.8.8, 8.8.4.4]
+            routes:
+                - to: default
+                  via: 192.168.1.2
+                  
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0: #Edit this line according to your network interface name.
+      dhcp4: no
+      addresses:
+        - 192.168.1.10/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+          
+network:
+  renderer: networkd
+  ethernets:
+    ens33: #Edit this line according to your network interface name.
+      addresses:
+        - 192.168.1.247/24
+      nameservers:
+        addresses: [4.2.2.2, 8.8.8.8]
+      routes:
+        - to: default
+          via: 192.168.1.1
+  version: 2
+```
+
 ---
 
 #### DNS Ubuntu 22
