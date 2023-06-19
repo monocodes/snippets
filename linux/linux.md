@@ -2586,6 +2586,12 @@ download file with `wget`
 wget filelink
 ```
 
+check the internet connection speed with [speedtest.net](https://www.speedtest.net/) and `wget`
+
+```sh
+wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip
+```
+
 ---
 
 #### open ports
