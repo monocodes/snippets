@@ -2079,6 +2079,17 @@ check network adapters
 ip a
 ```
 
+and **DON'T FORGET** to check */etc/hosts* if you get `unable to resolve host ub22-nginx: Name or service not known`
+
+```sh
+bat -pP /etc/hosts
+
+# output
+127.0.0.1 localhost
+127.0.0.1 ub22-nginx
+...
+```
+
 ##### static IP Ubuntu 22 examples
 
 In the below configuration:
@@ -2265,10 +2276,21 @@ change hostname
 
 ```sh
 # Ubuntu 22
-sudo hostnamectl hostname web03
+sudo hostnamectl hostname ub22-nginx
 
 # CentOS 7
-sudo hostnamectl set-hostname web03
+sudo hostnamectl set-hostname ub22-nginx
+```
+
+and **DON'T FORGET** to check */etc/hosts*
+
+```sh
+bat -pP /etc/hosts
+
+# output
+127.0.0.1 localhost
+127.0.0.1 web03
+...
 ```
 
 > NOTE about `hostname` command
