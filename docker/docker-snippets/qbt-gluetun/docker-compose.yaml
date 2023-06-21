@@ -14,7 +14,7 @@ services:
       - VPN_SERVICE_PROVIDER=private internet access
       - SERVER_REGIONS=Serbia
       - PIA_ENCRYPTION=normal
-      - OPENVPN_PROTOCOL=tcp
+      - OPENVPN_PROTOCOL=udp
       - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
       - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING_STATUS_FILE
       - TZ=Asia/Yerevan
