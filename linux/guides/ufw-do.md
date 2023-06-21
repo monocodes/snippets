@@ -21,6 +21,7 @@ By [Brian Boucheron](https://www.digitalocean.com/community/users/bboucheron) an
 - [Step 1 — Using IPv6 with UFW (Optional)](#step-1--using-ipv6-with-ufw-optional)
 - [Step 2 — Setting Up Default Policies](#step-2--setting-up-default-policies)
 - [Step 3 — Allowing SSH Connections](#step-3--allowing-ssh-connections)
+  - [ufw Application Integration](#ufw-application-integration)
 - [Step 4 — Enabling UFW](#step-4--enabling-ufw)
 - [Step 5 — Allowing Other Connections](#step-5--allowing-other-connections)
   - [Specific Port Ranges](#specific-port-ranges)
@@ -93,6 +94,14 @@ These commands set the defaults to deny incoming and allow outgoing connections.
 
 If we enabled our UFW firewall now, it would deny all incoming connections. This means that we will need to create rules that explicitly allow legitimate incoming connections — SSH or HTTP connections, for example — if we want our server to respond to those types of requests. If you’re using a cloud server, you will probably want to allow incoming SSH connections so you can connect to and manage your server.
 
+List rules when the firewall is disabled
+
+This method will show the user added rules even if the firewall is inactive. This is a better way because you should be checking the rules before you turn on the firewall.
+
+```sh
+sudo ufw show added
+```
+
 To configure your server to allow incoming SSH connections, you can use this command:
 
 ```sh
@@ -114,6 +123,46 @@ sudo ufw allow 2222
 ```
 
 Now that your firewall is configured to allow incoming SSH connections, we can enable it.
+
+### ufw Application Integration
+
+Applications that open ports can include an ufw profile, which details the ports needed for the application to function properly. The profiles are kept in `/etc/ufw/applications.d`, and can be edited if the default ports have been changed.
+
+- To view which applications have installed a profile, enter the following in a terminal:
+
+  ```sh
+  sudo ufw app list
+  ```
+
+- Similar to allowing traffic to a port, using an application profile is accomplished by entering:
+
+  ```sh
+  sudo ufw allow Samba
+  ```
+
+- An extended syntax is available as well:
+
+  ```sh
+  ufw allow from 192.168.0.0/24 to any app Samba
+  ```
+
+  Replace *Samba* and *192.168.0.0/24* with the application profile you are using and the IP range for your network.
+
+  > **Note**
+  >
+  > There is no need to specify the *protocol* for the application, because that information is detailed in the profile. Also, note that the *app* name replaces the *port* number.
+
+- To view details about which ports, protocols, etc., are defined for an application, enter:
+
+  ```sh
+  sudo ufw app info Samba
+  ```
+
+Not all applications that require opening a network port come with ufw profiles, but if you have profiled an application and want the file to be included with the package, please file a bug against the package in Launchpad.
+
+```sh
+ubuntu-bug nameofpackage
+```
 
 ## [Step 4 — Enabling UFW](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-22-04#step-4-enabling-ufw)
 
