@@ -26,6 +26,18 @@ echo 'export PATH="/volume1/@appstore/vim/bin/vim:$PATH"' >> ~/.bashrc
 echo 'alias vim="/volume1/@appstore/vim/bin/vim"' >> ~/.bashrc
 ```
 
+renew Let's Encrypt Certificates
+
+```sh
+/usr/syno/sbin/syno-letsencrypt renew-all
+```
+
+disable Firewall
+
+```sh
+/usr/syno/bin/synofirewall --disable
+```
+
 ---
 
 ## packages
@@ -76,3 +88,22 @@ sudo tailscale ip --reset
 ```
 
 don't forget to remove subnet routes from admin panel and ENABLE KEY EXPIRE
+
+---
+
+## PIA ports for gluetun and firewall
+
+In order to connect to our service using one of the VPN methods we provide, please verify you can connect over these ports: 
+
+- For the PIA Client: 
+  - **UDP** ports  8080, 853, 123, 53
+  - **TCP** ports  8443, 853, 443, 80
+- For OpenVPN: 
+  - **UDP** ports 1197, 1198
+  - **TCP** ports  501, 502
+
+If you can connect over any of those, you should be able to use at least one of our connection methods. 
+
+In addition, the PIA application pings our gateways over port 8888. This is used to connect you to the server with the lowest latency when you use the auto connect feature. 
+
+We also have more in-depth information on our OpenVPN ports including the protocols, settings, and certificates that should be used with them in this [article](https://www.privateinternetaccess.com/helpdesk/kb/articles/which-encryption-auth-settings-should-i-use-for-ports-on-your-gateways-3). 
