@@ -125,6 +125,18 @@ just build all images from `docker-compose.yaml`
 docker compose build
 ```
 
+restart container from `docker-compose.yaml` without recreating it
+
+```sh
+docker compose restart service-name
+```
+
+recreate a single container without starting any dependent containers
+
+```sh
+docker compose up --no-deps -d service-name
+```
+
 ---
 
 ### docker compose updating and rebuilding
@@ -592,6 +604,30 @@ docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
 
 ```sh
 docker run --rm image-name
+```
+
+[run multiple commands in `docker run`](https://www.baeldung.com/ops/docker-run-multiple-commands)
+
+To execute multiple commands in the *docker run* command, we can use the[`&&`](https://www.baeldung.com/linux/conditional-expressions-shell-script) operator to chain the commands together. **The `&&` operator executes the first command, and if it's successful, it executes the second command.**
+
+But, to avoid running the second command on the host [shell](https://www.baeldung.com/linux/sh-vs-bash), we have to use the `-c` option of the `sh` command to execute multiple commands simultaneously.
+
+```sh
+$ docker run centos:latest sh -c "whoami && date"
+
+# output
+root
+Sun Dec 18 10:10:12 UTC 2022
+```
+
+This executes both the `whoami` and `date` commands in a single run command. We can also use the `;` operator with the `-c` option of `sh` to run multiple commands. In addition, let's use the `-w` option to specify the working directory for the command to execute in the Docker container:
+
+```sh
+$ docker run -w /home centos:latest sh -c "whoami ; pwd"
+
+# output
+root
+/home
 ```
 
 ---
@@ -1150,6 +1186,12 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_module
 
 ## docker network
 
+default docker network CIDR
+
+```sh
+172.17.0.0/16
+```
+
 create docker network
 
 ```sh
@@ -1244,6 +1286,12 @@ check logs of container
 
 ```sh
 docker logs container-name
+```
+
+tail docker logs of container
+
+```sh
+docker logs -f container-name
 ```
 
 show docker version
