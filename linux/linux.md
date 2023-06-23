@@ -2936,6 +2936,29 @@ nginx-common: /etc/nginx
 
 ---
 
+#### ufw
+
+ufw simple private network allow ssh config
+
+```sh
+sudo ufw insert 1 allow from 10.0.0.0/8 to any port ssh && \
+  sudo ufw insert 2 allow from 172.16.0.0/12 to any port ssh && \
+  sudo ufw insert 3 allow from 192.168.0.0/16 to any port ssh
+```
+
+ufw simple private network allow https and http config
+
+```sh
+sudo ufw allow from 10.0.0.0/8 to any port https && \
+  sudo ufw allow from 172.16.0.0/12 to any port https && \
+  sudo ufw allow from 192.168.0.0/16 to any port https && \
+  sudo ufw allow from 10.0.0.0/8 to any port http && \
+  sudo ufw allow from 172.16.0.0/12 to any port http && \
+  sudo ufw allow from 192.168.0.0/16 to any port http
+```
+
+---
+
 ### rpm-based distros (RHEL, CentOS, Amazon Linux, etc)
 
 #### dnf, yum
@@ -3653,13 +3676,23 @@ default path for website for tomcat
 
 ## network notes
 
-### private IP ranges
+### [private IP ranges](https://en.wikipedia.org/wiki/Private_network)
 
-Class A - `10.0.0.0 - 10.255.255.255`
+- Class A - `10.0.0.0/8`
 
-Class B - `172.16.0.0 - 172.31.255.255`
+- Class B - `172.16.0.0/12`
 
-Class C - `192.168.0.0 - 192.168.255.255`
+- Class C - `192.168.0.0/16`
+- [CGNAT](https://en.wikipedia.org/wiki/Carrier-grade_NAT) - `100.64.0.0/10`
+- Docker default network CIDR - `172.17.0.0/16`
+
+|        RFC 1918 name        |       IP address range        | Number of addresses | Largest [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) block (subnet mask) | Host ID size | Mask bits |
+| :-------------------------: | :---------------------------: | :-----------------: | :----------------------------------------------------------: | :----------: | :-------: |
+|        24-bit block         |   10.0.0.0 – 10.255.255.255   |      16777216       |                    10.0.0.0/8 (255.0.0.0)                    |   24 bits    |  8 bits   |
+|        20-bit block         |  172.16.0.0 – 172.31.255.255  |       1048576       |                 172.16.0.0/12 (255.240.0.0)                  |   20 bits    |  12 bits  |
+|        16-bit block         | 192.168.0.0 – 192.168.255.255 |        65536        |                 192.168.0.0/16 (255.255.0.0)                 |   16 bits    |  16 bits  |
+|            CGNAT            | 100.64.0.0 - 100.127.255.255  |       4194304       |                 100.64.0.0/10 (255.192.0.0)                  |   10 bits    |  10 bits  |
+| Docker default network CIDR |  172.17.0.0 - 172.17.255.255  |        65536        |                 172.17.0.0/16 (255.255.0.0)                  |   16 bits    |  16 bits  |
 
 ---
 
