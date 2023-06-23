@@ -51,6 +51,8 @@ The following are some examples of how to use ufw:
 
   ```sh
   sudo ufw insert 1 allow 80
+  sudo ufw insert 3 allow from 10.0.0.0/8 to any port ssh
+  sudo ufw insert 5 allow from 172.16.0.0/12 to any port https
   ```
 
 - Similarly, to close an opened port:
