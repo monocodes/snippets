@@ -15,7 +15,7 @@ url: https://github.com/monocodes/snippets.git
     - [Installing a Prebuilt Ubuntu MAINLINE Package from the Official NGINX Repository](#installing-a-prebuilt-ubuntu-mainline-package-from-the-official-nginx-repository)
   - [Rocky Linux 9](#rocky-linux-9)
   - [NGINX install from sources](#nginx-install-from-sources)
-    - [NGINX MasterClass. NGINX Server and Custom Load Balancer \[Cloud99 Tech\] \[Udemy\]](#nginx-masterclass-nginx-server-and-custom-load-balancer-cloud99-tech-udemy)
+    - [NGINX MasterClass. NGINX Server and Custom Load Balancer - Cloud99 Tech - Udemy](#nginx-masterclass-nginx-server-and-custom-load-balancer---cloud99-tech---udemy)
 - [NGINX paths](#nginx-paths)
   - [Nginx Web Server / Directory Structure](#nginx-web-server--directory-structure)
     - [/etc/nginx/](#etcnginx)
@@ -32,11 +32,13 @@ url: https://github.com/monocodes/snippets.git
 - [NGINX commands](#nginx-commands)
 - [NGINX modules](#nginx-modules)
   - [php-fpm](#php-fpm)
-- [NGINX notes and guides](#nginx-notes-and-guides)
+- [NGINX notes](#nginx-notes)
   - [NGINX default configs](#nginx-default-configs)
     - [nginx/1.24.0 (stable)](#nginx1240-stable)
     - [nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))](#nginx1180-ubuntu-22042-lts-jammy-jellyfish)
+  - [`http2` directive in NGINX \>1.25.1](#http2-directive-in-nginx-1251)
   - [Error messages](#error-messages)
+- [NGINX guides](#nginx-guides)
   - [WebSocket proxying](#websocket-proxying)
   - [Serving Multiple Proxy Endpoints Under a Location in Nginx](#serving-multiple-proxy-endpoints-under-a-location-in-nginx)
     - [1. Overview](#1-overview)
@@ -129,7 +131,7 @@ sudo dnf install nginx -y && \
 
 ### NGINX install from sources
 
-#### NGINX MasterClass. NGINX Server and Custom Load Balancer [Cloud99 Tech] [Udemy]
+#### [NGINX MasterClass. NGINX Server and Custom Load Balancer - Cloud99 Tech - Udemy](https://www.udemy.com/course/-training/)
 
 1. Update Packages
 
@@ -592,7 +594,7 @@ sudo find / -name *fpm.sock
 
 ---
 
-## NGINX notes and guides
+## NGINX notes
 
 - [Alphabetical index of directives](https://nginx.org/en/docs/dirindex.html)
 - [Alphabetical index of variables](https://nginx.org/en/docs/varindex.html)
@@ -886,6 +888,27 @@ proxy_set_header X-Forwarded-Proto $scheme;
 
 ---
 
+### `http2` directive in NGINX >1.25.1
+
+Since nginx 1.25.1, the "listen ... http2" directive is deprecated, use the "http2" directive instead
+
+the old format is
+
+```nginx
+server {
+    listen      x.x.x.x:443 ssl http2;
+```
+
+and the new format for nginx >= 1.25.1 is
+
+```nginx
+server {
+    listen      x.x.x.x:443 ssl;
+    http2  on;
+```
+
+---
+
 ### Error messages
 
 Error messages have levels. A `notice` entry in the error log is harmless, but an `emerg` or emergency entry has to be addressed right away.
@@ -926,6 +949,8 @@ http {
 ```
 
 ---
+
+## NGINX guides
 
 ### [WebSocket proxying](https://nginx.org/en/docs/http/websocket.html)
 
@@ -992,7 +1017,7 @@ Furthermore, directives can be grouped into blocks. These blocks are called cont
 ```nginx
 server {
    listen 127.0.0.1:8080;
-}Copy
+}
 ```
 
 Here, we created a virtual server that listens on port *8080* on the *localhost* address (*127.0.0.1*).
@@ -1009,7 +1034,7 @@ server {
    location /books {
       root /data/categories;
    }
-}Copy
+}
 ```
 
 In the above example, we added a *location* that returns files from the */data/categories* directory of the local filesystem. Moreover, we set the prefix string */books* to *location*. Consequently, we’ll match URLs starting with */books*.
@@ -1021,7 +1046,7 @@ An alternative to the *root* directive is the [*alias*](https://nginx.org/en/doc
 ```nginx
 location /books { 
    alias /data/categories; 
-}Copy
+}
 ```
 
 So, the above block translates the URL path */books/echo.json* to */data/categories/echo.json*.
@@ -1057,7 +1082,7 @@ server {
    location /client2 {
       alias /data/client2;
    }
-}Copy
+}
 ```
 
 As we can see, we defined two virtual servers. Each *server* block contains a *location*:
@@ -1081,7 +1106,7 @@ server {
     location /api/client2 {
        proxy_pass http://127.0.0.1:8082/client2;
     }
-}Copy
+}
 ```
 
 Here, we created a virtual server that listens on port *8000*. Moreover, we created two locations inside the virtual server:
