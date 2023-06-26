@@ -55,7 +55,10 @@ url: https://github.com/monocodes/snippets.git
   - [docker paths](#docker-paths)
 - [Timezone in docker](#timezone-in-docker)
 - [docker notes](#docker-notes)
+  - [docker-compose multiple commands](#docker-compose-multiple-commands)
+  - [docker-compose and sleep](#docker-compose-and-sleep)
   - [mysql - connect to db in container](#mysql---connect-to-db-in-container)
+  - [DockerHub image types](#dockerhub-image-types)
 - [deploying examples](#deploying-examples)
   - [nodejs setup example](#nodejs-setup-example)
   - [nodejs + reactjs + mongodb example](#nodejs--reactjs--mongodb-example)
@@ -608,7 +611,7 @@ docker run --rm image-name
 
 [run multiple commands in `docker run`](https://www.baeldung.com/ops/docker-run-multiple-commands)
 
-To execute multiple commands in the *docker run* command, we can use the[`&&`](https://www.baeldung.com/linux/conditional-expressions-shell-script) operator to chain the commands together. **The `&&` operator executes the first command, and if it's successful, it executes the second command.**
+To execute multiple commands in the *docker run* command, we can use the [&&](https://www.baeldung.com/linux/conditional-expressions-shell-script) operator to chain the commands together. **The `&&` operator executes the first command, and if it's successful, it executes the second command.**
 
 But, to avoid running the second command on the host [shell](https://www.baeldung.com/linux/sh-vs-bash), we have to use the `-c` option of the `sh` command to execute multiple commands simultaneously.
 
@@ -628,6 +631,14 @@ $ docker run -w /home centos:latest sh -c "whoami ; pwd"
 # output
 root
 /home
+```
+
+simple way to test DNS and internet connectivity of the container with **shoutrrr**
+
+```sh
+sudo docker run --rm -it containrrr/shoutrrr send -v "smtp://GOOGLE_LOGIN:PASSWORD@smtp.gmail.com:587/?auth=Plain&encryption=Auto&fromaddress=FROM_ADDRESS&to=TO_ADDRESS" TestMessage
+
+# smtp://username:password@host:port/?from=fromAddress&to=recipient1[,recipient2,...]
 ```
 
 ---
@@ -1411,7 +1422,64 @@ There are multiple ways to sync timezone between host and containers
           - TZ=Asia/Yerevan
     ```
 
+---
+
 ## docker notes
+
+### docker-compose multiple commands
+
+Found [here](https://stackoverflow.com/questions/30063907/docker-compose-how-to-execute-multiple-commands).
+
+Run multiple commands with `docker-compose`.
+
+```yaml
+command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+```
+
+Same example in multilines:
+
+```yaml
+command: >
+    sh -c "python manage.py migrate
+    && python manage.py runserver 0.0.0.0:8000"
+```
+
+Or:
+
+```yaml
+command: sh -c "
+    python manage.py migrate
+    && python manage.py runserver 0.0.0.0:8000
+  "
+```
+
+---
+
+### docker-compose and sleep
+
+Found [here](https://stackoverflow.com/questions/72217442/unable-to-bring-up-prometheus-using-docker-compose-file-always-throws-the-error).
+
+To run any container with, diagnose it and explore its filesystem use `sleep`. I don't think it can be used efficiently with`docker run`, because with command `sleep inf` you're stuck with it even with `-d` parameter.
+
+*docker-compose.yaml* example
+
+```yaml
+version: '3'
+volumes:
+  prometheus_data:
+services:
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    entrypoint:
+      - sleep
+      - inf
+```
+
+---
 
 ### mysql - connect to db in container
 
@@ -1444,6 +1512,20 @@ For example, with `docker-compose.yaml` with **app** and **db**
    ```sh
    mysql -h service-name-or-ip -u root -ppass
    ```
+
+---
+
+### DockerHub image types
+
+Found [here](https://www.synoforum.com/threads/this-is-why-i-love-docker.2396/post-10799).
+
+**Linuxserver.io** and **Bitnami** images have in common that both use ci servers to periodicly trigger image builds. That's a big plus for both.
+
+**Linuxserver.io** images are aimed toward beginner friendly home usage. Their containers start as root, do the preparation magic - like fixing file permission on volumes and rendering the environment variables into configuration files - and start the main process with the provided UID/GID. They are broadly used, well tested and good documented. Kubernetes distributions with advanced security (userns mapping) are incompatible with **Linuxserver.io** images.
+
+**Bitnami** images are aimed towards corporate (development/testing/prodction) and home usage. Their containers do start as a restricted user, render enviornment variables into configuration files and start the main proccess with this restricted user. You have to make sure to either override the default restrictive user (docker run -u / Security Context in Kubernetes) or change the owner of bind-mount volumes to allign with the user inside the container. Kubernetes allows to use init containers to take care of those type of tasks. This makes the images harder to use for Docker beginners. A lot of Kuberentes Helm charts actualy use those images. They are broadly used, well tested and good documented
+
+Then we have the official images which make sense to use if you are entitled to product support and the vendor only supports his official images. Or if the official images are well made, like the mysql, mariadb or postgres images.
 
 ---
 
