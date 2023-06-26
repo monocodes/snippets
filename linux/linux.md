@@ -82,6 +82,7 @@ url: https://github.com/monocodes/snippets.git
       - [apt autoremove](#apt-autoremove)
       - [apt-mark](#apt-mark)
     - [dpkg](#dpkg)
+    - [ufw](#ufw)
   - [rpm-based distros (RHEL, CentOS, Amazon Linux, etc)](#rpm-based-distros-rhel-centos-amazon-linux-etc)
     - [dnf, yum](#dnf-yum)
       - [paths yum](#paths-yum)
@@ -326,6 +327,12 @@ sudo apt remove docker.io -y ; \
   sudo apt remove runc -y ; \
   sudo apt remove docker -y ; \
   sudo apt remove docker-engine -y
+```
+
+Show exit status of the last command
+
+```sh
+echo $0
 ```
 
 ---
