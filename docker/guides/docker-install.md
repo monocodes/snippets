@@ -9,8 +9,8 @@ url: https://github.com/monocodes/snippets.git
 
 - [GNU/Linux](#gnulinux)
   - [Amazon Linux 2](#amazon-linux-2)
-  - [Ubuntu or deb-type](#ubuntu-or-deb-type)
-  - [Rocky Linux](#rocky-linux)
+  - [Ubuntu \>=20 or deb-type](#ubuntu-20-or-deb-type)
+  - [Rocky Linux (outdated)](#rocky-linux-outdated)
 
 ## GNU/Linux
 
@@ -24,30 +24,32 @@ sudo amazon-linux-extras install docker
 
 ---
 
-### Ubuntu or deb-type
+### Ubuntu >=20 or deb-type
 
 **One-liner** install
 
 ```sh
-sudo apt-get remove docker docker-engine docker.io containerd runc && \
-	sudo apt update && \
- 	sudo apt install ca-certificates curl gnupg lsb-release -y && \
-	sudo mkdir -p /etc/apt/keyrings && \
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg -f --dearmor -o /etc/apt/keyrings/docker.gpg && \
-	echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-	sudo apt update && \
-	sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion -y && \
-	sudo usermod -aG docker $USER && \
-	newgrp docker
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get purge $pkg -y; done && \
+  sudo apt-get update && \
+ 	sudo apt install ca-certificates curl gnupg -y && \
+ 	sudo install -m 0755 -d /etc/apt/keyrings && \
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
+  echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  sudo apt-get update && \
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y && \
+  sudo usermod -aG docker $USER && \
+  newgrp docker
 ```
 
-**Normal** install
+**Normal** install (outdated)
 
 1. Uninstall old versions:
 
     ```sh
-    sudo apt-get remove docker docker-engine docker.io containerd runc
+    for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get purge $pkg -y; done
     ```
 
     or
@@ -155,7 +157,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 8. To install the latest version, run:
 
     ```sh
-    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin bash-completion -y
+     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
     ```
 
     ---
@@ -240,7 +242,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc && \
 
 ---
 
-### Rocky Linux
+### Rocky Linux (outdated)
 
 **One-liner install Rocky Linux**
 
@@ -254,7 +256,7 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 	newgrp docker
 ```
 
-**Normal install**
+**Normal install**(outdated)
 
 1. Uninstall old versions
 
