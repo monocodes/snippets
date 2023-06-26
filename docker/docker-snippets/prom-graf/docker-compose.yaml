@@ -1,0 +1,51 @@
+version: '3.3'
+services:
+  prom:
+    image: prom/prometheus:latest
+    # command section for starting with API enabled
+    # current CMD in image desc
+    # command:
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
+    #   - '--storage.tsdb.path=/prometheus'
+    #   - '--web.console.libraries=/usr/share/prometheus/console_libraries' 
+    #   - '--web.console.templates=/usr/share/prometheus/consoles'
+    #   - '--web.enable-admin-api'
+    container_name: prom
+    restart: unless-stopped
+    volumes:
+      - /volume1/docker/prometheus/config:/etc/prometheus
+      - /volume1/docker/prometheus/data:/prometheus
+    user: 1030:100
+    networks:
+      - prom-graf-net
+    ports:
+      - "9090:9090"
+
+  graf:
+    image: grafana/grafana:latest
+    container_name: graf
+    restart: unless-stopped
+    volumes:
+      - /volume1/docker/grafana/data:/var/lib/grafana
+    user: 1030:100
+    networks:
+      - prom-graf-net
+    ports:
+      - "3000:3000"
+
+  node-ex:
+    image: prom/node-exporter:latest
+    container_name: node-ex
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    networks:
+      - prom-graf-net
+networks:
+  prom-graf-net:
+    driver: bridge
