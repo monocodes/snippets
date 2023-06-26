@@ -38,14 +38,14 @@ $ curl -X POST \
 To delete time series metrics that match some `job` or `instance`, run:
 
 ```sh
-$ curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={job="node_exporter"}'
-$ curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="192.168.0.1:9100"}'
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={job="node_exporter"}'
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="192.168.0.1:9100"}'
 ```
 
 To delete all data from Prometheus, run:
 
 ```sh
-$ curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={__name__=~".+"}'
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={__name__=~".+"}'
 ```
 
 Note that the above API calls don’t delete data immediately.
@@ -57,7 +57,7 @@ To determine when to remove old data, use `--storage.tsdb.retention` option e.g.
 To completely remove the data deleted by `delete_series` send `clean_tombstones` API call:
 
 ```sh
-$ curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/clean_tombstones'
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/clean_tombstones'
 ```
 
 The successful exit status for the both `delete_series` and `clean_tombstones` is `204`.
