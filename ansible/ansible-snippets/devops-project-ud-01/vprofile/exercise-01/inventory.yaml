@@ -1,0 +1,6 @@
+all:
+  hosts:
+    ans-01-rl9:
+      ansible_host: 192.168.1.105
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ansible-key-secret
