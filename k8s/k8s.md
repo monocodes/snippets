@@ -243,6 +243,12 @@ start minikube with docker driver with default resources (2 cpus, 2GB)
 minikube start
 ```
 
+start minikube with specified driver
+
+```sh
+minikube start --driver=docker
+```
+
 check minkube status
 
 ```sh
@@ -771,10 +777,13 @@ kubectl expose deployment first-app --type=LoadBalancer --port=8080
 > also, you can use `imagePullPolicy: Always` for example in `*.yaml`
 
 ```sh
+kubectl set image deployment deployment-name container-name=account-name/image-name:tag-name
 kubectl set image deployment/deployment-name container-name=repo-name/image-name:tag-name
 
 # example
-kubectl set image deployment/first-app docker-s12=account-name/repo-name:kub-first-app-v2
+kubectl set image deployment first-app  docker-s12=wanderingmono/docker-s12:kub-first-app-v2
+# or
+kubectl set image deployment/first-app docker-s12=wanderingmono/docker-s12:kub-first-app-v2
 ```
 
 ---
@@ -836,9 +845,13 @@ create copies of pods to endure the high load and achieve high availability
 
 ```sh
 kubectl scale deployment/deployment-name --replicas=number
+# or
+kubectl scale deployment deployment-name --replicas=number
 
 # example
 kubectl scale deployment/first-app --replicas=3
+# or
+kubectl scale deployment first-app --replicas=3
 ```
 
 scale ReplicaSet with command
