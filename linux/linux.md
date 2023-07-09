@@ -1536,7 +1536,7 @@ echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/$USER
 
 append linuxbrew to root's `secure_path` in the end
 
-- `sudo sh -c` to preserve root's `$PATH`
+- `sudo sh -c` to preserve root's `$PATH` (Execute a command and then exit: `sh -c "command-name"`)
 - `tee -a` will append to a file named like user that executes script
 
 ```sh
@@ -2775,6 +2775,18 @@ arp
 > - `apt-get` - with scripts and auto provision
 > - `apt` - with ssh connection to host
 
+apt upgrade one-liner
+
+```sh
+sudo apt update && sudo apt upgrade -y && sudo apt autopurge
+```
+
+apt and brew upgrade one-liner
+
+```sh
+sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge
+```
+
 apt repos
 
 ```sh
@@ -2997,6 +3009,18 @@ https://admin.fedoraproject.org/mirrormanager/
 ```
 
 ---
+
+dnf upgrade one-liner
+
+```sh
+ sudo dnf update -y && sudo dnf autoremove
+```
+
+dnf and brew upgrade one-liner
+
+```sh
+ sudo dnf update -y && brew update && brew upgrade && sudo dnf autoremove
+```
 
 search package
 
