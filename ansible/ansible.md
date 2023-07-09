@@ -140,6 +140,7 @@ ansible -i inventory -m ping web01
 ansible -i inventory -m ping all
 ansible -i inventory -m ping '*' # same as all
 ansible -i inventory -m ping websrvgrp
+ansible -i inventory.yaml -m ping 'web*' # ping all with name starts at start
 ```
 
 copy file to remote host
