@@ -80,6 +80,32 @@ default global inventory file
 
 ### config hints
 
+generate `ansible.cfg` file in current dir
+
+- ```sh
+  ansible-config init --disabled -t all > ansible.cfg
+  ```
+
+- If installing Ansible from a package manager, the latest `ansible.cfg` file should be present in `/etc/ansible`, possibly as a `.rpmnew` file (or other) as appropriate in the case of updates.
+
+  If you installed Ansible from pip or from source, you may want to create this file in order to override default settings in Ansible.
+
+  An [example file is available on GitHub](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg).
+
+  ```sh
+  # Since Ansible 2.12 (core):
+  # To generate an example config file (a "disabled" one with all default settings, commented out):
+  #               $ ansible-config init --disabled > ansible.cfg
+  #
+  # Also you can now have a more complete file by including existing plugins:
+  # ansible-config init --disabled -t all > ansible.cfg
+  
+  # For previous versions of Ansible you can check for examples in the 'stable' branches of each version
+  # Note that this file was always incomplete  and lagging changes to configuration settings
+  
+  # for example, for 2.9: https://github.com/ansible/ansible/blob/stable-2.9/examples/ansible.cfg
+  ```
+
 disable host key checking (need to do that)
 
 ```sh
@@ -420,61 +446,125 @@ Footnotes
 
 ## Python-JSON-YAML
 
-Python
+**Example 1**
 
-```python
-# DevOps - list
-# Development - list
-# ansible_facts - dict
-{
-  "DevOps": ["AWS", "Jenkins", "Python", "Ansible"],
-  "Development": ["Java", "NodeJS", ".net"],
-  "ansible_facts": {
-    "python": "/usr/bin/python"
-  }
-}
-```
+- Python
 
-JSON
-
-```json
-{
-  "DevOps":
-  [
-    "AWS",
-    "Jenkins",
-    "Python",
-    "Ansible"
-  ],
-  "Development":
-  ["Java",
-   "NodeJS",
-   ".net"
-  ],
-  "ansible_facts":
+  ```python
+  # DevOps - list
+  # Development - list
+  # ansible_facts - dict
   {
-    "python": "/usr/bin/python"
+    "DevOps": ["AWS", "Jenkins", "Python", "Ansible"],
+    "Development": ["Java", "NodeJS", ".net"],
+    "ansible_facts": {
+      "python": "/usr/bin/python"
+    }
   }
-}
-```
+  ```
 
-YAML
+- JSON
 
-```yaml
-DevOps:
-  - AWS
-  - Jenkins
-  - Python
-  - Ansible
+  ```json
+  {
+    "DevOps":
+    [
+      "AWS",
+      "Jenkins",
+      "Python",
+      "Ansible"
+    ],
+    "Development":
+    ["Java",
+     "NodeJS",
+     ".net"
+    ],
+    "ansible_facts":
+    {
+      "python": "/usr/bin/python"
+    }
+  }
+  ```
 
-Development:
-  - Java
-  - NodeJS
-  - .net
+- YAML
 
-ansible_facts:
-  python: /usr/bin/python
-  version: 2.7
-```
+  ```yaml
+  DevOps:
+    - AWS
+    - Jenkins
+    - Python
+    - Ansible
+  
+  Development:
+    - Java
+    - NodeJS
+    - .net
+  
+  ansible_facts:
+    python: /usr/bin/python
+    version: 2.7
+  ```
+
+**Example 2**
+
+- Python
+
+  ```python
+  # devops - dictionary 
+  # Tech - dictionary
+  # GitOps - list
+  
+  devops = {
+      "skill":"DevOps",
+      "Year":2023,
+      "Tech":{
+          "Cloud":"AWS",
+          "Containers":"k8s",
+          "CICD":"Jenkins",
+          "GitOps":[
+              "GitLab",
+              "ArgoCD",
+              "Tekton"
+          ]
+      }
+  }
+  ```
+
+- JSON
+
+  ```json
+  {
+      "skill":"DevOps",
+      "Year":2023,
+      "Tech":{
+          "Cloud":"AWS",
+          "Containers":"k8s",
+          "CICD":"Jenkins",
+          "GitOps":[
+              "GitLab",
+              "ArgoCD",
+              "Tekton"
+          ]
+      }
+  }
+  ```
+
+- YAML
+
+  ```yaml
+  devops:
+    "skill": "DevOps"
+    "Year": 2023
+    "Tech":
+        "Cloud": "AWS"
+        "Containers": "k8s"
+        "CICD": "Jenkins"
+        "GitOps":
+          - "GitLab"
+          - "ArgoCD"
+          - "Tekton"
+  ```
+
+  
 
 ---
