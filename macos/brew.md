@@ -29,23 +29,24 @@ url: https://github.com/monocodes/snippets.git
 - [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux)
 - [Interesting Taps and Forks](https://docs.brew.sh/Interesting-Taps-and-Forks)
 
+>The installation script installs Homebrew to `/home/linuxbrew/.linuxbrew` using `sudo`. Homebrew does not use `sudo` after installation. Using `/home/linuxbrew/.linuxbrew` allows the use of most binary packages (bottles) which will not work when installing in e.g. your personal home directory.
+
 ### macOS
 
 brew install one-liner macOS (non-interactive)  
 if user has `ALL=(ALL) NOPASSWD: ALL` in `/etc/sudoers.d`
 
 ```sh
-xcode-select --install && \
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
-  eval "$(/opt/homebrew/bin/brew shellenv)" && \
-  brew analytics off && \
-  brew tap homebrew/cask && \
-  brew tap homebrew/cask-drivers && \
-  brew tap homebrew/cask-versions && \
-  brew tap beeftornado/rmtree && \
-  sudo chmod 750 /opt/homebrew/bin/brew && \
-  cat <<EOF | sudo tee -a $HOME/.zshrc
+xcode-select --install &&
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile &&
+eval "$(/opt/homebrew/bin/brew shellenv)" &&
+brew analytics off &&
+brew tap homebrew/cask &&
+brew tap homebrew/cask-drivers &&
+brew tap homebrew/cask-versions &&
+brew tap beeftornado/rmtree &&
+cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
@@ -55,25 +56,24 @@ then
   compinit
 fi
 EOF
-  source $HOME/.zshrc
-  cat $HOME/.zshrc
+source $HOME/.zshrc &&
+cat $HOME/.zshrc
 ```
 
 brew install one-liner macOS (interactive)
 
 ```sh
-xcode-select --install && \
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile && \
-  eval "$(/opt/homebrew/bin/brew shellenv)" && \
-  brew analytics off && \
-  brew tap homebrew/cask && \
-  brew tap homebrew/cask-drivers && \
-  brew tap homebrew/cask-versions && \
-  brew tap homebrew/core && \
-  brew tap beeftornado/rmtree && \
-  sudo chmod 750 /opt/homebrew/bin/brew && \
-  cat <<EOF | sudo tee -a $HOME/.zshrc
+xcode-select --install &&
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile &&
+eval "$(/opt/homebrew/bin/brew shellenv)" &&
+brew analytics off &&
+brew tap homebrew/cask &&
+brew tap homebrew/cask-drivers &&
+brew tap homebrew/cask-versions &&
+brew tap homebrew/core &&
+brew tap beeftornado/rmtree &&
+cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
@@ -83,8 +83,8 @@ then
   compinit
 fi
 EOF
-  source $HOME/.zshrc
-  cat $HOME/.zshrc
+source $HOME/.zshrc &&
+cat $HOME/.zshrc
 ```
 
 ---
@@ -94,16 +94,16 @@ EOF
 brew install one-liner Ubuntu 22
 
 ```sh
-sudo apt-get update && sudo apt-get install -y build-essential procps curl file git && \
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-  test -r $HOME/.profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.profile && \
-  source $HOME/.profile && \
-  brew analytics off && \
-  brew update && brew upgrade && \
-  brew install gcc && \
-  brew tap beeftornado/rmtree && \
-  sudo chmod 750 $(brew --prefix)/Homebrew/bin/brew && \
-  cat <<EOF | sudo tee -a $HOME/.profile
+sudo apt-get update && sudo apt-get install -y build-essential procps curl file git &&
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
+test -r $HOME/.profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.profile &&
+source $HOME/.profile &&
+brew analytics off &&
+brew update && brew upgrade &&
+brew install gcc &&
+brew tap beeftornado/rmtree &&
+cat <<EOF | sudo tee -a $HOME/.bashrc
+
 # brew completions
 if type brew &>/dev/null
 then
@@ -118,26 +118,53 @@ then
     done
   fi
 fi
+# brew end
 EOF
-	source $HOME/.profile && \
-  sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
-  | sudo tee -a /etc/sudoers.d/$USER
+source $HOME/.profile && $HOME/.bashrc
+sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+  | sudo tee -a /etc/sudoers.d/$USER &&
+cat <<EOF | sudo tee -a /root/.profile
+
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+# brew end
+EOF
+cat <<EOF | sudo tee -a /root/.bashrc
+
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
 ```
 
 brew install one-liner Rocky Linux 9
 
 ```sh
-sudo dnf groupinstall -y "Development Tools" && \
-  sudo dnf install -y procps-ng curl file git && \
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-  test -r $HOME/.bash_profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bash_profile
-  source $HOME/.bash_profile && \
-  brew analytics off && \
-  brew update && brew upgrade && \
-  brew install gcc && \
-  brew tap beeftornado/rmtree && \
-  sudo chmod 750 /$(brew --prefix)/Homebrew/bin/brew && \
-  cat <<EOF | sudo tee -a $HOME/.bash_profile
+sudo dnf groupinstall -y "Development Tools" &&
+sudo dnf install -y procps-ng curl file git &&
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
+test -r $HOME/.bash_profile &&
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bash_profile &&
+source $HOME/.bash_profile &&
+brew analytics off &&
+brew update && brew upgrade &&
+brew install gcc &&
+brew tap beeftornado/rmtree &&
+cat <<EOF | sudo tee -a $HOME/.bashrc
+
 # brew completions
 if type brew &>/dev/null
 then
@@ -152,13 +179,36 @@ then
     done
   fi
 fi
+# brew end
 EOF
-	source $HOME/.bash_profile && \
-  sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
-  | sudo tee -a /etc/sudoers.d/$USER
-```
+source $HOME/.bash_profile && $HOME/.bashrc
+sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+  | sudo tee -a /etc/sudoers.d/$USER &&
+cat <<EOF | sudo tee -a /root/.bash_profile
 
->The installation script installs Homebrew to `/home/linuxbrew/.linuxbrew` using `sudo`. Homebrew does not use `sudo` after installation. Using `/home/linuxbrew/.linuxbrew` allows the use of most binary packages (bottles) which will not work when installing in e.g. your personal home directory.
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+# brew end
+EOF
+cat <<EOF | sudo tee -a /root/.bashrc
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
+```
 
 ## brew uninstall
 
@@ -201,6 +251,120 @@ linux default
 ---
 
 ## brew commands
+
+### brew multi-user system
+
+More info here - [Using Homebrew on a multi-user system (don’t).md](guides/Using Homebrew on a multi-user system (don’t).md) 
+
+use brew with user that installed brew or write aliases
+
+```sh
+sudo -Hu username brew update
+```
+
+- The `-H` option will make sure that the `HOME` directory is set to that of the impersonated user (here `foo`) instead of the *impersonating user* (here `bar`), so that Homebrew can maintain its cache and other local state in the proper user’s home.
+- The `-u` option allows to specify the user to impersonate instead of the default of `root`.
+
+add brew alias
+
+```sh
+echo "alias brew='sudo -Hu username brew'" >> ~/.zprofile
+```
+
+#### brew multi-user scripts
+
+macOS
+
+```sh
+#!/bin/bash
+USER='admin'
+
+cat <<EOF | sudo tee -a /Users/$USER/.zprofile
+
+# brew
+eval "\$(/opt/homebrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+# brew end
+EOF
+cat <<EOF | sudo tee -a /Users/$USER/.zshrc
+
+# brew completions
+if type brew &>/dev/null
+then
+  FPATH="\$(brew --prefix)/share/zsh/site-functions:\${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+# brew end
+EOF
+
+sudo bat -pP /Users/$USER/.zprofile &&
+sudo bat -pP /Users/$USER/.zshrc &&
+USER=$(whoami)
+```
+
+linux deb
+
+```sh
+#!/bin/bash
+USER='ansible'
+cat <<EOF | sudo tee -a /home/$USER/.profile
+
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
+sudo bat -pP /home/$USER/.profile && USER=$(whoami)
+```
+
+linux rpm
+
+```sh
+#!/bin/bash
+USER='ansible'
+cat <<EOF | sudo tee -a /home/$USER/.bash_profile
+
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
+sudo bat -pP /home/$USER/.bash_profile && USER=$(whoami)
+```
+
+---
 
 ### diagnostics
 
