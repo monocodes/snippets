@@ -140,6 +140,14 @@ url: https://github.com/monocodes/snippets.git
 ~/.zprofile
 ```
 
+export `PATH`
+
+```sh
+echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.profile
+echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.bash_profile
+echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.zprofile
+```
+
 binaries
 
 ```sh
@@ -291,6 +299,8 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 #### `& && || ; ;; \`
 
 >`A` and `B` are any commands
+>
+>**NOTE** no line continuation is required for multiline scripts after operators -- it is implied. Remove `\` from your code and confirm.
 
 Run A and then B, regardless of success of A
 
