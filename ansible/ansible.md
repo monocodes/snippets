@@ -203,7 +203,7 @@ ansible-playbook -i inventory web_db.yaml -C
 **debug**, increase log level
 
 ```sh
-ansible-playbook db.yaml -vv
+ansible-playbook db.yaml -v
 
 # -vv - second log level, maximum is -vvvv
 ```
