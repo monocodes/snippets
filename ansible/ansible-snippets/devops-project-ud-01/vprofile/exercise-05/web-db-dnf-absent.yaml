@@ -1,0 +1,21 @@
+---
+- name: Webserver setup
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Remove httpd and do autoremove
+      ansible.builtin.dnf:
+        name: httpd
+        state: absent
+        autoremove: true
+
+- name: DBserver setup
+  hosts: dbservers
+  become: true
+  tasks:
+    - name: Remove mariadb-server and do autoremove
+      ansible.builtin.dnf:
+        name: mariadb-server
+        state: absent
+        autoremove: true
+    

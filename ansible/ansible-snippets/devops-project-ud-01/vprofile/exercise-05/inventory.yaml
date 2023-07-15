@@ -1,0 +1,25 @@
+all:
+  hosts:
+    web01:
+      ansible_host: 192.168.1.105
+    web02:
+      ansible_host: 192.168.1.137
+    db01:
+      ansible_host: 192.168.1.135
+  
+  children:
+    webservers:
+      hosts:
+        web01:
+        web02:
+    dbservers:
+      hosts:
+        db01:
+    dc_oregon:
+    # hyphen "-" is bad option for ansible, better use underscore "_"
+      children:
+        webservers:
+        dbservers:
+      vars:
+        ansible_user: ansible
+        ansible_ssh_private_key_file: ansible-key-secret
