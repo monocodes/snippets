@@ -2176,9 +2176,10 @@ network:
 *local-dns-resolve.sh*
 
 ```sh
-ls /run/systemd/resolve/resolv.conf && sudo mv /etc/resolv.conf /etc/resolv.conf.bak && \
-  sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf && \
-  sudo systemctl restart systemd-resolved
+ls /run/systemd/resolve/resolv.conf &&
+sudo mv /etc/resolv.conf /etc/resolv.conf.bak &&
+sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf &&
+sudo systemctl restart systemd-resolved
 ```
 
 flush dns
