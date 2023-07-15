@@ -14,6 +14,8 @@ url: https://github.com/monocodes/snippets.git
 - [brew uninstall](#brew-uninstall)
 - [brew paths](#brew-paths)
 - [brew commands](#brew-commands)
+  - [brew multi-user system](#brew-multi-user-system)
+    - [brew multi-user scripts](#brew-multi-user-scripts)
   - [diagnostics](#diagnostics)
   - [update and upgrade](#update-and-upgrade)
   - [search](#search)
@@ -96,14 +98,11 @@ brew install one-liner Ubuntu 22
 ```sh
 sudo apt-get update && sudo apt-get install -y build-essential procps curl file git &&
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
-test -r $HOME/.profile && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.profile &&
-source $HOME/.profile &&
-brew analytics off &&
-brew update && brew upgrade &&
-brew install gcc &&
-brew tap beeftornado/rmtree &&
-cat <<EOF | sudo tee -a $HOME/.bashrc
+test -r $HOME/.profile &&
+cat <<EOF | sudo tee -a $HOME/.profile
 
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # brew completions
 if type brew &>/dev/null
 then
@@ -120,7 +119,11 @@ then
 fi
 # brew end
 EOF
-source $HOME/.profile && $HOME/.bashrc
+source $HOME/.profile &&
+brew analytics off &&
+brew update && brew upgrade &&
+brew install gcc &&
+brew tap beeftornado/rmtree &&
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER &&
 cat <<EOF | sudo tee -a /root/.profile
@@ -128,10 +131,6 @@ cat <<EOF | sudo tee -a /root/.profile
 # brew
 eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 alias brew='sudo -Hu mono brew'
-# brew end
-EOF
-cat <<EOF | sudo tee -a /root/.bashrc
-
 # brew completions
 if type brew &>/dev/null
 then
@@ -157,14 +156,10 @@ sudo dnf groupinstall -y "Development Tools" &&
 sudo dnf install -y procps-ng curl file git &&
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
 test -r $HOME/.bash_profile &&
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bash_profile &&
-source $HOME/.bash_profile &&
-brew analytics off &&
-brew update && brew upgrade &&
-brew install gcc &&
-brew tap beeftornado/rmtree &&
-cat <<EOF | sudo tee -a $HOME/.bashrc
+cat <<EOF | sudo tee -a $HOME/.bash_profile
 
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # brew completions
 if type brew &>/dev/null
 then
@@ -181,7 +176,12 @@ then
 fi
 # brew end
 EOF
-source $HOME/.bash_profile && $HOME/.bashrc
+source $HOME/.bash_profile &&
+brew analytics off &&
+brew update && brew upgrade &&
+brew install gcc &&
+brew tap beeftornado/rmtree &&
+source $HOME/.bash_profile && source $HOME/.bashrc &&
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER &&
 cat <<EOF | sudo tee -a /root/.bash_profile
@@ -189,9 +189,6 @@ cat <<EOF | sudo tee -a /root/.bash_profile
 # brew
 eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 alias brew='sudo -Hu mono brew'
-# brew end
-EOF
-cat <<EOF | sudo tee -a /root/.bashrc
 # brew completions
 if type brew &>/dev/null
 then
@@ -209,6 +206,73 @@ fi
 # brew end
 EOF
 ```
+
+brew install one-liner CentOS 7
+
+> Will work only with updated git, not from official repos
+>
+> Use it only via script, not command
+
+```sh
+#!/bin/bash
+sudo yum groups mark install "Development Tools"
+sudo yum groups mark convert "Development Tools"
+sudo yum groupinstall -y "Development Tools"
+sudo yum install -y procps-ng curl file git
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+test -r $HOME/.bash_profile &&
+cat <<EOF | sudo tee -a $HOME/.bash_profile
+
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
+source $HOME/.bash_profile &&
+brew analytics off &&
+brew update && brew upgrade &&
+brew install gcc &&
+brew tap beeftornado/rmtree &&
+sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
+  | sudo tee -a /etc/sudoers.d/$USER &&
+cat <<EOF | sudo tee -a /root/.bash_profile
+
+# brew
+eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias brew='sudo -Hu mono brew'
+# brew completions
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="\$(brew --prefix)"
+  if [[ -r "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "\${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "\${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "\${COMPLETION}" ]] && source "\${COMPLETION}"
+    done
+  fi
+fi
+# brew end
+EOF
+cat <<EOF | sudo tee -a /root/.bashrc
+```
+
+---
 
 ## brew uninstall
 
@@ -254,7 +318,7 @@ linux default
 
 ### brew multi-user system
 
-More info here - [Using Homebrew on a multi-user system (don’t).md](guides/Using Homebrew on a multi-user system (don’t).md) 
+More info here - [Using Homebrew on a multi-user system (don’t).md](guides/Using Homebrew on a multi-user system (don’t).md)
 
 use brew with user that installed brew or write aliases
 
