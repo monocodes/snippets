@@ -19,6 +19,7 @@ services:
       - VPN_PORT_FORWARDING_STATUS_FILE
       - TZ=Asia/Yerevan
       - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+      - UPDATER_PERIOD=24h # Updates VPN servers list
       - SHADOWSOCKS=on
       # - SHADOWSOCKS_LOG=on
       - SHADOWSOCKS_CIPHER=aes-256-gcm
