@@ -326,7 +326,7 @@ use brew with user that installed brew or write aliases
 sudo -Hu username brew update
 ```
 
-- The `-H` option will make sure that the `HOME` directory is set to that of the impersonated user (here `foo`) instead of the *impersonating user* (here `bar`), so that Homebrew can maintain its cache and other local state in the proper user’s home.
+- The `-H` option will make sure that the `HOME` directory is set to that of the impersonated user (here `foo`) instead of the _impersonating user_ (here `bar`), so that Homebrew can maintain its cache and other local state in the proper user’s home.
 - The `-u` option allows to specify the user to impersonate instead of the default of `root`.
 
 add brew alias
