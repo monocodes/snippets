@@ -97,37 +97,35 @@ Useful hints and suggests
     "files.associations": {
         "*.env": "properties",
     },
-    "python.formatting.provider": "none",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
+    "[javascript]": {
+        "editor.formatOnSave": true,
+    },
     "[html]": {
-        "editor.tabSize": 2
+        "editor.formatOnSave": true,
+    },
+    "[css]": {
+        "editor.formatOnSave": true
     },
     "[shellscript]": {
-        "editor.tabSize": 2
     },
     "[ruby]": {
-        "editor.tabSize": 2
     },
     "[terraform]": {
         "editor.defaultFormatter": "hashicorp.terraform",
-        "editor.tabSize": 2
-    },
-    "[terraform-vars]": {
-        "editor.tabSize": 2
     },
     "[dockercompose]": {
         "editor.defaultFoldingRangeProvider": "redhat.vscode-yaml",
     },
     "[markdown]": {
-        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-        "editor.tabSize": 2,
         "editor.quickSuggestions": {
             "other": true,
             "comments": false,
             "strings": false
-        }
+        },
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
     },
     "markdownlint.config": {
         "MD028": false,
@@ -135,11 +133,23 @@ Useful hints and suggests
         "MD010": {
             "code_blocks": false,
         },
+        "MD024": false,
     },
     "telemetry.telemetryLevel": "off",
     "docker.images.label": "FullTag",
     "editor.indentSize": "tabSize",
     "window.autoDetectColorScheme": true,
+    "git.confirmSync": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    
+    // prettier config
+    "prettier.singleQuote": true,
+    "prettier.arrowParens": "avoid",
+    // prettier config end
+
+    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+    "editor.linkedEditing": true,
+    "editor.tabSize": 2,
 }
 ```
 
