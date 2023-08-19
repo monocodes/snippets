@@ -15,9 +15,15 @@ url: https://github.com/monocodes/snippets.git
 - [notes and guides](#notes-and-guides)
   - [notes](#notes)
     - [Operator Precedence Table](#operator-precedence-table)
+    - [Javascript: Simplified Type Coercion](#javascript-simplified-type-coercion)
+      - [1. Operate on incompatible types](#1-operate-on-incompatible-types)
+        - [String Coercion](#string-coercion)
+        - [Number Coercion](#number-coercion)
+        - [Boolean Coercion](#boolean-coercion)
+      - [2. Output object or variable](#2-output-object-or-variable)
   - [guides](#guides)
 
-## built-in operators
+## Built-in operators and directives
 
 ### typeof
 
@@ -88,9 +94,138 @@ console.log(lastName);
 
 ---
 
-## notes and guides
+### use strict
 
-### notes
+`'use strict';`
+
+> The `"use strict"` directive was new in ECMAScript version 5. It is not a statement, but a literal expression, ignored by earlier versions of JavaScript. The purpose of `"use strict"` is to indicate that the code should be executed in "strict mode". With strict mode, you can not, for example, use undeclared variables. All modern browsers support "use strict" except Internet Explorer 9 and lower. You can use strict mode in all your programs. It helps you to write cleaner code, like preventing you from using undeclared variables. `"use strict"` is just a string, so IE 9 will not throw an error even if it does not understand it.
+
+---
+
+### debugger
+
+Use `debugger;` to make a breakpoint in code anywhere.
+
+Or use breakpoints in browser.
+
+---
+
+### Math method
+
+> `Math.random` example
+
+```js
+const number = Math.trunc(Math.random() * 20) + 1;
+```
+
+- `Math.random` - gives random number between 0 and 1
+- `Math.trunc` - gets rid of decimal part
+
+* `* 20` - specifying the range between 0 and 19 or 19.9999... if without Math.trunc
+
++ `+ 1` - specifying the range between 1 and 20
+
+---
+
+##  Functions
+
+### 1. Function's anatomy
+
+![www.udemy.com_course_the-complete-javascript-course_learn_lecture_22648239](./js.assets/www.udemy.com_course_the-complete-javascript-course_learn_lecture_22648239.png)
+
+### 2. Three ways of writing functions
+
+Three different ways of writing functions, but they all work in a similar way:
+
+- receive **input** data
+- **transform** data
+- **output** data
+
+#### Function declarations
+
+Can be used before it's declared
+
+```js
+function calcAgeDe(birthYear) {
+  return 2037 - birthYear;
+}
+```
+
+#### Function expressions
+
+Function value stored on a varibale
+
+```js
+const calcAgeEx = function(birthYear) {
+  return 2037 - birthYear;
+};
+```
+
+#### Arrow functions
+
+Great for a quick one-line functions
+
+Has no `this` keyword
+
+```js
+const calcAgeAr = birthYear => 2037 - birthYear;
+```
+
+---
+
+## [Document](https://developer.mozilla.org/en-US/docs/Web/API/Document)
+
+### 1. [Elements and properties](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+
+#### [Element: classList property](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
+
+Although the `classList` property itself is read-only, you can modify its associated `DOMTokenList` using the [`add()`](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/add), [`remove()`](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/remove), [`replace()`](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/replace), and [`toggle()`](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/toggle) methods.
+
+Example modifying classes in element with class `.player--0`
+
+```js
+const player0El = document.querySelector('.player--0');
+
+player0El.classList.add('player--active');
+player0El.classList.remove('player--active');
+player0El.classList.replace('player--active');
+
+// toggle() works like a switcher. If class present it removes it and vice versa
+player0El.classList.toggle('player--active');
+```
+
+---
+
+## Notes and guides
+
+### 1. Notes
+
+#### JSdoc and VSCode
+
+Sometimes VSCode won't recognise some elements as HTML elements and won't suggest autocompletion. Use **JSdoc** comments to specify object type
+
+Example: 
+
+```js
+/** @type {HTMLElement} */
+
+const openModal = function () {
+  modal.classList.remove('hidden');
+  
+  // or use CSS property, but do it when you have not many styles
+  // here there will be no autocompletion without JSdoc /** @type {HTMLElement} */
+  // modal.style.display = 'block';
+  
+  overlay.classList.remove('hidden');
+};
+```
+
+More info:
+
+- [Jscript element.style dont working in script.js (visual studio code)](https://stackoverflow.com/questions/53794004/jscript-element-style-dont-working-in-script-js-visual-studio-code)
+- [What does it means on javascript? " /** @type {HTMLElement} */ "](https://stackoverflow.com/questions/71400456/what-does-it-means-on-javascript-type-htmlelement)
+
+---
 
 #### [Operator Precedence Table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence#table)
 
@@ -175,4 +310,169 @@ Several notes about the table:
 
 ---
 
-### guides
+#### [Javascript: Simplified Type Coercion](https://dev.to/urstrulyvishwak/simplified-type-coercion-in-js-36ge)
+
+**Type Coercion:** Automatic conversion of a value from one data type to another data type is called Type Coercion or implicit type conversion. Javascript engine does this in different scenarios. Let's see where and when this conversion happens and what to remember while coding.
+
+> **Declaimer:** Javascript supports explicit conversion as well and my topic is not that hence I am not covering any of its content though it is closely related.
+
+So here,
+
+`date type` - string, number, boolean, function, and object in Javascript.
+
+> 🧐 Rule: all primitive types conversion happens to: string, number or boolean
+
+Coercion generally means `the practice of persuading someone to do something by using force or threats.` - According to Google. Thanks, Google.
+
+Hence, the `Javascript engine` does the same in converting the value from one type to another without your intervention. Ok. When does this generally happen in Javascript?
+
+Yes. Instead of returning an error, it will do type coercion in the following scenarios:
+
+1. Operate on incompatible types.
+2. Output object or variable.
+
+Not to worry if you don't get the above points instantly, I would definitely make you remember forever by end of this article.
+
+Let's start:
+
+##### 1. Operate on incompatible types
+
+###### String Coercion
+
+**Operator +:** By default used for adding numbers. This also does some other work when used with strings i.e. concatenation. That is where coercion comes in to picture.
+
+> 🧐 Rule: If any operand is a string and operated with + then the result is always concatenated and the result is a string.
+
+```js
+console.log('str' + 1); // str1
+console.log('str' + true); // strtrue
+console.log('str' + null); //strnull
+console.log('str' + undefined); //strundefined
+console.log('str' + NaN); //strNaN
+```
+
+###### Number Coercion
+
+Operators /, -, *, %: Division, Subtraction, Multiplication, Modulus in order.
+
+> 🧐 Rule: When you operate string numbers with these operators then result will Number. If one or both operands are non-numeric then result will be NaN
+
+```js
+console.log('4' - 2); // 2
+console.log('4' % 2); // 0
+console.log('4' / 2); // 2
+console.log('4' * 2); // 8
+console.log('4' - NaN); // NaN
+console.log('4' / 'str'); // NaN
+console.log('4' / undefined); // NaN
+```
+
+**== Equality operator:** Used to compare values irrespective of their types. So,
+
+> 🧐 Rule: == operator coerces to number by default except in case of null. null is always equal to null or undefined.
+
+```js
+console.log(1 == 1); // true
+console.log(1 == '1'); // true - string 1 ocnverts to number. Hence both are equal.
+console.log(1 == true); // true - true converts to number 1.
+console.log(true == true); // true - 1 == 1 - true
+console.log('true' == true); // false. String true converted to NaN. Hence result is false.
+console.log('' == 0); // true
+
+// Number coercion won't happen in case of null.
+console.log(null == undefined); // true
+console.log(null == null); // true
+```
+
+> Best Practice: Always use === instead of ==.
+
+###### Boolean Coercion
+
+Happens with logical operators (||, && and !) and logical context.
+
+```js
+// Logical context. if statement evaluates to boolean.
+// Here number coerced to true.
+if (4) {
+    console.log('4 is not boolean');
+}
+```
+
+```js
+// evaluated with coerced values as true && true and returns operand as result.
+
+console.log(2 && 4); // 4
+console.log(0 || 5); // 5
+console.log(!!2); // true
+```
+
+> 🧐 Rule: 0, -0, undefined, null, '', false, NaN are falsy as per Javascript engine any other thing is true.
+
+##### 2. Output object or variable
+
+Javascript can output data in different ways like setting `innerHTML, alert(123), console.log` etc.
+
+> 🧐 Rule: In all the ways, the exposed object or variable is coerced to a string.
+
+We are done. Anything below you can read out of your interest.
+
+---
+
+There are a few things that make coercion looks hard to remember. You don't really need to remember any of the below scenarios.
+
+There are many weird scenarios around different operators that result in different results. Here are the examples.
+
+```js
+{}+[]+{}
+!! 'false' == !! 'false'
+['1'] == 1
+new Date() + 0
+new Date() - 0
+[] + null
+'4' * new Array();
+'4' / new String();
+4 + true
+```
+
+> Best Practice: Ignore them 😆.
+
+All of them have answers and nothing returns an error. I didn't provide the answer intentionally.
+
+Let's talk practically,
+
+Did you ever use this type of validation in your code?
+
+If your answer is:
+
+yes - don't do it.
+
+no - don't try to use it.
+
+What if the interviewer asks this question?
+
+Most probably, questions asked in the following way:
+
+1. Asks valid coercion question
+2. Common sense related
+
+Say,
+
+`1+2+'str' -> 3 + 'str' -> 3str ->` first two are numbers hence added and as per string coercion second part is concatenated.
+
+`'str'+1+2 - str1 + 2 -> str12` - You might have understood.
+
+Execution happens from left to right.
+
+Even if someone asks some weird scenario, you can say that this won't be legitimate coercion it might give some vague result. I don't think this question won't be a deciding factor for the selection.😃
+
+I would suggest having a look at the table shown on this page:
+
+[type conversion](https://www.w3schools.com/js/js_type_conversion.asp)
+
+whenever possible. It will be useful.
+
+Hope I have cleared confusion around `Type Coercion` in Javascript. Please do comment if I miss any valid coercion examples. I will update the article anytime.
+
+---
+
+### 2. Guides
