@@ -9,11 +9,24 @@ author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
-- [built-in operators](#built-in-operators)
+- [Built-in operators and directives](#built-in-operators-and-directives)
   - [typeof](#typeof)
   - [let, const](#let-const)
-- [notes and guides](#notes-and-guides)
-  - [notes](#notes)
+  - [use strict](#use-strict)
+  - [debugger](#debugger)
+  - [Math method](#math-method)
+- [Functions](#functions)
+  - [1. Function's anatomy](#1-functions-anatomy)
+  - [2. Three ways of writing functions](#2-three-ways-of-writing-functions)
+    - [Function declarations](#function-declarations)
+    - [Function expressions](#function-expressions)
+    - [Arrow functions](#arrow-functions)
+- [Document](#document)
+  - [1. Elements and properties](#1-elements-and-properties)
+    - [Element: classList property](#element-classlist-property)
+- [Notes and guides](#notes-and-guides)
+  - [1. Notes](#1-notes)
+    - [JSdoc and VSCode](#jsdoc-and-vscode)
     - [Operator Precedence Table](#operator-precedence-table)
     - [Javascript: Simplified Type Coercion](#javascript-simplified-type-coercion)
       - [1. Operate on incompatible types](#1-operate-on-incompatible-types)
@@ -21,7 +34,9 @@ url: https://github.com/monocodes/snippets.git
         - [Number Coercion](#number-coercion)
         - [Boolean Coercion](#boolean-coercion)
       - [2. Output object or variable](#2-output-object-or-variable)
-  - [guides](#guides)
+  - [2. Guides](#2-guides)
+    - [How to extract data from response body (JSON \& XML) in Postman](#how-to-extract-data-from-response-body-json--xml-in-postman)
+      - [Example with Gluetun servers.json](#example-with-gluetun-serversjson)
 
 ## Built-in operators and directives
 
@@ -69,6 +84,8 @@ object
 > By default use `const`, and use `let` only when you are really sure that you need mutable variable.
 >
 > Never use `var`, it's like `let` but legacy pre-ES6 and function-scoped. And `let` is block-scoped.
+>
+> Use `var` only in block elements (`if`, `for` etc.), because `const` and `let` will be scoped to block and `var` will be function-scoped if block inside function. Or `var` will be in global scope if block is outside the function
 
 examples
 
@@ -121,13 +138,13 @@ const number = Math.trunc(Math.random() * 20) + 1;
 - `Math.random` - gives random number between 0 and 1
 - `Math.trunc` - gets rid of decimal part
 
-* `* 20` - specifying the range between 0 and 19 or 19.9999... if without Math.trunc
+- `* 20` - specifying the range between 0 and 19 or 19.9999... if without Math.trunc
 
-+ `+ 1` - specifying the range between 1 and 20
+- `+ 1` - specifying the range between 1 and 20
 
 ---
 
-##  Functions
+## Functions
 
 ### 1. Function's anatomy
 
@@ -204,7 +221,7 @@ player0El.classList.toggle('player--active');
 
 Sometimes VSCode won't recognise some elements as HTML elements and won't suggest autocompletion. Use **JSdoc** comments to specify object type
 
-Example: 
+Example:
 
 ```js
 /** @type {HTMLElement} */
@@ -476,3 +493,46 @@ Hope I have cleared confusion around `Type Coercion` in Javascript. Please do co
 ---
 
 ### 2. Guides
+
+#### How to extract data from response body (JSON & XML) in Postman
+
+Guides
+
+- [How to extract data from response body (JSON & XML) in Postman](https://medium.com/@banait.ankita/how-to-extract-data-from-response-body-json-xml-in-postman-3fe134e2d8ed)
+- [Extract value from a JSON Response Body via the Test Scripts](https://community.postman.com/t/extract-value-from-a-json-response-body-via-the-test-scripts/11835)
+
+##### Example with Gluetun servers.json
+
+1. Paste full JSON output from Postman `GET` request in [JSON Path Finder](https://jsonpathfinder.com/)
+
+2. Find specific path and copy it:
+
+   ```js
+   // Example with Gluetun servers.json
+   x["private internet access"].servers
+   // or
+   x.privatevpn.servers
+   
+   // x is just a var
+   ```
+
+3. Postman -> GET -> Tests:
+
+   ```js
+   const responseData = pm.response.json();
+   console.log(responseData["private internet access"].servers);
+   
+   // or
+   const responseData = pm.response.json();
+   console.log(responseData.privatevpn.servers);
+   
+   // or
+   const bodydata = JSON.parse(responseBody);
+   console.log(bodydata["private internet access"].servers)
+   ```
+
+4. Show Postman Console and there check `Hide Network`
+
+5. Copy all data to any file from console and inspect it.
+
+---
