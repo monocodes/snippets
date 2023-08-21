@@ -12,14 +12,15 @@ services:
       - /volume1/docker/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
-      - SERVER_REGIONS=Serbia
+      # - SERVER_REGIONS=Serbia
+      - SERVER_REGIONS=Georgia
       - PIA_ENCRYPTION=normal
       - OPENVPN_PROTOCOL=udp
       - VPN_PORT_FORWARDING=on
       - VPN_PORT_FORWARDING_STATUS_FILE
       - TZ=Asia/Yerevan
       - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
-      - UPDATER_PERIOD=24h # Updates VPN servers list
+      - UPDATER_PERIOD=1h # Updates VPN servers list
       - SHADOWSOCKS=on
       # - SHADOWSOCKS_LOG=on
       - SHADOWSOCKS_CIPHER=aes-256-gcm
