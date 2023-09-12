@@ -13,7 +13,8 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       # - SERVER_REGIONS=Serbia
-      - SERVER_REGIONS=Georgia
+      # - SERVER_REGIONS=Georgia
+      - SERVER_REGIONS=Turkey
       - PIA_ENCRYPTION=normal
       - OPENVPN_PROTOCOL=udp
       - VPN_PORT_FORWARDING=on
