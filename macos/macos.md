@@ -145,6 +145,12 @@ show help for GNU command
 command-name --help
 ```
 
+clear zsh history of current session
+
+```sh
+history -p
+```
+
 ---
 
 ### users and groups
@@ -239,7 +245,6 @@ turn on syntax highlighting in vim
 
 ```sh
 echo "syntax on" >> ~/.vimrc
-
 ```
 
 ---
