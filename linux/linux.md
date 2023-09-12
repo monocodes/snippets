@@ -345,6 +345,12 @@ Show exit status of the last command
 echo $0
 ```
 
+clear history of current session
+
+```sh
+history -c
+```
+
 ---
 
 #### `--help`
