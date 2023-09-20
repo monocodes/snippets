@@ -15,6 +15,11 @@ url: https://github.com/monocodes/snippets.git
   - [use strict](#use-strict)
   - [debugger](#debugger)
   - [Math method](#math-method)
+- [Built-in Data Structures](#built-in-data-structures)
+  - [Arrays](#arrays)
+  - [Sets](#sets)
+  - [Objects](#objects)
+  - [Maps](#maps)
 - [Functions](#functions)
   - [1. Function's anatomy](#1-functions-anatomy)
   - [2. Three ways of writing functions](#2-three-ways-of-writing-functions)
@@ -22,10 +27,17 @@ url: https://github.com/monocodes/snippets.git
     - [Function expressions](#function-expressions)
     - [Arrow functions](#arrow-functions)
 - [Document](#document)
-  - [1. Elements and properties](#1-elements-and-properties)
+  - [Elements and properties](#elements-and-properties)
     - [Element: classList property](#element-classlist-property)
 - [Notes and guides](#notes-and-guides)
   - [1. Notes](#1-notes)
+    - [Dot Notation vs Bracket Notation for Object Properties – What's the Difference?](#dot-notation-vs-bracket-notation-for-object-properties--whats-the-difference)
+      - [1. Dot Notation Property Accessor](#1-dot-notation-property-accessor)
+      - [2. Bracket Notation Property Accessor](#2-bracket-notation-property-accessor)
+      - [3. Differences between Dot Notation and Bracket Notation Property Accessor](#3-differences-between-dot-notation-and-bracket-notation-property-accessor)
+        - [3.1 Using both approaches for accessing properties](#31-using-both-approaches-for-accessing-properties)
+        - [3.2 Using both approaches for modifying properties](#32-using-both-approaches-for-modifying-properties)
+      - [4. Should You Use Dot or Bracket Notation?](#4-should-you-use-dot-or-bracket-notation)
     - [JSdoc and VSCode](#jsdoc-and-vscode)
     - [Operator Precedence Table](#operator-precedence-table)
     - [Javascript: Simplified Type Coercion](#javascript-simplified-type-coercion)
@@ -144,6 +156,69 @@ const number = Math.trunc(Math.random() * 20) + 1;
 
 ---
 
+## [Built-in Data Structures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+
+### Arrays
+
+```js
+tasks = ['Code', 'Eat', 'Code'];
+// ["Code", "Eat", "Code"]
+```
+
+- Use when you need **ordered** list of values (might contain duplicates)
+- Use when you need to **manipulate** data
+
+### Sets
+
+```js
+tasks = new Set(['Code', 'Eat', 'Code']);
+// {"Code", "Eat"}
+```
+
+- Use when you need to work with **unique** values
+- Use when **high-performance** is *really* important
+- Use to **remove duplicates** from arrays
+
+### Objects
+
+```js
+task = {
+  task: 'Code',
+  date: 'today',
+  repeat: true,
+};
+```
+
+- More “traditional” key/value store (“abused” objects)
+- Easier to write and access values with `.` and `[]` (dots and brackets notations)
+
+Use cases:
+
+- Use when you need to include **functions** (methods)
+- Use when working with JSON (can convert to map)
+
+### Maps
+
+```js
+task = new Map([
+  ['task', 'Code'],
+  ['date', 'today'],
+  [false, 'Start coding'],
+]);
+```
+
+- Better performance
+- Keys can have **any** data type
+- Easy to iterate
+- Easy to compute size
+
+Use cases:
+
+- Use when you simply need to map key to values
+- Use when you need keys that are **not** strings
+
+---
+
 ## Functions
 
 ### 1. Function's anatomy
@@ -192,7 +267,7 @@ const calcAgeAr = birthYear => 2037 - birthYear;
 
 ## [Document](https://developer.mozilla.org/en-US/docs/Web/API/Document)
 
-### 1. [Elements and properties](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+### [Elements and properties](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 
 #### [Element: classList property](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
