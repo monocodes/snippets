@@ -65,16 +65,12 @@ duti -s com.microsoft.VSCode .zsh all
 
 ## Useful Keybindings
 
-**Trigger Suggest**  
-For example, list tags after `:` in `Dockerfile` in `FROM` section  
-`cmd + shift + space`
-
-**Trigger Parameter Hints**  
-Useful hints and suggests  
-`shift + option + space`
-
-**Reload the current window**  
-`cmd + shift + p` -> `Reload`
+- Trigger Suggest  
+  For example, list tags after `:` in `Dockerfile` in `FROM` section - `cmd + shift + space`
+- Trigger Parameter Hints  
+  Useful hints and suggests - `shift + option + space`
+- Reload the current window - `cmd + shift + p` -> `Reload`
+- Toggle word wrap - `Option + z`
 
 ---
 
