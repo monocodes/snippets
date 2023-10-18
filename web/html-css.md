@@ -17,6 +17,22 @@ url: https://github.com/monocodes/snippets.git
 
 ### Flexbox properties
 
+`flex` property defaults
+
+```css
+flex-grow: 0; /* To allow an element to grow (0 means no, 1+ means yes) */
+flex-shrink: 1; /* To allow an element to shrink (0 means no, 1+ means yes) */
+flex-basis: auto; /* To define an item’s width, instead of the width property */
+```
+
+`flex: 1;` means:
+
+```css
+flex-grow: 1; /* The div will grow in same proportion as the window-size */
+flex-shrink: 1; /* The div will shrink in same proportion as the window-size */
+flex-basis: 0; /* The div does not have a starting value as such and will take up screen as per the screen size available for e.g:- if 3 divs are in the wrapper then each div will take 33%. */
+```
+
 #### Flexbox main properties
 
 - Flexbox is a set of related **CSSproperties** for **building 1-dimensional layouts**
