@@ -175,7 +175,7 @@ show dotfiles in Finder
 Cmd + Shift + Dot
 ```
 
-smiles menu in any text editor
+smiles menu in any text editor<!--  -->
 
 ```properties
 Cmd + Ctrl + Space
@@ -185,13 +185,21 @@ Cmd + Ctrl + Space
 
 **Google Chrome**
 
-disable Chrome's two-finger back/forward navigation
+disable two-finger back/forward navigation in Chrome
 
 ```sh
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
 
 # restart chrome
 chrome://restart
+```
+
+**Vivaldi**
+
+disable two-finger back/forward navigation in Vivaldi
+
+```sh
+defaults write com.vivaldi.Vivaldi AppleEnableSwipeNavigateWithScrolls -bool FALSE
 ```
 
 **Time Machine**
