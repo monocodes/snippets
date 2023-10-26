@@ -23,7 +23,9 @@ url: https://github.com/monocodes/snippets.git
         - [If the Synology firewall is enabled: adjust the firewall settings](#if-the-synology-firewall-is-enabled-adjust-the-firewall-settings)
       - [Special thanks](#special-thanks)
       - [Support](#support)
-- [PIA ports for gluetun and firewall](#pia-ports-for-gluetun-and-firewall)
+- [guides](#guides)
+  - [PIA ports for gluetun and firewall](#pia-ports-for-gluetun-and-firewall)
+  - [DS File (iOS)](#ds-file-ios)
 
 ## cmd
 
@@ -212,7 +214,9 @@ If you run into problems, [contact support](https://tailscale.com/contact/suppor
 
 ---
 
-## PIA ports for gluetun and firewall
+## guides
+
+### PIA ports for gluetun and firewall
 
 In order to connect to our service using one of the VPN methods we provide, please verify you can connect over these ports:
 
@@ -228,3 +232,11 @@ If you can connect over any of those, you should be able to use at least one of 
 In addition, the PIA application pings our gateways over port 8888. This is used to connect you to the server with the lowest latency when you use the auto connect feature.
 
 We also have more in-depth information on our OpenVPN ports including the protocols, settings, and certificates that should be used with them in this [article](https://www.privateinternetaccess.com/helpdesk/kb/articles/which-encryption-auth-settings-should-i-use-for-ports-on-your-gateways-3).
+
+---
+
+### DS File (iOS)
+
+It's an old application, so, it's can't normally connect to the NAS via NGINX reverse proxy.
+
+To connect just use something like: `nas.domain.com:443` with enabled **https**
