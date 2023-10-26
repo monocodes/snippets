@@ -29,6 +29,9 @@ url: https://github.com/monocodes/snippets.git
 - [NGINX syntax](#nginx-syntax)
   - [Optimizing NGINX config](#optimizing-nginx-config)
   - [Location Matches](#location-matches)
+  - [NGINX directives](#nginx-directives)
+    - [proxy\_request\_buffering](#proxy_request_buffering)
+    - [`http2` directive in NGINX \>1.25.1](#http2-directive-in-nginx-1251)
 - [NGINX commands](#nginx-commands)
 - [NGINX modules](#nginx-modules)
   - [php-fpm](#php-fpm)
@@ -36,7 +39,6 @@ url: https://github.com/monocodes/snippets.git
   - [NGINX default configs](#nginx-default-configs)
     - [nginx/1.24.0 (stable)](#nginx1240-stable)
     - [nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))](#nginx1180-ubuntu-22042-lts-jammy-jellyfish)
-  - [`http2` directive in NGINX \>1.25.1](#http2-directive-in-nginx-1251)
   - [Error messages](#error-messages)
 - [NGINX guides](#nginx-guides)
   - [WebSocket proxying](#websocket-proxying)
@@ -542,6 +544,57 @@ The list of all the matches in descending order of priority is as follows:
 
 ---
 
+### NGINX directives
+
+#### proxy_request_buffering
+
+If there are problems with big files uploads thought NGINX reverse proxy, for example more that **2GB**, check free space on NGINX server.
+
+NGINX store big uploaded files more than [proxy_max_temp_file_size](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_max_temp_file_size) (default `1024m;`) on disk and doesn't stream them but use buffering.
+
+Buffering can be turned off with [proxy_request_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_request_buffering) `off;`, also there are another directive for turning off buffering [proxy_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering) `off;` (didn't test it).
+
+*Without buffering uploads will be significantly slower.*
+
+More info here:
+
+- [Error uploading large files (>2gb) through nginx reverse proxy to container](https://serverfault.com/questions/1098725/error-uploading-large-files-2gb-through-nginx-reverse-proxy-to-container)
+- [what is the difference between proxy_request_buffering and proxy_buffering on nginx?](https://serverfault.com/questions/741610/what-is-the-difference-between-proxy-request-buffering-and-proxy-buffering-on-ng)
+
+**Tests on Synology 920+, nginx/1.24.0 on Ubuntu 22**
+
+| Filename | Size    | Resources          | Nginx parameters | Time     |
+| -------- | ------- | ------------------ | ---------------- | -------- |
+| IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | no nginx         | 05:09,03 |
+| IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | buffering on     | 05:38,13 |
+| IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | buffering off    | 07:14,40 |
+| IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | no nginx         | 19:16,47 |
+| IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | buffering on     | 20:23,92 |
+| IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | buffering off    | 28:36,95 |
+
+---
+
+#### `http2` directive in NGINX >1.25.1
+
+Since nginx 1.25.1, the "listen ... http2" directive is deprecated, use the "http2" directive instead
+
+the old format is
+
+```nginx
+server {
+    listen      x.x.x.x:443 ssl http2;
+```
+
+and the new format for nginx >= 1.25.1 is
+
+```nginx
+server {
+    listen      x.x.x.x:443 ssl;
+    http2  on;
+```
+
+---
+
 ## NGINX commands
 
 test current config
@@ -884,27 +937,6 @@ proxy_set_header Host $http_host;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
-```
-
----
-
-### `http2` directive in NGINX >1.25.1
-
-Since nginx 1.25.1, the "listen ... http2" directive is deprecated, use the "http2" directive instead
-
-the old format is
-
-```nginx
-server {
-    listen      x.x.x.x:443 ssl http2;
-```
-
-and the new format for nginx >= 1.25.1 is
-
-```nginx
-server {
-    listen      x.x.x.x:443 ssl;
-    http2  on;
 ```
 
 ---
