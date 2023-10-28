@@ -49,7 +49,7 @@ url: https://github.com/monocodes/snippets.git
     - [grub](#grub)
     - [gparted](#gparted)
     - [df](#df)
-    - [fdisk](#fdisk)
+    - [fdisk, parted, gdisk](#fdisk-parted-gdisk)
     - [mkfs, formatting](#mkfs-formatting)
     - [mount, umount, mounting](#mount-umount-mounting)
   - [network](#network)
@@ -1860,7 +1860,8 @@ chmod 770 /path/to/filename
       - extend **LV**
 
         ```sh
-        sudo lvdisplay # to get LV path
+        # check LV path
+        sudo lvdisplay
         
         sudo lvextend -l +100%FREE -r /dev/rl/root
         
@@ -1937,12 +1938,19 @@ show partitions
 df -h
 ```
 
-#### fdisk
+#### fdisk, parted, gdisk
 
 show disks
 
 ```sh
-fdisk -l
+# on GTP use parted or gdisk
+sudo parted -l
+# or
+sudo gdisk -l /dev/sda
+# or it is possible to make partitions with parted
+sudo parted /dev/sda unit s print
+
+sudo fdisk -l
 ```
 
 show disks with `ls` (including unmounted)
