@@ -30,16 +30,22 @@ url: https://github.com/monocodes/snippets.git
   - [Optimizing NGINX config](#optimizing-nginx-config)
   - [Location Matches](#location-matches)
   - [NGINX directives](#nginx-directives)
-    - [proxy\_request\_buffering](#proxy_request_buffering)
+    - [proxy](#proxy)
+      - [proxy\_request\_buffering](#proxy_request_buffering)
+      - [proxy\_read\_timeout](#proxy_read_timeout)
     - [`http2` directive in NGINX \>1.25.1](#http2-directive-in-nginx-1251)
 - [NGINX commands](#nginx-commands)
 - [NGINX modules](#nginx-modules)
   - [php-fpm](#php-fpm)
 - [NGINX notes](#nginx-notes)
-  - [NGINX default configs](#nginx-default-configs)
-    - [nginx/1.24.0 (stable)](#nginx1240-stable)
-    - [nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))](#nginx1180-ubuntu-22042-lts-jammy-jellyfish)
-  - [Error messages](#error-messages)
+  - [NGINX configs](#nginx-configs)
+    - [Default](#default)
+      - [nginx/1.24.0 (stable)](#nginx1240-stable)
+      - [nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))](#nginx1180-ubuntu-22042-lts-jammy-jellyfish)
+    - [NGINX Proxy with load-balancing for MinIO Server](#nginx-proxy-with-load-balancing-for-minio-server)
+      - [Dedicated DNS](#dedicated-dns)
+      - [Subdomain](#subdomain)
+  - [Error messages (log levels)](#error-messages-log-levels)
 - [NGINX guides](#nginx-guides)
   - [WebSocket proxying](#websocket-proxying)
   - [Serving Multiple Proxy Endpoints Under a Location in Nginx](#serving-multiple-proxy-endpoints-under-a-location-in-nginx)
@@ -546,13 +552,35 @@ The list of all the matches in descending order of priority is as follows:
 
 ### NGINX directives
 
-#### proxy_request_buffering
+#### proxy
 
-If there are problems with big files uploads thought NGINX reverse proxy, for example more that **2GB**, check free space on NGINX server.
+```nginx
+# upload optimizing for big files
+client_max_body_size 0;
+proxy_request_buffering off;
+proxy_read_timeout 3600;
+# proxy_buffering off;
+# proxy_connect_timeout 3600;
+# proxy_read_timeout 3600;
+# proxy_send_timeout 3600;
+# proxy_ignore_client_abort on;
+# chunked_transfer_encoding off;
+```
+
+##### [proxy_request_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_request_buffering)
+
+> If there are problems with big files uploads thought NGINX reverse proxy, for example more that **2GB**, check free space on NGINX server.
+>
+> Also, the problem might be with the app. App could have its own timeouts, and we can do nothing with that. So, the only way to fix upload errors is to use `proxy_request_buffering`
+>
+> More here:
+>
+> - [NGINX: upstream timed out (110: Connection timed out) while reading response header from upstream](https://stackoverflow.com/questions/18740635/nginx-upstream-timed-out-110-connection-timed-out-while-reading-response-hea)
+> - [Error uploading large files (>2gb) through nginx reverse proxy to container](https://serverfault.com/questions/1098725/error-uploading-large-files-2gb-through-nginx-reverse-proxy-to-container)
 
 NGINX store big uploaded files more than [proxy_max_temp_file_size](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_max_temp_file_size) (default `1024m;`) on disk and doesn't stream them but use buffering.
 
-Buffering can be turned off with [proxy_request_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_request_buffering) `off;`, also there are another directive for turning off buffering [proxy_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering) `off;` (didn't test it).
+Buffering can be turned off with [proxy_request_buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_request_buffering) `off;`.
 
 *Without buffering uploads will be significantly slower.*
 
@@ -565,12 +593,22 @@ More info here:
 
 | Filename | Size    | Resources          | Nginx parameters | Time     |
 | -------- | ------- | ------------------ | ---------------- | -------- |
-| IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | no nginx         | 05:09,03 |
+| IMG_1065 | 1.23 GB |                    | no nginx         | 05:09,03 |
 | IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | buffering on     | 05:38,13 |
 | IMG_1065 | 1.23 GB | 1 vCPU, 768 MB RAM | buffering off    | 07:14,40 |
-| IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | no nginx         | 19:16,47 |
+| IMG_1098 | 5.65 GB |                    | no nginx         | 19:16,47 |
 | IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | buffering on     | 20:23,92 |
 | IMG_1098 | 5.65 GB | 1 vCPU, 768 MB RAM | buffering off    | 28:36,95 |
+
+---
+
+##### [proxy_read_timeout](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout)
+
+- Syntax: proxy_read_timeout time;
+- Default: proxy_read_timeout 60s;
+- Context: http, server, location
+
+Defines a timeout for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed.
 
 ---
 
@@ -656,9 +694,11 @@ sudo find / -name *fpm.sock
 
 ---
 
-### NGINX default configs
+### NGINX configs
 
-#### nginx/1.24.0 (stable)
+#### Default
+
+##### nginx/1.24.0 (stable)
 
 */etc/nginx/nginx.conf*
 
@@ -744,7 +784,9 @@ server {
 }
 ```
 
-#### nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))
+---
+
+##### nginx/1.18.0 (Ubuntu 22.04.2 LTS (Jammy Jellyfish))
 
 */etc/nginx/nginx.conf*
 
@@ -941,7 +983,219 @@ proxy_set_header X-Forwarded-Proto $scheme;
 
 ---
 
-### Error messages
+#### [NGINX Proxy with load-balancing for MinIO Server](https://min.io/docs/minio/linux/integrations/setup-nginx-proxy-with-minio.html)
+
+The following documentation provides a baseline for configuring NGINX to proxy requests to MinIO in a Linux environment. It is not intended as a comprehensive approach to NGINX, proxying, or reverse proxying in general. Modify the configuration as necessary for your infrastructure.
+
+This documentation assumes the following:
+
+- An existing [NGINX](http://nginx.org/en/download.html) deployment
+- An existing [MinIO](https://min.io/docs/minio/linux/operations/installation.html#minio-installation) deployment
+- A DNS hostname which uniquely identifies the MinIO deployment
+
+There are two models for proxying requests to the MinIO Server API and the MinIO Console:
+
+##### Dedicated DNS
+
+Create or configure a dedicated DNS name for the MinIO service.
+
+For the MinIO Server S3 API, proxy requests to the root of that domain. For the MinIO Console Web GUI, proxy requests to the `/minio` subpath.
+
+For example, given the hostname `minio.example.net`:
+
+- Proxy requests to the root `https://minio.example.net` to the MinIO Server listening on `https://minio.local:9000`.
+- Proxy requests to the subpath `https://minio.example.net/minio/ui` to the MinIO Console listening on `https://minio.local:9090`.
+
+The following location blocks provide a template for further customization in your unique environment:
+
+```nginx
+upstream minio_s3 {
+   least_conn;
+   server minio-01.internal-domain.com:9000;
+   server minio-02.internal-domain.com:9000;
+   server minio-03.internal-domain.com:9000;
+   server minio-04.internal-domain.com:9000;
+}
+
+upstream minio_console {
+   least_conn;
+   server minio-01.internal-domain.com:9090;
+   server minio-02.internal-domain.com:9090;
+   server minio-03.internal-domain.com:9090;
+   server minio-04.internal-domain.com:9090;
+}
+
+server {
+   listen       80;
+   listen  [::]:80;
+   server_name  minio.example.net;
+
+   # Allow special characters in headers
+   ignore_invalid_headers off;
+   # Allow any size file to be uploaded.
+   # Set to a value such as 1000m; to restrict file size to a specific value
+   client_max_body_size 0;
+   # Disable buffering
+   proxy_buffering off;
+   proxy_request_buffering off;
+
+   location / {
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+
+      proxy_connect_timeout 300;
+      # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      chunked_transfer_encoding off;
+
+      proxy_pass https://minio_s3; # This uses the upstream directive definition to load balance
+   }
+
+   location /minio/ui/ {
+      rewrite ^/minio/ui/(.*) /$1 break;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-NginX-Proxy true;
+
+      # This is necessary to pass the correct IP to be hashed
+      real_ip_header X-Real-IP;
+
+      proxy_connect_timeout 300;
+
+      # To support websockets in MinIO versions released after January 2023
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      # Some environments may encounter CORS errors (Kubernetes + Nginx Ingress)
+      # Uncomment the following line to set the Origin request to an empty string
+      # proxy_set_header Origin '';
+
+      chunked_transfer_encoding off;
+
+      proxy_pass https://minio_console; # This uses the upstream directive definition to load balance
+   }
+}
+```
+
+The S3 API signature calculation algorithm does *not* support proxy schemes where you host the MinIO Server API such as `example.net/s3/`.
+
+You must also set the following environment variables for the MinIO deployment:
+
+- Set [`MINIO_SERVER_URL`](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#envvar.MINIO_SERVER_URL) to the proxy host FQDN of the MinIO Server (`https://minio.example.net`)
+- Set the [`MINIO_BROWSER_REDIRECT_URL`](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#envvar.MINIO_BROWSER_REDIRECT_URL) to the proxy host FQDN of the MinIO Console (`https://example.net/minio/ui`)
+
+##### Subdomain
+
+Create or configure separate, unique subdomains for the MinIO Server S3 API and for the MinIO Console Web GUI.
+
+For example, given the root domain of `example.net`:
+
+- Proxy request to the subdomain `minio.example.net` to the MinIO Server listening on `https://minio.local:9000`
+- Proxy requests to the subdomain `console.example.net` to the MinIO Console listening on `https://minio.local:9090`
+
+The following location blocks provide a template for further customization in your unique environment:
+
+```nginx
+upstream minio_s3 {
+   least_conn;
+   server minio-01.internal-domain.com:9000;
+   server minio-02.internal-domain.com:9000;
+   server minio-03.internal-domain.com:9000;
+   server minio-04.internal-domain.com:9000;
+}
+
+upstream minio_console {
+   least_conn;
+   server minio-01.internal-domain.com:9090;
+   server minio-02.internal-domain.com:9090;
+   server minio-03.internal-domain.com:9090;
+   server minio-04.internal-domain.com:9090;
+}
+
+server {
+   listen       80;
+   listen  [::]:80;
+   server_name  minio.example.net;
+
+   # Allow special characters in headers
+   ignore_invalid_headers off;
+   # Allow any size file to be uploaded.
+   # Set to a value such as 1000m; to restrict file size to a specific value
+   client_max_body_size 0;
+   # Disable buffering
+   proxy_buffering off;
+   proxy_request_buffering off;
+
+   location / {
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+
+      proxy_connect_timeout 300;
+      # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      chunked_transfer_encoding off;
+
+      proxy_pass http://minio_s3; # This uses the upstream directive definition to load balance
+   }
+}
+
+server {
+
+   listen       80;
+   listen  [::]:80;
+   server_name  console.example.net;
+
+   # Allow special characters in headers
+   ignore_invalid_headers off;
+   # Allow any size file to be uploaded.
+   # Set to a value such as 1000m; to restrict file size to a specific value
+   client_max_body_size 0;
+   # Disable buffering
+   proxy_buffering off;
+   proxy_request_buffering off;
+
+   location / {
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-NginX-Proxy true;
+
+      # This is necessary to pass the correct IP to be hashed
+      real_ip_header X-Real-IP;
+
+      proxy_connect_timeout 300;
+
+      # To support websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+
+      chunked_transfer_encoding off;
+
+      proxy_pass http://minio_console/; # This uses the upstream directive definition to load balance
+   }
+}
+```
+
+The S3 API signature calculation algorithm does *not* support proxy schemes where you host the MinIO Server API on a subpath, such as `minio.example.net/s3/`.
+
+You must also set the following environment variables for the MinIO deployment:
+
+- Set [`MINIO_SERVER_URL`](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#envvar.MINIO_SERVER_URL) to the proxy host FQDN of the MinIO Server (`https://minio.example.net`)
+- Set the [`MINIO_BROWSER_REDIRECT_URL`](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#envvar.MINIO_BROWSER_REDIRECT_URL) to the proxy host FQDN of the MinIO Console (`https://console.example.net/`)
+
+---
+
+### Error messages (log levels)
 
 Error messages have levels. A `notice` entry in the error log is harmless, but an `emerg` or emergency entry has to be addressed right away.
 
