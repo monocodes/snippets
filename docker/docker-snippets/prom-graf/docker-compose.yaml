@@ -15,7 +15,7 @@ services:
     volumes:
       - /volume1/docker/prometheus/config:/etc/prometheus
       - /volume1/docker/prometheus/data:/prometheus
-    user: 1030:100
+    user: 1030:100 # user - docker
     networks:
       - prom-graf-net
     ports:
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     volumes:
       - /volume1/docker/grafana/data:/var/lib/grafana
-    user: 1030:100
+    user: 1030:100 # user - docker
     networks:
       - prom-graf-net
     ports:

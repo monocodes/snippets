@@ -49,7 +49,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - WEBUI_PORT=8999
-      - PUID=1027
+      - PUID=1031 # user - qbt
       - PGID=100
     depends_on:
       - vpn
