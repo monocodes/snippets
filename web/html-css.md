@@ -43,8 +43,7 @@ flex-basis: 0; /* The div does not have a starting value as such and will take u
 
 ![flexbox](./html-css.assets/SCR-20230920-pvsz.png)
 
-| FLEX CONTAINER |
-| :------------: |
+##### Flex Container
 
 | #    | Name             | Default value | Values                                                       | Description                                                  | Notes            |
 | ---- | ---------------- | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------- |
@@ -55,8 +54,7 @@ flex-basis: 0; /* The div does not have a starting value as such and will take u
 | 5    | flex-wrap:       | nowrap        | wrap / wrap-reverse                                          | To allow items to **wrap into a new line** if they are too large | Advanced feature |
 | 6    | align-content:   | stretch       | flex-start / flex-end / center / space-between / space-around | Only applies when there are **multiple lines** (flex-wrap: wrap) | Advanced feature |
 
-| FLEX ITEMS |
-| :--------: |
+##### Flex Items
 
 | #    | Name         | Default value | Values                                               | Description                                                  | Notes |
 | ---- | ------------ | ------------- | ---------------------------------------------------- | ------------------------------------------------------------ | ----- |
@@ -66,3 +64,39 @@ flex-basis: 0; /* The div does not have a starting value as such and will take u
 | 4    | flex-basis:  | auto          | `length`                                             | To define an item’s width, **instead of the width** property |       |
 | 5    | flex:        | 0 1 auto      | `integer` `integer` `lenth`                          | **Recommended** shorthand for flex-grow, -shrink, -basis.    |       |
 | 6    | order:       | 0             | `integer`                                            | Controls order of items. -1 makes item **first**, 1 makes it **last** |       |
+
+---
+
+## CSS Grid
+
+### CSS Grid main properties
+
+- CSS Grid is a set of **CSSproperties** for **building 2-dimensional layouts**
+- The main idea behind CSS Grid is that we **divide a container element into rows and columns** that can be filled with its child elements
+- In two-dimensional contexts, CSS Grid allows us to write **less nested HTML** and **easier-to-read CSS**
+- CSS Grid is **not meant to replace flexbox**! Instead, they work perfectly together. Need a **1D** layout? Use flexbox. Need a **2D** layout? Use CSS Grid.
+
+![SCR-20231107-ovni](./html-css.assets/SCR-20231107-ovni-9361648.png)
+
+#### Grid Container
+
+| #    | Name                   | Default value | Values                        | Description                                                  | Notes |
+| ---- | ---------------------- | ------------- | ----------------------------- | ------------------------------------------------------------ | ----- |
+| 1    | grid-template-rows:    | -             | `track size` (px or fr), auto | To establish the grid **row and column tracks**. One length unit for each track. Any unit can be used, new **fr** fills unused space |       |
+|      | grid-template-columns: | ⬆             | ⬆                             | ⬆                                                            |       |
+| 2    | row-gap:               | 0             | `length`                      | To **create empty space** between tracks                     |       |
+|      | column-gap             | ⬆             | ⬆                             | ⬆                                                            |       |
+| 3    | justify-items:         | stretch       | start / center / end          | To align items inside rows / columns (**horizontally / vertically**) |       |
+|      | align-items:           | ⬆             | ⬆                             | ⬆                                                            |       |
+| 4    | justify-content:       | start         | start / center / end / ...    | To align entire **grid inside grid container**. Only applies if container is larger than the grid |       |
+|      | align-content:         | ⬆             | ⬆                             | ⬆                                                            |       |
+
+#### Grid Items
+
+| #    | Name          | Default value             | Values               | Description                                                  | Notes |
+| ---- | ------------- | ------------------------- | -------------------- | ------------------------------------------------------------ | ----- |
+| 1    | grid-column:  | `start line` / `end line` | span `number`        | To **place a grid item** into a specific cell, based on line numbers. span keyword can be used to span an item across more cells |       |
+|      | grid-row:     | ⬆                         | ⬆                    | ⬆                                                            |       |
+| 2    | justify-self: | stretch                   | start / center / end | To **overwrite** justify-items / align-items for single items |       |
+|      | align-self:   | ⬆                         | ⬆                    | ⬆                                                            |       |
+
