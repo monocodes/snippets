@@ -52,6 +52,34 @@ url: https://github.com/monocodes/snippets.git
 
 ## Built-in operators and directives
 
+### console.dir
+
+`console.dir` - print to the console everything about object/variable/anything
+
+```js
+'use strict';
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker(); // 1 passengers
+booker(); // 2 passengers
+booker(); // 3 passengers
+
+console.dir(booker);
+// output
+```
+
+![SCR-20231128-qgac](./js.assets/SCR-20231128-qgac.png)
+
 ### typeof
 
 `typeof` - shows type of variable
