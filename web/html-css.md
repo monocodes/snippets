@@ -12,6 +12,12 @@ url: https://github.com/monocodes/snippets.git
 - [Flexbox](#flexbox)
   - [Flexbox properties](#flexbox-properties)
     - [Flexbox main properties](#flexbox-main-properties)
+      - [Flex Container](#flex-container)
+      - [Flex Items](#flex-items)
+- [CSS Grid](#css-grid)
+  - [CSS Grid main properties](#css-grid-main-properties)
+    - [Grid Container](#grid-container)
+    - [Grid Items](#grid-items)
 
 ## Flexbox
 
@@ -99,4 +105,3 @@ flex-basis: 0; /* The div does not have a starting value as such and will take u
 |      | grid-row:     | ⬆                         | ⬆                    | ⬆                                                            |       |
 | 2    | justify-self: | stretch                   | start / center / end | To **overwrite** justify-items / align-items for single items |       |
 |      | align-self:   | ⬆                         | ⬆                    | ⬆                                                            |       |
-
