@@ -10,6 +10,7 @@ url: https://github.com/monocodes/snippets.git
 ---
 
 - [Built-in operators and directives](#built-in-operators-and-directives)
+  - [console.dir](#consoledir)
   - [typeof](#typeof)
   - [let, const](#let-const)
   - [use strict](#use-strict)
@@ -31,6 +32,7 @@ url: https://github.com/monocodes/snippets.git
     - [Element: classList property](#element-classlist-property)
 - [Notes and guides](#notes-and-guides)
   - [1. Notes](#1-notes)
+    - [Little Tips](#little-tips)
     - [Dot Notation vs Bracket Notation for Object Properties – What's the Difference?](#dot-notation-vs-bracket-notation-for-object-properties--whats-the-difference)
       - [1. Dot Notation Property Accessor](#1-dot-notation-property-accessor)
       - [2. Bracket Notation Property Accessor](#2-bracket-notation-property-accessor)
@@ -319,6 +321,23 @@ player0El.classList.toggle('player--active');
 ## Notes and guides
 
 ### 1. Notes
+
+#### Little Tips
+
+`__` - is a placeholder for unnecessary parameter or variable
+
+```js
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
+currenciesUnique.forEach(function (value, _, map) {
+  // Value and key here are the same thing - value, because Sets don't have keys at all
+  // But callback function designed with 3 arguments as others to preserve order
+  // _ - for JS it's a placeholder for unnecessary variable or parameter
+  console.log(`${value}: ${value}`);
+});
+```
+
+---
 
 #### [Dot Notation vs Bracket Notation for Object Properties – What's the Difference?](https://www.freecodecamp.org/news/dot-notation-vs-square-brackets-javascript/)
 
