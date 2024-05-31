@@ -341,6 +341,165 @@ macOS partitioning tools, never used them.
 
 ---
 
+### macOS ExFAT GUID external disk without EFI partition - guide
+
+By default macOS **Disk Utility** creates GUID partitions with hidden EFI partition. For external hard drive you don't need this partition. It's the best way to create GUID table with ExFAT partition
+
+- Launch Terminal
+
+- Check the physical drives and choose that you want to format
+
+  ```sh
+  diskutil list
+  ```
+
+  - example - `disk4` here is the external USB drive
+
+    ```sh
+    mono@mono-mac /dev % diskutil list
+    /dev/disk0 (internal, physical):
+       #:                       TYPE NAME                    SIZE       IDENTIFIER
+       0:      GUID_partition_scheme                        *1.0 TB     disk0
+       1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
+       2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
+       3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
+    
+    /dev/disk3 (synthesized):
+       #:                       TYPE NAME                    SIZE       IDENTIFIER
+       0:      APFS Container Scheme -                      +994.7 GB   disk3
+                                     Physical Store disk0s2
+       1:                APFS Volume Macintosh HD - Data     519.9 GB   disk3s1
+       2:                APFS Volume Macintosh HD            10.3 GB    disk3s3
+       3:              APFS Snapshot com.apple.os.update-... 10.3 GB    disk3s3s1
+       4:                APFS Volume Preboot                 6.2 GB     disk3s4
+       5:                APFS Volume Recovery                937.8 MB   disk3s5
+       6:                APFS Volume VM                      5.4 GB     disk3s6
+    
+    /dev/disk4 (external, physical):
+       #:                       TYPE NAME                    SIZE       IDENTIFIER
+       0:      GUID_partition_scheme                        *1.0 TB     disk4
+    ```
+
+- Launch `gdisk`, format the drive with GUID and create partition
+
+  ```sh
+  sudo gdisk /dev/disk4
+  
+  # example when we have normal GUID partition
+  mono@mono-mac /dev % sudo gdisk /dev/disk4
+  GPT fdisk (gdisk) version 1.0.10
+  
+  Partition table scan:
+    MBR: protective
+    BSD: not present
+    APM: not present
+    GPT: present
+  
+  Found valid GPT with protective MBR; using GPT.
+  
+  ```
+
+- `o` - create a new empty GUID partition table (GPT)
+
+- `n` - add a new partition
+
+  ```sh
+  Command (? for help): n
+  Partition number (1-128, default 1): # Enter
+  First sector (34-1953525134, default = 2048) or {+-}size{KMGTP}: # Enter
+  Last sector (2048-1953525134, default = 1953523711) or {+-}size{KMGTP}: # Enter
+  Current type is AF00 (Apple HFS/HFS+)
+  Hex code or GUID (L to show codes, Enter = AF00): 0700
+  
+  # Check with p that everything us fine
+  Command (? for help): p
+  Disk /dev/disk4: 1953525168 sectors, 931.5 GiB
+  Sector size (logical): 512 bytes
+  Disk identifier (GUID): 0FA5201C-E760-4BB5-BFE9-15BF25697C7A
+  Partition table holds up to 128 entries
+  Main partition table begins at sector 2 and ends at sector 33
+  First usable sector is 34, last usable sector is 1953525134
+  Partitions will be aligned on 2048-sector boundaries
+  Total free space is 3437 sectors (1.7 MiB)
+  
+  Number  Start (sector)    End (sector)  Size       Code  Name
+     1            2048      1953523711   931.5 GiB   0700  Microsoft basic data
+  ```
+
+- `w` - write table to disk and exit
+
+- Check with `diskutil list` that everything is fine
+
+  ```sh
+  mono@mono-mac /dev % diskutil list
+  /dev/disk0 (internal, physical):
+     #:                       TYPE NAME                    SIZE       IDENTIFIER
+     0:      GUID_partition_scheme                        *1.0 TB     disk0
+     1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
+     2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
+     3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
+  
+  /dev/disk3 (synthesized):
+     #:                       TYPE NAME                    SIZE       IDENTIFIER
+     0:      APFS Container Scheme -                      +994.7 GB   disk3
+                                   Physical Store disk0s2
+     1:                APFS Volume Macintosh HD - Data     520.3 GB   disk3s1
+     2:                APFS Volume Macintosh HD            10.3 GB    disk3s3
+     3:              APFS Snapshot com.apple.os.update-... 10.3 GB    disk3s3s1
+     4:                APFS Volume Preboot                 6.2 GB     disk3s4
+     5:                APFS Volume Recovery                937.8 MB   disk3s5
+     6:                APFS Volume VM                      5.4 GB     disk3s6
+  
+  /dev/disk4 (external, physical):
+     #:                       TYPE NAME                    SIZE       IDENTIFIER
+     0:      GUID_partition_scheme                        *1.0 TB     disk4
+     1:       Microsoft Basic Data                         1.0 TB     disk4s1
+  ```
+
+- Format created partition to ExFAT
+
+  ```sh
+  sudo newfs_exfat /dev/disk4s1
+  
+  # example
+  mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
+  Reformatting existing ExFAT volume
+  Partition offset : 2048 sectors (1048576 bytes)
+  Volume size      : 1953521664 sectors (1000203091968 bytes)
+  Bytes per sector : 512
+  Bytes per cluster: 131072
+  FAT offset       : 2048 sectors (1048576 bytes)
+  # FAT sectors    : 61440
+  Number of FATs   : 1
+  Cluster offset   : 63488 sectors (32505856 bytes)
+  # Clusters       : 7630696
+  Volume Serial #  : 6659abcd
+  Bitmap start     : 2
+  Bitmap file size : 953837
+  Upcase start     : 10
+  Upcase file size : 5836
+  Root start       : 11
+  ```
+
+  - if you get Resource busy
+
+    ```sh
+    mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
+    newfs_exfat: /dev/disk4s1: Resource busy
+    
+    # Forcefully unmount the drive
+    sudo diskutil unmountDisk force /dev/disk4s1
+    
+    mono@mono-mac /dev % sudo diskutil unmountDisk force /dev/disk4s1
+    Forced unmount of all volumes on disk4 was successful
+    ```
+
+- Eject and turn on the hard drive
+
+- You can check the hard drive in macOS Disk Utility and rename the partition as you want
+
+---
+
 ## macOS guides
 
 ### sed
