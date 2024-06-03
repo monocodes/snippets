@@ -790,3 +790,81 @@ If you want to know what the commands do, in order they:
 - Stop macOS from indexing the SD Card
 - Removes hidden files added by Finder
 - Another way to remove hidden files added by Finder - running both won't cause any harm
+
+---
+
+### [MacBook Battery drains quickly post Sonoma update](https://discussions.apple.com/thread/255454132?answerId=260424610022&sortBy=best#260424610022)
+
+macOS Sonoma has drained battery problem
+
+To fix that I found post:
+
+Hello all,
+
+I've been busying myself away for a while trying to debug the issue and/or find a cure for the issue.
+
+#### TL;DR; QUICK "SOLUTION" 
+
+Open a Terminal and type 
+
+```sh
+sudo pmset -a hibernatemode 25
+```
+
+I have been problem free for over a week now. The battery does still drain a little bit, e.g. 5-10%, but that's acceptable to me.
+
+I hope this continues to work and I also hope it works for you as well 🤞
+
+#### LONG STORY
+
+As it stands I have tried a LOT of things and none of them worked:
+
+- Disable "Allow Handoff between this Mac and your iCloud devices"
+- Disable Wifi
+- Disable Bluetooth
+- Remove all background items
+- Disable all battery settings from System Prefs -> Battery -> Options (Slightly dim display... (Off) , Enable power nap (Never), Put hard disks to sleep (Always), Wake for Network Access (Never)
+- Disable hidden power management settings using pmset: ttyskeepawake=0, tcpkeepalive=0, proximitywake=0, womp=0
+- Removing all Google products (including Chrome) and ensuring all background tasks (launchagents/launchdaemons) were uninstalled. Reason for this is that lots of people report Google updater being a sleep preventer. ASIDE: I've officially been an Edge user for 2 weeks now 🤯
+- I have tried using the SleepAid app. Alas this effectively crashes when the battery dies. It doesn't have the ability to diagnose this specific issue.
+- Removed as many possible apps and other garbage from my Mac as possible
+- Tried sleeping with the laptop lid open
+- Tried sleeping using software, e.g. the Apple menu -> sleep
+- Confirmed that there's nothing in Activity Monitor marked as "Preventing Sleep" other than WindowServer (which I believe is normal when you are using the Mac)
+
+The only useful place I can get information from is using the system logs from the Console.app. If you filter by the keyword "PMRD" then you can see all power related messaging.
+
+I have even spent time debugging the kernel using DTrace and the source code for the XNU kernel
+
+It's worth noting that I can definitely see differences between logs when the problem occurs and when it doesn't. It seems to me that sometimes when you try to sleep, something goes wrong right at the moment of trying to sleep your laptop (e.g. when you close the lid). In other words, your battery’s fate is sealed from the moment you try to sleep. The annoying part is that it's impossible to check if this happened without unsleeping the mac. If you observe the problem, you change it and thus have to sleep again (a Heisenbug).
+
+##### Other observations:
+
+- (I think someone else mentioned this) When the problem occurs, if you try to wake your mac up with the keyboard then it won't wake. You need to press the power button to wake it back up. Normally, a key press alone should wake it up.
+- Apple changed power management code in the XNU kernel for Sonoma. There was nothing obvious that could explain the issue off hand, but I strongly feel that this is a software bug in the kernel rather than some hardware fault or some bad state our Macs are in. Seems like a race condition in the sleep logic where a driver says "hey, I can't sleep". Sometimes that happens at a good time and sleep still occurs, other times it doesn't.
+
+##### hibernatemode
+
+Anyway, silliness aside, what is hibernatemode all about?
+
+macOS has 3 hibernate modes 0, 3 and 25 (weird numbering right?):
+
+- `0`: Sleep everything but leave your RAM powered on
+- `3`: Sleep everything, leave your RAM powered on but also backup RAM to disk in case of a power failure
+- `25`: Sleep everything including RAM. Copy RAM contents to disk then power off RAM as well.
+
+The only impact of switching to mode 25 is that your mac isn't as snappy when you wake it up. It takes a second or two to respond. This however is a worthwhile price to pay given your battery won't be dead every morning.
+
+#### CONCLUSION
+
+This is not a fix, it's a workaround. God knows if Apple will ever fix this (or even acknowledge it).
+
+If the issue comes back again then I have a handful of ideas for other things to try, but frankly I'm close to being out of options. Keeping my fingers crossed this works.
+
+Even if this works for you, can I recommend that everyone submits a bug report via Feedback Assistant please (if you haven't already)? Do it the morning after a battery death - so you'll need to set hibernatemode back to 3 to do that. I'd suggest linking to this post in the bug report.
+
+Beyond that, I might take my Mac to the Apple store but I'm expecting to be told it's due to water damage and I need to spend $1000 on a new motherboard 😂😢
+
+Beyond that, the only other thing I can suggest is that we start methodically capturing how many of us have the issue and see if there's enough people to pressure Apple or even consider threatening with class action. I'm not hopeful though.
+
+---
