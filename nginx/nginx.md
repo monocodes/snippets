@@ -13,6 +13,7 @@ url: https://github.com/monocodes/snippets.git
     - [Installing a Prebuilt Ubuntu Package from an Ubuntu Repository](#installing-a-prebuilt-ubuntu-package-from-an-ubuntu-repository)
     - [Installing a Prebuilt Ubuntu STABLE Package from the Official NGINX Repository](#installing-a-prebuilt-ubuntu-stable-package-from-the-official-nginx-repository)
     - [Installing a Prebuilt Ubuntu MAINLINE Package from the Official NGINX Repository](#installing-a-prebuilt-ubuntu-mainline-package-from-the-official-nginx-repository)
+    - [NGINX GPG key expired](#nginx-gpg-key-expired)
   - [Rocky Linux 9](#rocky-linux-9)
   - [NGINX install from sources](#nginx-install-from-sources)
     - [NGINX MasterClass. NGINX Server and Custom Load Balancer - Cloud99 Tech - Udemy](#nginx-masterclass-nginx-server-and-custom-load-balancer---cloud99-tech---udemy)
@@ -123,6 +124,36 @@ sudo apt update && \
   sudo systemctl enable --now nginx && \
   curl -I 127.0.0.1
 ```
+
+---
+
+#### NGINX GPG key expired
+
+The following signatures were invalid: EXPKEYSIG *some-key-here* nginx signing key <signing-key@nginx.com>
+
+1. **Delete old GPG key**:
+
+   ```sh
+   sudo rm -rf /usr/share/keyrings/nginx-archive-keyring.gpg
+   ```
+
+2. **Add the Official nginx Signing Key**: Download and add the nginx signing key:
+
+   ```sh
+   curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo gpg --dearmor -o /usr/share/keyrings/nginx-archive-keyring.gpg
+   ```
+
+3. **Add the nginx Repository**: Create a new repository file for nginx:
+
+   ```sh
+   echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/ubuntu $(lsb_release -cs) nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
+   ```
+
+4. **Update the Package List Again**: Update your package list to include the new nginx repository:
+
+   ```sh
+   sudo apt update
+   ```
 
 ---
 
