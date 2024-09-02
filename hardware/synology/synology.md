@@ -13,16 +13,16 @@ url: https://github.com/monocodes/snippets.git
 - [packages](#packages)
   - [vim](#vim)
   - [tailscale](#tailscale)
-    - [Make synology nas as subnet router](#make-synology-nas-as-subnet-router)
+    - [tailscale fast commands for Synology NAS](#tailscale-fast-commands-for-synology-nas)
     - [Access Synology NAS from anywhere](#access-synology-nas-from-anywhere)
-      - [Installation steps](#installation-steps)
-      - [Features](#features)
+      - [Install tailscale on DSM manually](#install-tailscale-on-dsm-manually)
+      - [Install using Synology Package Center](#install-using-synology-package-center)
+      - [Features and benefits](#features-and-benefits)
       - [Limitations \& known issues](#limitations--known-issues)
-      - [Manual installation steps](#manual-installation-steps)
-      - [Enabling Synology outbound connections](#enabling-synology-outbound-connections)
-        - [If the Synology firewall is enabled: adjust the firewall settings](#if-the-synology-firewall-is-enabled-adjust-the-firewall-settings)
+      - [Enable outbound connections](#enable-outbound-connections)
+      - [Adjust Synology firewall settings](#adjust-synology-firewall-settings)
+      - [Troubleshooting](#troubleshooting)
       - [Special thanks](#special-thanks)
-      - [Support](#support)
 - [guides](#guides)
   - [PIA ports for gluetun and firewall](#pia-ports-for-gluetun-and-firewall)
   - [DS File (iOS)](#ds-file-ios)
@@ -84,133 +84,154 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 
 ### tailscale
 
-> Maybe now you can do that just from admin panel
+#### tailscale fast commands for Synology NAS
 
-#### [Make synology nas as subnet router](https://youtu.be/uJ8PsImiDrM)
+- Stop tailscale
 
-```sh
-sudo tailscale up --advertise-routes=192.168.1.0/24 --reset
-```
+  ```sh
+  sudo tailscale down
+  ```
 
-then edit subnet routes in tailscale admin panel, add `subnet` and `DISABLE KEY EXPIRE` on subnet router
+- Run tailscale as Subnet router on Synology NAS
 
-To disable subnet routing on nas:
+  ```sh
+  sudo tailscale up --advertise-routes=192.168.1.0/24 --reset
+  ```
 
-```sh
-sudo tailscale ip --reset
-```
+- Run it after every manual upgrade of tailscale package to preserve outbound connections from Synology NAS to tailnet devices (run it under root to avoid needed reboot)
 
-don't forget to remove subnet routes from admin panel and ENABLE KEY EXPIRE
+  ```sh
+  /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
+  ```
+
+  > - As of 03.09.2024, tailscale MagicDNS is not working on Synology NAS, more info - [tailscale on Synology DSM 7 dns still not working #12498](https://github.com/tailscale/tailscale/issues/12498)
+  > - As of 03.09.2024, tailscale arguments `--accept-routes` and `--advertise-exit-node` are not working on Synology NAS - [Synology: tracking bug for use cases #1995](https://github.com/tailscale/tailscale/issues/1995)
 
 ---
 
 #### [Access Synology NAS from anywhere](https://tailscale.com/kb/1131/synology/)
 
-Tailscale makes it easy to securely connect to your Synology NAS devices over WireGuard®.
+The best way to install Tailscale on Synology devices is to download and manually install the Tailscale package for DiskStation Manager (DSM). The version of Tailscale that is available in the Synology Package Manager application is updated approximately once per quarter, so downloading the Tailscale app from our package server and installing it on DSM manually will ensure that you can use the most up-to-date version.
 
-Tailscale is free for most personal uses, including accessing your NAS.
+##### [Install tailscale on DSM manually](https://tailscale.com/kb/1131/synology#install-tailscale-on-dsm-manually)
 
-##### [Installation steps](https://tailscale.com/kb/1131/synology/#installation-steps)
+1. Download the DSM package from the Tailscale package server site.
 
-1. Visit the Synology Package Center ([tutorial](https://kb.synology.com/en-sg/DSM/tutorial/How_to_install_applications_with_Package_Center)).
+   > To determine which download is appropriate for your Synology device, visit the [Synology and SynoCommunity Package Architectures](https://github.com/SynoCommunity/spksrc/wiki/Synology-and-SynoCommunity-Package-Architectures) page and look up your architecture by Synology model. Then, find the SPK download at [Tailscale Packages](https://pkgs.tailscale.com/) that corresponds to your model. Synology packages (SPKs) are available from both [stable](https://pkgs.tailscale.com/stable/#spks) and [unstable](https://pkgs.tailscale.com/unstable/#spks) release tracks.
+
+2. [Manually install](https://kb.synology.com/en-sg/DSM/tutorial/How_to_install_applications_with_Package_Center) the DSM package onto your Synology device
+
+3. After the Tailscale app is installed, follow the instructions to log in to your Tailscale network (known as a tailnet) using your preferred identity provider. If you don't already have a Tailscale account, a free account will be created automatically.
+
+4. After you authenticate to the tailnet, you can connect to your Synology device from your PC, laptop, phone, or tablet by [installing Tailscale on another device](https://tailscale.com/download).
+
+5. The Tailscale daemon [`tailscaled`](https://tailscale.com/kb/1278/tailscaled) should now be running on your Synology device. You can configure it either using the Tailscale package's Synology web UI or using the [Tailscale CLI](https://tailscale.com/kb/1080/cli) over SSH. For instructions on using SSH to access Synology, see [How can I sign in to DSM/SRM with root privilege via SSH?](https://kb.synology.com/en-id/DSM/tutorial/How_to_login_to_DSM_with_root_permission_via_SSH_Telnet).
+
+##### [Install using Synology Package Center](https://tailscale.com/kb/1131/synology#install-using-synology-package-center)
+
+If you do not want to manually install or update Tailscale using our package server site, you can install Tailscale from the Synology Package Center.
+
+Synology Package Center updates Tailscale approximately once per quarter. To use the latest version of Tailscale, you should download the package and install manually.
+
+1. Go to the Synology Package Center ([tutorial](https://kb.synology.com/en-sg/DSM/tutorial/How_to_install_applications_with_Package_Center)).
 
 2. Search for and install the **Tailscale** app.
 
    ![img](./synology.assets/synology-packagecenter.png)
 
-3. Once the app is installed, follow the instructions to Log in using your preferred identity provider. If you don’t already have a Tailscale account, a free account will be created automatically.
+3. After the Tailscale app is installed, follow the instructions to log in to your Tailscale network (known as a tailnet) using your preferred identity provider. If you don't already have a Tailscale account, a free account will be created automatically.
 
    ![img](./synology.assets/synology-login.png)
 
-4. Now your Synology NAS is available on your tailnet. Connect to it from your PC, laptop, phone, or tablet by [installing Tailscale on another device](https://tailscale.com/download).
+4. After you authenticate to the tailnet, you can connect to your Synology device from your PC, laptop, phone, or tablet by [installing Tailscale on another device](https://tailscale.com/download).
 
-That’s it!
+##### [Features and benefits](https://tailscale.com/kb/1131/synology#features-and-benefits)
 
-##### [Features](https://tailscale.com/kb/1131/synology/#features)
+When a Synology NAS device is connected, Tailscale supports the following:
 
-When used with Synology, Tailscale supports these features:
+- Log in using a [supported identity provider](https://tailscale.com/kb/1013/sso-providers).
+- Access your Synology device from anywhere, [without opening firewall ports](https://tailscale.com/blog/how-nat-traversal-works).
+- Share your Synology device with designated Tailscale users, using [node sharing](https://tailscale.com/kb/1084/sharing).
+- Restrict and control access to your Synology device using [ACLs](https://tailscale.com/kb/1018/acls).
+- Use your Synology device as a [subnet router](https://tailscale.com/kb/1019/subnets) to provide external access to your LAN.
+- Designate your Synology device as an [exit node](https://tailscale.com/kb/1103/exit-nodes) for secure internet access for your other tailnet devices from anywhere.
 
-- Web-based login to any [supported identity provider](https://tailscale.com/kb/1013/sso-providers/).
-- Access your Synology NAS from anywhere, [without opening firewall ports](https://tailscale.com/blog/how-nat-traversal-works/).
-- Share your NAS with designated Tailscale users, using [node sharing](https://tailscale.com/kb/1084/sharing/).
-- Restrict access to your NAS using [ACLs](https://tailscale.com/kb/1018/acls/).
-- Use your NAS as a [subnet router](https://tailscale.com/kb/1019/subnets/) to provide external access to your LAN. (Currently requires command-line steps.)
-- Use your NAS as an [exit node](https://tailscale.com/kb/1103/exit-nodes/) for secure Internet access from anywhere. (Currently requires command-line steps.)
+##### [Limitations & known issues](https://tailscale.com/kb/1131/synology#limitations--known-issues)
 
-##### [Limitations & known issues](https://tailscale.com/kb/1131/synology/#limitations--known-issues)
-
-Some things to be aware of:
-
-- If you upgrade Synology from DSM6 to DSM7, you will need to uninstall and then reinstall the Tailscale app. **Do not perform the Synology DSM7 upgrade over Tailscale or you may lose your connection during the upgrade.**
-- Tailscale uses [hybrid networking mode](https://tailscale.com/kb/1112/userspace-networking/) on Synology, which means that if you share subnets, they will be reachable over UDP and TCP, but not necessarily pingable.
+- If you upgrade Synology from DSM6 to DSM7, you will need to uninstall and then reinstall the Tailscale app. Do not perform the Synology DSM7 upgrade over Tailscale or you may lose your connection during the upgrade.
+- If you uninstall then re-install the Tailscale app and the NAS can no longer connect to your tailnet, see the [Troubleshooting](https://tailscale.com/kb/1131/synology#troubleshooting) section for instructions.
+- Tailscale uses [hybrid networking mode](https://tailscale.com/kb/1112/userspace-networking) on Synology, which means that if you share subnets, they will be reachable over UDP and TCP, but not necessarily pingable.
 - Other Synology packages cannot make outgoing connections to your other Tailscale nodes by default on DSM7. See instructions below to enable.
-- Tailscale on Synology currently can do `--advertise-routes` but not `--accept-routes`. This means that if you have other [subnet routers](https://tailscale.com/kb/1019/subnets/), devices on those other subnets will not yet be able to reach your NAS or devices on its local subnet.
-- Advertising subnet routes can only be configured from the command line, not the web GUI.
-- [Tailscale SSH](https://tailscale.com/kb/1193/tailscale-ssh) does not run on Synology.
+- Tailscale on Synology currently can do `--advertise-routes` but not `--accept-routes`. This means that if you have other [subnet routers](https://tailscale.com/kb/1019/subnets), devices on those other subnets will not yet be able to reach your NAS or devices on its local subnet.
+- [Tailscale SSH](https://tailscale.com/kb/1193/tailscale-ssh) does not run on Synology. You can use the provided SSH server in DSM instead.
 
-Some of these limitations are imposed on Tailscale by the DSM7 sandbox.
+Some of these limitations are imposed on Tailscale by the DSM7 sandbox. See our [Synology tracking issue on GitHub](https://github.com/tailscale/tailscale/issues/1995) for the latest status on the above issues.
 
-See our [Synology tracking issue on GitHub](https://github.com/tailscale/tailscale/issues/1995) for the latest status on the above issues.
+##### [Enable outbound connections](https://tailscale.com/kb/1131/synology#enable-outbound-connections)
 
-##### [Manual installation steps](https://tailscale.com/kb/1131/synology/#manual-installation-steps)
-
-An alternative to the recommended approach of [installing Tailscale from the Synology Package Center](https://tailscale.com/kb/1131/synology/#installation-steps) is to install Tailscale using a downloadable Synology package (SPK). A reason you might want to install from an SPK is to access new Tailscale features that are not yet released in the Tailscale version that is available from the Synology Package Center.
-
-To manually install Tailscale:
-
-1. Download the SPK for your Synology device from the [Tailscale Packages](https://pkgs.tailscale.com/) server. Synology SPKs are available from both [stable](https://pkgs.tailscale.com/stable/#spks) and [unstable](https://pkgs.tailscale.com/unstable/#spks) release tracks. To determine which download is appropriate for your Synology device, visit the [Synology and SynoCommunity Package Architectures](https://github.com/SynoCommunity/spksrc/wiki/Synology-and-SynoCommunity-Package-Architectures) page and look up your architecture by Synology model. Then, find the SPK download at [Tailscale Packages](https://pkgs.tailscale.com/) that corresponds to your model.
-2. In the Synology DSM web admin UI, go to **Main menu** > **Package Center**.
-3. Click **Manual Install**, click **Browse**, select the SPK (.spk) file that you downloaded, and then click **Next**.
-4. Follow the remaining prompts to confirm settings and complete installation.
-5. At this point `tailscaled` should be up and running on your Synology device and you can configure it either using the Tailscale package’s Synology web UI or [the CLI](https://tailscale.com/kb/1080/cli/) over SSH. (For instructions on using SSH to access Synology, see [How can I sign in to DSM/SRM with root privilege via SSH?](https://kb.synology.com/en-id/DSM/tutorial/How_to_login_to_DSM_with_root_permission_via_SSH_Telnet)).
-
-##### [Enabling Synology outbound connections](https://tailscale.com/kb/1131/synology/#enabling-synology-outbound-connections)
-
-Synology DSM7 introduced tighter restrictions on what packages are allowed to do. If you’re running DSM6, Tailscale runs as root with full permissions and these steps are not required.
+Synology DSM7 introduced tighter restrictions on what packages are allowed to do. If you're running DSM6, Tailscale runs as root with full permissions and these steps are not required.
 
 By default, Tailscale on Synology with DSM7 only allows inbound connections to your Synology device but outbound Tailscale access from other apps running on your Synology is not enabled.
 
 The reason for this is that the Tailscale package does not have permission to create a [TUN device](https://en.wikipedia.org/wiki/TUN/TAP).
 
-To enable TUN, to permit outbound connections from other things running on your Synology:
+To enable TUN, to permit outbound connections from other things running on your Synology device:
 
-1. Make sure you’re running Tailscale 1.22.2 or later, either from the Synology Package Center or a manually installed `*.spk` from the [Tailscale Packages](https://pkgs.tailscale.com/) server.
+1. Make sure you're running Tailscale v1.22.2 or later
 
-2. In Synology, go to **Control Panel** > **Task Scheduler**, click **Create**, and select **Triggered Task**.
+2. In Synology, go to **Control Panel** > **Task Scheduler**, select **Create**, and select **Triggered Task**.
 
 3. Select **User-defined script**.
 
-4. When the **Create task** window appears, click **General**.
+4. When the **Create task** window appears, select **General**.
 
 5. In **General Settings**, enter a task name, select **root** as the user that the task will run for, and select **Boot-up** as the event that triggers the task. Ensure the task is enabled.
 
-6. Click **Task Settings** and enter the following for **User-defined script**.
+6. Select **Task Settings** and enter the following for **User-defined script**.
 
    ```sh
    /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
    ```
 
-   (If you’re curious what it does, you can read the [`configure-host` code](https://github.com/tailscale/tailscale/blob/main/cmd/tailscale/cli/configure-synology.go).)
+   If you're curious what it does, you can read the [`configure-host` code](https://github.com/tailscale/tailscale/blob/main/cmd/tailscale/cli/configure-synology.go).
 
-7. Click **OK** to save the settings.
+7. Select **OK** to save the settings.
 
-8. Reboot your Synology. (Alternatively, to avoid a reboot, run the above user-defined script as root on the device and then restart the Tailscale package.)
+8. Reboot your Synology device. Alternatively, to avoid a reboot, run the above user-defined script as root on the device to restart the Tailscale package.
 
 Your TUN settings should now be persisted across reboots of your device.
 
-###### [If the Synology firewall is enabled: adjust the firewall settings](https://tailscale.com/kb/1131/synology/#if-the-synology-firewall-is-enabled-adjust-the-firewall-settings)
+> Upgrading the Tailscale package will require the above script to run again. When you upgrade Tailscale, run the above script as root, or reboot your Synology device.
 
-By enabling TUN, Tailscale traffic will be subject to Synology’s built-in firewall.
+##### [Adjust Synology firewall settings](https://tailscale.com/kb/1131/synology#adjust-synology-firewall-settings)
+
+By enabling TUN, Tailscale traffic will be subject to Synology's built-in firewall.
 
 The firewall is disabled by default. However, if you have it enabled, add an exception for the Tailscale subnet, 100.64.0.0/10. In **Main menu** > **Control Panel** > **Security** > **Firewall**, add a firewall rule in the default profile that allows traffic from the source IP subnet 100.64.0.0 with subnet mask 255.192.0.0.
 
-##### [Special thanks](https://tailscale.com/kb/1131/synology/#special-thanks)
+##### [Troubleshooting](https://tailscale.com/kb/1131/synology#troubleshooting)
 
-Special thanks to [Guilherme de Maio (nirev)](https://github.com/nirev/), who contributed the original [Synology-Tailscale package builder](https://github.com/tailscale/tailscale-synology). Tailscale now maintains this package builder and produces our official Synology packages.
+If your Synology NAS cannot connect to your tailnet after uninstalling and re-installing the Tailscale app, we recommend the following steps:
 
-##### [Support](https://tailscale.com/kb/1131/synology/#support)
+1. SSH into your NAS and run the command:
 
-If you run into problems, [contact support](https://tailscale.com/contact/support) or visit the linked GitHub issues.
+   ```sh
+   sudo tailscale up
+   ```
+
+2. Enter the password for your NAS (if prompted), then copy the provided URL.
+
+   ```sh
+   To authenticate, visit:
+   https://login.tailscale.com/a/xxxxxxxxxx
+   Success.
+   ```
+
+3. Paste the URL into your web browser, authenticate to your tailnet, then open the [**Machines**](https://login.tailscale.com/admin/machines) page of the admin console to verify that your NAS is connected to the tailnet.
+
+##### [Special thanks](https://tailscale.com/kb/1131/synology#special-thanks)
+
+Special thanks to [Guilherme de Maio (nirev)](https://github.com/nirev), who contributed the original [Synology-Tailscale package builder](https://github.com/tailscale/tailscale-synology). Tailscale now maintains this package builder and produces our official Synology packages.
 
 ---
 
