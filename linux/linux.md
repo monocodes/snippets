@@ -782,9 +782,9 @@ less filename
 >
 > To install on Ubuntu before 20:
 >
->   ```sh
->   wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb \
->   	sudo dpkg -i bat-musl_0.22.1_amd64.deb
+> ```sh
+> wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb &&
+> sudo dpkg -i bat-musl_0.22.1_amd64.deb
 >   ```
 >
 >
@@ -2327,8 +2327,8 @@ bat -pP /etc/hosts
 
 > NOTE about `hostname` command
 >
->   ```sh
->   hostname your-hostname
+> ```sh
+> hostname your-hostname
 >   ```
 >
 > changes only before reboot, non-persistent
