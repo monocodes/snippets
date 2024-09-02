@@ -105,6 +105,13 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
   ```
 
   > - As of 03.09.2024, tailscale MagicDNS is not working on Synology NAS, more info - [tailscale on Synology DSM 7 dns still not working #12498](https://github.com/tailscale/tailscale/issues/12498)
+  >
+  >   - tailnet IPs are reachable from Synology NAS with:
+  >
+  >     ```sh
+  >     /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
+  >     ```
+>
   > - As of 03.09.2024, tailscale arguments `--accept-routes` and `--advertise-exit-node` are not working on Synology NAS - [Synology: tracking bug for use cases #1995](https://github.com/tailscale/tailscale/issues/1995)
 
 ---
