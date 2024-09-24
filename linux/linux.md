@@ -43,7 +43,7 @@ url: https://github.com/monocodes/snippets.git
       - [sudoers](#sudoers)
       - [chown](#chown)
       - [chmod](#chmod)
-  - [partitioning, mounting, fdisk, gparted](#partitioning-mounting-fdisk-gparted)
+  - [partitioning, mounting, fdisk, gparted, lsblk](#partitioning-mounting-fdisk-gparted-lsblk)
     - [lvm](#lvm)
       - [Resizing of VM with **LVM**](#resizing-of-vm-with-lvm)
     - [grub](#grub)
@@ -1660,11 +1660,40 @@ chmod 770 /path/to/filename
 
 ---
 
-### partitioning, mounting, fdisk, gparted
+### partitioning, mounting, fdisk, gparted, lsblk
 
 #### lvm
 
 ##### Resizing of VM with **LVM**
+
+- Check current LVM partitioning with `lsblk`
+
+  ```sh
+  sudo lsblk
+  
+  # sample output
+  NAME                      MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+  loop0                       7:0    0  45.2M  1 loop /snap/certbot/3700
+  loop1                       7:1    0  44.7M  1 loop /snap/certbot/3834
+  loop2                       7:2    0     9M  1 loop /snap/certbot-dns-cloudflare/3316
+  loop3                       7:3    0   9.1M  1 loop /snap/certbot-dns-cloudflare/3451
+  loop4                       7:4    0   104M  1 loop /snap/core/16928
+  loop5                       7:5    0 104.2M  1 loop /snap/core/17200
+  loop6                       7:6    0  63.9M  1 loop /snap/core20/2318
+  loop7                       7:7    0    64M  1 loop /snap/core20/2379
+  loop8                       7:8    0    87M  1 loop /snap/lxd/28373
+  loop9                       7:9    0    87M  1 loop /snap/lxd/29351
+  loop10                      7:10   0  38.7M  1 loop /snap/snapd/21465
+  loop11                      7:11   0  38.8M  1 loop /snap/snapd/21759
+  sda                         8:0    0    20G  0 disk
+  ├─sda1                      8:1    0     1M  0 part
+  ├─sda2                      8:2    0   1.8G  0 part /boot
+  └─sda3                      8:3    0  18.2G  0 part
+    ├─ubuntu--vg-ubuntu--lv 253:0    0    10G  0 lvm  /
+    └─ubuntu--vg-lv--0      253:1    0   2.2G  0 lvm  [SWAP]
+  sr0                        11:0    1  1024M  0 rom
+  sr1                        11:1    1  1024M  0 rom
+  ```
 
 - Check available free space with `vgdisplay` or `cfdisk` if there are no free space in VG
 
