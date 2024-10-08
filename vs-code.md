@@ -11,11 +11,15 @@ url: https://github.com/monocodes/snippets.git
 - [File associations](#file-associations)
 - [Useful Keybindings](#useful-keybindings)
 - [settings.json](#settingsjson)
-- [Extensions](#extensions)
-  - [YAML](#yaml)
-  - [Black Formatter](#black-formatter)
-  - [autoDocstring - Python Docstring Generator](#autodocstring---python-docstring-generator)
-  - [Best linters list](#best-linters-list)
+- [Guides](#guides)
+  - [Snippets](#snippets)
+    - [How to edit the default log snippet in VS Code](#how-to-edit-the-default-log-snippet-in-vs-code)
+    - [How to edit existing VS Code Snippets](#how-to-edit-existing-vs-code-snippets)
+  - [Extensions](#extensions)
+    - [YAML](#yaml)
+    - [Black Formatter](#black-formatter)
+    - [autoDocstring - Python Docstring Generator](#autodocstring---python-docstring-generator)
+    - [Best linters list](#best-linters-list)
 
 ## File associations
 
@@ -151,9 +155,56 @@ duti -s com.microsoft.VSCode .zsh all
 
 ---
 
-## Extensions
+## Guides
 
-### YAML
+### Snippets
+
+#### [How to edit the default log snippet in VS Code](https://stackoverflow.com/questions/50808870/how-to-edit-the-default-log-snippet-in-vs-code)
+
+This was slightly answered in other questions but here is my approach anyway. I wasn't able to configure the default snippets in vscode however I created my own snippet and made it at the top of the suggestions.
+
+1. Go to `File -> Preferences -> User Snippets` and select *JavaScript* in order to edit snippets for that language.
+2. Add this entry to the opened file `javascript.json` and save it
+
+```json
+ "Print to console": {
+           "prefix": "log",
+           "scope": "javascript,typescript",
+           "body": [
+               "console.log('$1')",
+           ],
+           "description": "Log output to console"
+ },
+```
+
+then I added
+
+```json
+ "editor.snippetSuggestions": "top",
+```
+
+in my settings so that it will always be the top suggestion
+
+hope that helps
+
+#### [How to edit existing VS Code Snippets](https://stackoverflow.com/questions/40110541/how-to-edit-existing-vs-code-snippets)
+
+- [How to edit existing VS Code Snippets](https://stackoverflow.com/questions/40110541/how-to-edit-existing-vs-code-snippets)
+- [snippets - Cannot override/disable snippets defined in extensions](https://github.com/microsoft/vscode/issues/10565#top)
+
+You can hide not needed built-in or extension snippets.
+
+This will happen for 1.52 and works like so:
+
+- Select F1 > Insert Snippet
+- find an extension snippet that you want to hide
+- select the eye-icon to hide/show it in IntelliSense
+
+Note that hidden snippets are synced across devices when using setting-sync, so this needs to be done only once per extension snippet.
+
+### Extensions
+
+#### YAML
 
 [How to enable syntax auto-completion for Kubernetes manifest files in Red Hat's YAML plugin for VSCode](https://brain2life.hashnode.dev/how-to-enable-syntax-auto-completion-for-kubernetes-manifest-files-in-red-hats-yaml-plugin-for-vscode)
 
@@ -186,7 +237,7 @@ When using a plugin for YAML syntax support for VSCode editor developed by Red H
 
 ---
 
-### Black Formatter
+#### Black Formatter
 
 ms-python.black-formatter extension
 
@@ -210,7 +261,7 @@ currently doesn't work
 
 ---
 
-### autoDocstring - Python Docstring Generator
+#### autoDocstring - Python Docstring Generator
 
 cursor after first `"""`  
 generate docstring  
@@ -218,7 +269,7 @@ generate docstring
 
 ---
 
-### Best linters list
+#### Best linters list
 
 [Trunk.io](https://marketplace.visualstudio.com/items?itemName=Trunk.io)
 
