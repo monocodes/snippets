@@ -1,0 +1,51 @@
+{
+  "acls": [
+    // Allow all connections for admins.
+    { "action": "accept", "src": ["autogroup:admin"], "dst": ["*:*"] },
+    // All Tailscale admins can access devices tagged with tag:home
+    { "action": "accept", "src": ["autogroup:admin"], "dst": ["tag:home:*"] },
+    // All users can access their own devices
+    {
+      "action": "accept",
+      "src": ["autogroup:member"],
+      "dst": ["autogroup:self:*"]
+    },
+    // Exit nodes with tag:home can connect
+    {
+      "action": "accept",
+      "src": ["autogroup:member"],
+      "dst": ["tag:shared:*"]
+    },
+    // All users can access devices tagged with tag:shared
+    {
+      "action": "accept",
+      "src": ["autogroup:member"],
+      "dst": ["tag:shared:*"]
+    },
+    // All users can use exit nodes
+    {
+      "action": "accept",
+      "src": ["autogroup:member"],
+      "dst": ["autogroup:internet:*"]
+    }
+  ],
+  "tagOwners": {
+    // All Tailscale admins can manage which devices are tagged tag:shared and tag:home
+    "tag:shared": ["autogroup:admin"],
+    "tag:home": ["autogroup:admin"],
+    // Users who are Tailscale admins can apply the tag tag:exit-node and tag:subnet-router
+    "tag:exit-node": ["autogroup:admin"],
+    "tag:subnet-router": ["autogroup:admin"]
+  },
+  "autoApprovers": {
+    // Exit nodes advertised by users who are Tailscale admins or devices tagged
+    // with tag:exit-node will be automatically approved
+    "exitNode": ["tag:exit-node", "autogroup:admin"],
+    // Routes for subnet router advertised by users who are Tailscale admins or routes on devices tagged
+    // with tag:subnet-router will be automatically approved
+    "routes": {
+      "0.0.0.0/0": ["tag:subnet-router", "tag:home", "autogroup:admin"],
+      "::/0": ["tag:subnet-router", "tag:home", "autogroup:admin"]
+    }
+  }
+}

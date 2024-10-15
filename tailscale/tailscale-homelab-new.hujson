@@ -1,0 +1,173 @@
+{
+  // Define the tags which can be applied to devices and by which users.
+  "tagOwners": {
+    "tag:devenv": ["autogroup:admin"],
+    "tag:infra": ["autogroup:admin"],
+    "tag:audit": ["autogroup:admin"],
+    "tag:prod-us": ["autogroup:admin"],
+    "tag:prod-eu": ["autogroup:admin"],
+    "tag:darkmatter": ["autogroup:admin"],
+    // All Tailscale admins can manage which devices are tagged tag:corp and tag:prod
+    // Users who are Tailscale admins can apply the tag tag:exit-node
+    "tag:exit-node": ["autogroup:admin"]
+  },
+  "grants": [
+    {
+      // allow all members access to their own devices
+      "src": ["autogroup:member"],
+      "dst": ["autogroup:self"],
+      "ip": ["*"]
+    },
+    {
+      // allow admins access to everything
+      "src": ["group:vpn-admin@wallarm.com"],
+      "dst": ["*"],
+      "ip": ["*"]
+    },
+    {
+      // allow exit node users access to the internet only through exit nodes
+      "src": ["group:vpn-exit-node-users@wallarm.com"],
+      "dst": ["autogroup:internet"],
+      "via": ["tag:exit-node"],
+      "ip": ["*"]
+    },
+    {
+      // allow common users access to the internet or external apps through exit nodes or app connectors.
+      "src": ["group:vpn-common-users@wallarm.com"],
+      "dst": ["autogroup:internet"],
+      "via": [
+        "tag:devenv",
+        "tag:infra",
+        "tag:audit",
+        "tag:prod-eu",
+        "tag:prod-us",
+        "tag:darkmatter"
+      ],
+      "ip": ["*"]
+    }
+  ],
+  "nodeAttrs": [
+    {
+      "target": ["*"],
+      "app": {
+        "tailscale.com/app-connectors": [
+          {
+            "name": "devenv",
+            "connectors": ["tag:devenv"],
+            "domains": ["*.dev2.wallarm.tools"]
+          },
+          {
+            "name": "darkmatter",
+            "connectors": ["tag:darkmatter"],
+            "domains": [
+              "*.darkmatter.wallarm.tools",
+              "gtrrf12xdf.us-central1.gcp.clickhouse.cloud"
+            ]
+          },
+          {
+            "name": "infra",
+            "connectors": ["tag:infra"],
+            "domains": [
+              "allure.wallarm.com",
+              "vault.wallarm.com",
+              "*.i.wallarm.com",
+              "repolite.wallarm.com",
+              "gl.wallarm.com",
+              "dkr.wallarm.com",
+              "*.i.gcp.wallarm.space"
+            ]
+          },
+          {
+            "name": "audit",
+            "connectors": ["tag:audit"],
+            "domains": [
+              "audit-nodemetrics.wallarm.com",
+              "qless.audit.wallarm.com",
+              "grafana.audit.wallarm.com",
+              "am-nodemetrics.audit.wallarm.com",
+              "mon.audit.wallarm.com",
+              "mon-agent.audit.wallarm.com",
+              "mon-alertmanager.audit.wallarm.com",
+              "mon-alert.audit.wallarm.com",
+              "authorize.audit.wallarm.com",
+              "authenticate.audit.wallarm.com",
+              // ipfeed CH
+              "jxjyeke2zh.us-east1.gcp.clickhouse.cloud",
+              // sessions-api CH
+              "o8id5maofk.us-east1.gcp.clickhouse.cloud"
+            ]
+          },
+          {
+            "name": "prod-eu",
+            "connectors": ["tag:prod-eu"],
+            "domains": [
+              "eu1-nodemetrics.wallarm.com",
+              "qless.eu1.wallarm.com",
+              "grafana.eu1.wallarm.com",
+              "am-nodemetrics.eu1.wallarm.com",
+              "mon.eu1.wallarm.com",
+              "mon-agent.eu1.wallarm.com",
+              "mon-alertmanager.eu1.wallarm.com",
+              "mon-alert.eu1.wallarm.com",
+              "authorize.eu1.wallarm.com",
+              "authenticate.eu1.wallarm.com",
+              // Temporary for perftest
+              "grafana.perf.wallarm.tools",
+              // ipfeed CH
+              "njblxyxaog.europe-west4.gcp.clickhouse.cloud",
+              // sessions-api CH
+              "uziubdiki0.europe-west4.gcp.clickhouse.cloud"
+            ]
+          },
+          {
+            "name": "prod-us",
+            "connectors": ["tag:prod-us"],
+            "domains": [
+              "us1-nodemetrics.wallarm.com",
+              "qless.us1.wallarm.com",
+              "grafana.us1.wallarm.com",
+              "am-nodemetrics.us1.wallarm.com",
+              "mon.us1.wallarm.com",
+              "mon-agent.us1.wallarm.com",
+              "mon-alertmanager.us1.wallarm.com",
+              "mon-alert.us1.wallarm.com",
+              "authorize.us1.wallarm.com",
+              "authenticate.us1.wallarm.com",
+              // ipfeeds CH
+              "dwm3rnqmbf.us-central1.gcp.clickhouse.cloud",
+              // sessions-api CH
+              "bsolbdbxww.us-central1.gcp.clickhouse.cloud"
+            ]
+          }
+        ]
+      }
+    },
+    // Exit nodes
+    { "target": ["100.102.94.75"], "attr": ["mullvad"] },
+    { "target": ["100.67.80.11"], "attr": ["mullvad"] },
+    { "target": ["100.85.13.110"], "attr": ["mullvad"] }
+  ],
+  "autoApprovers": {
+    "exitNode": ["tag:exit-node", "autogroup:admin"],
+    "routes": {
+      "0.0.0.0/0": [
+        "tag:devenv",
+        "tag:infra",
+        "tag:audit",
+        "tag:prod-eu",
+        "tag:prod-us",
+        "tag:darkmatter",
+        "autogroup:admin"
+      ],
+      "::/0": [
+        "tag:devenv",
+        "tag:infra",
+        "tag:audit",
+        "tag:prod-eu",
+        "tag:prod-us",
+        "tag:darkmatter",
+        "autogroup:admin"
+      ]
+    }
+  }
+}
