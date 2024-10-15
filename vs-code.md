@@ -82,75 +82,96 @@ duti -s com.microsoft.VSCode .zsh all
 
 ```json
 {
-    "python.defaultInterpreterPath": "/usr/local/bin/python3",
-    "security.workspace.trust.untrustedFiles": "open",
-    "editor.wordWrap": "on",
-    "editor.rulers": [
-        50,
-        79
-    ],
-    "editor.stickyTabStops": true,
-    "python.analysis.typeCheckingMode": "off",
-    "workbench.editorAssociations": {
-        "*.html": "default"
+  "python.defaultInterpreterPath": "/usr/local/bin/python3",
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.wordWrap": "on",
+  "editor.rulers": [50, 79],
+  "editor.stickyTabStops": true,
+  "editor.snippetSuggestions": "top",
+  "python.analysis.typeCheckingMode": "off",
+  "workbench.editorAssociations": {
+    "*.html": "default"
+  },
+  "files.associations": {
+    "*.env": "properties",
+    "*.hujson": "jsonc"
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["*.hujson"],
+      "schema": {
+        "allowTrailingCommas": true
+      }
+    }
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.formatOnSave": true
+  },
+  "[shellscript]": {},
+  "[ruby]": {},
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[dockercompose]": {
+    "editor.defaultFoldingRangeProvider": "redhat.vscode-yaml"
+  },
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": false
     },
-    "files.associations": {
-        "*.env": "properties",
-    },
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
-    },
-    "[javascript]": {
-        "editor.formatOnSave": true,
-    },
-    "[html]": {
-        "editor.formatOnSave": true,
-    },
-    "[css]": {
-        "editor.formatOnSave": true
-    },
-    "[shellscript]": {
-    },
-    "[ruby]": {
-    },
-    "[terraform]": {
-        "editor.defaultFormatter": "hashicorp.terraform",
-    },
-    "[dockercompose]": {
-        "editor.defaultFoldingRangeProvider": "redhat.vscode-yaml",
-    },
-    "[markdown]": {
-        "editor.quickSuggestions": {
-            "other": true,
-            "comments": false,
-            "strings": false
-        },
-        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-    },
-    "markdownlint.config": {
-        "MD028": false,
-        "MD036": false,
-        "MD010": {
-            "code_blocks": false,
-        },
-        "MD024": false,
-    },
-    "telemetry.telemetryLevel": "off",
-    "docker.images.label": "FullTag",
-    "editor.indentSize": "tabSize",
-    "window.autoDetectColorScheme": true,
-    "git.confirmSync": false,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    
-    // prettier config
-    "prettier.singleQuote": true,
-    "prettier.arrowParens": "avoid",
-    // prettier config end
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "markdownlint.config": {
+    "MD028": false,
+    "MD036": false,
+    "MD010": false,
+    // {
+    //     "code_blocks": false,
+    // },
+    "MD007": false,
+    "MD024": false
+  },
+  "telemetry.telemetryLevel": "off",
+  "docker.images.label": "FullTag",
+  "editor.indentSize": "tabSize",
+  "window.autoDetectColorScheme": true,
+  "git.confirmSync": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
-    "editor.linkedEditing": true,
-    "editor.tabSize": 2,
+  // prettier config
+  "prettier.singleQuote": true,
+  "prettier.arrowParens": "avoid",
+  "editor.linkedEditing": true,
+  "editor.tabSize": 2,
+  "workbench.colorTheme": "Monokai Pro",
+  "cSpell.enableFiletypes": [
+    "dockercompose",
+    "dockerfile",
+    "helm",
+    "terraform"
+  ],
+  "cSpell.userWords": [
+    "BANKIST",
+    "color",
+    "dockercompose",
+    "Monokai",
+    "Schmedtmann"
+  ],
+  "cSpell.language": "en-GB",
+  "workbench.preferredDarkColorTheme": "Monokai Pro"
 }
+
 ```
 
 ---
