@@ -98,10 +98,42 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
   sudo tailscale up --advertise-routes=192.168.1.0/24 --reset
   ```
 
-- Run it after every manual upgrade of tailscale package to preserve outbound connections from Synology NAS to tailnet devices (run it under root to avoid needed reboot)
+- Run tailscale as Subnet router on Synology NAS with tags and auth key
 
   ```sh
-  /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
+  sudo tailscale up --authkey auth-key --advertise-tags=tag:subnet-router,tag:home --advertise-routes=192.168.1.0/24 --reset
+  ```
+
+- Check that TUN device is presented on Synology and tailscale has permissions to use it
+
+  ```sh
+  ip addr show | grep -i "tailscale"
+  # or
+  ip addr show
+  
+  # output
+  17: docker8a68ff0@if16: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker-7ee01dae state UP group default
+      link/ether 0e:bd:b8:b0:54:ef brd ff:ff:ff:ff:ff:ff link-netnsid 2
+      inet6 fe80::cbd:b8ff:feb0:54ef/64 scope link
+         valid_lft forever preferred_lft forever
+  20: tailscale0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1280 qdisc pfifo_fast state UNKNOWN group default qlen 500
+      link/none
+      inet 100.98.191.40/32 scope global tailscale0
+         valid_lft forever preferred_lft forever
+      inet6 fd7a:115c:a1e0::1301:bf28/128 scope global
+         valid_lft forever preferred_lft forever
+  ```
+
+- Run it **after every reboot** (create startup script) and every manual upgrade of tailscale package to preserve outbound connections from Synology NAS to tailnet devices (run it under root to avoid reboot).
+
+  ```sh
+  sudo /var/packages/Tailscale/target/bin/tailscale configure-host; sudo synosystemctl restart pkgctl-Tailscale.service
+  ```
+
+- Command to auto update tailscale, create task for check updates daily
+
+  ```sh
+  /var/packages/Tailscale/target/bin/tailscale update --yes
   ```
 
 > As of 03.09.2024, tailscale MagicDNS is not working on Synology NAS, more info - [tailscale on Synology DSM 7 dns still not working #12498](https://github.com/tailscale/tailscale/issues/12498)
