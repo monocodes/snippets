@@ -12,12 +12,7 @@
 # Defining variables
 #################################################
 HOSTNAME="ts-exit-node-ln-eu-de-1"
-
-# home
-AUTHKEY="private-key"
-
-# corp
-# AUTHKEY="private-key"
+AUTHKEY="api-key"
 
 #################################################
 # Defining functions
@@ -54,16 +49,18 @@ function vim-default() {
   message "Make vim defailt editor..."
   vim-default
 
-  message "Update repos..."
+  message "Update and upgrade quitely and without interraptions..."
   sudo apt-get update
-  sudo apt-get upgrade -y
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+
+  # message "Disable SSH with password and restart SSH..."
+  # sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+  # sudo service ssh restart
   
   message "Install software..."
   sudo apt-get install bash-completion git bat inetutils-traceroute -y
-
-  message "Disable SSH with password and restart SSH..."
-  sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-  sudo service ssh restart
+  # DO
+  # curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
 
   message "Install tailscale..."
   curl -fsSL https://tailscale.com/install.sh | sh
