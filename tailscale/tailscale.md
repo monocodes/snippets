@@ -47,6 +47,18 @@ url: https://github.com/monocodes/snippets.git
   sudo /etc/networkd-dispatcher/routable.d/50-tailscale
   sudo tailscale login --advertise-tags=tag:subnet-router --advertise-routes=192.168.1.0/24 --accept-routes
   ```
+  
+- Check if IP forwarding is working on Linux
+
+  ```sh
+  sudo sysctl net.ipv4.ip_forward
+  
+  # output
+  net.ipv4.ip_forward = 1 # it's working
+  net.ipv4.ip_forward = 0 # it's not working
+  ```
+
+---
 
 ## tailscale ACL
 
