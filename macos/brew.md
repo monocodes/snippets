@@ -122,7 +122,6 @@ EOF
 source $HOME/.profile &&
 brew analytics off &&
 brew update && brew upgrade &&
-brew install gcc &&
 brew tap beeftornado/rmtree &&
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER &&
@@ -179,7 +178,6 @@ EOF
 source $HOME/.bash_profile &&
 brew analytics off &&
 brew update && brew upgrade &&
-brew install gcc &&
 brew tap beeftornado/rmtree &&
 source $HOME/.bash_profile && source $HOME/.bashrc &&
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
@@ -244,7 +242,6 @@ EOF
 source $HOME/.bash_profile &&
 brew analytics off &&
 brew update && brew upgrade &&
-brew install gcc &&
 brew tap beeftornado/rmtree &&
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
   | sudo tee -a /etc/sudoers.d/$USER &&
@@ -632,6 +629,12 @@ cleanup unused directories and files (including old downloads)
 
 ```sh
 brew cleanup
+```
+
+clear fully Homebrew cache
+
+```sh
+brew cleanup --prune=all
 ```
 
 ---
