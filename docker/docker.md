@@ -172,9 +172,9 @@ docker-compose down --rmi all && docker compose up -d
 
 - start the services from `docker-compose.yaml` after that
 
-- >   can specify the images to update by `docker rmi -f repo-name/image-name:tag-name`
+- > can specify the images to update by `docker rmi -f repo-name/image-name:tag-name`
 
-- >   it's time consuming
+- > it's time consuming
 
 ```sh
 docker-compose up -d --build
@@ -199,7 +199,7 @@ docker-compose build --pull --no-cache
 docker compose up --force-recreate --build -d && docker image prune -f
 ```
 
-- >   use it only on purpose
+- > use it only on purpose
 
 - `--build` rebuild the images from `docker-compose.yaml` with `build:` section
 

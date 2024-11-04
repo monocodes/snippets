@@ -282,13 +282,13 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
     sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     ```
 
-    >   notes
+    > notes
     >
-    >   ```properties
-    >   docker-ce               : This package provides the underlying technology for building and running docker containers (dockerd) 
-    >   docker-ce-cli           : Provides the command line interface (CLI) client docker tool (docker)
-    >   containerd.io           : Provides the container runtime (runc)
-    >   docker-compose-plugin   : A plugin that provides the 'docker compose' subcommand 
+    > ```properties
+    > docker-ce               : This package provides the underlying technology for building and running docker containers (dockerd) 
+    > docker-ce-cli           : Provides the command line interface (CLI) client docker tool (docker)
+    > containerd.io           : Provides the container runtime (runc)
+    > docker-compose-plugin   : A plugin that provides the 'docker compose' subcommand 
     >   ```
 
 5. Enable auto startup and start dockerd daemon now
