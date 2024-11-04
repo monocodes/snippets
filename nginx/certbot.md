@@ -60,11 +60,11 @@ sudo snap install certbot-dns-cloudflare
 certbot install one-liner
 
 ```sh
-sudo snap install core; sudo snap refresh core && \
-  sudo apt purge certbot -y && \
-  sudo snap install --classic certbot && \
-  sudo snap set certbot trust-plugin-with-root=ok && \
-  sudo snap install certbot-dns-cloudflare
+sudo snap install core; sudo snap refresh core &&
+sudo apt purge certbot -y &&
+sudo snap install --classic certbot &&
+sudo snap set certbot trust-plugin-with-root=ok &&
+sudo snap install certbot-dns-cloudflare
 ```
 
 ---
