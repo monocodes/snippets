@@ -222,12 +222,10 @@ it's better than `--force-recreate`
 
 ```sh
 #!/bin/bash
-# if you need to restart all containers
-# sudo docker compose down --remove-orphans
 
+sudo docker compose down --remove-orphans # if you need to restart all containers
 sudo docker compose build --pull # to rebuild Dockerfile images
-sudo docker compose pull
-sudo docker compose up -d --remove-orphans
+sudo docker compose up -d --remove-orphans --pull=always
 sudo docker image prune -f
 ```
 
@@ -240,12 +238,10 @@ sudo docker image prune -f
 
 ```sh
 #!/bin/bash
-# if you need to restart all containers
-# sudo docker-compose down --remove-orphans
 
+sudo docker-compose down --remove-orphans # if you need to restart all containers
 sudo docker-compose build --pull # to rebuild Dockerfile images
-sudo docker-compose pull
-sudo docker-compose up -d --remove-orphans
+sudo docker-compose up -d --remove-orphans --pull always
 sudo docker image prune -f
 ```
 
