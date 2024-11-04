@@ -2883,6 +2883,12 @@ apt and brew upgrade one-liner
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge
 ```
 
+apt upgrade one-liner for scripts to skip all questions of packages
+
+```sh
+sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+```
+
 apt repos
 
 ```sh
