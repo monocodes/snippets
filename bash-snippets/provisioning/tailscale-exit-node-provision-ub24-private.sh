@@ -11,8 +11,8 @@
 #################################################
 # Defining variables
 #################################################
-HOSTNAME="ts-exit-node-ln-eu-se-1"
-AUTHKEY="api-key"
+HOSTNAME="ts-exit-node-ln-eu-de-2"
+AUTHKEY=""
 
 #################################################
 # Defining functions
@@ -31,8 +31,12 @@ function message() {
 # vim default function
 function vim-default() {
   message "Making vim default editor for default user and root..."
-  grep -wq '^export EDITOR=vim' ~/.bashrc || echo 'export EDITOR=vim' | tee -a ~/.bashrc
+  grep -wq '^export EDITOR=vim' /home/ubuntu/.bashrc || echo 'export EDITOR=vim' | tee -a /home/ubuntu/.bashrc
   sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
+  
+  # Won't work for AWS because AWS executes script under root
+  # grep -wq '^export EDITOR=vim' ~/.bashrc || echo 'export EDITOR=vim' | tee -a ~/.bashrc
+  # sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
   source ~/.bashrc
 }
 
@@ -46,10 +50,10 @@ function vim-default() {
   message "Change hostname..."
   sudo hostnamectl hostname $HOSTNAME
 
-  message "Make vim defailt editor..."
+  message "Make vim default editor..."
   vim-default
 
-  message "Update and upgrade quitely and without interraptions..."
+  message "Update and upgrade quietly and without interruptions..."
   sudo apt-get update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 
