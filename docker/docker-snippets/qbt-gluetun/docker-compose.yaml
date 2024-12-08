@@ -1,8 +1,8 @@
 version: "3.8"
 services:
   vpn:
-    image: qmcgaw/gluetun
-    # image: qmcgaw/gluetun:v3.34.1
+   # image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:v3
     container_name: vpn
     cap_add:
       - net_admin
@@ -12,16 +12,18 @@ services:
       - /volume1/docker/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
-      # - SERVER_REGIONS=Serbia
-      # - SERVER_REGIONS=Georgia
+     # - SERVER_REGIONS=Serbia
+     # - SERVER_REGIONS=Bulgaria
+     # - SERVER_REGIONS=Georgia
       - SERVER_REGIONS=Turkey
+     # - SERVER_REGIONS=Czech Republic
       - PIA_ENCRYPTION=normal
-      - OPENVPN_PROTOCOL=udp
+      - OPENVPN_PROTOCOL=tcp
       - VPN_PORT_FORWARDING=on
       - VPN_PORT_FORWARDING_STATUS_FILE
-      - TZ=Asia/Yerevan
+      - TZ=Europe/Berlin
       - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
-      - UPDATER_PERIOD=1h # Updates VPN servers list
+      - UPDATER_PERIOD=1h
       - SHADOWSOCKS=on
       # - SHADOWSOCKS_LOG=on
       - SHADOWSOCKS_CIPHER=aes-256-gcm
@@ -90,9 +92,6 @@ services:
       # - WATCHTOWER_INCLUDE_RESTARTING=true # Will also include restarting containers
       - WATCHTOWER_INCLUDE_STOPPED=true # Will also include created and exited containers
       # - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
-      # - WATCHTOWER_LOG_LEVEL=trace
-      # Possible values: panic, fatal, error, warn, info, debug or trace
-      # Default: info
     env_file:
       - ./watchtower.env
     command: qbt vpn mon
