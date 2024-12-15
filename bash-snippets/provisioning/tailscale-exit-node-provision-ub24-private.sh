@@ -28,16 +28,11 @@ function message() {
   echo
 }
 
-# vim default function
-function vim-default() {
-  message "Making vim default editor for default user and root..."
-  grep -wq '^export EDITOR=vim' /home/ubuntu/.bashrc || echo 'export EDITOR=vim' | tee -a /home/ubuntu/.bashrc
-  sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
-  
-  # Won't work for AWS because AWS executes script under root
-  # grep -wq '^export EDITOR=vim' ~/.bashrc || echo 'export EDITOR=vim' | tee -a ~/.bashrc
-  # sudo grep -wq '^export EDITOR=vim' /root/.bashrc || echo 'export EDITOR=vim' | sudo tee -a /root/.bashrc
-  source ~/.bashrc
+function awscli-v2-install(){
+  message "Installing the latest version of awscli-v2 via snap and adding bash completions for default user and root..."
+  sudo snap install aws-cli --classic
+  grep -wq "^complete -C '/snap/aws-cli/current/bin/aws_completer' aws" /home/ubuntu/.bashrc || echo "complete -C '/snap/aws-cli/current/bin/aws_completer' aws" | tee -a /home/ubuntu/.bashrc
+  sudo grep -wq "^complete -C '/snap/aws-cli/current/bin/aws_completer' aws" /root/.bashrc || echo "complete -C '/snap/aws-cli/current/bin/aws_completer' aws" | sudo tee -a /root/.bashrc
 }
 
 #################################################
@@ -51,11 +46,14 @@ function vim-default() {
   sudo hostnamectl hostname $HOSTNAME
 
   message "Make vim default editor..."
-  vim-default
+  sudo update-alternatives --set editor /usr/bin/vim.basic
 
   message "Update and upgrade quietly and without interruptions..."
   sudo apt-get update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+
+  message "Snap initialization..."
+  sudo snap install core; sudo snap refresh core
 
   # message "Disable SSH with password and restart SSH..."
   # sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -63,6 +61,8 @@ function vim-default() {
   
   message "Install software..."
   sudo apt-get install bash-completion git bat inetutils-traceroute -y
+  sudo snap install tldr
+  awscli-v2-install
   # DO
   # curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
 
@@ -80,6 +80,7 @@ function vim-default() {
   sudo apt update
   sudo apt upgrade -y
   sudo apt autopurge -y
+  sudo 
     
   } 2> >(tee ~/provision-err.log 1>&2);
 } |& tee ~/provision-full.log
