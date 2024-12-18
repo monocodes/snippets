@@ -226,7 +226,7 @@ it's better than `--force-recreate`
 sudo docker compose down --remove-orphans # if you need to restart all containers
 sudo docker compose build --pull # to rebuild Dockerfile images
 sudo docker compose up -d --remove-orphans --pull=always
-sudo docker image prune -a
+sudo docker image prune -af
 ```
 
 - rebuild the services from `docker-compose.yaml` with `build:` section and check new images
