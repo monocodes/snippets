@@ -1,4 +1,5 @@
 version: "3.8"
+name: qbt-gluetun
 services:
   vpn:
    # image: qmcgaw/gluetun
@@ -8,6 +9,8 @@ services:
       - net_admin
     devices:
       - /dev/net/tun
+    networks:
+      - net
     volumes:
       - /volume1/docker/gluetun:/gluetun
     environment:
@@ -17,12 +20,12 @@ services:
      # - SERVER_REGIONS=Georgia
       - SERVER_REGIONS=Turkey
      # - SERVER_REGIONS=Czech Republic
-      - PIA_ENCRYPTION=normal
+      - PIA_ENCRYPTION=strong
       - OPENVPN_PROTOCOL=tcp
       - VPN_PORT_FORWARDING=on
       - VPN_PORT_FORWARDING_STATUS_FILE
       - TZ=Europe/Berlin
-      - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+     # - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
       - UPDATER_PERIOD=1h
       - SHADOWSOCKS=on
       # - SHADOWSOCKS_LOG=on
@@ -56,17 +59,18 @@ services:
     depends_on:
       - vpn
     healthcheck:
-      test: curl -f -k http://localhost:8999 || exit 1
-      interval: 3s
+      test: ["CMD-SHELL", "curl -f -k http://localhost:8999 || exit 1"]
+      interval: 15s
       timeout: 3s
-      retries: 10
-      start_period: 10s
+      retries: 5
+      start_period: 21s
     restart: unless-stopped
 
   port:
     build: ./port-tool
     container_name: port
-    network_mode: bridge
+    networks:
+      - net
     volumes:
       - /etc/localtime:/etc/localtime:ro
       # Timezone for accurate logs times
@@ -83,6 +87,8 @@ services:
   mon:
     image: containrrr/watchtower
     container_name: mon
+    networks:
+      - net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
@@ -95,3 +101,7 @@ services:
     env_file:
       - ./watchtower.env
     command: qbt vpn mon
+
+networks:
+  net:
+    driver: bridge
