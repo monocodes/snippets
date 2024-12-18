@@ -1,0 +1,67 @@
+# https://gist.github.com/jeversol/dd0b3747293f35ce70b5fbcbf0c843a1
+version: "3.8"
+name: unifi-network-application
+services:
+  unifi-db:
+    image: docker.io/mongo:4
+    container_name: unifi-db
+    restart: unless-stopped
+    environment:
+      - PGID=65537
+      - PUID=1029
+    expose:
+      - 27017:27017
+    volumes:
+      - /volume2/docker/unifi/db:/data/db
+      - /volume2/docker/unifi/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      unifi-private:
+    labels:
+      - "diun.enable=true"
+  unifi:
+    image: lscr.io/linuxserver/unifi-network-application
+    container_name: unifi
+    depends_on:
+      - unifi-db
+    networks:
+      unifi-private:
+      unifi-public:
+        ipv4_address: 192.168.1.5
+    environment:
+      - PUID=1029
+      - PGID=65537
+      - MEM_LIMIT=2048
+      - MONGO_DBNAME=unifi-db
+      - MONGO_HOST=unifi-db
+      - MONGO_PASS=[redacted]
+      - MONGO_PORT=27017
+      - MONGO_USER=unifi
+      - TZ=America/New_York
+    volumes:
+      - /volume2/docker/unifi/config:/config
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8081:8081
+      - 8443:8443
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
+    restart: unless-stopped
+    labels:
+      - "diun.enable=true"
+
+networks:
+  unifi-private:
+    driver: bridge
+    internal: true
+
+  unifi-public:
+    driver: macvlan
+    driver_opts:
+      parent: bond0
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
