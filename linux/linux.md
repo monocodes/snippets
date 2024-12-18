@@ -2883,6 +2883,12 @@ apt and brew upgrade one-liner
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge
 ```
 
+apt, brew and snap upgrade one-liner
+
+```sh
+sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge && sudo snap refresh
+```
+
 apt upgrade one-liner for scripts to skip all questions of packages
 
 ```sh
