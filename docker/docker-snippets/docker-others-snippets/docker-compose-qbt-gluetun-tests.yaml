@@ -1,0 +1,127 @@
+version: "3.8"
+services:
+  vpn:
+   # image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:v3
+    container_name: vpn
+    cap_add:
+      - net_admin
+    devices:
+      - /dev/net/tun
+    networks:
+      - net
+    volumes:
+      - /volume1/docker/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+     # - SERVER_REGIONS=Serbia
+     # - SERVER_REGIONS=Bulgaria
+     # - SERVER_REGIONS=Georgia
+      - SERVER_REGIONS=Turkey
+     # - SERVER_REGIONS=Czech Republic
+      - PIA_ENCRYPTION=normal
+      - OPENVPN_PROTOCOL=tcp
+      - VPN_PORT_FORWARDING=on
+      - VPN_PORT_FORWARDING_STATUS_FILE
+      - TZ=Europe/Berlin
+     # - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+      - UPDATER_PERIOD=1h
+      - SHADOWSOCKS=on
+      # - SHADOWSOCKS_LOG=on
+      - SHADOWSOCKS_CIPHER=aes-256-gcm
+      # aes-256-gcm because iOS Potatso can't work with chacha20-ietf-poly1305
+
+      # Unbound (DNS over TLS) logging, default is 1 and 0
+      # - DOT_VERBOSITY=2
+      # - DOT_VERBOSITY_DETAILS=1
+    ports:
+      - 8999:8999
+      - 8000:8000
+      - 8388:8388/tcp
+      - 8388:8388/udp
+    env_file:
+      - ./vpn.env
+    restart: unless-stopped
+
+  qbt:
+    image: linuxserver/qbittorrent:libtorrentv1
+    container_name: qbt
+    network_mode: service:vpn
+    volumes:
+      - /volume1/docker/qbittorrent:/config
+      - /volume1/data/data:/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - WEBUI_PORT=8999
+      - PUID=1031 # user - qbt
+      - PGID=100
+    depends_on:
+      - vpn
+    healthcheck:
+      test: curl -f -k http://localhost:8999 || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  port:
+    build: ./port-tool
+    container_name: port
+    networks:
+      - net
+   # network_mode: bridge
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      # Timezone for accurate logs times
+    environment:
+      - PYTHONUNBUFFERED=1
+   # extra_hosts:
+   #   - host.docker.internal:host-gateway
+    env_file:
+      - ./port-tool.env
+    depends_on:
+      vpn:
+        condition: service_healthy
+      qbt:
+        condition: service_healthy
+
+  mon:
+    image: containrrr/watchtower
+    container_name: mon
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - WATCHTOWER_MONITOR_ONLY=true
+      # - WATCHTOWER_CLEANUP=true # Removes old images after updating
+      # - WATCHTOWER_INCLUDE_RESTARTING=true # Will also include restarting containers
+      - WATCHTOWER_INCLUDE_STOPPED=true # Will also include created and exited containers
+      # - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
+    env_file:
+      - ./watchtower.env
+    command: qbt vpn mon
+
+  app1:
+    image: alpine
+    container_name: app1
+    networks:
+      - net
+    # depends_on:
+    #   - vpn
+    command: ["sh", "-c", "ping -c 3 app2 && sleep infinity"]
+
+  app2:
+    image: alpine
+    container_name: app2
+    networks:
+      - net
+    # depends_on:
+    #   - vpn
+    command: ["sh", "-c", "sleep infinity"]
+
+networks:
+  net:
+    driver: bridge
