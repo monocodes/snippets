@@ -93,7 +93,7 @@ cat $HOME/.zshrc
 
 ### Linux
 
-brew install one-liner Ubuntu 22
+brew install one-liner Ubuntu 22/24
 
 ```sh
 sudo apt-get update && sudo apt-get install -y build-essential procps curl file git &&
