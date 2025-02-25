@@ -2891,7 +2891,7 @@ sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo ap
 
 apt, brew, snap, tldr upgrade one-liner
 
-```
+```sh
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge && sudo snap refresh && tldr --update
 ```
 
