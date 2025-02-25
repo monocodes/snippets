@@ -645,6 +645,11 @@ Defines a timeout for reading a response from the proxied server. The timeout is
 
 #### `http2` directive in NGINX >1.25.1
 
+More info:
+
+- <https://github.com/certbot/certbot/issues/3646#issuecomment-1592797998>
+- <https://github.com/certbot/certbot/pull/9884#issuecomment-2523696758>
+
 Since nginx 1.25.1, the "listen ... http2" directive is deprecated, use the "http2" directive instead
 
 the old format is
