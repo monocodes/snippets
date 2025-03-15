@@ -2450,6 +2450,12 @@ sudo sshd -T
      IdentityFile ~/.ssh/id_rsa_old
    ```
 
+check ssh key passphrase
+
+```sh
+ssh-keygen -y -f ~/.ssh/id_ed25519
+```
+
 ---
 
 ###### [ssh-keygen guide from DO](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server)
