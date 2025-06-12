@@ -2429,7 +2429,7 @@ sudo sshd -T
 1. Generate **Ed25519** key pair
 
    ```sh
-   ssh-keygen -t ed25519 -a 100 -C "user@hostname"
+   ssh-keygen -t ed25519 -aco 100 -C "user@hostname"
    ```
 
 2. Or generate **RSA** key pair if you need compatibility
