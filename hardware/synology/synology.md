@@ -104,6 +104,12 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
   sudo tailscale up --authkey auth-key --advertise-tags=tag:subnet-router,tag:home --advertise-routes=192.168.1.0/24 --reset
   ```
 
+- If Tailscale is always logged out use `--force-reauth`
+
+  ```sh
+  sudo tailscale up --force-reauth --advertise-routes=192.168.1.0/24 --advertise-tags=tag:subnet-router,tag:home
+  ```
+  
 - Check that TUN device is presented on Synology and tailscale has permissions to use it
 
   ```sh
