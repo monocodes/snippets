@@ -56,7 +56,11 @@ url: https://github.com/monocodes/snippets.git
   - [network](#network)
     - [network Ubuntu 22](#network-ubuntu-22)
       - [static IP Ubuntu 22 examples](#static-ip-ubuntu-22-examples)
-    - [DNS Ubuntu 22](#dns-ubuntu-22)
+    - [DNS Ubuntu 22-24](#dns-ubuntu-22-24)
+      - [How to Enable mDNS (.local) Resolution in Ubuntu 24.04 (Netplan + systemd-networkd)](#how-to-enable-mdns-local-resolution-in-ubuntu-2404-netplan--systemd-networkd)
+        - [1. Enable mDNS on the Network Interface](#1-enable-mdns-on-the-network-interface)
+        - [2. Enable mDNS Globally in systemd-resolved](#2-enable-mdns-globally-in-systemd-resolved)
+        - [3. Apply Changes \& Verify](#3-apply-changes--verify)
     - [network Rocky Linux 9](#network-rocky-linux-9)
     - [network CentOS 7](#network-centos-7)
     - [hostname, hostnamectl](#hostname-hostnamectl)
@@ -2247,25 +2251,67 @@ network:
 
 ---
 
-#### DNS Ubuntu 22
+#### DNS Ubuntu 22-24
 
-> By default Ubuntu 22 will not resolve local hostnames. More here - [Hostnames cannot be resolved after upgrading to 22.04](https://askubuntu.com/questions/1406630/hostnames-cannot-be-resolved-after-upgrading-to-22-04)
->
-> Try to ping some local server with its hostname
->
-> ```sh
-> ping ub22-nginx
-> ping: ub22-nginx: Temporary failure in name resolution
-> ```
+##### How to Enable mDNS (.local) Resolution in Ubuntu 24.04 (Netplan + systemd-networkd)
 
-*local-dns-resolve.sh*
+By default, Ubuntu Server does not resolve `.local` hostnames. To fix `Name or service not known` errors for local devices (e.g., `nas.local`), you must enable mDNS at both the **interface level** and the **resolver level**.
 
-```sh
-ls /run/systemd/resolve/resolv.conf &&
-sudo mv /etc/resolv.conf /etc/resolv.conf.bak &&
-sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf &&
-sudo systemctl restart systemd-resolved
+###### 1. Enable mDNS on the Network Interface
+
+Since Netplan YAML doesn't natively support mDNS, create a systemd-networkd drop-in file to force it on the specific interface (e.g., `ens3`).
+
+```bash
+# Create drop-in directory (name must match the Netplan run file + .d)
+sudo mkdir -p /etc/systemd/network/10-netplan-ens3.network.d
+
+# Create override config
+sudo vim /etc/systemd/network/10-netplan-ens3.network.d/mdns.conf
 ```
+
+Add the following:
+
+```ini
+[Network]
+MulticastDNS=yes
+LLMNR=yes
+```
+
+###### 2. Enable mDNS Globally in systemd-resolved
+
+```bash
+sudo vim /etc/systemd/resolved.conf
+```
+
+Ensure the `[Resolve]` section contains:
+
+```ini
+[Resolve]
+LLMNR=resolve
+MulticastDNS=resolve
+```
+
+###### 3. Apply Changes & Verify
+
+```bash
+# Restart networking services
+sudo systemctl restart systemd-networkd
+sudo systemctl restart systemd-resolved
+
+# Flush DNS cache to clear negative queries
+sudo resolvectl flush-caches
+
+# Verify interface scopes (Look for mDNS/IPv4 and LLMNR/IPv4 under Current Scopes)
+resolvectl status ens3
+
+# Test resolution
+resolvectl query nas.local
+ping nas.local
+```
+
+> **Important Note:** Never use `search: [local]` in your Netplan configuration. It breaks mDNS routing in `systemd-resolved` by forcing `.local` queries to standard Unicast DNS instead of the multicast network.
+
+---
 
 flush dns
 
