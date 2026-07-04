@@ -36,7 +36,11 @@ url: https://github.com/monocodes/snippets.git
     - [Example to ignore previously committed dir `logs/`](#example-to-ignore-previously-committed-dir-logs)
     - [Delete file or folder from the local and remote repos from every commit](#delete-file-or-folder-from-the-local-and-remote-repos-from-every-commit)
   - [delete a repository](#delete-a-repository)
+- [git apps](#git-apps)
+  - [Sourcetree](#sourcetree)
 - [git guides](#git-guides)
+  - [Viewing Git Configuration](#viewing-git-configuration)
+  - [Multi-Account Git Architecture](#multi-account-git-architecture)
   - [Sync local repos with remote repos and renamed account on GitHub](#sync-local-repos-with-remote-repos-and-renamed-account-on-github)
   - [Change remote origin](#change-remote-origin)
   - [git commit -m ""](#git-commit--m-)
@@ -554,6 +558,88 @@ If it can't commit use **GitHub Access Keys** or:
 ---
 
 ## git guides
+
+### Viewing Git Configuration
+
+Available commands for the VS Code integrated terminal:
+
+**All active settings:** `git config --list`
+
+**Global user settings:** `git config --global --list`
+
+**Local repository settings:** `git config --local --list`
+
+**View settings with their source file:** `git config --list --show-origin`
+
+---
+
+### Multi-Account Git Architecture
+
+Manual profile switching is highly inefficient. The industry standard for routing multiple profiles on a single machine is the includeIf directive. This method allows Git to automatically apply the correct email and name based on the project directory path.
+
+**Step 1: File System Structuring** Separate your projects into distinct root directories.
+
+- `~/work` - for corporate GitLab repositories.
+- `~/homelab` - for personal GitHub repositories.
+
+**Step 2: Creating Isolated Configuration Files** Create two new configuration files in your home directory.
+
+File `~/.gitconfig-work`:
+
+Ini, TOML
+
+```ini
+[user]
+    name = Sergei Kuznetsov
+    email = sergei.kuznetsov@semrush.com
+```
+
+File `~/.gitconfig-homelab`:
+
+Ini, TOML
+
+```ini
+[user]
+    name = monocodes
+    email = monocodes@icloud.com
+```
+
+**Step 3: Global Configuration Integration** Execute these commands in your terminal to automatically append routing rules to your primary config. This eliminates the need for manual editing.
+
+Bash
+
+```sh
+git config --global includeIf.gitdir:~/work/.path ~/.gitconfig-work
+git config --global includeIf.gitdir:~/homelab/.path ~/.gitconfig-homelab
+```
+
+**Step 4: SSH Key Separation** Since you are pushing commits to different servers, you must configure your SSH client for correct routing and authorization.
+
+Generate an SSH key for GitHub: `ssh-keygen -t ed25519 -C monocodes@icloud.com -f ~/.ssh/id_ed25519_github`
+
+Generate an SSH key for GitLab: `ssh-keygen -t ed25519 -C sergei.kuznetsov@semrush.com -f ~/.ssh/id_ed25519_gitlab`
+
+Create or open the `~/.ssh/config` file and add the host parameters:
+
+Plaintext
+
+```ini
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_github
+
+Host gitlab.company.com
+    HostName gitlab.company.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_gitlab
+```
+
+Ensure you replace gitlab.company.com with the actual address of your corporate self-hosted GitLab instance.
+
+This system operates completely transparently. When working within the work directory, Git automatically utilizes your corporate email and selects the correct SSH key for GitLab. In the homelab directory, the GitHub configuration is applied. No further manual intervention is required during push operations.
+
+---
 
 ### Sync local repos with remote repos and renamed account on GitHub
 
