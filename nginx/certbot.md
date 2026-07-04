@@ -71,6 +71,12 @@ sudo snap install certbot-dns-cloudflare
 
 ## certbot commands
 
+check certbot autorenew
+
+```sh
+sudo certbot certificates
+```
+
 automatically issue wildcard certs for domains in nginx configs with cloudflare plugin, edit these configs and append certs
 
 ```sh
