@@ -1,0 +1,15 @@
+version: "3.8"
+name: chr
+services:
+  chrome:
+    image: lscr.io/linuxserver/chromium:kasm
+    container_name: chr
+    network_mode: container:vpn
+    volumes:
+      - /volume1/docker/chrome:/config
+    environment:
+      - TZ=Europe/Berlin
+    env_file:
+      - ./chr.env
+    shm_size: 1gb
+    restart: unless-stopped
