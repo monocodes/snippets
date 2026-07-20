@@ -100,7 +100,7 @@ services:
       # - WATCHTOWER_REVIVE_STOPPED=true # Start any stopped containers that have had their image updated
     env_file:
       - ./watchtower.env
-    command: qbt vpn mon
+    command: qbt vpn mon chr
 
 networks:
   net:
