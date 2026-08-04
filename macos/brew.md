@@ -52,7 +52,7 @@ cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
-  FPATH="\$(brew --prefix)/share/zsh/site-functions:\${FPATH}"
+  fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 
   autoload -Uz compinit
   compinit
@@ -79,7 +79,7 @@ cat <<EOF | sudo tee -a $HOME/.zshrc
 # brew completions
 if type brew &>/dev/null
 then
-  FPATH="\$(brew --prefix)/share/zsh/site-functions:\${FPATH}"
+  fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 
   autoload -Uz compinit
   compinit
