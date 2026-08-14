@@ -10,6 +10,8 @@ url: https://github.com/monocodes/snippets.git
 
 - [brew install](#brew-install)
   - [macOS](#macos)
+    - [new (need to test)](#new-need-to-test)
+    - [old](#old)
   - [Linux](#linux)
 - [brew uninstall](#brew-uninstall)
 - [brew paths](#brew-paths)
@@ -34,6 +36,32 @@ url: https://github.com/monocodes/snippets.git
 >The installation script installs Homebrew to `/home/linuxbrew/.linuxbrew` using `sudo`. Homebrew does not use `sudo` after installation. Using `/home/linuxbrew/.linuxbrew` allows the use of most binary packages (bottles) which will not work when installing in e.g. your personal home directory.
 
 ### macOS
+
+#### new (need to test)
+
+brew install one-liner macOS (interactive)
+
+```sh
+xcode-select -p &>/dev/null || xcode-select --install
+command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+touch $HOME/.zprofile $HOME/.zshrc
+grep -q brew $HOME/.zprofile || cat << EOF >> $HOME/.zprofile
+eval \$(/opt/homebrew/bin/brew shellenv)
+EOF
+eval \$(/opt/homebrew/bin/brew shellenv)
+brew analytics off
+brew tap beeftornado/rmtree
+grep -q compinit $HOME/.zshrc || cat << EOF >> $HOME/.zshrc
+if type brew &>/dev/null; then
+  fpath=(\$(brew --prefix)/share/zsh/site-functions \$fpath)
+  autoload -Uz compinit
+  compinit
+fi
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+EOF
+```
+
+#### old
 
 brew install one-liner macOS (non-interactive)  
 if user has `ALL=(ALL) NOPASSWD: ALL` in `/etc/sudoers.d`
