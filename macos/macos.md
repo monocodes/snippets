@@ -255,6 +255,65 @@ turn on syntax highlighting in vim
 echo "syntax on" >> ~/.vimrc
 ```
 
+```sh
+echo "syntax on" >> ~/.vimrc
+```
+
+##### ncdu
+
+Disk usage analyzer with an ncurses interface. See also: duf, df. More information: https://dev.yorhel.nl/ncdu/man.
+
+Toggle item count display (shows the number of files and directories):`c`
+Sort folders by the number of files inside them (instead of disk space): `Shift + C`
+
+Analyze the primary macOS data volume efficiently (`-x` explicitly restricts the scan to a single file system boundary, preventing traversal into external drives. Note: This scans 100% of your mutable user and application data, intentionally excluding Apple's cryptographically sealed, read-only OS volume which cannot be modified):
+
+```sh
+sudo ncdu -x /System/Volumes/Data
+```
+
+Analyze the data volume while excluding virtual cloud storage (prevents I/O freezes caused by forcing Google Drive/iCloud to index dataless placeholder files):
+
+```sh
+sudo ncdu -x /System/Volumes/Data --exclude /System/Volumes/Data/Users/$(whoami)/Library/CloudStorage
+```
+
+Analyze the entire root file system (Anti-pattern: avoid this in macOS as it scans read-only system volumes, synthetic network mounts, and triggers SIP blocks, resulting in severe I/O bottlenecks and incomplete data):
+
+```sh
+sudo ncdu /
+```
+
+Analyze the current working directory:
+
+```sh
+sudo ncdu
+```
+
+Colorize output:
+
+```sh
+sudo ncdu --color dark|off
+```
+
+Analyze a given directory:
+
+```sh
+sudo ncdu path/to/directory
+```
+
+Save results to a file:
+
+```sh
+sudo ncdu -o path/to/file
+```
+
+Exclude files that match a pattern, argument can be given multiple times to add more patterns:
+
+```sh
+sudo ncdu --exclude '*.txt'
+```
+
 ---
 
 ## network
