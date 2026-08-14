@@ -17,11 +17,13 @@ url: https://github.com/monocodes/snippets.git
   - [useful shorcuts](#useful-shorcuts)
   - [apps](#apps)
     - [console apps](#console-apps)
+      - [ncdu](#ncdu)
 - [network](#network)
 - [filesystem](#filesystem)
 - [partitioning](#partitioning)
   - [gdisk](#gdisk)
   - [newfs\_type](#newfs_type)
+  - [macOS ExFAT GUID external disk without EFI partition - guide](#macos-exfat-guid-external-disk-without-efi-partition---guide)
 - [macOS guides](#macos-guides)
   - [sed](#sed)
     - [Recursive search and replace in text files on Mac and Linux](#recursive-search-and-replace-in-text-files-on-mac-and-linux)
@@ -34,6 +36,12 @@ url: https://github.com/monocodes/snippets.git
     - [Conclusion](#conclusion)
       - [See also](#see-also)
   - [How to transfer SD card Nintendo Switch data using macOS by enrogle](#how-to-transfer-sd-card-nintendo-switch-data-using-macos-by-enrogle)
+  - [MacBook Battery drains quickly post Sonoma update](#macbook-battery-drains-quickly-post-sonoma-update)
+    - [TL;DR; QUICK "SOLUTION"](#tldr-quick-solution)
+    - [LONG STORY](#long-story)
+      - [Other observations](#other-observations)
+      - [hibernatemode](#hibernatemode)
+    - [CONCLUSION](#conclusion-1)
 
 ## macos paths
 
@@ -261,12 +269,12 @@ echo "syntax on" >> ~/.vimrc
 
 ##### ncdu
 
-Disk usage analyzer with an ncurses interface. See also: duf, df. More information: https://dev.yorhel.nl/ncdu/man.
+Disk usage analyser with an ncurses interface. See also: duf, df. More information: <https://dev.yorhel.nl/ncdu/man>.
 
 Toggle item count display (shows the number of files and directories):`c`
 Sort folders by the number of files inside them (instead of disk space): `Shift + C`
 
-Analyze the primary macOS data volume efficiently (`-x` explicitly restricts the scan to a single file system boundary, preventing traversal into external drives. Note: This scans 100% of your mutable user and application data, intentionally excluding Apple's cryptographically sealed, read-only OS volume which cannot be modified):
+Analyse the primary macOS data volume efficiently (`-x` explicitly restricts the scan to a single file system boundary, preventing traversal into external drives. Note: This scans 100% of your mutable user and application data, intentionally excluding Apple's cryptographically sealed, read-only OS volume which cannot be modified):
 
 ```sh
 sudo ncdu -x /System/Volumes/Data
@@ -862,9 +870,9 @@ Hello all,
 
 I've been busying myself away for a while trying to debug the issue and/or find a cure for the issue.
 
-#### TL;DR; QUICK "SOLUTION" 
+#### TL;DR; QUICK "SOLUTION"
 
-Open a Terminal and type 
+Open a Terminal and type
 
 ```sh
 sudo pmset -a hibernatemode 25
@@ -897,7 +905,7 @@ I have even spent time debugging the kernel using DTrace and the source code for
 
 It's worth noting that I can definitely see differences between logs when the problem occurs and when it doesn't. It seems to me that sometimes when you try to sleep, something goes wrong right at the moment of trying to sleep your laptop (e.g. when you close the lid). In other words, your battery’s fate is sealed from the moment you try to sleep. The annoying part is that it's impossible to check if this happened without unsleeping the mac. If you observe the problem, you change it and thus have to sleep again (a Heisenbug).
 
-##### Other observations:
+##### Other observations
 
 - (I think someone else mentioned this) When the problem occurs, if you try to wake your mac up with the keyboard then it won't wake. You need to press the power button to wake it back up. Normally, a key press alone should wake it up.
 - Apple changed power management code in the XNU kernel for Sonoma. There was nothing obvious that could explain the issue off hand, but I strongly feel that this is a software bug in the kernel rather than some hardware fault or some bad state our Macs are in. Seems like a race condition in the sleep logic where a driver says "hey, I can't sleep". Sometimes that happens at a good time and sleep still occurs, other times it doesn't.
