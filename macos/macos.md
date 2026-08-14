@@ -220,11 +220,11 @@ Time Machine settings
 
 to edit com.apple.TimeMachine.plist
 
-1) `cp` it anywhere
+1. `cp` it anywhere
 
-2) edit it with xml editor or xcode
+2. edit it with xml editor or xcode
 
-3) copy file back
+3. copy file back
 
    ```sh
    sudo cp com.apple.TimeMachine.plist /Library/Preferences/
@@ -430,7 +430,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
        1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
        2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
        3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
-    
+
     /dev/disk3 (synthesized):
        #:                       TYPE NAME                    SIZE       IDENTIFIER
        0:      APFS Container Scheme -                      +994.7 GB   disk3
@@ -441,7 +441,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
        4:                APFS Volume Preboot                 6.2 GB     disk3s4
        5:                APFS Volume Recovery                937.8 MB   disk3s5
        6:                APFS Volume VM                      5.4 GB     disk3s6
-    
+
     /dev/disk4 (external, physical):
        #:                       TYPE NAME                    SIZE       IDENTIFIER
        0:      GUID_partition_scheme                        *1.0 TB     disk4
@@ -451,19 +451,19 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
   ```sh
   sudo gdisk /dev/disk4
-  
+
   # example when we have normal GUID partition
   mono@mono-mac /dev % sudo gdisk /dev/disk4
   GPT fdisk (gdisk) version 1.0.10
-  
+
   Partition table scan:
     MBR: protective
     BSD: not present
     APM: not present
     GPT: present
-  
+
   Found valid GPT with protective MBR; using GPT.
-  
+
   ```
 
 - `o` - create a new empty GUID partition table (GPT)
@@ -477,7 +477,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
   Last sector (2048-1953525134, default = 1953523711) or {+-}size{KMGTP}: # Enter
   Current type is AF00 (Apple HFS/HFS+)
   Hex code or GUID (L to show codes, Enter = AF00): 0700
-  
+
   # Check with p that everything us fine
   Command (? for help): p
   Disk /dev/disk4: 1953525168 sectors, 931.5 GiB
@@ -488,7 +488,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
   First usable sector is 34, last usable sector is 1953525134
   Partitions will be aligned on 2048-sector boundaries
   Total free space is 3437 sectors (1.7 MiB)
-  
+
   Number  Start (sector)    End (sector)  Size       Code  Name
      1            2048      1953523711   931.5 GiB   0700  Microsoft basic data
   ```
@@ -505,7 +505,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
      1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
      2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
      3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
-  
+
   /dev/disk3 (synthesized):
      #:                       TYPE NAME                    SIZE       IDENTIFIER
      0:      APFS Container Scheme -                      +994.7 GB   disk3
@@ -516,7 +516,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
      4:                APFS Volume Preboot                 6.2 GB     disk3s4
      5:                APFS Volume Recovery                937.8 MB   disk3s5
      6:                APFS Volume VM                      5.4 GB     disk3s6
-  
+
   /dev/disk4 (external, physical):
      #:                       TYPE NAME                    SIZE       IDENTIFIER
      0:      GUID_partition_scheme                        *1.0 TB     disk4
@@ -527,7 +527,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
   ```sh
   sudo newfs_exfat /dev/disk4s1
-  
+
   # example
   mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
   Reformatting existing ExFAT volume
@@ -553,10 +553,10 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
     ```sh
     mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
     newfs_exfat: /dev/disk4s1: Resource busy
-    
+
     # Forcefully unmount the drive
     sudo diskutil unmountDisk force /dev/disk4s1
-    
+
     mono@mono-mac /dev % sudo diskutil unmountDisk force /dev/disk4s1
     Forced unmount of all volumes on disk4 was successful
     ```
@@ -650,15 +650,15 @@ The symlinks referencing Python frameworks are in the `/usr/local/bin` directory
 
 [MacOS – Set / Change $PATH Variable Command](https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/)
 
-| Tutorial details  |                                                              |
-| :---------------: | ------------------------------------------------------------ |
-| Difficulty level  | [Easy](https://www.cyberciti.biz/faq/tag/easy/)              |
-|  Root privileges  | No                                                           |
-|   Requirements    | macOS terminal                                               |
-|     Category      | [Linux shell scripting](https://bash.cyberciti.biz/guide/Main_Page) |
-|   Prerequisites   | Apple macOS/OS X with bash                                   |
+| Tutorial details  |                                                                                                                                                                                        |
+| :---------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Difficulty level  | [Easy](https://www.cyberciti.biz/faq/tag/easy/)                                                                                                                                        |
+|  Root privileges  | No                                                                                                                                                                                     |
+|   Requirements    | macOS terminal                                                                                                                                                                         |
+|     Category      | [Linux shell scripting](https://bash.cyberciti.biz/guide/Main_Page)                                                                                                                    |
+|   Prerequisites   | Apple macOS/OS X with bash                                                                                                                                                             |
 | OS compatibility  | BSD • [Linux](https://www.cyberciti.biz/faq/category/linux/) • [macOS](https://www.cyberciti.biz/faq/category/mac-os-x/) • OS X • [Unix](https://www.cyberciti.biz/faq/category/unix/) |
-| Est. reading time | 4 minutes                                                    |
+| Est. reading time | 4 minutes                                                                                                                                                                              |
 
 [$PATH is nothing but an environment variable on Linux, OS X, Unix-like](https://bash.cyberciti.biz/guide/Variables#Commonly_Used_Shell_Variables) operating systems, and Microsoft Windows. You can specify a set of directories where executable programs are located using $PATH. The $PATH variable is specified as a list of directory names separated by colon (:) characters.
 
@@ -835,7 +835,7 @@ Steps are as follows:
 1. Backup the Nintendo folder from your original SD card. You can just drag and drop it to your Desktop, but just to be on the safe side I ran **Disk Utility** and selected **File -> New Image -> Image from "disk2s1"**. Your SD card may be named differently.
 2. Format the new SD card in the Switch
 3. Eject the old SD card and insert the new SD card into your mac
-4. Copy *contents* of the Nintendo folder from your copy onto the new SD card (if you did it via an image, then double-click on your image file to mount it, then copy from there). Select *Replace all files* if prompted.
+4. Copy _contents_ of the Nintendo folder from your copy onto the new SD card (if you did it via an image, then double-click on your image file to mount it, then copy from there). Select _Replace all files_ if prompted.
 5. Wait for ages for the data to copy...
 6. Close all Finder windows then run **Terminal**
 7. From the Terminal, run the following commands (After formatting my SD card was called "Untitled", if yours isn't called then, then adjust accordingly). These commands will require your admin password.
