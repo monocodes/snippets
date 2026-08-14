@@ -36,7 +36,8 @@ url: https://github.com/monocodes/snippets.git
     - [Example to ignore previously committed dir `logs/`](#example-to-ignore-previously-committed-dir-logs)
     - [Delete file or folder from the local and remote repos from every commit](#delete-file-or-folder-from-the-local-and-remote-repos-from-every-commit)
   - [delete a repository](#delete-a-repository)
-- [git apps](#git-apps)
+- [git apps and extensions](#git-apps-and-extensions)
+  - [git-crypt](#git-crypt)
   - [Sourcetree](#sourcetree)
 - [git guides](#git-guides)
   - [Viewing Git Configuration](#viewing-git-configuration)
@@ -521,7 +522,73 @@ git init
 
 ---
 
-## git apps
+## git apps and extensions
+
+### git-crypt
+
+Transparent file encryption in Git. The native solution for syncing repository secrets across multiple machines.
+
+**Crucial Prerequisite:** Git cannot encrypt files it does not track. You must remove target secret files from `.gitignore` so Git can index them (e.g., delete the `*secret*` line, but leave local-only ignores like `playground.*`).
+
+**Install git-crypt on the primary macOS machine:**
+
+```sh
+brew install git-crypt
+```
+
+Initialize encryption (generates a secret key inside the hidden `.git` folder):
+
+```sh
+git-crypt init
+```
+
+Instruct Git to encrypt specific files across all subfolders by creating a `.gitattributes` file in the repository root:
+
+```ini
+**/*secret* filter=git-crypt diff=git-crypt
+```
+
+Export the secret encryption key to transfer securely to the secondary machine (e.g., via AirDrop or a password manager):
+
+```sh
+git-crypt export-key ~/Desktop/snippets-key.key
+```
+
+Add, commit, and push the repository (secret files are encrypted locally before hitting GitHub):
+
+```sh
+git add .
+git commit -m "Setup git-crypt and add encrypted secrets"
+git push
+```
+
+**Install git-crypt on the secondary macOS machine:**
+
+```sh
+brew install git-crypt
+```
+
+Pull the latest changes from the remote repository (files will initially appear as unreadable binary data):
+
+```sh
+git pull
+```
+
+Unlock the repository using the key transferred securely from the primary machine:
+
+```sh
+git-crypt unlock /path/to/snippets-key.key
+```
+
+Securely delete the key file from the drive (the key is now safely embedded inside this machine's `.git` folder):
+
+```sh
+rm /path/to/snippets-key.key
+```
+
+**Workflow:** The setup is complete. No further manual commands are required. Running `git push` automatically encrypts tracked secrets in the background before transit, and `git pull` automatically decrypts incoming files so they can be read locally.
+
+---
 
 ### Sourcetree
 
