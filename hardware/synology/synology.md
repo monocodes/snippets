@@ -10,6 +10,11 @@ url: https://github.com/monocodes/snippets.git
 ---
 
 - [cmd](#cmd)
+  - [Task Scheduler tasks](#task-scheduler-tasks)
+    - [Docker Daily Image Cleanup](#docker-daily-image-cleanup)
+    - [Check Tailscale updates](#check-tailscale-updates)
+    - [Start all containers after reboot and configure Tailscale](#start-all-containers-after-reboot-and-configure-tailscale)
+    - [Update PIA forwarded port for qbt-gluetun](#update-pia-forwarded-port-for-qbt-gluetun)
 - [packages](#packages)
   - [vim](#vim)
   - [tailscale](#tailscale)
@@ -53,6 +58,64 @@ disable Firewall
 
 ---
 
+### Task Scheduler tasks
+
+#### Docker Daily Image Cleanup
+
+```sh
+# Safe Garbage Collection: Removes ONLY dangling layers (<none>:<none>) older than 48 hours
+# that are left over after pulling new image updates.
+# All tagged images (including those from currently stopped stacks) are strictly preserved.
+
+sudo docker image prune -f --filter "until=48h"
+```
+
+#### Check Tailscale updates
+
+```sh
+/var/packages/Tailscale/target/bin/tailscale update --yes
+/var/packages/Tailscale/target/bin/tailscale configure-host
+synosystemctl restart pkgctl-Tailscale.service
+sleep 30
+ip a | grep -i "tailscale"
+```
+
+#### Start all containers after reboot and configure Tailscale
+
+```sh
+sleep 30
+
+/var/packages/Tailscale/target/bin/tailscale configure-host
+synosystemctl restart pkgctl-Tailscale.service
+
+echo -e "\n--- TAILSCALE IP ---"
+ip a | grep -i "tailscale"
+
+cd /volume1/homes/mono/chr-slack
+./update-docker-compose.sh
+
+cd /volume1/homes/mono/qbt-gluetun
+./update-docker-compose.sh
+
+sleep 15
+
+echo -e "\n--- LOGS: CHR ---"
+docker logs --tail 50 chr
+
+echo -e "\n--- LOGS: PORT ---"
+docker logs port
+```
+
+#### Update PIA forwarded port for qbt-gluetun
+
+```sh
+cd /volume1/homes/mono/qbt-gluetun
+./update-docker-compose.sh
+docker logs port
+```
+
+---
+
 ## packages
 
 ### vim
@@ -72,7 +135,7 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
      source ./.bashrc && \
      echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc && \
      vim --version
-   
+
    # or via alias
    echo 'alias vim="/volume1/@appstore/vim/bin/vim"' >> ~/.bashrc && \
      source ./.bashrc && \
@@ -109,14 +172,14 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
   ```sh
   sudo tailscale up --force-reauth --advertise-routes=192.168.1.0/24 --advertise-tags=tag:subnet-router,tag:home
   ```
-  
+
 - Check that TUN device is presented on Synology and tailscale has permissions to use it
 
   ```sh
   ip addr show | grep -i "tailscale"
   # or
   ip addr show
-  
+
   # output
   17: docker8a68ff0@if16: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker-7ee01dae state UP group default
       link/ether 0e:bd:b8:b0:54:ef brd ff:ff:ff:ff:ff:ff link-netnsid 2
@@ -150,8 +213,7 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 >   /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
 >   ```
 
->
-  > - As of 03.09.2024, tailscale arguments `--accept-routes` and `--advertise-exit-node` are not working on Synology NAS - [Synology: tracking bug for use cases #1995](https://github.com/tailscale/tailscale/issues/1995)
+> - As of 03.09.2024, tailscale arguments `--accept-routes` and `--advertise-exit-node` are not working on Synology NAS - [Synology: tracking bug for use cases #1995](https://github.com/tailscale/tailscale/issues/1995)
 
 ---
 
@@ -288,11 +350,11 @@ Special thanks to [Guilherme de Maio (nirev)](https://github.com/nirev), who con
 In order to connect to our service using one of the VPN methods we provide, please verify you can connect over these ports:
 
 - For the PIA Client:
-  - **UDP** ports  8080, 853, 123, 53
-  - **TCP** ports  8443, 853, 443, 80
+  - **UDP** ports 8080, 853, 123, 53
+  - **TCP** ports 8443, 853, 443, 80
 - For OpenVPN:
   - **UDP** ports 1197, 1198
-  - **TCP** ports  501, 502
+  - **TCP** ports 501, 502
 
 If you can connect over any of those, you should be able to use at least one of our connection methods.
 
