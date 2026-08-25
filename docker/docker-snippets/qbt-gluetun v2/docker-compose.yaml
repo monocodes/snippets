@@ -53,8 +53,6 @@ services:
       - 8388:8388/udp # Shadowsocks
       - 8443:8443/tcp # PIA https://github.com/qdm12/gluetun/issues/3320
       - 8080:8080/udp # PIA https://github.com/qdm12/gluetun/issues/3320
-      - 3000:3000 # chrome http
-      - 3001:3001 # chrome https
     # https://github.com/pia-foss/manual-connections/commit/8a75e46be81583d17f9ab3570881419b35000969
     env_file:
       - ./vpn.env
