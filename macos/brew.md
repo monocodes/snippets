@@ -58,6 +58,7 @@ if type brew &>/dev/null; then
   compinit
 fi
 export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 EOF
 ```
 
