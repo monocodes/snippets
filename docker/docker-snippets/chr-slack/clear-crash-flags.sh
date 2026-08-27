@@ -20,4 +20,3 @@ if [ -f "$PREF_FILE" ]; then
 else
     echo "[init] Preferences file not found. Skipping JSON patch."
 fi
-EOF'
