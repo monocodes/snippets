@@ -4,12 +4,17 @@ services:
   chrome:
     image: lscr.io/linuxserver/chromium:kasm
     container_name: chr
-    network_mode: container:vpn
+    ports:
+      # KasmVNC port mappings (HOST:CONTAINER)
+      # Adjust the host port (left value) if these conflict with existing Synology services
+      - "3000:3000" # HTTP UI
+      - "3001:3001" # HTTPS UI
     volumes:
       - /volume1/docker/chrome:/config
+      - /volume1/docker/chrome/custom-cont-init.d:/custom-cont-init.d:ro
     environment:
       - TZ=Europe/Berlin
     env_file:
       - ./chr.env
-    shm_size: 1gb
+    shm_size: 1gb # Required to prevent Chromium from crashing due to out-of-memory errors in the container's shared memory
     restart: unless-stopped
