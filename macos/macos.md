@@ -21,9 +21,12 @@ url: https://github.com/monocodes/snippets.git
 - [network](#network)
 - [filesystem](#filesystem)
 - [partitioning](#partitioning)
+  - [diskutil](#diskutil)
+    - [ExFAT GPT external disk - guide](#exfat-gpt-external-disk---guide)
+    - [FAT32 MBR external disk without EFI partition - guide](#fat32-mbr-external-disk-without-efi-partition---guide)
   - [gdisk](#gdisk)
   - [newfs\_type](#newfs_type)
-  - [macOS ExFAT GUID external disk without EFI partition - guide](#macos-exfat-guid-external-disk-without-efi-partition---guide)
+  - [macOS ExFAT GUID external disk without EFI partition with gdisk - guide](#macos-exfat-guid-external-disk-without-efi-partition-with-gdisk---guide)
 - [macOS guides](#macos-guides)
   - [sed](#sed)
     - [Recursive search and replace in text files on Mac and Linux](#recursive-search-and-replace-in-text-files-on-mac-and-linux)
@@ -386,6 +389,177 @@ sudo fs_usage | grep /Users/me/aa
 
 ## partitioning
 
+### diskutil
+
+#### ExFAT GPT external disk - guide
+
+```sh
+diskutil list
+```
+
+```sh
+mono@MacBookPro ~ % diskutil list
+/dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *1.0 TB     disk0
+   1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
+   2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
+   3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
+
+/dev/disk3 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +994.7 GB   disk3
+                                 Physical Store disk0s2
+   1:                APFS Volume Macintosh HD            11.3 GB    disk3s1
+   2:              APFS Snapshot com.apple.os.update-... 11.3 GB    disk3s1s1
+   3:                APFS Volume Preboot                 7.4 GB     disk3s2
+   4:                APFS Volume Recovery                1.0 GB     disk3s3
+   5:                APFS Volume Macintosh HD - Data     415.1 GB   disk3s5
+   6:                APFS Volume VM                      3.2 GB     disk3s6
+
+/dev/disk5 (external, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *2.0 TB     disk5
+   1:                        EFI EFI                     209.7 MB   disk5s1
+   2:                 Apple_APFS Container disk6         2.0 TB     disk5s2
+
+/dev/disk6 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +2.0 TB     disk6
+                                 Physical Store disk5s2
+   1:                APFS Volume Backups of mono-mac     81.1 GB    disk6s1
+   2:                APFS Volume WD-2TB-TM               381.4 GB   disk6s2
+
+/dev/disk7 (external, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *2.0 TB     disk7
+   1:               Windows_NTFS                         2.0 TB     disk7s1
+```
+
+```sh
+diskutil eraseDisk ExFAT TOSHIBA-2TB GPT /dev/disk7
+```
+
+```
+mono@MacBookPro ~ % diskutil eraseDisk ExFAT TOSHIBA-2TB GPT /dev/disk7
+Started erase on disk7
+Unmounting disk
+Creating the partition map
+Waiting for partitions to activate
+Formatting disk7s2 as ExFAT with name TOSHIBA-2TB
+Volume name      : TOSHIBA-2TB
+Partition offset : 411648 sectors (210763776 bytes)
+Volume size      : 3906617344 sectors (2000188080128 bytes)
+Bytes per sector : 512
+Bytes per cluster: 131072
+FAT offset       : 2048 sectors (1048576 bytes)
+# FAT sectors    : 120832
+Number of FATs   : 1
+Cluster offset   : 122880 sectors (62914560 bytes)
+# Clusters       : 15259744
+Volume Serial #  : 6a9780a4
+Bitmap start     : 2
+Bitmap file size : 1907468
+Upcase start     : 17
+Upcase file size : 5836
+Root start       : 18
+Mounting disk
+Finished erase on disk7
+```
+
+---
+
+#### FAT32 MBR external disk without EFI partition - guide
+
+```sh
+diskutil list
+```
+
+```sh
+mono@MacBookPro /Library % diskutil list
+/dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *1.0 TB     disk0
+   1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
+   2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
+   3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
+
+/dev/disk3 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +994.7 GB   disk3
+                                 Physical Store disk0s2
+   1:                APFS Volume Macintosh HD            11.3 GB    disk3s1
+   2:              APFS Snapshot com.apple.os.update-... 11.3 GB    disk3s1s1
+   3:                APFS Volume Preboot                 7.4 GB     disk3s2
+   4:                APFS Volume Recovery                1.0 GB     disk3s3
+   5:                APFS Volume Macintosh HD - Data     416.0 GB   disk3s5
+   6:                APFS Volume VM                      7.5 GB     disk3s6
+
+/dev/disk4 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *31.9 GB    disk4
+   1:           Linux Filesystem                         31.9 GB    disk4s1
+```
+
+```sh
+diskutil eraseDisk FAT32 UNIFI MBRFormat /dev/disk4
+```
+
+```sh
+mono@MacBookPro /Library % diskutil eraseDisk FAT32 UNIFI MBRFormat /dev/disk4
+Started erase on disk4
+Unmounting disk
+Creating the partition map
+Waiting for partitions to activate
+Formatting disk4s1 as MS-DOS (FAT32) with name UNIFI
+512 bytes per physical sector
+/dev/rdisk4s1: 62318848 sectors in 1947464 FAT32 clusters (16384 bytes/cluster)
+bps=512 spc=32 res=32 nft=2 mid=0xf8 spt=32 hds=255 hid=8192 drv=0x80 bsec=62349312 bspf=15215 rdcl=2 infs=1 bkbs=6
+Mounting disk
+Finished erase on disk4
+```
+
+```sh
+diskutil list
+```
+
+```sh
+mono@MacBookPro /Library % diskutil list
+/dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *1.0 TB     disk0
+   1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
+   2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
+   3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
+
+/dev/disk3 (synthesized):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      APFS Container Scheme -                      +994.7 GB   disk3
+                                 Physical Store disk0s2
+   1:                APFS Volume Macintosh HD            11.3 GB    disk3s1
+   2:              APFS Snapshot com.apple.os.update-... 11.3 GB    disk3s1s1
+   3:                APFS Volume Preboot                 7.4 GB     disk3s2
+   4:                APFS Volume Recovery                1.0 GB     disk3s3
+   5:                APFS Volume Macintosh HD - Data     416.0 GB   disk3s5
+   6:                APFS Volume VM                      7.5 GB     disk3s6
+
+/dev/disk4 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *31.9 GB    disk4
+   1:                 DOS_FAT_32 UNIFI                   31.9 GB    disk4s1
+```
+
+```sh
+% diskutil eject /dev/disk4
+```
+
+```sh
+mono@MacBookPro /Library % diskutil eject /dev/disk4
+Disk /dev/disk4 ejected
+```
+
+---
+
 ### gdisk
 
 GPT and MBR partitioning tool, clone of linux variant.  
@@ -408,7 +582,7 @@ macOS partitioning tools, never used them.
 
 ---
 
-### macOS ExFAT GUID external disk without EFI partition - guide
+### macOS ExFAT GUID external disk without EFI partition with gdisk - guide
 
 By default macOS **Disk Utility** creates GUID partitions with hidden EFI partition. For external hard drive you don't need this partition. It's the best way to create GUID table with ExFAT partition
 
@@ -430,7 +604,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
        1:             Apple_APFS_ISC Container disk1         524.3 MB   disk0s1
        2:                 Apple_APFS Container disk3         994.7 GB   disk0s2
        3:        Apple_APFS_Recovery Container disk2         5.4 GB     disk0s3
-
+    
     /dev/disk3 (synthesized):
        #:                       TYPE NAME                    SIZE       IDENTIFIER
        0:      APFS Container Scheme -                      +994.7 GB   disk3
@@ -441,7 +615,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
        4:                APFS Volume Preboot                 6.2 GB     disk3s4
        5:                APFS Volume Recovery                937.8 MB   disk3s5
        6:                APFS Volume VM                      5.4 GB     disk3s6
-
+    
     /dev/disk4 (external, physical):
        #:                       TYPE NAME                    SIZE       IDENTIFIER
        0:      GUID_partition_scheme                        *1.0 TB     disk4
@@ -553,10 +727,10 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
     ```sh
     mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
     newfs_exfat: /dev/disk4s1: Resource busy
-
+    
     # Forcefully unmount the drive
     sudo diskutil unmountDisk force /dev/disk4s1
-
+    
     mono@mono-mac /dev % sudo diskutil unmountDisk force /dev/disk4s1
     Forced unmount of all volumes on disk4 was successful
     ```
