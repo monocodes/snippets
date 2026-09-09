@@ -8,14 +8,20 @@ author: monocodes
 url: https://github.com/monocodes/snippets.git
 ---
 
+- [tailscale installation](#tailscale-installation)
 - [tailscale commands](#tailscale-commands)
+	- [tailscale cli macos](#tailscale-cli-macos)
+		- [installation \& daemon management](#installation--daemon-management)
+		- [connection \& session management](#connection--session-management)
+		- [diagnostics \& network state](#diagnostics--network-state)
+		- [advanced utilities](#advanced-utilities)
 - [tailscale ACL](#tailscale-acl)
 	- [tailscale - corporate Overlaying network / VPN / Exit-nodes](#tailscale---corporate-overlaying-network--vpn--exit-nodes)
 	- [tailscale - corporate VPN with exit-nodes](#tailscale---corporate-vpn-with-exit-nodes)
 	- [tailscale - homelab current ACL with grants](#tailscale---homelab-current-acl-with-grants)
 	- [tailscale - homelab old ACL](#tailscale---homelab-old-acl)
 
-## tailscale commands
+## tailscale installation
 
 - exit node
 
@@ -58,6 +64,116 @@ url: https://github.com/monocodes/snippets.git
   net.ipv4.ip_forward = 1 # it's working
   net.ipv4.ip_forward = 0 # it's not working
   ```
+
+---
+
+## tailscale commands
+
+### tailscale cli macos
+
+#### installation & daemon management
+
+- install the console version via homebrew (bypasses corporate edr restrictions)
+
+```bash
+brew install tailscale
+```
+
+- start the system daemon (requires root privileges to create the utun interface)
+
+```bash
+sudo brew services start tailscale
+```
+
+- stop the system daemon
+
+```bash
+sudo brew services stop tailscale
+```
+
+#### connection & session management
+
+- basic launch (initializes connection and outputs auth url)
+
+```bash
+sudo tailscale up
+```
+
+- launch and accept subnet routes advertised by other nodes
+
+```bash
+sudo tailscale up --accept-routes
+```
+
+- forced re-authentication with a hardcoded hostname and subnet route acceptance
+
+```bash
+sudo tailscale up --force-reauth --hostname=sk-mac --accept-routes
+```
+
+- disconnect from the tailnet (stops traffic routing but keeps the session active)
+
+```bash
+sudo tailscale down
+```
+
+- state reset (destroys the current node cryptographic key and drops the session)
+
+```bash
+sudo tailscale logout
+```
+
+#### diagnostics & network state
+
+- list peers, their ip addresses, and connection type (direct / derp relay)
+
+```bash
+tailscale status
+```
+
+- retrieve ipv4 and ipv6 addresses (100.x.x.x) of the current node
+
+```bash
+tailscale ip
+```
+
+- test end-to-end connectivity and latency to another node within the tailnet
+
+```bash
+tailscale ping <ip-or-hostname>
+```
+
+- report on udp, nat traversal, and nearest derp servers
+
+```bash
+tailscale netcheck
+```
+
+#### advanced utilities
+
+- send a file to another node in your tailnet via taildrop
+
+```bash
+tailscale file cp <path-to-file> <hostname>:
+```
+
+- receive files sent to this mac via taildrop
+
+```bash
+tailscale file get <download-directory-path>
+```
+
+- connect to another node using tailscale ssh (if enabled in acls)
+
+```bash
+tailscale ssh <user>@<hostname>
+```
+
+- generate a diagnostic zip archive for troubleshooting and support
+
+```bash
+tailscale bugreport
+```
 
 ---
 
