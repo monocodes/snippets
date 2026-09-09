@@ -39,20 +39,20 @@ url: https://github.com/monocodes/snippets.git
 
 2. Install Xcode Command Line Tools
 
-   ```sh
+   ```bash
    xcode-select --install
    ```
 
 3. Install pyenv
 
-   ```sh
+   ```bash
    brew install pyenv
    ```
 
 4. Configure auto-activation of pyenv and penv-virtualenv.  
    In other words, to auto activate (and deactivate) virtualenvs upon entering (and leaving) directories that contain a pyenv’s `.python-version` file, you should have the following lines at the end of `~/.zshrc`:
 
-   ```sh
+   ```bash
    vim ~/.zshrc
    
    # Append to file
@@ -70,50 +70,50 @@ url: https://github.com/monocodes/snippets.git
 
 install peynv-virtualenv
 
-```sh
+```bash
 brew install pyenv-virtualenv
 ```
 
 list avalaible python packages
 
-```sh
+```bash
 pyenv install -l
 ```
 
 install needed python version
 
-```sh
+```bash
 pyenv install 3.10.4
 ```
 
 set global used python version
 
-```sh
+```bash
 pyenv global 3.10.4
 ```
 
 check pyenv installed python versions
 
-```sh
+```bash
 pyenv versions
 ```
 
 check what version is used in current session in current dir and how version set
 
-```sh
+```bash
 pyenv version
 ```
 
 create new virtual environment
 
-```sh
+```bash
 pyenv virtualenv 3.10.5 virtualenv-name
 ```
 
 specify python version in current dir  
 don't forget to point **VS Code** to use this virtualenv
 
-```sh
+```bash
 pyenv local virtualenv-name
 pyenv local python-version-name
 
@@ -123,21 +123,21 @@ cat .python-version
 
 activate and deactivate pyenv version manually
 
-```sh
+```bash
 pyenv activate name
 pyenv deactivate name
 ```
 
 uninstall pyenv python
 
-```sh
+```bash
 pyenv uninstall python-version-name
 pyenv uninstall virtualenv-name
 ```
 
 force uninstall
 
-```sh
+```bash
 pyenv uninstall -f virtualenv-name
 ```
 
@@ -145,7 +145,7 @@ pyenv uninstall -f virtualenv-name
 
 ### uninstall python
 
-```sh
+```bash
 cd Library
 sudo rm -rf Python
 sudo rm -rf /Applications/Python
@@ -159,25 +159,25 @@ The symlinks referencing Python frameworks are in the `/usr/local/bin` directory
 
 1. become root
 
-   ```sh
+   ```bash
    sudo -i
    ```
 
 2. check symlinks first
 
-   ```sh
+   ```bash
    ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework'
    ```
 
 3. delete symlinks
 
-   ```sh
+   ```bash
    ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{print $9}' | tr -d @ | xargs rm
    ```
 
 4. check symlinks again
 
-   ```sh
+   ```bash
    ls /usr/local/bin
    ```
 

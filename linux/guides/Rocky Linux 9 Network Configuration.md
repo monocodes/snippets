@@ -49,7 +49,7 @@ A lot has changed with network configuration as of Rocky Linux 9. One of the maj
 
 At the user level, the networking stack is managed by `NetworkManager`. This tool runs as a service, and you can check its state with the following command:
 
-```sh
+```bash
 systemctl status NetworkManager
 ```
 
@@ -57,13 +57,13 @@ systemctl status NetworkManager
 
 As noted at the beginning, the configuration files by default are now key files. You can see how `NetworkManager` prioritizes these files by running the following command:
 
-```sh
+```bash
 NetworkManager --print-config
 ```
 
 This gives you output that looks like this:
 
-```sh
+```bash
 [main]
 # plugins=keyfile,ifcfg-rh
 # rc-manager=auto
@@ -150,7 +150,7 @@ In the previous section, the displayed configuration for the interface `enp0s3` 
 
 You can deactivate and reactivate your interface with `nmtui` as well, but instead let's do this with `nmcli`. In this way we can string the deactivation of the interface and the reactivation of the interface so that the interface is never down for long:
 
-```sh
+```bash
 nmcli con down enp0s3 && nmcli con up enp0s3
 ```
 
@@ -158,7 +158,7 @@ Think of this as the equivalent to the old `ifdown enp0s3 && ifup enp0s3` used i
 
 To verify that it worked, go ahead and check using either the `ip addr` command, or the `nmcli device show enp0s3` command that we used earlier.
 
-```sh
+```bash
 ip addr
 ```
 
@@ -186,7 +186,7 @@ Before we start, be aware that to reconfigure the interface to DHCP we need to:
 
 Note too, that we are not using examples that tell you to use -ipv4.address etc. These do not change the interface completely. In order to do that we need to set the ipv4.address and the ipv4.gateway to an empty string. Again, to save as much time as possible with our command, we are going to string them all together in one line:
 
-```sh
+```bash
 nmcli con mod enp0s3 ipv4.gateway '' && nmcli con mod enp0s3 ipv4.address '' && nmcli con mod enp0s3 ipv4.method auto && nmcli con down enp0s3 && nmcli con up enp0s3
 ```
 
@@ -198,19 +198,19 @@ Setting DNS servers can be done with either `nmtui` or `nmcli`. While the `nmtui
 
 Since the best example for all of this is a statically assigned IP, let's return to our original statically assigned address in our example interface (enp0s3). Before we can change the DNS values, we need to see what they are currently set to. To get proper name resolution, let's start by removing our already set DNS servers and adding in different ones. Currently the `ipv4.dns` is set to `8.8.8.8,8.8.4.4,192.168.1.1`. In this case, we don't need to first set the ipv4.dns to an empty string. We can simply use the following command to replace our values:
 
-```sh
+```bash
 nmcli con mod enp0s3 ipv4.dns '208.67.222.222,208.67.220.220,192.168.1.1'
 ```
 
 Running `nmcli con show enp0s3 | grep ipv4.dns` should show you that we have successfully changed the DNS servers. To activate everything, let's bring our interface down and up again so that our changes are active:
 
-```sh
+```bash
 nmcli con down enp0s3 && nmcli con up enp0s3
 ```
 
 To test that we *do* in fact have name resolution, try pinging a known host. We will use google.com as an example:
 
-```sh
+```bash
 ping google.com
 PING google.com (172.217.4.46) 56(84) bytes of data.
 64 bytes from lga15s46-in-f14.1e100.net (172.217.4.46): icmp_seq=1 ttl=119 time=14.5 ms
@@ -234,7 +234,7 @@ In this example, we will assume the following parameters:
 
 To see the detailed state of all interfaces, use
 
-```sh
+```bash
 ip a
 ```
 
@@ -251,7 +251,7 @@ While it is still possible to use this method for bringing the interface up and 
 
 To bring the *enp0s3* down and up again we can simply use:
 
-```sh
+```bash
 ip link set enp0s3 down && ip link set enp0s3 up
 ```
 
@@ -259,19 +259,19 @@ ip link set enp0s3 down && ip link set enp0s3 up
 
 Currently, our enp0s3 interface has an IP address of 192.168.1.151. To switch that to 192.168.1.152, we would remove the old IP with
 
-```sh
+```bash
 ip addr delete 192.168.1.151/24 dev enp0s3 && ip addr add 192.168.1.152/24 dev enp0s3
 ```
 
 If we wanted a second IP assigned to the interface instead of removing the 192.168.1.151 address, we would simply add the second address with:
 
-```sh
+```bash
 ip addr add 192.168.1.152/24 dev enp0s3
 ```
 
 We can check to see if the IP address was added with
 
-```sh
+```bash
 ip a show dev enp0s3
 ```
 
@@ -294,13 +294,13 @@ While bringing the interface up and down using the `ip` utility is much slower t
 
 Now that the interface has an address, we have to set its default route, this can be done with:
 
-```sh
+```bash
 ip route add default via 192.168.1.1 dev enp0s3
 ```
 
 The kernel routing table can be displayed with
 
-```sh
+```bash
 ip route
 ```
 
@@ -308,7 +308,7 @@ or `ip r` for short.
 
 This should output something like this:
 
-```sh
+```bash
 default via 192.168.1.1 dev enp0s3 
 192.168.1.0/24 dev enp0s3 proto kernel scope link src 192.168.1.151 metric 100
 ```
@@ -317,7 +317,7 @@ default via 192.168.1.1 dev enp0s3
 
 Throughout the examples above we have done some testing. Your best bet for testing is to start by pinging the default gateway. This should always work:
 
-```sh
+```bash
 ping -c3 192.168.1.1
 PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
 64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.437 ms
@@ -327,7 +327,7 @@ PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
 
 Next, test to see if your LAN routing is working completely by pinging a host on your local network:
 
-```sh
+```bash
 ping -c3 192.168.1.10
 PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
 64 bytes from 192.168.1.10: icmp_seq=2 ttl=255 time=0.684 ms
@@ -336,7 +336,7 @@ PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
 
 Now test to make sure we can see a reachable host external of your network. For the test below, we are using Google's open DNS server:
 
-```sh
+```bash
 ping -c3 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=119 time=19.8 ms
@@ -346,7 +346,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 
 The final test, is to make sure that DNS resolution is working. For this example, we are using google.com:
 
-```sh
+```bash
 ping -c3 google.com
 PING google.com (172.217.4.46) 56(84) bytes of data.
 64 bytes from lga15s46-in-f14.1e100.net (172.217.4.46): icmp_seq=1 ttl=119 time=14.5 ms
@@ -356,7 +356,7 @@ PING google.com (172.217.4.46) 56(84) bytes of data.
 
 If your machine has several interfaces and you want to test from a particular interface, simply use the `-I` option with ping:
 
-```sh
+```bash
 ping -I enp0s3 -c3 192.168.1.10
 ```
 

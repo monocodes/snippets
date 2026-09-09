@@ -79,7 +79,7 @@ Extended Mode is used for save and quit or save without quit using `Esc` Key wit
 
 search and replace only once every line
 
-```sh
+```bash
 :%s/word-to-replace/word-that-replace
 
 # example
@@ -88,7 +88,7 @@ search and replace only once every line
 
 search and replace g - globally (more than one time in line)
 
-```sh
+```bash
 :%s/word-to-replace/word-that-replace/g
 
 # example
@@ -97,7 +97,7 @@ search and replace g - globally (more than one time in line)
 
 search and replace g - globally (more than one time in line) with nothing
 
-```sh
+```bash
 :%s/word-to-replace//g
 
 # example
@@ -106,7 +106,7 @@ search and replace g - globally (more than one time in line) with nothing
 
 search and replace whitespaces from the start of each line
 
-```sh
+```bash
 # example with 4 spaces
 
 :%s/^    //
@@ -118,11 +118,11 @@ search and replace with delimiters
 
   - make `sources.list` backup
 
-  - ```sh
+  - ```bash
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
     ```
 
-  - ```sh
+  - ```bash
     sudo vim /etc/apt/sources.list
     ```
 
@@ -146,19 +146,19 @@ search and replace with delimiters
 
 Enable syntax in vim
 
-```sh
+```bash
 echo "syntax on" >> ~/.vimrc
 ```
 
 If you get this error:
 
-```sh
+```bash
 No Syntax items defined for this buffer
 ```
 
 Add this to `~/.vimrc`
 
-```sh
+```bash
 filetype plugin indent on
 syntax on
 # or
@@ -167,13 +167,13 @@ echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
 
 Fix “not working” `backspace` in `vim`:
 
-```sh
+```bash
 echo "set backspace=indent,eol,start" >> ~/.vimrc
 ```
 
 Fix “not working” `backspace` in `vi`:
 
-```sh
+```bash
 echo "set backspace=indent,eol,start" >> ~/.exrc
 ```
 
@@ -231,7 +231,7 @@ Other netrw commands:
 
 user config
 
-```sh
+```bash
 ~/.config/nvim/init.vim
 ```
 
@@ -239,7 +239,7 @@ user config
 
 neovim install one-liner
 
-```sh
+```bash
 brew install neovim && \
   mkdir -p ~/.config/nvim/ ; \
   echo -e 'set number\nset mouse=' >> ~/.config/nvim/init.vim && \
@@ -251,7 +251,7 @@ brew install neovim && \
 
 Install it with default package manager or use **linuxbrew**
 
-```sh
+```bash
 brew install neovim && \
 	mkdir -p ~/.config/nvim/ ; \
   echo -e 'set number\nset mouse=' >> ~/.config/nvim/init.vim && \

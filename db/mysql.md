@@ -34,25 +34,25 @@ url: https://github.com/monocodes/snippets.git
 
 install mysql on **deb-based distro**
 
-```sh
+```bash
 apt install mysql
 ```
 
 install mysql on **rpm-based** distro
 
-```sh
+```bash
 dnf install mariadb-server
 ```
 
 install **mysql** client on **deb-based** distro
 
-```sh
+```bash
 apt install mysql-client
 ```
 
 install **mysql** client on **rpm-based** distro
 
-```sh
+```bash
 sudo dnf install mysql
 ```
 
@@ -62,7 +62,7 @@ sudo dnf install mysql
 
 mysql default db path
 
-```sh
+```bash
 /var/lib/mysql
 ```
 
@@ -111,7 +111,7 @@ select * from table-name;
 connect to mysql instance via `mysql-client`  
 `-h` - host
 
-```sh
+```bash
 mysql -h hostname -u username -pPassword
 
 # example
@@ -120,13 +120,13 @@ mysql -h vprofile-rds-mysql.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -p
 
 connect to mysql instance and select database
 
-```sh
+```bash
 mysql -h hostname -u username -pPassword database-name
 ```
 
 restore mysql backup to a running mysql instance
 
-```sh
+```bash
 mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQuz9qrKNPY97jqVa5T8B accounts < src/main/resources/db_backup.sql
 ```
 
@@ -136,7 +136,7 @@ mysql -h vprofile-bean-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com -u admin -pQ
 
 restore mysql database backup
 
-```sh
+```bash
 mysql -h hostname -u username -pPassword database-name < backup-name.sql
 
 # example

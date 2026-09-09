@@ -21,7 +21,7 @@ url: https://github.com/monocodes/snippets.git
 Use homebrew/core or [hashicorp/tap](hashicorp/tap) <- discussion here.  
 I think better is to use homebrew/core.
 
-```sh
+```bash
 # homebrew/core
 brew install terraform
 
@@ -32,7 +32,7 @@ brew tap hashicorp/tap && \
 
 ### terraform autocompletion
 
-```sh
+```bash
 # install autocompletion
 terraform -install-autocomplete && \
   source ~./zshrc
@@ -44,14 +44,14 @@ terraform -uninstall-autocomplete && \
 
 On macOS it just puts line in `~/.zshrc`
 
-```sh
+```bash
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 ```
 
 I think it will not work properly without **brew** with **zsh** because **zsh** needs something like:
 
-```sh
+```bash
 autoload -Uz compinit
 ```
 
@@ -62,36 +62,36 @@ autoload -Uz compinit
 initialize terraform in current dir  
 terraform will check provider and download needed plugins
 
-```sh
+```bash
 terraform init
 ```
 
 syntax check of files in current dir
 
-```sh
+```bash
 terraform validate
 ```
 
 format the code in files in current dir
 
-```sh
+```bash
 terraform fmt
 ```
 
 check what will be executed from files in current dir
 
-```sh
+```bash
 terraform plan
 ```
 
 apply files from current dir
 
-```sh
+```bash
 terraform apply
 ```
 
 delete every resource from files from current dir
 
-```sh
+```bash
 terraform destroy
 ```

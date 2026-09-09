@@ -72,19 +72,19 @@ url: https://github.com/monocodes/snippets.git
 
 kubectl configuration
 
-```sh
+```bash
 ~/.kube/config
 ```
 
 show kubectl config without certs
 
-```sh
+```bash
 kubectl config view
 ```
 
 kubectl version
 
-```sh
+```bash
 kubectl version --output=yaml
 
 kubectl version --short
@@ -98,7 +98,7 @@ kubectl version --short
 
 one-liner install linuxbrew
 
-```sh
+```bash
 brew update && brew install kubectl
 ```
 
@@ -106,7 +106,7 @@ brew update && brew install kubectl
 
 one-liner install Ubuntu 22 from [Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
-```sh
+```bash
 sudo apt-get update && \
   sudo apt-get install -y ca-certificates curl && \
   sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg && \
@@ -125,7 +125,7 @@ one-liner install from [Install and Set Up kubectl on Linux](https://kubernetes.
 
 If you use Debian 9 (stretch) or earlier you would also need to install `apt-transport-https` with `sudo apt-get install -y apt-transport-https`
 
-```sh
+```bash
 sudo apt-get update && \
   sudo apt-get install -y ca-certificates curl && \
   sudo mkdir /etc/apt/keyrings/ && \
@@ -143,7 +143,7 @@ sudo apt-get update && \
 
 one-liner install from [Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
-```sh
+```bash
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -163,7 +163,7 @@ sudo dnf install -y kubectl && \
 
 one-liner for **Ubuntu**
 
-```sh
+```bash
 sudo apt install -y bash-completion && \
 	kubectl completion bash && \
 	echo 'source <(kubectl completion bash)' >>~/.bashrc && \
@@ -172,7 +172,7 @@ sudo apt install -y bash-completion && \
 
 1. Install `bash-completion`
 
-   ```sh
+   ```bash
    apt-get install bash-completion
    # or
    yum install bash-completion
@@ -180,13 +180,13 @@ sudo apt install -y bash-completion && \
 
 2. Generate kubectl completion script
 
-   ```sh
+   ```bash
    kubectl completion bash
    ```
 
 3. Enable kubectl autocompletion for bash for user
 
-   ```sh
+   ```bash
    echo 'source <(kubectl completion bash)' >>~/.bashrc
    ```
 
@@ -194,13 +194,13 @@ sudo apt install -y bash-completion && \
 
 install kubectl
 
-```sh
+```bash
 brew install kubectl
 ```
 
 check installed kubectl
 
-```sh
+```bash
 kubectl version --client
 ```
 
@@ -210,7 +210,7 @@ kubectl version --client
 
 `kubectl` config path
 
-```sh
+```bash
 ~/.kube/config
 
 # or
@@ -225,7 +225,7 @@ kubectl config view
 
 minikube - local virtualized k8s cluster.
 
-```sh
+```bash
 brew install minikube
 ```
 
@@ -233,31 +233,31 @@ brew install minikube
 
 start minikube with normal resources
 
-```sh
+```bash
 minikube start --memory 4096 --cpus 4
 ```
 
 start minikube with docker driver with default resources (2 cpus, 2GB)
 
-```sh
+```bash
 minikube start
 ```
 
 start minikube with specified driver
 
-```sh
+```bash
 minikube start --driver=docker
 ```
 
 check minkube status
 
-```sh
+```bash
 minikube status
 ```
 
 start minikube web dashboard
 
-```sh
+```bash
 minikube dashboard
 ```
 
@@ -267,7 +267,7 @@ minikube dashboard
 
 give more resources to minikube *with deletion* of the cluster
 
-```sh
+```bash
 minikube stop
 minikube delete
 minikube start --memory 4096 --cpus 4
@@ -276,7 +276,7 @@ minikube start --memory 4096 --cpus 4
 give more resources to minikube *without deletion* of the cluster  
 won't work with every driver (**won't work with docker driver**)
 
-```sh
+```bash
 minikube stop
 minikube config set memory 4096
 minikube config set cpus 4
@@ -289,13 +289,13 @@ minikube start
 
 show minikube service list
 
-```sh
+```bash
 minikube service list
 ```
 
 create service to expose app in k8s cluster to local machine
 
-```sh
+```bash
 minikube service deployment-name
 
 # example
@@ -308,7 +308,7 @@ minikube service first-app
 
 show k8s config
 
-```sh
+```bash
 kubectl config view
 ```
 
@@ -318,13 +318,13 @@ kubectl config view
 
 show everything in current Namespace
 
-```sh
+```bash
 kubectl get all
 ```
 
 show everything in specified namespace
 
-```sh
+```bash
 kubectl get all -n namespace-name
 
 # example
@@ -333,13 +333,13 @@ kubectl get all -n ingress-nginx
 
 show everything in all Namespaces
 
-```sh
+```bash
 kubectl get all --all-namespaces
 ```
 
 show something continuosly
 
-```sh
+```bash
 kubectl get type-name --watch
 
 # example
@@ -348,59 +348,59 @@ kubectl get ingress --watch
 
 show all Nodes
 
-```sh
+```bash
 kubectl get nodes
 ```
 
 show all labels for nodes
 
-```sh
+```bash
 kubectl get nodes --show-lables
 ```
 
 show all Deployments and its status
 
-```sh
+```bash
 kubectl get deploy
 kubectl get deployments
 ```
 
 show all Pods created by deployments
 
-```sh
+```bash
 kubectl get pods
 ```
 
 show all Services
 
-```sh
+```bash
 kubectl get svc
 kubectl get service
 ```
 
 show Services from namespace
 
-```sh
+```bash
 kubectl get svc -n kube-system
 ```
 
 show Namespaces
 
-```sh
+```bash
 kubectl get ns
 kubectl get namespaces
 ```
 
 show ReplicaSets
 
-```sh
+```bash
 kubectl get rs
 kubectl get replicaset
 ```
 
 show ConfigMaps
 
-```sh
+```bash
 kubectl get cm
 kubectl get configmap
 kubectl get cm db-config -o yaml
@@ -408,7 +408,7 @@ kubectl get cm db-config -o yaml
 
 describe object fully
 
-```sh
+```bash
 kubectl get object-type object-name -o format
 
 # example
@@ -417,7 +417,7 @@ kubectl get pod webapp-pod -o yaml
 
 describe object briefly with more info, including ip address
 
-```sh
+```bash
 kubectl get object-type -o wide
 
 # example
@@ -426,7 +426,7 @@ kubectl get pod -o wide
 
 describe object in file
 
-```sh
+```bash
 kubectl get object-type object-name -o format > filename
 
 # example
@@ -439,7 +439,7 @@ kubectl get pod webapp-pod -o yaml > webpod-definition.yaml
 
 show extensive info about object including last events
 
-```sh
+```bash
 kubectl describe object-type object-name
 
 # example
@@ -454,7 +454,7 @@ kubectl describe cm db-config
 
 label node
 
-```sh
+```bash
 kubectl label node-name key-name=value-name
 
 # example
@@ -467,7 +467,7 @@ kubectl label nodes i-01c0e0a46f6cecc50 zone=us-east-1a
 
 show logs of the object, the full output of the container process
 
-```sh
+```bash
 kubectl logs object-name
 
 # example
@@ -480,7 +480,7 @@ kubectl logs web2
 
 edit object
 
-```sh
+```bash
 kubectl edit object-type object-name
 
 # example
@@ -498,7 +498,7 @@ start the deployment from YAML file
 > use multiple `-f` in command to deploy something, or use comma  
 > `-f` = file
 
-```sh
+```bash
 kubectl apply -f deployment-name.yaml,deployment-name2.yaml
 
 # example
@@ -510,7 +510,7 @@ kubectl apply -f pod.yaml
 
 create all objects from YAML files
 
-```sh
+```bash
 kubectl create -f .
 # or use kubectl apply to not redeploy existing objects
 kubectl apply -f .
@@ -518,13 +518,13 @@ kubectl apply -f .
 
 create namespace
 
-```sh
+```bash
 kubectl create ns namespace-name
 ```
 
 create new deployment
 
-```sh
+```bash
 kubectl create deployment deployment-name --image=image-name
 
 # example
@@ -533,13 +533,13 @@ kubectl create deployment first-app --image=account-name/repo-name:app-web-nodej
 
 create multiple containers based on images separate images with comma
 
-```sh
+```bash
 kubectl create deployment deployment-name --image=image-name,image-name2
 ```
 
 create any object from file
 
-```sh
+```bash
 kubectl create -f filename.yaml
 
 # check object after creation
@@ -559,7 +559,7 @@ kubectl describe svc helloworld-service
 
 create ConfigMap - avoid creating ConfigMaps imperatively
 
-```sh
+```bash
 kubectl create configmap db-config \
 	--from-literal=MYSQL_DATABASE=accounts \
 	--from-literal=MYSQL_ROOT_PASSWORD=somecomplexpass \
@@ -574,7 +574,7 @@ kubectl get cm db-config -o yaml
 
 create Secret - avoid creating Secrets imperatively
 
-```sh
+```bash
 kubectl create secret generic db-secret \
 	--from-literal=MYSQL_ROOT_PASSWORD=somecomplexpassword
 	
@@ -588,7 +588,7 @@ kubectl get secret db-secret -o yaml
 
 create Secret from file
 
-```sh
+```bash
 # Create files needed for example
 echon -n 'admin' > ./username.txt
 echo -n '1f2d1e2e67df' > ./password.txt
@@ -600,7 +600,7 @@ kubectl create secret generic db-user-pass \
 
 **Create manifest for deployment from the `create` command**
 
-1. ```sh
+1. ```bash
    kubectl create deployment ngdep --image=nginx --dry-run=client -o yaml > ngdep.yaml
    ```
 
@@ -639,7 +639,7 @@ kubectl create secret generic db-user-pass \
 
 delete namespace - **ATTENTION!** it will delete everything in namespace
 
-```sh
+```bash
 kubectl delete ns namespace-name
 
 # example
@@ -648,13 +648,13 @@ kubectl delete ns kubekart
 
 delete service
 
-```sh
+```bash
 kubectl delete service service-name
 ```
 
 delete deployment
 
-```sh
+```bash
 kuvectl delete deployment deployment-name
 
 kubectl delete deployments.apps deployment-name
@@ -662,7 +662,7 @@ kubectl delete deployments.apps deployment-name
 
 delete multiple deployments that was applied with `kubectl apply -f`
 
-```sh
+```bash
 kubectl delete -f deployment-name.yaml
 
 # example
@@ -675,7 +675,7 @@ delete multiple objects using labels
 > in command you must include object types (e. g. deployments, services)  
 > `-l` = label
 
-```sh
+```bash
 kubectl delete deployments,services -l key=value
 
 # example
@@ -688,7 +688,7 @@ kubectl delete deployments,services -l group=example
 
 run new pod in **default** namespace
 
-```sh
+```bash
 kubectl run pod-name --image=image-name
 
 # example
@@ -697,7 +697,7 @@ kubectl run nginx1 --image=nginx
 
 run new pod in specified namespace
 
-```sh
+```bash
 kubectl run pod-name --image=image-name -n namespace-name
 
 # example
@@ -706,7 +706,7 @@ kubectl run nginx1 --image=nginx -n kubekart
 
 run new pod and run specified command
 
-```sh
+```bash
 kubectl run object-name --image=image-name command-name
 
 # example
@@ -715,7 +715,7 @@ kubectl run web2 --image=nginx ls
 
 run pod and login into container
 
-```sh
+```bash
 kubectl run -i -tty pod-name --image=image-name -- sh
 
 # example
@@ -724,7 +724,7 @@ kubectl run -i --tty busybox --image=busybox:1.28 -- sh
 
 **Create manifest for pod from the `run` command**
 
-1. ```sh
+1. ```bash
    kubectl run nginxpod --image=nginx --dry-run=client -o yaml > ngpod.yaml
    ```
 
@@ -755,7 +755,7 @@ kubectl run -i --tty busybox --image=busybox:1.28 -- sh
 expose port of the running deployment with load balancer  
 actually it creates a service object
 
-```sh
+```bash
 kubectl expose deployment deployment-name --type=LoadBalancer --port=port-number
 
 # example
@@ -776,7 +776,7 @@ kubectl expose deployment first-app --type=LoadBalancer --port=8080
 
 > also, you can use `imagePullPolicy: Always` for example in `*.yaml`
 
-```sh
+```bash
 kubectl set image deployment deployment-name container-name=account-name/image-name:tag-name
 kubectl set image deployment/deployment-name container-name=repo-name/image-name:tag-name
 
@@ -792,7 +792,7 @@ kubectl set image deployment/first-app docker-s12=wanderingmono/docker-s12:kub-f
 
 check update status of the deployment after setting new image
 
-```sh
+```bash
 kubectl rollout status deployment/deployment-name
 
 # example
@@ -801,7 +801,7 @@ kubectl rollout status deployment/first-app
 
 undo deployment updating
 
-```sh
+```bash
 kubectl rollout undo deployment/deployment-name
 
 # examples
@@ -811,7 +811,7 @@ kubectl rollout undo deployment/nginx-deployment
 
 show rollout deployment history
 
-```sh
+```bash
 kubectl rollout history deployment/deployment-name
 
 # example
@@ -820,7 +820,7 @@ kubectl rollout history deployment/first-app
 
 show any rollout revision detailed
 
-```sh
+```bash
 kubectl rollout history deployment/deployment-name --revision=number
 
 # example
@@ -829,7 +829,7 @@ kubectl rollout history deployment/first-app --revision=3
 
 rollback the deployment to specific revision
 
-```sh
+```bash
 kubectl rollout undo deployment/deployment-name --to-revision=number
 
 # example
@@ -843,7 +843,7 @@ kubectl rollout undo deployment/first-app --to-revision=1
 scale the deployment  
 create copies of pods to endure the high load and achieve high availability
 
-```sh
+```bash
 kubectl scale deployment/deployment-name --replicas=number
 # or
 kubectl scale deployment deployment-name --replicas=number
@@ -856,7 +856,7 @@ kubectl scale deployment first-app --replicas=3
 
 scale ReplicaSet with command
 
-```sh
+```bash
 kubectl scale --replicas=number rs/replicaset-name
 kubectl scale --replicas=number rs replicaset-name
 
@@ -870,7 +870,7 @@ kubectl scale --replicas=1 rs/frontend
 
 login inside pod
 
-```sh
+```bash
 kubectl exec --stdin --tty pod-name -- /bin/bash
 kubectl exec --stdin --tty pod-name -- /bin/sh
 
@@ -1356,7 +1356,7 @@ spec:
 
 Decode secret with base64 and use it as Secret
 
-```sh
+```bash
 echo -n "somecomplexpassword" | base64
 
 # output
@@ -1426,7 +1426,7 @@ spec:
 
 Decode secret with base64 and use it as Secret
 
-```sh
+```bash
 echo -n "admin" | base64
 # output
 YWRtaW4=
@@ -1490,7 +1490,7 @@ Ingress may provide load balancing, SSL termination and name-based virtual hosti
 
 1. Create NGINX Ingress Controller with this [guide](https://kubernetes.github.io/ingress-nginx/deploy/#aws)
 
-   ```sh
+   ```bash
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/aws/deploy.yaml
    ```
 
@@ -1520,7 +1520,7 @@ Ingress may provide load balancing, SSL termination and name-based virtual hosti
 
 3. Apply deployment
 
-   ```sh
+   ```bash
    kubectl apply -f vprodep.yaml
    ```
 
@@ -1543,7 +1543,7 @@ Ingress may provide load balancing, SSL termination and name-based virtual hosti
 
 5. Apply service
 
-   ```sh
+   ```bash
    kubectl apply -f vprosvc.yaml
    ```
 
@@ -1579,7 +1579,7 @@ Ingress may provide load balancing, SSL termination and name-based virtual hosti
 
 8. Apply ingress
 
-   ```sh
+   ```bash
    kubectl apply -f vproingress.yaml
    ```
 
@@ -1587,7 +1587,7 @@ Ingress may provide load balancing, SSL termination and name-based virtual hosti
 
 10. Delete NGINX Ingress Controller
 
-    ```sh
+    ```bash
     kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/aws/deploy.yaml
     # or by deleting NGINX Ingress Controller Namespace
     ```
@@ -1728,7 +1728,7 @@ spec:
 Setting the namespace preference.  
 You can permanently save the namespace for all subsequent kubectl commands in that context.
 
-```sh
+```bash
 kubectl config set-context --current --namespace=<insert-namespace-name-here>
 # Validate it
 kubectl config view --minify | grep namespace:
@@ -1776,7 +1776,7 @@ Kubernetes starts with four initial namespaces:
 
 install kops
 
-```sh
+```bash
 brew install kops
 ```
 
@@ -1790,7 +1790,7 @@ With this commands, you can create HA cluster in AWS, for example. Before that y
 
 create cluster
 
-```sh
+```bash
 kops create cluster \
   --name=kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \
@@ -1803,7 +1803,7 @@ kops create cluster \
   --master-volume-size=8
 ```
 
-```sh
+```bash
 kops create cluster \
   --name=kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \
@@ -1818,7 +1818,7 @@ kops create cluster \
 
 update cluster - it's like *apply* after every command or `--yes` statement can be used
 
-```sh
+```bash
 kops update cluster \
   --name kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \
@@ -1828,7 +1828,7 @@ kops update cluster \
 
 check cluster during 10 minutes until it will be fully operational
 
-```sh
+```bash
 kops validate cluster \
   --name kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \
@@ -1837,7 +1837,7 @@ kops validate cluster \
 
 delete cluster
 
-```sh
+```bash
 kops delete cluster \
   --name=kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \
@@ -1848,7 +1848,7 @@ kops delete cluster \
 
 - show cluster nodes
 
-  ```sh
+  ```bash
   kops get ig --state=s3://vprofile-kops-state-mono
   
   # output
@@ -1862,7 +1862,7 @@ kops delete cluster \
 
 - edit configs of all nodes, including `ControlPlane` node, change `maxSize` and `minSize` to `0`
 
-  ```sh
+  ```bash
   kops edit ig nodes-us-east-1b --state=s3://vprofile-kops-state-mono
   kops edit ig nodes-us-east-1a --state=s3://vprofile-kops-state-mono
   kops edit ig control-plane-us-east-1a --state=s3://vprofile-kops-state-mono
@@ -1870,13 +1870,13 @@ kops delete cluster \
 
 - update cluster
 
-  ```sh
+  ```bash
   kops update cluster --yes --state=s3://vprofile-kops-state-mono
   ```
 
 - validate cluster
 
-  ```sh
+  ```bash
   kops validate cluster \
     --name kubevpro.wandering-mono.top \
     --state=s3://vprofile-kops-state-mono \
@@ -1885,7 +1885,7 @@ kops delete cluster \
 
 - changes may require instances to restart
 
-  ```sh
+  ```bash
   kops rolling-update cluster --state=s3://vprofile-kops-state-mono
   ```
 

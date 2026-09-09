@@ -36,7 +36,7 @@ url: https://github.com/monocodes/snippets.git
 
 To add an alias or to modify `$PATH` to shell edit or create `~/.bashrc`. See [this discussion](https://www.synoforum.com/threads/how-to-make-an-alias-in-shell.1211/).
 
-```sh
+```bash
 # $PATH
 echo 'export PATH="/volume1/@appstore/vim/bin/vim:$PATH"' >> ~/.bashrc
 
@@ -46,13 +46,13 @@ echo 'alias vim="/volume1/@appstore/vim/bin/vim"' >> ~/.bashrc
 
 renew Let's Encrypt Certificates
 
-```sh
+```bash
 /usr/syno/sbin/syno-letsencrypt renew-all
 ```
 
 disable Firewall
 
-```sh
+```bash
 /usr/syno/bin/synofirewall --disable
 ```
 
@@ -62,7 +62,7 @@ disable Firewall
 
 #### Docker Daily Image Cleanup
 
-```sh
+```bash
 # Safe Garbage Collection: Removes ONLY dangling layers (<none>:<none>) older than 48 hours
 # that are left over after pulling new image updates.
 # All tagged images (including those from currently stopped stacks) are strictly preserved.
@@ -72,7 +72,7 @@ sudo docker image prune -f --filter "until=48h"
 
 #### Check Tailscale updates
 
-```sh
+```bash
 /var/packages/Tailscale/target/bin/tailscale update --yes
 /var/packages/Tailscale/target/bin/tailscale configure-host
 synosystemctl restart pkgctl-Tailscale.service
@@ -82,7 +82,7 @@ ip a | grep -i "tailscale"
 
 #### Start all containers after reboot and configure Tailscale
 
-```sh
+```bash
 sleep 30
 
 /var/packages/Tailscale/target/bin/tailscale configure-host
@@ -108,7 +108,7 @@ docker logs port
 
 #### Update PIA forwarded port for qbt-gluetun
 
-```sh
+```bash
 cd /volume1/homes/mono/qbt-gluetun
 ./update-docker-compose.sh
 docker logs port
@@ -129,7 +129,7 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 
 3. Ssh to Synology box with your user
 
-   ```sh
+   ```bash
    # via $PATH
    echo 'export PATH="/volume1/@appstore/vim/bin/:$PATH"' >> ~/.bashrc && \
      source ./.bashrc && \
@@ -151,31 +151,31 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 
 - Stop tailscale
 
-  ```sh
+  ```bash
   sudo tailscale down
   ```
 
 - Run tailscale as Subnet router on Synology NAS
 
-  ```sh
+  ```bash
   sudo tailscale up --advertise-routes=192.168.1.0/24 --reset
   ```
 
 - Run tailscale as Subnet router on Synology NAS with tags and auth key
 
-  ```sh
+  ```bash
   sudo tailscale up --authkey auth-key --advertise-tags=tag:subnet-router,tag:home --advertise-routes=192.168.1.0/24 --reset
   ```
 
 - If Tailscale is always logged out use `--force-reauth`
 
-  ```sh
+  ```bash
   sudo tailscale up --force-reauth --advertise-routes=192.168.1.0/24 --advertise-tags=tag:subnet-router,tag:home
   ```
 
 - Check that TUN device is presented on Synology and tailscale has permissions to use it
 
-  ```sh
+  ```bash
   ip addr show | grep -i "tailscale"
   # or
   ip addr show
@@ -195,13 +195,13 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 
 - Run it **after every reboot** (create startup script) and every manual upgrade of tailscale package to preserve outbound connections from Synology NAS to tailnet devices (run it under root to avoid reboot).
 
-  ```sh
+  ```bash
   sudo /var/packages/Tailscale/target/bin/tailscale configure-host; sudo synosystemctl restart pkgctl-Tailscale.service
   ```
 
 - Command to auto update tailscale, create task for check updates daily
 
-  ```sh
+  ```bash
   /var/packages/Tailscale/target/bin/tailscale update --yes
   ```
 
@@ -209,7 +209,7 @@ Install last version of **vim** from [SynoCommunity](https://packages.synocommun
 >
 > - tailnet IPs are reachable from Synology NAS with:
 >
->   ```sh
+>   ```bash
 >   /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
 >   ```
 
@@ -297,7 +297,7 @@ To enable TUN, to permit outbound connections from other things running on your 
 
 6. Select **Task Settings** and enter the following for **User-defined script**.
 
-   ```sh
+   ```bash
    /var/packages/Tailscale/target/bin/tailscale configure-host; synosystemctl restart pkgctl-Tailscale.service
    ```
 
@@ -323,13 +323,13 @@ If your Synology NAS cannot connect to your tailnet after uninstalling and re-in
 
 1. SSH into your NAS and run the command:
 
-   ```sh
+   ```bash
    sudo tailscale up
    ```
 
 2. Enter the password for your NAS (if prompted), then copy the provided URL.
 
-   ```sh
+   ```bash
    To authenticate, visit:
    https://login.tailscale.com/a/xxxxxxxxxx
    Success.

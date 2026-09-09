@@ -74,14 +74,14 @@ url: https://github.com/monocodes/snippets.git
 
 create and run containers specified in `docker-compose.yaml` in current dir  
 
-```sh
+```bash
 docker compose up -d
 docker-compose up -d
 ```
 
 create and run only specific services from current `docker-compose.yaml`  
 
-```sh
+```bash
 docker compose up -d service-name
 
 # example
@@ -90,19 +90,19 @@ docker compose up -d server php mysql
 
 stop all containers from `docker-compose.yaml` and delete them + networks
 
-```sh
+```bash
 docker compose down
 ```
 
 stop all containers from `docker-compose.yaml` and delete all including volumes  
 
-```sh
+```bash
 docker compose down -v
 ```
 
 run the service described in `docker-compose.yaml` file with specified command
 
-```sh
+```bash
 docker compose run service-name command-name
 
 # example
@@ -112,31 +112,31 @@ docker compose run npm init
 show running **docker-compose** containers  
 need to be in `docker-compose.yaml` dir
 
-```sh
+```bash
 docker compose ps
 ```
 
 show top of running **docker-compose** containers
 
-```sh
+```bash
 docker compose top
 ```
 
 just build all images from `docker-compose.yaml`
 
-```sh
+```bash
 docker compose build
 ```
 
 restart container from `docker-compose.yaml` without recreating it
 
-```sh
+```bash
 docker compose restart service-name
 ```
 
 recreate a single container without starting any dependent containers
 
-```sh
+```bash
 docker compose up --no-deps -d service-name
 ```
 
@@ -144,7 +144,7 @@ docker compose up --no-deps -d service-name
 
 ### docker compose updating and rebuilding
 
-```sh
+```bash
 docker compose up -d --remove-orphans
 docker compose up -d --remove-orphans service-name
 ```
@@ -154,7 +154,7 @@ docker compose up -d --remove-orphans service-name
 - will not check for new images specified in `docker-compose.yaml` or `Dockerfile`
 - `--remove-orphans` - remove containers for services not defined in the `docker-compose.yaml`
 
-```sh
+```bash
 docker compose pull
 docker compose pull service-name
 ```
@@ -162,7 +162,7 @@ docker compose pull service-name
 - only pull the new images for all services or specified ones
 - will not check for new images for services with `build:` section (`Dockerfile`)
 
-```sh
+```bash
 docker-compose down --rmi all && docker compose up -d
 ```
 
@@ -176,7 +176,7 @@ docker-compose down --rmi all && docker compose up -d
 
 - > it's time consuming
 
-```sh
+```bash
 docker-compose up -d --build
 ```
 
@@ -184,7 +184,7 @@ docker-compose up -d --build
 - will not check for new images for services specified in `docker-compose.yaml` or `Dockerfile`
 - start the services from `docker-compose.yaml`
 
-```sh
+```bash
 docker-compose build --pull
 docker-compose build --pull --no-cache
 ```
@@ -195,7 +195,7 @@ docker-compose build --pull --no-cache
 - `--no-cache` is slower
 - can specify service to build by `docker-compose build --pull service-name`
 
-```sh
+```bash
 docker compose up --force-recreate --build -d && docker image prune -f
 ```
 
@@ -220,7 +220,7 @@ it's better than `--force-recreate`
 
 `update-docker-compose-services.sh`
 
-```sh
+```bash
 #!/bin/bash
 
 sudo docker compose down --remove-orphans # if you need to restart all containers
@@ -236,7 +236,7 @@ sudo docker image prune -af
 
 > `docker-compose` version
 
-```sh
+```bash
 #!/bin/bash
 
 sudo docker-compose down --remove-orphans # if you need to restart all containers
@@ -388,7 +388,7 @@ If you use a separate file, the values are not part of the image since you point
 
 3. run the image  
 
-    ```sh
+    ```bash
     docker run -p host-port:container-port --env PORT=port-number
     docker run -p host-port:container-port -e PORT=port-number
     
@@ -398,7 +398,7 @@ If you use a separate file, the values are not part of the image since you point
 
     or you can use .env file
 
-    ```sh
+    ```bash
     docker run -p host-port:container-port --env-file ./filename
     
     # example
@@ -431,7 +431,7 @@ If you use a separate file, the values are not part of the image since you point
 
 3. Build the image with the `ARG`.  
 
-    ```sh
+    ```bash
     docker build -t image-name --build-arg arg-name=arg-value .
     
     # example
@@ -446,14 +446,14 @@ If you use a separate file, the values are not part of the image since you point
 
 show help on any command  
 
-```sh
+```bash
 docker --help
 docker ps --help
 ```
 
 docker login to hub.docker.com  
 
-```sh
+```bash
 docker login -u username
 ```
 
@@ -463,7 +463,7 @@ docker login -u username
 
 inspect the image  
 
-```sh
+```bash
 docker inspect image-name:tag-name
 
 docker image inspect image-name
@@ -471,19 +471,19 @@ docker image inspect image-name
 
 inspect the volume  
 
-```sh
+```bash
 docker volume inspect volume-name
 ```
 
 inspect the container  
 
-```sh
+```bash
 docker container inspect container-name
 ```
 
 to grep something from docker inspect  
 
-```sh
+```bash
 docker container inspect container-name 2>&1 | grep "IPAddress"
 ```
 
@@ -498,49 +498,49 @@ docker container inspect container-name 2>&1 | grep "IPAddress"
 
 run container and use network from another container
 
-```sh
+```bash
 docker run -d --network=container:container-name image-name
 ```
 
 attached and interactive example
 
-```sh
+```bash
 docker run --name rng_app --rm -it rng_py_app:latest
 ```
 
 detached example
 
-```sh
+```bash
 docker run --name goalsapp -p 3000:80 --rm -d goals:node12
 ```
 
 test docker
 
-```sh
+```bash
 docker run hello-world
 ```
 
 pull the image and run the container in attached mode
 
-```sh
+```bash
 docker run image-name
 ```
 
 pull the image and run the container in detached mode
 
-```sh
+```bash
 sudo docker run -d image-name
 ```
 
 - run the container in detached mode but interactively
 
-  - ```sh
+  - ```bash
     docker run -it -d image-name
     ```
 
   - and the you can connect to the container
 
-  - ```sh
+  - ```bash
     docker container attach container-name
     ```
 
@@ -548,7 +548,7 @@ run the container and login inside
 -i interactive  
 -t tty pseudo terminal to container
 
-```sh
+```bash
 docker run -it image-name /bin/bash
 docker run -it image-name /bin/sh
 
@@ -558,7 +558,7 @@ docker run -it ubuntu /bin/bash
 
 run container on specific port
 
-```sh
+```bash
 docker run -p host-port:container-port
 
 # example
@@ -567,7 +567,7 @@ docker run -p 3000:80 image-name
 
 docker run -v maps local host directories to the directories inside the Docker container
 
-```sh
+```bash
 docker run -d --name=netdata \
   -p 19999:19999 \
   -v /proc:/host/proc:ro \
@@ -580,19 +580,19 @@ docker run -d --name=netdata \
 
 run non-latest container with tag add `:tag` to the name of the container, for example
 
-```sh
+```bash
 docker run -d -p 80:80 static-website:beta
 ```
 
 run container with random port - `-P`
 
-```sh
+```bash
 docker run -d -P image-name
 ```
 
 run docker container with specified name
 
-```sh
+```bash
 docker run --name container-name image-name
 
 # example
@@ -601,7 +601,7 @@ docker run -p 3000:80 --name goalsapp --rm -d goalsapp:latest
 
 `--rm` - run container and remove it after it stopped
 
-```sh
+```bash
 docker run --rm image-name
 ```
 
@@ -611,7 +611,7 @@ To execute multiple commands in the *docker run* command, we can use the [&&](ht
 
 But, to avoid running the second command on the host [shell](https://www.baeldung.com/linux/sh-vs-bash), we have to use the `-c` option of the `sh` command to execute multiple commands simultaneously.
 
-```sh
+```bash
 $ docker run centos:latest sh -c "whoami && date"
 
 # output
@@ -621,7 +621,7 @@ Sun Dec 18 10:10:12 UTC 2022
 
 This executes both the `whoami` and `date` commands in a single run command. We can also use the `;` operator with the `-c` option of `sh` to run multiple commands. In addition, let's use the `-w` option to specify the working directory for the command to execute in the Docker container:
 
-```sh
+```bash
 $ docker run -w /home centos:latest sh -c "whoami ; pwd"
 
 # output
@@ -631,7 +631,7 @@ root
 
 simple way to test DNS and internet connectivity of the container with **shoutrrr**
 
-```sh
+```bash
 sudo docker run --rm -it containrrr/shoutrrr send -v "smtp://GOOGLE_LOGIN:PASSWORD@smtp.gmail.com:587/?auth=Plain&encryption=Auto&fromaddress=FROM_ADDRESS&to=TO_ADDRESS" TestMessage
 
 # smtp://username:password@host:port/?from=fromAddress&to=recipient1[,recipient2,...]
@@ -646,7 +646,7 @@ build image from `Dockerfile` in current directory
 - `-t` tag image with name and tag after `:`
 - `.` means current dir
 
-```sh
+```bash
 docker build -t image-name:tag-name .
 
 # examples
@@ -656,7 +656,7 @@ docker build -t static-website:beta .
 
 build image from different dir
 
-```sh
+```bash
 docker build -t image-name:tag-name path/to/Dockerfile
 
 # example
@@ -666,7 +666,7 @@ docker build -t printer:v1 cmd/
 
 build image with different dir and different `Dockerfile` name
 
-```sh
+```bash
 docker build -f full/path/Dockerfile ./full/path
 
 # example
@@ -675,7 +675,7 @@ docker build --platform linux/amd64 -f frontend/Dockerfile.prod -t account-name/
 
 build multistaged `Dockerfile` and build only specific stage
 
-```sh
+```bash
 docker build --target stage-name .
 
 # example
@@ -688,7 +688,7 @@ docker build --platform linux/amd64 --target build -f frontend/Dockerfile.prod -
 
 use `--platform linux/amd64` to build image on macos m1 for linux/amd64
 
-```sh
+```bash
 docker build --platform linux/amd64 -t image-name .
 ```
 
@@ -698,7 +698,7 @@ docker build --platform linux/amd64 -t image-name .
 
 execute some command inside docker container
 
-```sh
+```bash
 docker exec container-name command-name
 
 # example
@@ -707,7 +707,7 @@ docker exec mynginx ls /
 
 login inside the container
 
-```sh
+```bash
 docker exec -it container-name /bin/bash
 
 # if container doesn't have bash use sh
@@ -716,7 +716,7 @@ docker exec -it container-name /bin/sh
 
 execute some command inside the docker container interactively
 
-```sh
+```bash
 docker exec -it container-name command-name
 
 # example
@@ -729,14 +729,14 @@ docker exec -it objective_swartz npm init
 
 `iproute2` - package for  `ip -a` command (not installed on really thin distros)
 
-```sh
+```bash
 apt update
 apt install iproute2 -y
 ```
 
 `procps` - `ps` command
 
-```sh
+```bash
 apt install procps
 ```
 
@@ -748,7 +748,7 @@ apt install procps
 
 create renamed copy of the image
 
-```sh
+```bash
 docker tag image-name:tag account-name/repo-name:tag
 
 # example
@@ -764,7 +764,7 @@ docker tag webapp_node:latest  wanderingmono/node-hello-world:latest
 
 detached example
 
-```sh
+```bash
 docker start container-name
 ```
 
@@ -772,7 +772,7 @@ attached and interactive example
 `-a`, `--attach` - attached mode  
  `-i`, `--interactive`
 
-```sh
+```bash
 docker start -ai container-name
 ```
 
@@ -782,7 +782,7 @@ docker start -ai container-name
 
 just stop the container
 
-```sh
+```bash
 docker stop container-name
 ```
 
@@ -794,7 +794,7 @@ login into the running container
 
 > it's not interactive
 
-```sh
+```bash
 docker attach container-name
 ```
 
@@ -805,7 +805,7 @@ docker attach container-name
 pushes the image to the repo, **DockerHub** by default or different provider  
 just push image and new public repo on **DockerHub** will be created automatically
 
-```sh
+```bash
 docker push account-name/repo-name:tag
 
 # example
@@ -819,13 +819,13 @@ docker push wanderingmono/nanoimg:v2
 
 just pull the image with tag latest
 
-```sh
+```bash
 docker pull image-name
 ```
 
 pull the image from specific repo
 
-```sh
+```bash
 docker pull account-name/repo-name:tag
 
 # example
@@ -838,7 +838,7 @@ docker pull wanderingmono/node-hello-world:latest
 
 search a docker image
 
-```sh
+```bash
 sudo docker search name
 ```
 
@@ -848,7 +848,7 @@ sudo docker search name
 
 show the output logs of the container
 
-```sh
+```bash
 docker logs container-name
 ```
 
@@ -856,13 +856,13 @@ attach to the running container and show logs in realtime
 
 > can exit with Ctrl+C
 
-```sh
+```bash
 docker logs -f container-name
 ```
 
 grep something from docker logs
 
-```sh
+```bash
 docker logs container-name 2>&1 | grep "127."
 ```
 
@@ -874,7 +874,7 @@ copy something inside the running container
 
 > `/.` - copy everything from the directory
 
-```sh
+```bash
 docker cp local/path/. container-name:/container/path
 
 # example
@@ -883,7 +883,7 @@ docker cp dummy/. fervent_almeida:/test
 
 copy from the container to local machine
 
-```sh
+```bash
 docker cp container-name:/container/path/file.txt local/path
 
 # example
@@ -892,7 +892,7 @@ docker cp fervent_almeida:/test/test.txt dummy
 
 copy full directory from the container to local machine
 
-```sh
+```bash
 docker cp container-name:/container/path local/path
 
 # example
@@ -905,7 +905,7 @@ docker cp fervent_almeida:/test dummy
 
 login or logout from the dockerhub
 
-```sh
+```bash
 docker login
 docker logout
 ```
@@ -916,7 +916,7 @@ docker logout
 
 show container's ports
 
-```sh
+```bash
 docker port container-name
 ```
 
@@ -926,44 +926,44 @@ docker port container-name
 
 show running docker containers
 
-```sh
+```bash
 docker ps
 ```
 
 show all containers
 
-```sh
+```bash
 docker ps -a
 docker container ls -a
 ```
 
 show all docker images
 
-```sh
+```bash
 docker images
 ```
 
 which Docker containers are running and their status
 
-```sh
+```bash
 docker container ls
 ```
 
 docker network configuration
 
-```sh
+```bash
 docker network ls
 ```
 
 inspect network
 
-```sh
+```bash
 docker network inspect network-name
 ```
 
 show docker volumes
 
-```sh
+```bash
 docker volume ls
 ```
 
@@ -973,13 +973,13 @@ docker volume ls
 
 remove the container
 
-```sh
+```bash
 docker rm -f container-id\container-name
 ```
 
 remove docker images
 
-```sh
+```bash
 docker rmi -f image-name:tag-name/image-ID
 
 # if tag = latest
@@ -988,37 +988,37 @@ docker rmi -f image-name/image-ID
 
 remove all stopped containers
 
-```sh
+```bash
 docker container prune
 ```
 
 remove all unused *dangling* images
 
-```sh
+```bash
 docker image prune
 ```
 
 remove all unused images including tagged ones
 
-```sh
+```bash
 docker image prune -a
 ```
 
 remove volume
 
-```sh
+```bash
 docker volume rm volume-name
 ```
 
 delete all volumes
 
-```sh
+```bash
 docker volume prune
 ```
 
 delete all unused volumes without asking
 
-```sh
+```bash
 docker volume prune -f
 ```
 
@@ -1026,27 +1026,27 @@ if you can't delete volumes with prune try:
 
 > WARNING! It's going to really remove all volumes including named-ones
 
-```sh
+```bash
 docker volume rm $(docker volume ls -qf dangling=true)
 ```
 
 remove all existing stopped containers then remove all volumes
 
-```sh
+```bash
 docker rm -vf $(docker ps -aq) && docker volume prune -f
 ```
 
 fully delete all containers, images and cache  
 `-a` - `--all`, `-f` - `--force`
 
-```sh
+```bash
 docker system prune -a
 ```
 
 delete all containers, images, volumes and cache  
 *actually it will not delete **named** volumes*
 
-```sh
+```bash
 docker system prune -a --volumes
 ```
 
@@ -1056,32 +1056,32 @@ docker system prune -a --volumes
 
 create named volume
 
-```sh
+```bash
 docker volume create volume-name
 ```
 
 list all volumes
 
-```sh
+```bash
 docker volume ls
 ```
 
 inspect the volume
 
-```sh
+```bash
 docker volume inspect volume-name
 ```
 
 remove volume
 
-```sh
+```bash
 docker volume rm volume-name
 ```
 
 remove all unused **anonymous** volumes  
 it will not delete **named** volumes
 
-```sh
+```bash
 docker volume prune
 ```
 
@@ -1108,7 +1108,7 @@ or add in docker run command
 
 > this is the only way to ensure that it will override another bind mount if you needed this
 
-```sh
+```bash
 -v /container/path
 -v /app/node_modules
 ```
@@ -1122,13 +1122,13 @@ or add in docker run command
 
 create named volume
 
-```sh
+```bash
 -v volume-name:/container/path
 ```
 
 > example
 
-```sh
+```bash
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v feedback:/app/feedback account-name/repo-name:tag-name
 ```
 
@@ -1140,7 +1140,7 @@ create a bind mount that mounts folder in local system managed by you
 
 > "" used if folder has whitespaces or special symbols
 
-```sh
+```bash
 -v "local/path:/container/path"
 
 # example
@@ -1151,7 +1151,7 @@ to reduce the lenth of the path to the project folder you can use `pwd`
 
 on macOS / Linux
 
-```sh
+```bash
 -v "$(pwd):/container/path"
 -v "$(pwd)/local/path:/container/path"
 -v "$(pwd):/app"
@@ -1174,7 +1174,7 @@ docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd)/feedback:/ap
 
 Volumes are read-write by default, use `:ro` to make them read-only
 
-```sh
+```bash
 docker run -v local/path:/container/path:ro
 
 # example
@@ -1184,7 +1184,7 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/node_modules account-nam
 
 exclude folders that need to be writable by defining another anonymous or name volume
 
-```sh
+```bash
 docker run -d --rm -p 3000:80 --name feedback-web-nodej
 s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_modules account-name/repo-name:tag-name
 ```
@@ -1195,25 +1195,25 @@ s -v feedback:/app/feedback -v "$(pwd):/app:ro" -v /app/temp -v /app/node_module
 
 default docker network CIDR
 
-```sh
+```bash
 172.17.0.0/16
 ```
 
 create docker network
 
-```sh
+```bash
 docker network create network-name
 ```
 
 docker network configuration, show docker networks
 
-```sh
+```bash
 docker network ls
 ```
 
 > Use created network with container and you don't need to publish ports, because containers will be using docker network.
 
-```sh
+```bash
 docker run -d --name container-name --network network-name image-name
 
 # examples
@@ -1245,7 +1245,7 @@ mongodb://mongodb:27017/swfavorites
 
 **If containers can't reach LAN network except localhost**
 
-```sh
+```bash
 docker network ls
 docker network inspect network-name
 ```
@@ -1271,7 +1271,7 @@ extra_hosts:
 
 or with `docker run`
 
-```sh
+```bash
 docker run -d --add-host host.docker.internal:host-gateway image-name
 
 # examples in code
@@ -1285,25 +1285,25 @@ mongodb://host.docker.internal:27017
 
 monitor and troubleshoot
 
-```sh
+```bash
 docker stats
 ```
 
 check logs of container
 
-```sh
+```bash
 docker logs container-name
 ```
 
 tail docker logs of container
 
-```sh
+```bash
 docker logs -f container-name
 ```
 
 show docker version
 
-```sh
+```bash
 docker version
 
 docker info
@@ -1311,7 +1311,7 @@ docker info
 
 show the history of the image
 
-```sh
+```bash
 docker history image-name
 ```
 
@@ -1319,7 +1319,7 @@ docker history image-name
 
 `cadvisor-docker-run.sh`
 
-```sh
+```bash
 #!/bin/bash
 
 # Runs Cadvisor Monitoring tool for Docker Containers
@@ -1349,26 +1349,26 @@ If you change the profile name and profile dir and docker has old profile dir.
 
 **Docker Desktop** image folder on macOS
 
-```sh
+```bash
 ~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
 ```
 
 docker user folder
 
-```sh
+```bash
 ~/.docker
 ```
 
 docker containers are just dirs on host  
 docker containers dir on linux
 
-```sh
+```bash
 /var/lib/docker/containers
 ```
 
 docker named volumes dir on Linux
 
-```sh
+```bash
 /var/lib/docker/volumes
 ```
 
@@ -1395,7 +1395,7 @@ There are multiple ways to sync timezone between host and containers
 
     Check on host  
 
-    ```sh
+    ```bash
     ls -l /etc/localtime
     cat /etc/timezone
     ```
@@ -1486,26 +1486,26 @@ For example, with `docker-compose.yaml` with **app** and **db**
 
 1. Check **IP** and name of the **service** of the **db** container
 
-   ```sh
+   ```bash
    docker compose ps
    docker inspect db-container-name | grep -i address
    ```
 
 2. Login inside **app** container
 
-   ```sh
+   ```bash
    docker exec container-name /bin/bash
    ```
 
 3. Install **mysql-client**
 
-   ```sh
+   ```bash
    apt update ; apt install mysql-client -y
    ```
 
 4. Login into db
 
-   ```sh
+   ```bash
    mysql -h service-name-or-ip -u root -ppass
    ```
 
@@ -1539,7 +1539,7 @@ Typical nodejs setup:
 > - <https://stackoverflow.com/questions/54269442/why-does-docker-create-empty-node-modules-and-how-to-avoid-it/54278208#54278208>
 > - <https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22166920#questions/13139726>
 
-```sh
+```bash
 # example
 
 docker run -d --rm -p 3000:80 --name feedback-web-nodejs -v "$(pwd):/app" -v /app/node_modules wanderingmono/docker-s3:feedback-web-nodejs-v0.3
@@ -1557,7 +1557,7 @@ Three containers with docker network.
 
 **database - mongodb**
 
-```sh
+```bash
 docker run --rm -d \
   --name mongodb \
   -v goals-multi-mongo:/data/db \
@@ -1569,13 +1569,13 @@ docker run --rm -d \
 **backend - nodejs**  
 build
 
-```sh
+```bash
 docker build -t account-name/repo-name:v0.3-mdb-dn .
 ```
 
 run
 
-```sh
+```bash
 docker run --rm -d -p 80:80 \
   -v "/full/path/to/goals-multi-web-nodejs/backend/logs":/app/logs \
   -v "/full/path/to/goals-multi-web-nodejs/backend":/app \
@@ -1588,7 +1588,7 @@ docker run --rm -d -p 80:80 \
 
 or with `pwd`
 
-```sh
+```bash
 docker run --rm -d -p 80:80 \
   -v "$(pwd)/logs:/app/logs" \
   -v "$(pwd):/app" \
@@ -1602,13 +1602,13 @@ docker run --rm -d -p 80:80 \
 **frontend - reactjs**  
 build
 
-```sh
+```bash
 docker build -t account-name/repo-name:v0.3-node-local .
 ```
 
 run
 
-```sh
+```bash
 docker run --rm -d -p 3000:3000 \
   -v "$(pwd)/src:/app/src" \
   --name goals-fe-web-react \
@@ -1621,7 +1621,7 @@ docker run --rm -d -p 3000:3000 \
 
 run container interactively and execute some command inside of it
 
-```sh
+```bash
 docker run -it --name container-name image-name command-name
 
 # example
@@ -1630,7 +1630,7 @@ docker run -it --name util-nodejs account-name/repo-name:v0.1 npm init
 
 run utility container with host dir bind mount and command to init node project
 
-```sh
+```bash
 docker run -it --rm -v "$(pwd):/app" account-name/repo-name:v0.1 npm init
 ```
 
@@ -1638,7 +1638,7 @@ same and using `ENTRYPOINT` in `Dockerfile` to secure that we can use only `npm`
 
 `--save` - npm argument to add express as a package as a dependency to this project
 
-```sh
+```bash
 docker run -it --rm -v "$(pwd):/app" account-name/repo-name:v0.2-entry init
 
 docker run -it --rm -v "$(pwd):/app" account-name/repo-name:v0.2-entry install
@@ -1652,7 +1652,7 @@ docker run -it --rm -v "$(pwd):/app" account-name/repo-name:v0.2-entry install e
 
 run the service described in `docker-compose.yaml` file
 
-```sh
+```bash
 docker compose run service-name command-name
 
 # example

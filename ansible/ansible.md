@@ -33,14 +33,14 @@ url: https://github.com/monocodes/snippets.git
 
 via apt
 
-```sh
+```bash
 sudo apt update && \
 	sudo apt install software-properties-common -y && \
 	sudo add-apt-repository --yes --update ppa:ansible/ansible && \
 	sudo apt install ansible -y
 ```
 
-```sh
+```bash
 sudo apt update
 sudo apt install software-properties-common -y
 sudo add-apt-repository --yes --update ppa:ansible/ansible
@@ -53,7 +53,7 @@ sudo apt install ansible -y
 
 ansible config - [Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings)
 
-```sh
+```bash
 /etc/ansible/ansible.cfg
 ```
 
@@ -61,7 +61,7 @@ default global inventory file
 
 > best practice is to create new inventory file in the project dir
 
-```sh
+```bash
 /etc/ansible/hosts
 ```
 
@@ -82,7 +82,7 @@ default global inventory file
 
 generate `ansible.cfg` file in current dir
 
-- ```sh
+- ```bash
   ansible-config init --disabled -t all > ansible.cfg
   ```
 
@@ -92,7 +92,7 @@ generate `ansible.cfg` file in current dir
 
   An [example file is available on GitHub](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg).
 
-  ```sh
+  ```bash
   # Since Ansible 2.12 (core):
   # To generate an example config file (a "disabled" one with all default settings, commented out):
   #               $ ansible-config init --disabled > ansible.cfg
@@ -108,7 +108,7 @@ generate `ansible.cfg` file in current dir
 
 disable host key checking (need to do that)
 
-```sh
+```bash
 sudo vim /etc/ansible/ansible.cfg
 
 host_key_checking = False
@@ -122,19 +122,19 @@ host_key_checking = False
 
 check ansible version and its configuration
 
-```sh
+```bash
 ansible --version
 ```
 
 execute ansible module command
 
-```sh
+```bash
 ansible -i /path/to/inventory-file -m module-name target-name
 ```
 
 ping servers
 
-```sh
+```bash
 # examples ping
 ansible -i inventory -m ping web01
 ansible -i inventory -m ping all
@@ -145,14 +145,14 @@ ansible -i inventory.yaml -m ping 'web*' # ping all with name starts at start
 
 copy file to remote host
 
-```sh
+```bash
 ansible -i inventory -m copy -a "src=index.html dest=/var/www/html/index.html" web01 --become
 ```
 
 gather facts about remote machine, run **OHAI** tool  
 show all **Facts Variables**
 
-```sh
+```bash
 ansible -m setup hostname
 ```
 
@@ -162,13 +162,13 @@ ansible -m setup hostname
 
 show all available modules
 
-```sh
+```bash
 ansible-doc -l
 ```
 
 show help for module
 
-```sh
+```bash
 ansible-doc module-name
 
 # example
@@ -181,7 +181,7 @@ ansible-doc yum
 
 check playbook syntax before executing
 
-```sh
+```bash
 ansible-playbook -i /path/to.inventory-file playbook-name.yaml --syntax-check
 
 # example
@@ -190,19 +190,19 @@ ansible-playbook -i inventory web_db.yaml --syntax-check
 
 execute playbook
 
-```sh
+```bash
 ansible-playbook -i inventory web_db.yaml
 ```
 
 test playbook with `-C`, check only, dry-run
 
-```sh
+```bash
 ansible-playbook -i inventory web_db.yaml -C
 ```
 
 **debug**, increase log level
 
-```sh
+```bash
 ansible-playbook db.yaml -v
 
 # -vv - second log level, maximum is -vvvv
@@ -214,7 +214,7 @@ ansible-playbook db.yaml -v
 
 initialize role-based approach and create needed dirs
 
-```sh
+```bash
 ansible-galaxy init role-name
 
 
@@ -252,7 +252,7 @@ post-install/
 
 install package with `yum`
 
-```sh
+```bash
 ansible -i /path/to/inventory-file -m yum -a "name=package-name state=operation-name" --become remote-hostname
 # --become = sudo, become root
 
@@ -262,13 +262,13 @@ ansible -i inventory -m yum -a "name=httpd state=present" web01 --become
 
 start and enable service
 
-```sh
+```bash
 ansible -i inventory -m service -a "name=httpd state=started enabled=yes" web01 --become
 ```
 
 uninstall package with `yum`
 
-```sh
+```bash
 ansible -i inventory -m yum -a "name=httpd state=absent" --become web01
 ```
 
@@ -330,7 +330,7 @@ Some modules needs dependencies installed on host machine, because execution is 
 
     - Connect to remote host and search with `yum` or `pip` for dependency
 
-        - ```sh
+        - ```bash
             yum search python | grep -i mysql
             
             # output

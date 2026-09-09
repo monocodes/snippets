@@ -30,21 +30,21 @@ To enabled it, pass `--web.enable-admin-api` flag to Prometheus through start-up
 
 Use the following syntax to delete all time series metrics that match some label:
 
-```sh
+```bash
 $ curl -X POST \
     -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={foo="bar"}'
 ```
 
 To delete time series metrics that match some `job` or `instance`, run:
 
-```sh
+```bash
 curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={job="node_exporter"}'
 curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="192.168.0.1:9100"}'
 ```
 
 To delete all data from Prometheus, run:
 
-```sh
+```bash
 curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={__name__=~".+"}'
 ```
 
@@ -56,7 +56,7 @@ To determine when to remove old data, use `--storage.tsdb.retention` option e.g.
 
 To completely remove the data deleted by `delete_series` send `clean_tombstones` API call:
 
-```sh
+```bash
 curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/clean_tombstones'
 ```
 

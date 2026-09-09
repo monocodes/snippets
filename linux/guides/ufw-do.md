@@ -54,7 +54,7 @@ UFW is installed by default on Ubuntu. If it has been uninstalled for some reaso
 
 This tutorial is written with IPv4 in mind, but will work for IPv6 as well as long as you enable it. If your Ubuntu server has IPv6 enabled, ensure that UFW is configured to support IPv6 so that it will manage firewall rules for IPv6 in addition to IPv4. To do this, open the UFW configuration with `nano` or your favorite editor.
 
-```sh
+```bash
 sudo nano /etc/default/ufw
 ```
 
@@ -62,7 +62,7 @@ Then make sure the value of `IPV6` is `yes`. It should look like this:
 
 /etc/default/ufw excerpt
 
-```sh
+```bash
 IPV6=yes
 ```
 
@@ -74,7 +74,7 @@ If you’re just getting started with your firewall, the first rules to define a
 
 Let’s set your UFW rules back to the defaults so we can be sure that you’ll be able to follow along with this tutorial. To set the defaults used by UFW, use these commands:
 
-```sh
+```bash
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 ```
@@ -98,13 +98,13 @@ List rules when the firewall is disabled
 
 This method will show the user added rules even if the firewall is inactive. This is a better way because you should be checking the rules before you turn on the firewall.
 
-```sh
+```bash
 sudo ufw show added
 ```
 
 To configure your server to allow incoming SSH connections, you can use this command:
 
-```sh
+```bash
 sudo ufw allow ssh
 ```
 
@@ -112,13 +112,13 @@ This will create firewall rules that will allow all connections on port `22`, wh
 
 However, we can actually write the equivalent rule by specifying the port instead of the service name. For example, this command works the same as the one above:
 
-```sh
+```bash
 sudo ufw allow 22
 ```
 
 If you configured your SSH daemon to use a different port, you will have to specify the appropriate port. For example, if your SSH server is listening on port `2222`, you can use this command to allow connections on that port:
 
-```sh
+```bash
 sudo ufw allow 2222
 ```
 
@@ -130,19 +130,19 @@ Applications that open ports can include an ufw profile, which details the ports
 
 - To view which applications have installed a profile, enter the following in a terminal:
 
-  ```sh
+  ```bash
   sudo ufw app list
   ```
 
 - Similar to allowing traffic to a port, using an application profile is accomplished by entering:
 
-  ```sh
+  ```bash
   sudo ufw allow Samba
   ```
 
 - An extended syntax is available as well:
 
-  ```sh
+  ```bash
   ufw allow from 192.168.0.0/24 to any app Samba
   ```
 
@@ -154,13 +154,13 @@ Applications that open ports can include an ufw profile, which details the ports
 
 - To view details about which ports, protocols, etc., are defined for an application, enter:
 
-  ```sh
+  ```bash
   sudo ufw app info Samba
   ```
 
 Not all applications that require opening a network port come with ufw profiles, but if you have profiled an application and want the file to be included with the package, please file a bug against the package in Launchpad.
 
-```sh
+```bash
 ubuntu-bug nameofpackage
 ```
 
@@ -168,7 +168,7 @@ ubuntu-bug nameofpackage
 
 To enable UFW, use this command:
 
-```sh
+```bash
 sudo ufw enable
 ```
 
@@ -191,7 +191,7 @@ You can specify port ranges with UFW. Some applications use multiple ports, inst
 
 For example, to allow X11 connections, which use ports `6000`-`6007`, use these commands:
 
-```sh
+```bash
 sudo ufw allow 6000:6007/tcp
 sudo ufw allow 6000:6007/udp
 ```
@@ -202,13 +202,13 @@ When specifying port ranges with UFW, you must specify the protocol (`tcp` or `u
 
 When working with UFW, you can also specify IP addresses. For example, if you want to allow connections from a specific IP address, such as a work or home IP address of `203.0.113.4`, you need to specify `from`, then the IP address:
 
-```sh
+```bash
 sudo ufw allow from 203.0.113.4
 ```
 
 You can also specify a specific port that the IP address is allowed to connect to by adding `to any port` followed by the port number. For example, If you want to allow `203.0.113.4` to connect to port `22` (SSH), use this command:
 
-```sh
+```bash
 sudo ufw allow from 203.0.113.4 to any port 22
 ```
 
@@ -216,13 +216,13 @@ sudo ufw allow from 203.0.113.4 to any port 22
 
 If you want to allow a subnet of IP addresses, you can do so using CIDR notation to specify a netmask. For example, if you want to allow all of the IP addresses ranging from `203.0.113.1` to `203.0.113.254` you could use this command:
 
-```sh
+```bash
 sudo ufw allow from 203.0.113.0/24
 ```
 
 Likewise, you may also specify the destination port that the subnet `203.0.113.0/24` is allowed to connect to. Again, we’ll use port `22` (SSH) as an example:
 
-```sh
+```bash
 sudo ufw allow from 203.0.113.0/24 to any port 22
 ```
 
@@ -232,11 +232,11 @@ If you want to create a firewall rule that only applies to a specific network in
 
 You may want to look up your network interfaces before continuing. To do so, use this command:
 
-```sh
+```bash
 ip addr
 ```
 
-```sh
+```bash
 Output Excerpt2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state
 . . .
 3: enp0s4: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default
@@ -247,7 +247,7 @@ The highlighted output indicates the network interface names. They are typically
 
 So, if your server has a public network interface called `ens3`, you could allow HTTP traffic (port `80`) to it with this command:
 
-```sh
+```bash
 sudo ufw allow in on ens3 to any port 80
 ```
 
@@ -255,7 +255,7 @@ Doing so would allow your server to receive HTTP requests from the public intern
 
 Or, if you want your MySQL database server (port `3306`) to listen for connections on the private network interface `eth1`, for example, you could use this command:
 
-```sh
+```bash
 sudo ufw allow in on eth1 to any port 3306
 ```
 
@@ -271,13 +271,13 @@ To write **deny** rules, you can use the commands described above, replacing **a
 
 For example, to deny HTTP connections, you could use this command:
 
-```sh
+```bash
 sudo ufw deny http
 ```
 
 Or if you want to deny all connections from `203.0.113.4` you could use this command:
 
-```sh
+```bash
 sudo ufw deny from 203.0.113.4
 ```
 
@@ -291,7 +291,7 @@ Knowing how to delete firewall rules is just as important as knowing how to crea
 
 If you’re using the rule number to delete firewall rules, the first thing you’ll want to do is get a list of your firewall rules. The UFW status command has an option to display numbers next to each rule, as demonstrated here:
 
-```sh
+```bash
 sudo ufw status numbered
 ```
 
@@ -306,7 +306,7 @@ Numbered Output:Status: active
 
 If you decide that you want to delete rule 2, the one that allows port 80 (HTTP) connections, you can specify it in a UFW delete command like this:
 
-```sh
+```bash
 sudo ufw delete 2
 ```
 
@@ -316,13 +316,13 @@ This would show a confirmation prompt then delete rule 2, which allows HTTP conn
 
 The alternative to rule numbers is to specify the actual rule to delete. For example, if you want to remove the `allow http` rule, you could write it like this:
 
-```sh
+```bash
 sudo ufw delete allow http
 ```
 
 You could also specify the rule by `allow 80`, instead of by service name:
 
-```sh
+```bash
 sudo ufw delete allow 80
 ```
 
@@ -332,13 +332,13 @@ This method will delete both IPv4 and IPv6 rules, if they exist.
 
 At any time, you can check the status of UFW with this command:
 
-```sh
+```bash
 sudo ufw status verbose
 ```
 
 If UFW is disabled, which it is by default, you’ll see something like this:
 
-```sh
+```bash
 OutputStatus: inactive
 ```
 
@@ -362,7 +362,7 @@ Use the `status` command if you want to check how UFW has configured the firewal
 
 If you decide you don’t want to use UFW, you can disable it with this command:
 
-```sh
+```bash
 sudo ufw disable
 ```
 
@@ -370,7 +370,7 @@ Any rules that you created with UFW will no longer be active. You can always run
 
 If you already have UFW rules configured but you decide that you want to start over, you can use the reset command:
 
-```sh
+```bash
 sudo ufw reset
 ```
 

@@ -25,7 +25,7 @@ url: https://github.com/monocodes/snippets.git
 
 - exit node
 
-  ```sh
+  ```bash
   curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null &&
   curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/noble.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list 
   sudo apt-get update && sudo apt-get install tailscale -y &&
@@ -41,7 +41,7 @@ url: https://github.com/monocodes/snippets.git
 
 - subnet router
 
-  ```sh
+  ```bash
   curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null &&
   curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/noble.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list 
   sudo apt-get update && sudo apt-get install tailscale -y &&
@@ -57,7 +57,7 @@ url: https://github.com/monocodes/snippets.git
   
 - Check if IP forwarding is working on Linux
 
-  ```sh
+  ```bash
   sudo sysctl net.ipv4.ip_forward
   
   # output

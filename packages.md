@@ -170,7 +170,7 @@ CentOS install with `bash/bat-centos-install.sh`*
 epel-release  
 *for rpm-based linux - install `epel-release` repo to unlock many useful packages*
 
-```sh
+```bash
 yum install epel-release
 dnf install epel-release 
 ```

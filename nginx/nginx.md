@@ -71,7 +71,7 @@ url: https://github.com/monocodes/snippets.git
 
 check NGINX version and configure arguments
 
-```sh
+```bash
 nginx -V
 ```
 
@@ -83,7 +83,7 @@ nginx -V
 
 nginx install
 
-```sh
+```bash
 sudo apt install nginx
 # or
 sudo apt install nginx-full
@@ -91,7 +91,7 @@ sudo apt install nginx-full
 
 #### [Installing a Prebuilt Ubuntu STABLE Package from the Official NGINX Repository](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-a-prebuilt-ubuntu-package-from-the-official-nginx-repository)
 
-```sh
+```bash
 sudo apt update && \
   sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y && \
   curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
@@ -109,7 +109,7 @@ sudo apt update && \
 
 #### [Installing a Prebuilt Ubuntu MAINLINE Package from the Official NGINX Repository](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-a-prebuilt-ubuntu-package-from-the-official-nginx-repository)
 
-```sh
+```bash
 sudo apt update && \
   sudo apt install curl gnupg2 ca-certificates lsb-release debian-archive-keyring -y && \
   curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
@@ -133,25 +133,25 @@ The following signatures were invalid: EXPKEYSIG *some-key-here* nginx signing k
 
 1. **Delete old GPG key**:
 
-   ```sh
+   ```bash
    sudo rm -rf /usr/share/keyrings/nginx-archive-keyring.gpg
    ```
 
 2. **Add the Official nginx Signing Key**: Download and add the nginx signing key:
 
-   ```sh
+   ```bash
    curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo gpg --dearmor -o /usr/share/keyrings/nginx-archive-keyring.gpg
    ```
 
 3. **Add the nginx Repository**: Create a new repository file for nginx:
 
-   ```sh
+   ```bash
    echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/ubuntu $(lsb_release -cs) nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
    ```
 
 4. **Update the Package List Again**: Update your package list to include the new nginx repository:
 
-   ```sh
+   ```bash
    sudo apt update
    ```
 
@@ -161,7 +161,7 @@ The following signatures were invalid: EXPKEYSIG *some-key-here* nginx signing k
 
 nginx install one-liner
 
-```sh
+```bash
 sudo dnf install nginx -y && \
   sudo systemctl enable --now nginx && \
   sudo firewall-cmd --permanent --add-service=http && \
@@ -174,7 +174,7 @@ sudo dnf install nginx -y && \
 
 1. Update Packages
 
-    ```sh
+    ```bash
     apt-get update # Ubuntu
     yum update # CentOS
     ```
@@ -185,45 +185,45 @@ sudo dnf install nginx -y && \
 
 3. Unzip the file.
 
-    ```sh
+    ```bash
     tar -zxvf nginx-1.19.1.tar.gz
     ```
 
 4. Configure source code to the build.
 
-    ```sh
+    ```bash
     ./configure
     ```
 
 5. Install code compiler
 
-    ```sh
+    ```bash
     apt-get install build-essential # Ubuntu
     yum groupinstall "Development Tools" # CentOS
     ```
 
 6. Configure source code to the build.
 
-    ```sh
+    ```bash
     ./configure
     ```
 
 7. GET Support Libraries
 
-    ```sh
+    ```bash
     apt-get install libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev make # Ubuntu
     yum install pcre pcre-devel zlib zlib-devel openssl openssl-devel make # CentOS
     ```
 
 8. Execute configuration again
 
-    ```sh
+    ```bash
     ./configure --sbin-path=/usr/bin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-pcre --pid-path=/var/run/nginx.pid --with-http_ssl_module
     ```
 
 9. Compile and install Nginx
 
-    ```sh
+    ```bash
     make
     make install
     ```
@@ -236,31 +236,31 @@ sudo dnf install nginx -y && \
 
 2. Start Service
 
-    ```sh
+    ```bash
     systemctl start nginx
     ```
 
 3. Stop Service
 
-    ```sh
+    ```bash
     systemctl stop nginx
     ```
 
 4. Restart-Service
 
-    ```sh
+    ```bash
     systemctl restart nginx
     ```
 
 5. Check Service Status
 
-    ```sh
+    ```bash
     systemctl status nginx
     ```
 
 6. Enable service, auto-start on boot
 
-    ```sh
+    ```bash
     systemctl enable nginx
     ```
 
@@ -270,19 +270,19 @@ sudo dnf install nginx -y && \
 
 main config
 
-```sh
+```bash
 /etc/nginx/nginx.conf
 ```
 
 default site location
 
-```sh
+```bash
 /usr/share/nginx/html
 ```
 
 logs
 
-```sh
+```bash
 /var/log/nginx
 
 # access_log
@@ -294,7 +294,7 @@ logs
 
 delete old logs and create new  
 
-```sh
+```bash
 # delete the old files
 sudo rm /var/log/nginx/access.log /var/log/nginx/error.log
 
@@ -309,7 +309,7 @@ sudo nginx -s reopen
 
 upload static site to user dir example
 
-```sh
+```bash
 scp -r bloggingtemplate/ ub22-nginx:~/
 ```
 
@@ -538,7 +538,7 @@ events...
 
 you can check available CPUs on machine with
 
-```sh
+```bash
 nproc
 nproc --all
 lscpu
@@ -549,7 +549,7 @@ set number of `worker_connections` to match OS setup
 
 - check OS setting for number of files OS is allowed to open per core
 
-  ```sh
+  ```bash
   ulimit -n
   
   # output
@@ -673,7 +673,7 @@ server {
 
 test current config
 
-```sh
+```bash
 nginx -t
 ```
 
@@ -681,7 +681,7 @@ restart nginx
 `-s` - option is used for dispatching various signals to NGINX  
 The available signals are `stop`, `quit`, `reload` and `reopen`.
 
-```sh
+```bash
 sudo nginx -s reload
 # or
 sudo systemctl restart nginx
@@ -697,7 +697,7 @@ sudo systemctl restart nginx
 
 If you have multiple PHP-FPM versions installed, you can simply list all the socket file locations by executing the following command:
 
-```sh
+```bash
 ls /run/php/ | grep php
 # output
 php-fpm.sock
@@ -1377,7 +1377,7 @@ So, the above block translates the URL path */books/echo.json* to */data/categor
 
 A nice feature of the Nginx server is that we can reload the configuration without restarting the server:
 
-```sh
+```bash
 sudo nginx -s reloadCopy
 ```
 
@@ -1445,7 +1445,7 @@ Another key point is how *proxy_pass* forwards URL paths. There are two cases:
 
 **In the second case, the request URL path is appended to the \*proxy_pass\* address with the \*location\* prefix string**:
 
-```sh
+```bash
 location /api {
     proxy_pass http://127.0.0.1:8081; 
 }Copy
@@ -1457,7 +1457,7 @@ Here, a request URL path */api/echo.json* will be proxied to *<http://127.0.0.1:
 
 Before we test our settings, we should create some test files in the */data/client1* and */data/client2* directories:
 
-```sh
+```bash
 $ sudo echo { 'message' : 'Hello from client1' } | sudo tee /data/client1/echo.json
 { message : Hello from client1 }
 $ sudo echo { 'message' : 'Hello from client2' } | sudo tee /data/client2/echo.json
@@ -1470,7 +1470,7 @@ It’s worth noting that we should have [*sudo*](https://www.baeldung.com/linux/
 
 Now we’re ready to test:
 
-```sh
+```bash
 $ curl http://127.0.0.1:8000/api/echo.json
 { message : Hello from client1 }
 $ curl http://127.0.0.1:8000/api/client2/echo.json

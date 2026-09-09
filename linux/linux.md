@@ -130,7 +130,7 @@ url: https://github.com/monocodes/snippets.git
 
 `$PATH`
 
-```sh
+```bash
 # global
 /etc/environment
 /etc/profile
@@ -147,7 +147,7 @@ url: https://github.com/monocodes/snippets.git
 
 export `PATH`
 
-```sh
+```bash
 echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.profile
 echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.bash_profile
 echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.zprofile
@@ -155,7 +155,7 @@ echo 'export PATH=\$PATH:/place/with/the/file' >> ~/.zprofile
 
 binaries
 
-```sh
+```bash
 /bin
 /sbin
 /usr/sbin
@@ -166,49 +166,49 @@ $HOME/.local
 
 software user configs
 
-```sh
+```bash
 ~/.config
 ```
 
 users info
 
-```sh
+```bash
 /etc/passwd
 ```
 
 groups info
 
-```sh
+```bash
 /etc/group
 ```
 
 logs
 
-```sh
+```bash
 /var/log
 ```
 
 starting/stopping/reloading configs of the services
 
-```sh
+```bash
 /etc/systemd/system/multi-user.target.wants
 ```
 
 default webserver data, webhosting
 
-```sh
+```bash
 /var/www/html
 ```
 
 all processes path
 
-```sh
+```bash
 /var/run/
 ```
 
 show `PID`
 
-```sh
+```bash
 cat /var/run/process-name/process-name.pid
 
 # example
@@ -217,7 +217,7 @@ cat /var/run/httpd/httpd.pid
 
 network config, more info here -> [network](#network)
 
-```sh
+```bash
 # Ubuntu 22
 /etc/netplan/00-installer-config.yaml
 
@@ -228,7 +228,7 @@ network config, more info here -> [network](#network)
 banner file (info when login into the system)  
 create it with any text
 
-```sh
+```bash
 /etc/motd
 ```
 
@@ -291,7 +291,7 @@ The **Filesystem Hierarchy Standard** (**FHS**) is a reference describing the co
 
 search any directory (`**`) any file with `.war` extension (`*.war`)
 
-```sh
+```bash
 **/*.war
 ```
 
@@ -309,7 +309,7 @@ search any directory (`**`) any file with `.war` extension (`*.war`)
 
 Run A and then B, regardless of success of A
 
-```sh
+```bash
 A ; B
 ```
 
@@ -317,25 +317,25 @@ A ; B
 
 Run B if A succeeded
 
-```sh
+```bash
 A && B
 ```
 
 Run B if A failed
 
-```sh
+```bash
 A || B
 ```
 
 Run A in background
 
-```sh
+```bash
 A &
 ```
 
 Multiline command with `\`
 
-```sh
+```bash
 # docker install example
 sudo apt remove docker.io -y ; \
 	sudo apt remove containerd -y ; \
@@ -346,13 +346,13 @@ sudo apt remove docker.io -y ; \
 
 Show exit status of the last command
 
-```sh
+```bash
 echo $0
 ```
 
 clear history of current session
 
-```sh
+```bash
 history -c
 ```
 
@@ -362,32 +362,32 @@ history -c
 
 get help for the command
 
-```sh
+```bash
 command-name --help
 ```
 
 what is it
 
-```sh
+```bash
 file filename
 file directory-name
 ```
 
 show version of the OS
 
-```sh
+```bash
 cat /etc/os-release
 ```
 
 logout with current user
 
-```sh
+```bash
 exit
 ```
 
 reinitialize shell
 
-```sh
+```bash
 exec zsh -l
 exec bash -l
 ```
@@ -398,25 +398,25 @@ exec bash -l
 
 show free ram
 
-```sh
+```bash
 free -mh
 ```
 
 show uptime
 
-```sh
+```bash
 uptime
 ```
 
 clear terminal
 
-```sh
+```bash
 clear
 ```
 
 show number of CPU cores (useful for **NGINX** `worker_processes`) or CPU info
 
-```sh
+```bash
 nproc
 nproc --all
 lscpu
@@ -425,7 +425,7 @@ cat /proc/cpuinfo
 
 show the number of files your OS is allowed to open per core (useful for **NGINX** `worker_connections`)
 
-```sh
+```bash
 ulimit -n
 ```
 
@@ -435,13 +435,13 @@ ulimit -n
 
 make a directory
 
-```sh
+```bash
 mkdir directory-name
 ```
 
 make directory forcefully with all needed parents
 
-```sh
+```bash
 mkdir -p directory/path
 
 # example
@@ -450,87 +450,87 @@ mkdir -p /opt/dev/ops/devops/test
 
 make a file
 
-```sh
+```bash
 touch filename
 ```
 
 make multiple files with numbers
 
-```sh
+```bash
 touch filename{1..10}.txt
 ```
 
 delete multiple files with the same name + numbers
 
-```sh
+```bash
 rm -rf filename{1..10}.txt
 ```
 
 delete file
 
-```sh
+```bash
 rm filename
 ```
 
 delete dir
 
-```sh
+```bash
 rm -r directory-name
 ```
 
 force delete everything in current directory
 
-```sh
+```bash
 rm -rf *
 ```
 
 delete everything except something
 
-```sh
+```bash
 rm -rf !("filename")
 rm -rf !("*.war")
 ```
 
 copy file
 
-```sh
+```bash
 cp filename directory-name
 ```
 
 copy directory
 
-```sh
+```bash
 cp -r /path/to/dir /path/to/another/dir
 ```
 
 copy all files and dirs
 
-```sh
+```bash
 cp -r * /path/to/dir
 ```
 
 move with mv
 
-```sh
+```bash
 mv filename /path/to/dir
 ```
 
 rename with mv
 
-```sh
+```bash
 mv filename another-filename
 mv directory-name another-directory-name
 ```
 
 move everything with mv
 
-```sh
+```bash
 mv *.txt directory-name
 ```
 
 move everything in dir to another dir
 
-```sh
+```bash
 mv path/to/dir/* path/to/another/dir
 
 # example
@@ -539,13 +539,13 @@ mv /tmp/img-backup/* /var/www/html/images/
 
 show everything recursively in current dir with `ls`
 
-```sh
+```bash
 ls -R
 ```
 
 show dirs in tree format
 
-```sh
+```bash
 tree /path/to/dir
 
 # example
@@ -556,20 +556,20 @@ tree /var/log
 
 print help for `echo`
 
-```sh
+```bash
 /bin/echo --help
 ```
 
 delete everything in file and add text to the file
 
-```sh
+```bash
 echo "text" > /tmp/filename.txt
 ```
 
 append text with new line into file  
 `-e` - enable interpretation of backslash escapes
 
-```sh
+```bash
 echo -e "text\nnew-line-text" >> filename
 # example
 echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
@@ -579,20 +579,20 @@ echo -e "filetype plugin indent on\nsyntax on" >> ~/.vimrc
 
 show current user aliases
 
-```sh
+```bash
 alias
 ```
 
 add alias to `~/.bashrc` or `~/.zshrc`
 
-```sh
+```bash
 # alias vim example
 echo 'alias vim="/volume1/@appstore/vim/bin/vim"' >> ~/.bashrc
 ```
 
 encode and decode string with base64
 
-```sh
+```bash
 echo -n "secretpass" | base64
 
 # output
@@ -609,7 +609,7 @@ secretpass%
 
 find anything
 
-```sh
+```bash
 find /path/to -name filename*
 
 # example
@@ -627,7 +627,7 @@ sudo find / -name '*fpm.sock'
 
 check where is data of installed package
 
-```sh
+```bash
 whereis nginx
 
 # output
@@ -636,7 +636,7 @@ nginx: /usr/sbin/nginx /usr/lib/nginx /usr/share/nginx /usr/share/man/man8/nginx
 
 create softlink
 
-```sh
+```bash
 ln -s /path/to/filename /path/to/filename
 
 # example
@@ -645,7 +645,7 @@ ln -s /opt/dev/ops/devops/test/commands.txt cmds
 
 create softlink for nginx config
 
-```sh
+```bash
 sudo ln -s /etc/nginx/sites-available/nginx-handbook.conf /etc/nginx/sites-enabled/nginx-handbook.conf
 ```
 
@@ -653,19 +653,19 @@ sudo ln -s /etc/nginx/sites-available/nginx-handbook.conf /etc/nginx/sites-enabl
 
 show disk usage of the current dir and all dirs and files in it
 
-```sh
+```bash
 du -h
 ```
 
 show total size of current dir
 
-```sh
+```bash
 du -sh
 ```
 
 source something for root (need to test it)
 
-```sh
+```bash
 sudo -s source /root/.profile
 ```
 
@@ -675,13 +675,13 @@ sudo -s source /root/.profile
 
 install locate in rpm-based distrib
 
-```sh
+```bash
 sudo dnf install mlocate
 ```
 
 >every time before search use `updatedb` command
 
-```sh
+```bash
 updatedb
 locate host
 ```
@@ -707,7 +707,7 @@ A tool to analyze file system usage written in Rust.
 
 More details at [ownyourbits.com](https://ownyourbits.com/2018/03/25/analize-disk-usage-with-dutree)
 
-```sh
+```bash
  $ dutree --help
 Usage: dutree [options] <path> [<path>..]
 
@@ -732,13 +732,13 @@ Options:
 export environmental variables temporarily  
 change default text editor
 
-```sh
+```bash
 export EDITOR=vim
 ```
 
 to make it permanent for user add export command to `~/.bashrc` or `~/.bash_profile`
 
-```sh
+```bash
 vim ~/.bashrc
 
 export EDITOR=vim
@@ -746,7 +746,7 @@ export EDITOR=vim
 
 to make it permanent for all users add export command to `/etc/profile`
 
-```sh
+```bash
 vim /etc/profile
 
 export EDITOR=vim
@@ -758,19 +758,19 @@ export EDITOR=vim
 
 what needs to be restarted using machine-friendly show
 
-```sh
+```bash
 sudo needrestart -b
 ```
 
 what needs to be restarted using human-friendly show
 
-```sh
+```bash
 sudo needrestart -u NeedRestart::UI::stdio -r l
 ```
 
 restart services with needrestart, reboot if doesn't help
 
-```sh
+```bash
 sudo needrestart -u NeedRestart::UI::stdio -r a
 ```
 
@@ -782,13 +782,13 @@ sudo needrestart -u NeedRestart::UI::stdio -r a
 
 show file contents
 
-```sh
+```bash
 cat filename
 ```
 
 show first 10 lines of the file or any number of lines
 
-```sh
+```bash
 head filename
 
 head -20 filename
@@ -796,7 +796,7 @@ head -20 filename
 
 show last 10 lines of the file or any number of lines
 
-```sh
+```bash
 tail filename
 
 tail -20 filename
@@ -804,19 +804,19 @@ tail -20 filename
 
 show continuously last 10 lines of the file
 
-```sh
+```bash
 tail -f filename
 ```
 
 show continuously last 10 lines of all files in current dir
 
-```sh
+```bash
 tail -f *
 ```
 
 show file contents with pager `less`
 
-```sh
+```bash
 less filename
 ```
 
@@ -828,7 +828,7 @@ less filename
 >
 > To install on Ubuntu before 20:
 >
-> ```sh
+> ```bash
 > wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat-musl_0.23.0_amd64.deb &&
 > sudo dpkg -i bat-musl_0.22.1_amd64.deb
 >   ```
@@ -837,19 +837,19 @@ less filename
 
 print `bat` without line numbers and header
 
-```sh
+```bash
 bat -p filename
 ```
 
 print `bat` without line numbers but with header
 
-```sh
+```bash
 bat --style=plain,header filename
 ```
 
 print `bat` without pager
 
-```sh
+```bash
 bat -P filename
 # or
 bat --paging=never filename
@@ -859,19 +859,19 @@ bat --paging=never filename
 
 find word in file
 
-```sh
+```bash
 grep word filename
 ```
 
 find word in file and ignore case
 
-```sh
+```bash
 grep -i word filename
 ```
 
 grep multiple patterns
 
-```sh
+```bash
 grep -E 'pattern1|pattern2'
 grep -e pattern1 -e pattern2
 
@@ -882,7 +882,7 @@ ls -la ~/.ssh/aws | grep -e dove -e vpro
 
 find word in the file in all files and dirs
 
-```sh
+```bash
 grep -iR word *
 
 # example
@@ -891,13 +891,13 @@ grep -R SELINUX /etc/*
 
 `-v` - grep process excluding grep process
 
-```sh
+```bash
 ps -ef | grep -i process-name | grep -v 'grep'
 ```
 
 `grep` examples
 
-```sh
+```bash
 ls /etc/host* | grep host
 
 ls host | grep host
@@ -911,7 +911,7 @@ free -h | grep -i mem
 
 show needed part of file with cut
 
-```sh
+```bash
 cut -d delimiter -f field-number /path/to/filename
 
 # example
@@ -920,7 +920,7 @@ cut -d: -f1,7 /etc/passwd
 
 show needed part of file with awk
 
-```sh
+```bash
 awk -F'delimiter' '{print $field-number$field-number}' /path/tofilename
 
 # example
@@ -933,7 +933,7 @@ replace text in files
 `g` - globally (more than one time in line)  
 without `-i` to show what will be changed
 
-```sh
+```bash
 sed 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' filename
 sed -i 's/word-to-replace/word-that-replace/g' *.cfg
@@ -952,7 +952,7 @@ gsed -i 's/url = git@github.com:wandering-mono/url = git@github.com:monocodes/g'
 
   - switch to main repos
 
-    - ```sh
+    - ```bash
                 sudo sed -i 's|http://us.|http://|g' /etc/apt/sources.list
                 # or
                 sed -i 's/http:\/\/in./http:\/\//g' /etc/apt/sources.list
@@ -960,7 +960,7 @@ gsed -i 's/url = git@github.com:wandering-mono/url = git@github.com:monocodes/g'
 
   - switch to Armenia repos
 
-    - ```sh
+    - ```bash
                 sudo sed -i 's|http://us.|http://am.|g' /etc/apt/sources.list
                 # or
                 sed -i 's/http:\/\/us./http:\/\/am./g' /etc/apt/sources.list
@@ -972,7 +972,7 @@ gsed -i 's/url = git@github.com:wandering-mono/url = git@github.com:monocodes/g'
 
 count how many lines in file
 
-```sh
+```bash
 wc -l /path/to/filename
 
 # example
@@ -981,7 +981,7 @@ wc -l /etc/passwd
 
 count how many dirs and files
 
-```sh
+```bash
 ls | wc -l
 ```
 
@@ -998,20 +998,20 @@ create archives
 > - `-v` - verbose
 > - `-f` - file
 
-```sh
+```bash
 tar -czvf archive-name.tar.gz /path/to/dir
 ```
 
 extract archive  
 `-x` - extract
 
-```sh
+```bash
 tar -xzvf filename
 ```
 
 extract archive to some dir
 
-```sh
+```bash
 tar -xzvf filename -C /path/to/dir
 ```
 
@@ -1022,20 +1022,20 @@ tar -xzvf filename -C /path/to/dir
 create archive  
 `-r` - recursively
 
-```sh
+```bash
 zip -r filename.zip /path/to/dir
 ```
 
 unzip for unarchive  
 `-d` - to point to dir
 
-```sh
+```bash
 unzip filename.zip -d /path/to/dir
 ```
 
 unzip and overwrite, non-interactive
 
-```sh
+```bash
 unzip -o filename.zip /path/to/dir
 ```
 
@@ -1047,7 +1047,7 @@ unzip -o filename.zip /path/to/dir
 
 `>` - output command result to a file
 
-```sh
+```bash
 command-name > /path/to/filename
 
 # examples
@@ -1058,7 +1058,7 @@ echo "text" > /tmp/sysinfo.txt
 
 output command result to a file and did not overwrite its contents and just append
 
-```sh
+```bash
 command-name >> /path/to/filename
 
 # exapmle
@@ -1067,7 +1067,7 @@ uptime >> /tmp/sysinfo.txt
 
 output command result to nowhere
 
-```sh
+```bash
 command-name > /dev/null
 
 # example
@@ -1076,7 +1076,7 @@ yum install vim -y > /dev/null
 
 remove everything in file with `cat`
 
-```sh
+```bash
 cat /dev/null > /path/to/filename
 
 # example
@@ -1085,7 +1085,7 @@ cat /dev/null > /tmp/sysinfo.txt
 
 redirect error output
 
-```sh
+```bash
 command-name 2> /path/to/filename
 
 # example
@@ -1094,7 +1094,7 @@ freeee 2>> /tmp/error.log
 
 to redirect standard output `1>` (default) **and** error output `2>` use `&>`
 
-```sh
+```bash
 command-name &> /path/to/filename
 
 # examples
@@ -1104,7 +1104,7 @@ freddfefe -m &>> /tmp/error.log
 
 ##### input redirection
 
-```sh
+```bash
 command-name < /path/to/filename
 
 # example
@@ -1117,7 +1117,7 @@ wc -l < /etc/passwd
 
 check timezone
 
-```sh
+```bash
 date
 # or
 timedatectl
@@ -1125,7 +1125,7 @@ timedatectl
 
 list avalaible timezone
 
-```sh
+```bash
 timedatectl list-timezones
 
 timedatectl list-timezones | grep Berlin
@@ -1133,7 +1133,7 @@ timedatectl list-timezones | grep Berlin
 
 set new timezone
 
-```sh
+```bash
 sudo timedatectl set-timezone timezone-name
 ```
 
@@ -1143,19 +1143,19 @@ sudo timedatectl set-timezone timezone-name
 
 show used locale
 
-```sh
+```bash
 localectl
 ```
 
 show installed locales
 
-```sh
+```bash
 localectl list-locales
 ```
 
 search for langpack and install it
 
-```sh
+```bash
 # for rpm-based distros
 dnf search langpacks- | grep -i en
 
@@ -1164,29 +1164,29 @@ dnf install langpacks-en
 
 set locale
 
-```sh
+```bash
 localectl set-locale LANG=en_US.UTF-8
 ```
 
 show specific locale keymaps
 
-```sh
+```bash
 localectl list-maps | grep -i us
 ```
 
 set keymap locale
 
-```sh
+```bash
 localectl set-keymap us
 ```
 
 > fix for us locale error
 >
-> ```sh
+> ```bash
 > setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
 > ```
 
-```sh
+```bash
 echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment && \
 echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 ```
@@ -1197,7 +1197,7 @@ echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 
 [crontab guru](https://crontab.guru/) - The quick and simple editor for cron schedule expressions by [Cronitor](https://cronitor.io/cron-job-monitoring?utm_source=crontabguru&utm_campaign=cronitor_top)
 
-```sh
+```bash
 #       30      20      *               *       1-5     /opt/scripts/11_monit.sh
 # run the script every day during monday-friday at 20:30
 
@@ -1215,73 +1215,73 @@ echo "LC_ALL=en_US.utf-8" | sudo tee -a /etc/environment
 
 list all running services
 
-```sh
+```bash
 systemctl --type=service --state=running
 ```
 
 list all services
 
-```sh
+```bash
 systemctl --type=service --all
 ```
 
 service status
 
-```sh
+```bash
 systemctl status service-name
 ```
 
 check service active or not
 
-```sh
+```bash
 systemctl is-active service-name
 ```
 
 check service in autorun or not
 
-```sh
+```bash
 systemctl is-enabled service-name
 ```
 
 start service and add it to autorun
 
-```sh
+```bash
 sudo systemctl enable --now service-name
 ```
 
 start service
 
-```sh
+```bash
 systemctl start service-name
 ```
 
 restart service
 
-```sh
+```bash
 systemctl restart service-name
 ```
 
 reload config of the service without restarting
 
-```sh
+```bash
 systemctl reload service-name
 ```
 
 stop service
 
-```sh
+```bash
 systemctl stop service-name
 ```
 
 add service to autorun
 
-```sh
+```bash
 systemctl enable service-name
 ```
 
 remove service from autorun
 
-```sh
+```bash
 systemctl disable service-name
 ```
 
@@ -1291,13 +1291,13 @@ systemctl disable service-name
 
 all processes path
 
-```sh
+```bash
 /var/run/
 ```
 
 show process `PID`
 
-```sh
+```bash
 cat /var/run/process-name/process-name.pid
 
 # example
@@ -1306,14 +1306,14 @@ cat /var/run/httpd/httpd.pid
 
 process managers, activity monitors
 
-```sh
+```bash
 top
 htop
 ```
 
 top and show CPUs
 
-```sh
+```bash
 top
 # press
 1
@@ -1321,25 +1321,25 @@ top
 
 top for specified process
 
-```sh
+```bash
 top -b | grep java
 ```
 
 show all processes and exit
 
-```sh
+```bash
 ps aux
 ```
 
 show all processes with parent processes
 
-```sh
+```bash
 ps -ef
 ```
 
 show all processes in tree structure with master and child processes
 
-```sh
+```bash
 ps -ef --forest
 ps -aux --forest
 
@@ -1349,7 +1349,7 @@ ps -ef --forest | grep nginx
 
 show all processes sorted by memory usage with `Mb` not `%`
 
-```sh
+```bash
 ps -eo size,pid,user,command --sort -size | \
   awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | \
   cut -d "" -f2 | cut -d "-" -f1
@@ -1358,20 +1358,20 @@ ps -eo size,pid,user,command --sort -size | \
 find specific process PID and kill it  
 kill the parent process
 
-```sh
+```bash
 ps -ef | grep -i process-name | grep -v 'grep'
 kill PID
 ```
 
 forcefully kill the process but without the child processes
 
-```sh
+```bash
 kill -9 PID
 ```
 
 forcefully kill all child processes with filtering  
 
-- ```sh
+- ```bash
     ps -ef | grep -i process-name | grep -v 'grep' | awk '{print $2}' | xargs kill -9
     ```
 
@@ -1382,13 +1382,13 @@ forcefully kill all child processes with filtering
 
 list all logged in users
 
-```sh
+```bash
 who
 ```
 
 logout user and kill all its processes
 
-```sh
+```bash
 pkill -KILL -u username
 ```
 
@@ -1398,44 +1398,44 @@ pkill -KILL -u username
 
 which user you are now
 
-```sh
+```bash
 whoami
 ```
 
 show all current logged in users with useful info including ip
 
-```sh
+```bash
 who
 ```
 
 show current path
 
-```sh
+```bash
 pws
 ```
 
 show info about any user
 
-```sh
+```bash
 id username
 ```
 
 add user
 
-```sh
+```bash
 adduser username # for ubuntu and modern rpm-based, also adds home dir
 useradd username # for old centos, doesn't add home dir
 ```
 
 add group
 
-```sh
+```bash
 groupadd group-name
 ```
 
 add user to the supplementary group without changing primary group
 
-```sh
+```bash
 usermod -aG group-name username
 # or
 vim /etc/group
@@ -1443,68 +1443,68 @@ vim /etc/group
 
 change current user password
 
-```sh
+```bash
 passwd
 ```
 
 change any user password
 
-```sh
+```bash
 passwd username
 ```
 
 switch to root user
 
-```sh
+```bash
 sudo -i
 ```
 
 switch to any user, change user
 
-```sh
+```bash
 su - username
 ```
 
 switch to any user if you don't know the password
 
-```sh
+```bash
 sudo -i
 su - username
 ```
 
 delete user
 
-```sh
+```bash
 userdel username
 ```
 
 delete user with home dir
 
-```sh
+```bash
 userdel -r username
 ```
 
 delete group
 
-```sh
+```bash
 groupdel group-name
 ```
 
 show last users logged in into the system
 
-```sh
+```bash
 last
 ```
 
 show all opened files by user
 
-```sh
+```bash
 lsof -u username
 ```
 
 show all opened files in particular dir
 
-```sh
+```bash
 lsof /path/to/dir
 
 # example
@@ -1513,7 +1513,7 @@ lsof /var/www/html/images
 
 > ubuntu 22 LTS default groups after install with user `username`
 
-```sh
+```bash
 adm:x:4:syslog,username
 cdrom:x:24:username
 sudo:x:27:username
@@ -1536,13 +1536,13 @@ Foo’s new `GID`: `3000`
 
 To assign a new `UID` to user called `foo`, enter:
 
-```sh
+```bash
 usermod -u 2005 foo
 ```
 
 To assign a new `GID` to group called `foo`, enter:
 
-```sh
+```bash
 groupmod -g 3000 foo
 ```
 
@@ -1550,14 +1550,14 @@ groupmod -g 3000 foo
 >
 > **WARNING!** The following examples may change ownership of unwanted files on your Linux computer if not executed with care.
 
-```sh
+```bash
 find / -group 2000 -exec chgrp -h foo {} \;
 find / -user 1005 -exec chown -h foo {} \;
 ```
 
 > The `-exec` command executes `chgrp` command or `chmod` command on each file. The `-h` option passed to the `chgrp`/`chmod` command affect each symbolic link instead of any referenced file. Use the following command to verify the same:
 
-```sh
+```bash
 ls -l /home/foo/
 id -u foo
 id -g foo
@@ -1565,19 +1565,19 @@ id -g foo
 
 search for `foo` in the passswd file
 
-```sh
+```bash
 grep foo /etc/passwd
 ```
 
 search for 'foo' in the group file
 
-```sh
+```bash
 grep foo /etc/group
 ```
 
 use the find command to locate files owned by `foo`
 
-```sh
+```bash
 find / -user foo -ls
 find / -group sales -ls # maybe -group foo here...
 ```
@@ -1592,7 +1592,7 @@ find / -group sales -ls # maybe -group foo here...
 
 add passwordless sudo for user
 
-```sh
+```bash
 echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/$USER
 ```
 
@@ -1601,26 +1601,26 @@ append linuxbrew to root's `secure_path` in the end
 - `sudo sh -c` to preserve root's `$PATH` (Execute a command and then exit: `sh -c "command-name"`)
 - `tee -a` will append to a file named like user that executes script
 
-```sh
+```bash
 sudo sh -c 'echo "Defaults secure_path = $PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"' \
 	| sudo tee -a /etc/sudoers.d/$USER
 ```
 
 add group to sudoers file use `%`
 
-```sh
+```bash
 echo "%group-name ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/group-name
 ```
 
 show all `/etc/sudoers.d` files
 
-```sh
+```bash
 cat /etc/sudoers.d/* # maybe working only under root
 ```
 
 edit `/etc/sudoers` with default text editor
 
-```sh
+```bash
 visudo
 # or
 vim /etc/sudoers
@@ -1628,7 +1628,7 @@ vim /etc/sudoers
 
 normal `sudoers` example
 
-```sh
+```bash
 root ALL=(ALL) ALL
 username ALL=(ALL) NOPASSWD: ALL
 ```
@@ -1639,13 +1639,13 @@ username ALL=(ALL) NOPASSWD: ALL
 
 change `user:group` owners of the dir or file
 
-```sh
+```bash
 chown username:group-name /path/to/filename
 ```
 
 `-R` - recursively, `-v` - verbose
 
-```sh
+```bash
 chown -R username:group-name /path/to/filename
 ```
 
@@ -1665,7 +1665,7 @@ change permissions for the file or dirs
 > - `w` = write
 > - `x` = execute
 
-```sh
+```bash
 # examples
 
 chmod o-x /path/to/filename
@@ -1674,7 +1674,7 @@ chmod g+w /path/to/filename
 
 just make file executable for user, group, others
 
-```sh
+```bash
 chmod +x ./name
 ```
 
@@ -1690,7 +1690,7 @@ chmod +x ./name
 > - `2` - for write
 > - `1` - for execute
 
-```sh
+```bash
 # examples
 
 chmod 640 /path/to/filename
@@ -1714,7 +1714,7 @@ chmod 770 /path/to/filename
 
 - Check current LVM partitioning with `lsblk`
 
-  ```sh
+  ```bash
   sudo lsblk
   
   # sample output
@@ -1743,7 +1743,7 @@ chmod 770 /path/to/filename
 
 - Check available free space with `vgdisplay` or `cfdisk` if there are no free space in VG
 
-  ```sh
+  ```bash
   sudo vgdisplay
   
   # Output
@@ -1769,7 +1769,7 @@ chmod 770 /path/to/filename
     VG UUID               nUJC6V-id1M-sAk0-gCTw-FQzr-hobx-UwPyF6
   ```
 
-  ```sh
+  ```bash
   sudo cfdisk
   
   # If it's online resizing and you see no free space use command to rescan disks
@@ -1796,7 +1796,7 @@ chmod 770 /path/to/filename
   - `vgdisplay` shows free space  
     check `LV path` of the **LV** that you want to extend
 
-    ```sh
+    ```bash
     sudo lvdisplay
     
     # Output
@@ -1837,7 +1837,7 @@ chmod 770 /path/to/filename
 
     - extend **LV**
 
-      ```sh
+      ```bash
       sudo lvextend -l +100%FREE -r /dev/rl/root
       ```
 
@@ -1860,7 +1860,7 @@ chmod 770 /path/to/filename
 
       - check **PV** name
 
-        ```sh
+        ```bash
         sudo pvdisplay
         
         # Output
@@ -1878,7 +1878,7 @@ chmod 770 /path/to/filename
 
       - resize **PV**
 
-        ```sh
+        ```bash
         sudo pvresize /dev/sda2
         
         # Output
@@ -1888,7 +1888,7 @@ chmod 770 /path/to/filename
 
       - check **PV** size again
 
-        ```sh
+        ```bash
         sudo pvdisplay
         
         # Output
@@ -1906,7 +1906,7 @@ chmod 770 /path/to/filename
 
       - check added free space to **VG**
 
-        ```sh
+        ```bash
         sudo vgdisplay
         
         # Output
@@ -1934,7 +1934,7 @@ chmod 770 /path/to/filename
 
       - extend **LV**
 
-        ```sh
+        ```bash
         # check LV path
         sudo lvdisplay
         
@@ -1966,19 +1966,19 @@ force boot with specific kernel
 
 1. edit grub config  
 
-    ```sh
+    ```bash
     vim /etc/default/grub
     ```
 
 2. in that file edit this line, in menu count starts with 0  
 
-    ```sh
+    ```bash
     GRUB_DEFAULT="1>2"
     ```
 
 3. update grub config  
 
-    ```sh
+    ```bash
     update-grub
     ```
 
@@ -1986,7 +1986,7 @@ force boot with specific kernel
 
 1. don't need to change anything in grub config, just use the command  
 
-    ```sh
+    ```bash
     grub2-set-default number
     
     # example
@@ -1995,7 +1995,7 @@ force boot with specific kernel
 
 2. check the boot  
 
-    ```sh
+    ```bash
     reboot now
     ```
 
@@ -2009,7 +2009,7 @@ force boot with specific kernel
 
 show partitions
 
-```sh
+```bash
 df -h
 ```
 
@@ -2017,7 +2017,7 @@ df -h
 
 show disks
 
-```sh
+```bash
 # on GTP use parted or gdisk
 sudo parted -l
 # or
@@ -2030,13 +2030,13 @@ sudo fdisk -l
 
 show disks with `ls` (including unmounted)
 
-```sh
+```bash
 ls -lh /dev/ | grep disk
 ```
 
 start disk partitioning
 
-```sh
+```bash
 fdisk /dev/disk-name
 
 # example
@@ -2045,7 +2045,7 @@ fdisk /dev/xvdf
 
 > partitioning example
 
-```sh
+```bash
 m # for help
 n # add a new partition
 p # primary
@@ -2063,13 +2063,13 @@ w # write table to disk and exit
 
 show avalaible formatting utilities
 
-```sh
+```bash
 mkfs # press Tab 2 times
 ```
 
 do ext4 formatting
 
-```sh
+```bash
 mkfs.ext4 /dev/disk-name
 
 # example
@@ -2082,25 +2082,25 @@ mkfs.ext4 /dev/xvdf1
 
 mount dir to partition temporarily
 
-```sh
+```bash
 mount /dev/xvdf1 /var/www/html/images/
 ```
 
 check mounting
 
-```sh
+```bash
 df -h
 ```
 
 unmount dir from partition
 
-```sh
+```bash
 umount /var/www/html/images/
 ```
 
 mount dir to partition permanently
 
-```sh
+```bash
 vim /etc/fstab
 
 # add this to file
@@ -2109,7 +2109,7 @@ vim /etc/fstab
 
 `/etc/fstab` example
 
-```sh
+```bash
 # Created by anaconda on Sun Nov 14 11:52:41 2021
 #
 # Accessible filesystems, by reference, are maintained under '/dev/disk'
@@ -2122,7 +2122,7 @@ UUID=44a6a613-4e21-478b-a909-ab653c9d39df /                       xfs     defaul
 
 **DON'T FORGET** after that mount all mounts from `/etc/fstab`
 
-```sh
+```bash
 mount -a
 ```
 
@@ -2132,7 +2132,7 @@ mount -a
 
 show network adapters
 
-```sh
+```bash
 ip a
 ip r
 ip address
@@ -2143,7 +2143,7 @@ ifconfig
 
 restarting network
 
-```sh
+```bash
 # Ubuntu 22
 sudo systemctl restart systemd-networkd
 ```
@@ -2154,7 +2154,7 @@ sudo systemctl restart systemd-networkd
 
 edit network config
 
-```sh
+```bash
 sudo vim /etc/netplan/00-installer-config.yaml
 
 # example config Ubuntu 22 with DHCP + static IP adapters
@@ -2173,7 +2173,7 @@ network:
 
 apply new config
 
-```sh
+```bash
 sudo netplan apply
 # or debug
 sudo netplan --debug apply
@@ -2181,13 +2181,13 @@ sudo netplan --debug apply
 
 check network adapters
 
-```sh
+```bash
 ip a
 ```
 
 and **DON'T FORGET** to check */etc/hosts* if you get `unable to resolve host ub22-nginx: Name or service not known`
 
-```sh
+```bash
 bat -pP /etc/hosts
 
 # output
@@ -2315,19 +2315,19 @@ ping nas.local
 
 flush dns
 
-```sh
+```bash
 sudo resolvectl flush-caches
 ```
 
 check dns queries
 
-```sh
+```bash
 resolvectl statistics
 ```
 
 check dns settings
 
-```sh
+```bash
 resolvectl status
 ```
 
@@ -2337,7 +2337,7 @@ resolvectl status
 
 restart network
 
-```sh
+```bash
 sudo systemctl restart NetworkManager
 ```
 
@@ -2347,13 +2347,13 @@ sudo systemctl restart NetworkManager
 
 choose adapter config to edit
 
-```sh
+```bash
 sudo vim /etc/sysconfig/network-scripts/ifcfg-*
 ```
 
 > examples
 
-- ```sh
+- ```bash
     sudo vim /etc/sysconfig/network-scripts/ifcfg-eth0
     
     # dhcp adapter created via installing CentOS
@@ -2375,7 +2375,7 @@ sudo vim /etc/sysconfig/network-scripts/ifcfg-*
     IPV6_PRIVACY=no
     ```
 
-- ```sh
+- ```bash
     sudo vim /etc/sysconfig/network-scripts/ifcfg-eth1
     
     # static IP adapter created via installing CentOS
@@ -2401,13 +2401,13 @@ sudo vim /etc/sysconfig/network-scripts/ifcfg-*
 
 restart the network
 
-```sh
+```bash
 sudo systemctl restart network
 ```
 
 check network adapters
 
-```sh
+```bash
 ip a
 ```
 
@@ -2417,13 +2417,13 @@ ip a
 
 show hostname
 
-```sh
+```bash
 hostnamectl hostname
 ```
 
 change hostname
 
-```sh
+```bash
 # Ubuntu 22
 sudo hostnamectl hostname ub22-nginx
 
@@ -2433,7 +2433,7 @@ sudo hostnamectl set-hostname ub22-nginx
 
 and **DON'T FORGET** to check */etc/hosts*
 
-```sh
+```bash
 bat -pP /etc/hosts
 
 # output
@@ -2444,7 +2444,7 @@ bat -pP /etc/hosts
 
 > NOTE about `hostname` command
 >
-> ```sh
+> ```bash
 > hostname your-hostname
 >   ```
 >
@@ -2458,13 +2458,13 @@ bat -pP /etc/hosts
 
 ssh config path
 
-```sh
+```bash
 /etc/ssh/sshd_config
 ```
 
 check all ssh settings
 
-```sh
+```bash
 sudo sshd -T
 ```
 
@@ -2474,13 +2474,13 @@ sudo sshd -T
 
 1. Generate **Ed25519** key pair
 
-   ```sh
+   ```bash
    ssh-keygen -t ed25519 -a 100 -C "user@hostname"
    ```
 
 2. Or generate **RSA** key pair if you need compatibility
 
-   ```sh
+   ```bash
    ssh-keygen -t rsa -b 4096 -C "user@hostname"
    ```
 
@@ -2498,7 +2498,7 @@ sudo sshd -T
 
 check ssh key passphrase
 
-```sh
+```bash
 ssh-keygen -y -f ~/.ssh/id_ed25519
 ```
 
@@ -2508,13 +2508,13 @@ ssh-keygen -y -f ~/.ssh/id_ed25519
 
 generate new pair of ssh keys
 
-```sh
+```bash
 ssh-keygen
 ```
 
 generate new pair of ssh keys in specified dir
 
-```sh
+```bash
 ssh-keygen
 
 # Enter file in which to save the key (/Users/mono/.ssh/id_rsa):
@@ -2523,31 +2523,31 @@ ssh-keygen
 
 public key default location
 
-```sh
+```bash
 cat ~/.ssh/id_rsa.pub
 ```
 
 identification (private key or closed key)
 
-```sh
+```bash
 cat ~/.ssh/id_rsa
 ```
 
 copy public key to remote server for specific user
 
-```sh
+```bash
 ssh-copy-id username@remote_host
 ```
 
 copy public key to remote server without ssh-copy-id
 
-```sh
+```bash
 cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 ```
 
 disable password authentication on remote server
 
-```sh
+```bash
 sudo nano /etc/ssh/sshd_config
 
 # edit in file
@@ -2559,20 +2559,20 @@ sudo service sshd restart # rpm-based distro
 
 list all local private and public ssh keys
 
-```sh
+```bash
 ls -l ~/.ssh/
 ls -l ~/.ssh/id_*
 ```
 
 change the passphrase for default SSH private key
 
-```sh
+```bash
 ssh-keygen -p
 ```
 
 change the passphrase for specific private key
 
-```sh
+```bash
 ssh-keygen -p -f ~/.ssh/private_key_name
 # or
 ssh-keygen -f private_key_name -p
@@ -2580,7 +2580,7 @@ ssh-keygen -f private_key_name -p
 
 remove a passphrase from private key
 
-```sh
+```bash
 ssh-keygen -f ~/.ssh/private_key_name -p
 # or
 ssh-keygen -f ~/.ssh/private_key_name -p -N ""
@@ -2590,7 +2590,7 @@ ssh-keygen -p -N ""
 
 ssh to host with specific public key
 
-```sh
+```bash
 ssh -i ~/.ssh/id_rsa_name username@hostname
 
 # aws example
@@ -2606,13 +2606,13 @@ ssh-keys should *not* get automatically added to the agent just because you SSH'
 
 list the ssh-agent keys
 
-```sh
+```bash
 ssh-add -l
 ```
 
 delete all ssh-agent-keys
 
-```sh
+```bash
 ssh-add -D
 ```
 
@@ -2628,7 +2628,7 @@ Instead of forwarding **SSH-agent** and all ssh keys use **ProxyJump**
 
 1. Connect to remote host through **Bastion-host**
 
-   ```sh
+   ```bash
    ssh -J bastion.example.com cloud.computer.internal
    ```
 
@@ -2649,7 +2649,7 @@ Host *.computer.internal
 
 And connect to the remote host
 
-```sh
+```bash
 ssh cloud.computer.internal
 ```
 
@@ -2659,7 +2659,7 @@ ssh cloud.computer.internal
 
 push file to another host
 
-```sh
+```bash
 scp filename username@hostname:/absolute/path/to/dir
 
 # example
@@ -2668,7 +2668,7 @@ scp testfile.txt devops@web01:/tmp
 
 fetch file from another host
 
-```sh
+```bash
 scp username@hostname:/absolute/path/to/filename
 
 # example
@@ -2677,7 +2677,7 @@ scp devops@web01:/home/devops/testfile.txt .
 
 push file to another host with specified key
 
-```sh
+```bash
 scp -i /path/to/key-filename /path/to/filename username@hostname:/path/to/dest
 
 # aws example
@@ -2694,7 +2694,7 @@ scp -i ~/.ssh/aws/bastion-key.pem ~/.ssh/aws/wave-key.pem ec2-user@52.53.251.116
 
 download anything with `curl`
 
-```sh
+```bash
 curl https://link -o filename
 
 # example
@@ -2703,13 +2703,13 @@ curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch
 
 check curl
 
-```sh
+```bash
 curl parrot.live
 ```
 
 request webpage and get response and all headers
 
-```sh
+```bash
 curl -i address-name
 
 # example
@@ -2728,7 +2728,7 @@ this will be logged to the default file.
 
 request webpage and get only all headers
 
-```sh
+```bash
 curl -I address-name
 
 # example
@@ -2745,13 +2745,13 @@ Connection: keep-alive
 
 check working webserver (**httpd**, **apache2**, **nginx**)
 
-```sh
+```bash
 curl -i localhost
 ```
 
 check website element with custom header
 
-```sh
+```bash
 # example with gzip compression
 curl -I -H "Accept-Encoding: gzip" http://nginx-handbook.test/mini.min.css
 curl -H "Accept-Encoding: gzip, deflate" -I http://ub22-nginx/assets/js/jquery.js
@@ -2759,13 +2759,13 @@ curl -H "Accept-Encoding: gzip, deflate" -I http://ub22-nginx/assets/js/jquery.j
 
 download file with `wget`
 
-```sh
+```bash
 wget filelink
 ```
 
 check the internet connection speed with [speedtest.net](https://www.speedtest.net/) and `wget`
 
-```sh
+```bash
 wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip
 ```
 
@@ -2777,13 +2777,13 @@ wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip
 
 show open ports of localhost
 
-```sh
+```bash
 nmap localhost
 ```
 
 show open ports of local server
 
-```sh
+```bash
 nmap hostname
 
 # example
@@ -2794,7 +2794,7 @@ nmap db01
 
 show all open TCP ports
 
-```sh
+```bash
 netstat -antp
 
 # example
@@ -2803,7 +2803,7 @@ netstat -antp | grep apache2
 
 search `PID`, and use it to know on what port app is running, if you don't see process name with `netstat`
 
-```sh
+```bash
 ps -ef | grep apache2 # copy PID
 
 netstat -antp | grep PID
@@ -2813,7 +2813,7 @@ netstat -antp | grep PID
 
 show all open TCP ports
 
-```sh
+```bash
 ss -tunlp
 
 # example
@@ -2824,7 +2824,7 @@ ss -tunlp | grep 80
 
 use telnet to check the connection via any port
 
-```sh
+```bash
 telnet ip-address port
 
 # examples
@@ -2847,7 +2847,7 @@ telnet vprofile-mysql-rds.cyg76sxmwbec.us-east-1.rds.amazonaws.com 3306
 
 `dig` - dns lookup
 
-```sh
+```bash
 dig adress-name
 
 # example
@@ -2856,7 +2856,7 @@ dig google.com
 
 `nslookup` - dns lookup (older version of dig)
 
-```sh
+```bash
 nslookup address-name
 
 # example
@@ -2868,7 +2868,7 @@ nslookup -type=ns kubevpro.wandering-mono.top
 
 install `nslookup` on rpm-based distro
 
-```sh
+```bash
 sudo dnf install -y bind-utils
 ```
 
@@ -2876,7 +2876,7 @@ sudo dnf install -y bind-utils
 
 show path to the server and latency problems
 
-```sh
+```bash
 traceroute address-name
 
 # example
@@ -2888,7 +2888,7 @@ traceroute google.com
 
 show path to the server and latency problems online (live)
 
-```sh
+```bash
 mrt adress-name
 
 # example
@@ -2899,7 +2899,7 @@ mtr google.com
 
 show gateways
 
-```sh
+```bash
 route -n
 route
 ```
@@ -2908,7 +2908,7 @@ route
 
 show arp table
 
-```sh
+```bash
 arp
 ```
 
@@ -2925,127 +2925,127 @@ arp
 
 apt upgrade one-liner
 
-```sh
+```bash
 sudo apt update && sudo apt upgrade -y && sudo apt autopurge
 ```
 
 apt and brew upgrade one-liner
 
-```sh
+```bash
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge
 ```
 
 apt, brew and snap upgrade one-liner
 
-```sh
+```bash
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge && sudo snap refresh
 ```
 
 apt, brew, snap, tldr upgrade one-liner
 
-```sh
+```bash
 sudo apt update && sudo apt upgrade -y && brew update && brew upgrade && sudo apt autopurge && sudo snap refresh && tldr --update
 ```
 
 apt upgrade one-liner for scripts to skip all questions of packages
 
-```sh
+```bash
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 ```
 
 apt repos
 
-```sh
+```bash
 cat /etc/apt/sources.list
 ```
 
 before installing any package update repos list
 
-```sh
+```bash
 apt update
 ```
 
 update all packages
 
-```sh
+```bash
 apt upgrade
 ```
 
 update specific package
 
-```sh
+```bash
 apt upgrade package-name
 ```
 
 search package from avalaible repos
 
-```sh
+```bash
 apt search package-name
 ```
 
 search package and if the list is too big view it with pager
 
-```sh
+```bash
 apt search nodejs | less
 ```
 
 install package without prompts
 
-```sh
+```bash
 apt install package-name -y
 ```
 
 reinstall package
 
-```sh
+```bash
 apt reinstall package-name
 ```
 
 remove package
 
-```sh
+```bash
 apt remove package-name
 ```
 
 remove package and all its configs and data
 
-```sh
+```bash
 apt purge package-name
 ```
 
 list all available *Group Packages*
 
-```sh
+```bash
 apt grouplist
 ```
 
 install all the packages in a group
 
-```sh
+```bash
 apt groupinstall group-name
 ```
 
 show enabled apt repos
 
-```sh
+```bash
 apt repolist
 ```
 
 clean apt cache
 
-```sh
+```bash
 apt clean all
 ```
 
 show apt history
 
-```sh
+```bash
 apt history
 ```
 
 show info of the package
 
-```sh
+```bash
 apt show package-name
 ```
 
@@ -3055,13 +3055,13 @@ apt show package-name
 
 delete all unused packages that was installed as dependencies
 
-```sh
+```bash
 apt autoremove
 ```
 
 delete all unused packages that was installed as dependencies with all config files and data
 
-```sh
+```bash
 apt autoremove --purge
 # 1st preffered or
 apt autopurge
@@ -3073,7 +3073,7 @@ apt autopurge
 
 > Hold specific packages from upgrading. Useful to not update the kernel packages.
 
-```sh
+```bash
 apt-mark hold package-name
 
 # example for ubuntu m1 vm
@@ -3088,31 +3088,31 @@ apt-mark hold linux-modules-5.4.0-137-generic linux-headers-5.4.0-137 linux-head
 
 install downloaded package with dpkg
 
-```sh
+```bash
 dpkg -i filename
 ```
 
 show all installed packages
 
-```sh
+```bash
 dpkg -l
 ```
 
 search for specific installed package
 
-```sh
+```bash
 dpkg -l | grep -i package-name
 ```
 
 remove package
 
-```sh
+```bash
 dpkg -r package-name
 ```
 
 show which package belongs a file
 
-```sh
+```bash
 dpkg -S /etc/nginx
 
 # output
@@ -3125,7 +3125,7 @@ nginx-common: /etc/nginx
 
 ufw simple private network allow ssh config
 
-```sh
+```bash
 sudo ufw insert 1 allow from 10.0.0.0/8 to any port ssh && \
   sudo ufw insert 2 allow from 172.16.0.0/12 to any port ssh && \
   sudo ufw insert 3 allow from 192.168.0.0/16 to any port ssh
@@ -3133,7 +3133,7 @@ sudo ufw insert 1 allow from 10.0.0.0/8 to any port ssh && \
 
 ufw simple private network allow https and http config
 
-```sh
+```bash
 sudo ufw allow from 10.0.0.0/8 to any port https && \
   sudo ufw allow from 172.16.0.0/12 to any port https && \
   sudo ufw allow from 192.168.0.0/16 to any port https && \
@@ -3156,13 +3156,13 @@ sudo ufw allow from 10.0.0.0/8 to any port https && \
 
 repos location
 
-```sh
+```bash
 /etc/yum.repos.d/
 ```
 
 if there are a problem with repos metalink, comment metalink and enter baseurl
 
-```sh
+```bash
 vim /etc/yum.repos.d/fedora.repo
 
 # comment metalink and enter baseurl
@@ -3178,104 +3178,104 @@ https://admin.fedoraproject.org/mirrormanager/
 
 dnf upgrade one-liner
 
-```sh
+```bash
  sudo dnf update -y && sudo dnf autoremove
 ```
 
 dnf and brew upgrade one-liner
 
-```sh
+```bash
  sudo dnf update -y && brew update && brew upgrade && sudo dnf autoremove
 ```
 
 search package
 
-```sh
+```bash
 dnf search package-name
 ```
 
 install something without prompts
 
-```sh
+```bash
 dnf install -y package-name
 ```
 
 reinstall package
 
-```sh
+```bash
 dnf reinstall package-name
 ```
 
 remove package and its config files not touched by user
 
-```sh
+```bash
 dnf remove package-name
 ```
 
 update all packages
 
-```sh
+```bash
 dnf update
 ```
 
 update specific package
 
-```sh
+```bash
 dnf update package-name
 ```
 
 list all avalaible *Group Packages*
 
-```sh
+```bash
 dnf grouplist
 ```
 
 install all the packages in a group
 
-```sh
+```bash
 dnf groupinstall group-name
 ```
 
 show enabled dnf repos
 
-```sh
+```bash
 dnf repolist
 ```
 
 clean dnf cache
 
-```sh
+```bash
 dnf clean all
 ```
 
 show history of dnf
 
-```sh
+```bash
 dnf history
 ```
 
 show info of package
 
-```sh
+```bash
 dnf info package-name
 ```
 
 create metadata cache (dnf will do it automatically)
 
-```sh
+```bash
 dnf makecache
 ```
 
 exclude package in dnf from updating
 
-```sh
+```bash
 # example for kernel updates
 echo "exclude=kernel*" >> /etc/dnf/dnf.conf
 ```
 
 exclude package in yum from updating
 
-```sh
+```bash
 # deprecated in Fedora 35 and maybe previously versions
 echo "exclude=kernel*" >> /etc/yum.conf
 ```
@@ -3286,39 +3286,39 @@ echo "exclude=kernel*" >> /etc/yum.conf
 
 **epel** - additional package repository with commonly used software
 
-```sh
+```bash
 sudo dnf install epel-release
 sudo dnf makecache
 ```
 
 **Rocky Linux 9**
 
-```sh
+```bash
 sudo dnf -y install epel-release
 sudo dnf makecache
 ```
 
 **Amazon Linux 2**
 
-```sh
+```bash
 sudo amazon-linux-extras install epel -y
 ```
 
 **RHEL 8**
 
-```sh
+```bash
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
 ```
 
 **RHEL 7**
 
-```sh
+```bash
 sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 ```
 
 **CentOS 8**
 
-```sh
+```bash
 sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
@@ -3327,14 +3327,14 @@ sudo dnf config-manager --set-enabled PowerTools
 
 **CentOS 7**
 
-```sh
+```bash
 sudo yum -y install epel-release
 ```
 
 List repositories that are turned on  
 To verify that the EPEL repository is turned on, run the repolist command:
 
-```sh
+```bash
 sudo yum repolist
 ```
 
@@ -3347,7 +3347,7 @@ sudo yum repolist
 install downloaded package  
 `-i` - install, `-v` - verbose, `-h` - human readable
 
-```sh
+```bash
 rmp -ivh package-name
 
 # examples
@@ -3357,7 +3357,7 @@ rpm -ivh --test mozilla-mail-1.7.5-17.i586.rpm
 
 show all installed rpms
 
-```sh
+```bash
 rpm -qa
 
 # examples
@@ -3367,13 +3367,13 @@ rpm -qa | less
 
 show latest installed rpms
 
-```sh
+```bash
 rpm -qa --last
 ```
 
 upgrade installed package
 
-```sh
+```bash
 rpm -Uvh package-name
 
 # examples
@@ -3383,7 +3383,7 @@ rpm -Uvh --test mozilla-mail-1.7.6-12.i586.rpm
 
 remove installed package
 
-```sh
+```bash
 rpm -ev package-name
 
 # example
@@ -3392,7 +3392,7 @@ rpm -ev mozilla-mail
 
 remove installed package without checking its dependencies
 
-```sh
+```bash
 rpm -ev --nodeps
 
 # example
@@ -3401,7 +3401,7 @@ rpm -ev --nodeps mozilla-mail
 
 show info about installed package
 
-```sh
+```bash
 rpm -qi package-name
 
 # example
@@ -3410,7 +3410,7 @@ rpm -qi mozilla-mail
 
 find out what package owns the file
 
-```sh
+```bash
 rpm -qf /path/to/dir
 
 # examples
@@ -3419,7 +3419,7 @@ rpm -qf /etc/passwd
 
 show list of configuration file(s) for a package
 
-```sh
+```bash
 rpm -qc package-name
 
 # example
@@ -3428,7 +3428,7 @@ rpm -qc httpd
 
 show list of configuration files for a command
 
-```sh
+```bash
 rpm -qcf /path/to/filename
 
 # example
@@ -3437,7 +3437,7 @@ rpm -qcf /usr/X11R6/bin/xeyes
 
 show what dependencies a rpm file has
 
-```sh
+```bash
 rpm -qpR filename.rpm
 rpm -qR package-name
 
@@ -3452,19 +3452,19 @@ rpm -qR bash
 
   1. List last installed packages
 
-     ```sh
+     ```bash
      sudo rpm -qa --last | grep gpg
      ```
 
   2. Remove gpg
 
-     ```sh
+     ```bash
      sudo rpm -ev package-name
      ```
 
   3. Remove repo
 
-     ```sh
+     ```bash
      sudo rm -rf /etc/yum.repos.d/repo-name.repo
      ```
 
@@ -3474,14 +3474,14 @@ rpm -qR bash
 
 open 443, https
 
-```sh
+```bash
 sudo firewall-cmd --add-service=http --add-service=https --permanent
 sudo systemctl restart firewalld
 ```
 
 firewalld open specific port, for example `mysql` (`mariadb`)
 
-```sh
+```bash
 sudo firewall-cmd --get-active-zones
 sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
 sudo firewall-cmd --reload
@@ -3495,7 +3495,7 @@ sudo firewall-cmd --reload
 
 `bash-completion` (used for `docker`, `kubectl` for example)
 
-```sh
+```bash
 sudo dnf install bash-completion
 
 sudo apt install bash-completion
@@ -3504,7 +3504,7 @@ sudo apt install bash-completion
 `colordiff` - coloured `diff` - packages for file comparisons  
 `-y` - for side-by-side comparison
 
-```sh
+```bash
 colordiff -y /path/to/filename /path/to/filename
 ```
 
@@ -3512,7 +3512,7 @@ colordiff -y /path/to/filename /path/to/filename
 
 start stress on cpu with 4 processes for 300 seconds in background
 
-```sh
+```bash
 nohup stress -c 4 -t 300 &
 ```
 
@@ -3525,7 +3525,7 @@ small `stress` script to test monitoring alarms
 sudo stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 60 && sleep 60 && stress -c 4 -t 360 && sleep  && stress -c 4 -t 460 && sleep 30 && stress -c 4 -t 360 && sleep 60
 ```
 
-```sh
+```bash
 # run it in background
 nohup ./stress.sh &
 ```
@@ -3538,20 +3538,20 @@ Installation of different versions of `java` here [maven.md](maven.md)
 
 check current main version
 
-```sh
+```bash
 java -version
 ```
 
 check installed jdk versions
 
-```sh
+```bash
 ls /usr/lib/jvm
 ```
 
 > example  
 > here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
 
-```sh
+```bash
 ls /usr/lib/jvm
 java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
 java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
@@ -3567,14 +3567,14 @@ java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3583,14 +3583,14 @@ curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3599,14 +3599,14 @@ curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3615,14 +3615,14 @@ curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3631,14 +3631,14 @@ curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3647,14 +3647,14 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
 
 Using Ubuntu
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
   sudo apt-get install -y nodejs
 ```
 
 Using Debian, as root
 
-```sh
+```bash
 curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
   apt-get install -y nodejs
 ```
@@ -3665,7 +3665,7 @@ To compile and install native addons from npm you may also need to install build
 
 use `sudo` on Ubuntu or run this as root on debian
 
-```sh
+```bash
 apt-get install -y build-essential
 ```
 
@@ -3675,7 +3675,7 @@ To completely remove Node.js installed from the deb.nodesource.com package metho
 
 use `sudo` on Ubuntu or run this as root on debian
 
-```sh
+```bash
 apt-get purge nodejs &&\
   rm -r /etc/apt/sources.list.d/nodesource.list
 ```
@@ -3688,25 +3688,25 @@ PM2
 
 install PM2
 
-```sh
+```bash
 sudo npm install -g pm2
 ```
 
 monitor all launched node.js processes
 
-```sh
+```bash
 pm2 monit
 ```
 
 show all launched node.js processes
 
-```sh
+```bash
 pm2 list
 ```
 
 act on node.js processes
 
-```sh
+```bash
 pm2 start app.js
 pm2 stop
 pm2 restart
@@ -3719,19 +3719,19 @@ pm2 delete
 
 install php-fpm in Ubuntu
 
-```sh
+```bash
 sudo apt install php-fpm -y
 ```
 
 start php app inside the php app dir
 
-```sh
+```bash
 php -S localhost:8000
 ```
 
 If you have multiple PHP-FPM versions installed, you can simply list all the socket file locations by executing the following command:
 
-```sh
+```bash
 ls /run/php/ | grep php
 # output
 php-fpm.sock
@@ -3753,7 +3753,7 @@ sudo find / -name *fpm.sock
 
 default path for website for **apache2**, **httpd**
 
-```sh
+```bash
 /var/www/html
 ```
 
@@ -3763,13 +3763,13 @@ default path for website for **apache2**, **httpd**
 
 install on deb-based
 
-```sh
+```bash
 sudo apt install apache2-utils -y
 ```
 
 install rpm-based
 
-```sh
+```bash
 sudo dnf install httpd-tools
 ```
 
@@ -3778,7 +3778,7 @@ test server with `ab`
 - `-n` requests - Number of requests to perform
 - `-c` concurrency - Number of multiple requests to make at a time
 
-```sh
+```bash
 ab -n 20000 -c 1000 http://ub22-nginx/:80/
 ```
 
@@ -3794,7 +3794,7 @@ To enable HTTPS support, you must install both openssl and openssl-devel on your
 
 To change **json** output to standart edit *siege.config* file after first run:
 
-```sh
+```bash
 vim ~/.siege/siege.conf
 # comment json_output
 #json_output = true
@@ -3806,7 +3806,7 @@ test url with `siege`
 - `-r` - --reps=NUM, REPS, number of times to run the test.
 - `-c` - --concurrent=NUM, CONCURRENT users, default is 10
 
-```sh
+```bash
 siege -v -r 2 -c 5 https://ub22-nginx/assets/js/custom.js
 
 # output
@@ -3864,7 +3864,7 @@ Shortest transaction:           0.00
 default path for website for tomcat  
 `?` - **tomcat** version
 
-```sh
+```bash
 /var/lib/tomcat?/webapps/
 /var/lib/tomcat8/webapps/
 ```
@@ -3897,7 +3897,7 @@ default path for website for tomcat
 
 simply check your ip
 
-```sh
+```bash
 curl -4 icanhazip.com
 ```
 
@@ -4068,32 +4068,32 @@ To reinstall some package and restore its' configs you need to find what depende
 
 1. Install NGINX
 
-   ```sh
+   ```bash
    sudo apt install nginx
    ```
 
 2. Stop the NGINX and remove all configs
 
-   ```sh
+   ```bash
    sudo systemctl stop nginx && rm -rf /etc/nginx
    ```
 
 3. Try to reinstall NGINX
 
-   ```sh
+   ```bash
    sudo apt reinstal nginx
    sudo apt purge nginx -y && sudo apt autopurge -y && sudo apt install nginx -y
    ```
 
 4. The only way to get back configs is to cleanly reinstall `nginx-common`
 
-   ```sh
+   ```bash
    sudo apt purge nginx-common && sudo apt install nginx-common
    ```
 
 5. Be careful because `sudo apt purge nginx-common` will delete all NGINX dirs, but that dirs may be not touched:
 
-   ```sh
+   ```bash
    ...
    Purging configuration files for nginx-common (1.18.0-6ubuntu14.3) ...
    dpkg: warning: while removing nginx-common, directory '/var/www/html' not empty so not removed
@@ -4103,7 +4103,7 @@ To reinstall some package and restore its' configs you need to find what depende
 
 6. In order to determine to which package belongs a file, you should execute:
 
-   ```sh
+   ```bash
    dpkg -S /etc/nginx
    
    # output
@@ -4112,7 +4112,7 @@ To reinstall some package and restore its' configs you need to find what depende
 
 7. Also you can find all package's folders with `whereis`:
 
-   ```sh
+   ```bash
    whereis nginx
    
    # output
@@ -4203,7 +4203,7 @@ Let us see syntax and usage in details.
 
 The syntax is:
 
-```sh
+```bash
 sed 's/word1/word2/g' input.file
 ## *BSD/macOS sed syntax ##
 sed 's/word1/word2/g' input.file > output.file
@@ -4220,7 +4220,7 @@ The above replace all occurrences of characters in word1 in the pattern space wi
 
 Let us [create a text file](https://www.cyberciti.biz/faq/create-a-file-in-linux-using-the-bash-shell-terminal/) called hello.txt as follows:
 
-```sh
+```bash
 cat hello.txt
 ```
 
@@ -4235,7 +4235,7 @@ I love FOO.
 
 I am going to use s/ for substitute the found expression foo with bar as follows:
 
-```sh
+```bash
 sed 's/foo/bar/g' hello.txt
 ```
 
@@ -4250,19 +4250,19 @@ I love FOO.
 
 To update file pass the -i option when using GNU/sed version:
 
-```sh
+```bash
 sed -i 's/foo/bar/g' hello.txt$ cat hello.txt
 ```
 
 The g/ means global replace i.e. find all occurrences of foo and replace with bar using sed. If you removed the /g only first occurrence is changed. For instance:
 
-```sh
+```bash
 sed -i 's/foo/bar/' hello.txt
 ```
 
 The / act as delimiter characters. [To match all cases of foo (foo, FOO, Foo, FoO) add I (capitalized I) option](https://www.cyberciti.biz/faq/unixlinux-sed-case-insensitive-search-replace-matching/) as follows:
 
-```sh
+```bash
 sed -i 's/foo/bar/g**I**' hello.txt$ cat hello.txt
 ```
 
@@ -4279,7 +4279,7 @@ I love bar.
 
 Please note that the BSD implementation of sed (FreeBSD/OpenBSD/NetBSD/MacOS and co) does NOT support case-insensitive matching including file updates with the help of -i option. Hence, you need to install gnu sed. Run the following command on Apple macOS (first [set up home brew on macOS](https://www.cyberciti.biz/faq/how-to-install-homebrew-on-macos-package-manager/)):
 
-```sh
+```bash
 brew install gnu-sed
 ######################################
 ### now use gsed command as follows ##
@@ -4298,25 +4298,25 @@ Consider the following text file:
 `$ **cat input.txt**http:// is outdate.Consider using https:// for all your needs.`
 Find word ‘<http://>’ and replace with ‘<https://www.cyberciti.biz>’:
 
-```sh
+```bash
 sed 's/**http://**/**https://www.cyberciti.biz**/g' input.txt
 ```
 
 You will get an error that read as follows:
 
-```sh
+```bash
 sed: 1: "s/http:///https://www.c ...": bad flag in substitute command: '/'
 ```
 
 Our syntax is correct but the / delimiter character is also part of word1 and word2 in above example. Sed command allows you to change the delimiter / to something else. So I am going to use +:
 
-```sh
+```bash
 sed 's+**http://**+**https://www.cyberciti.biz**+g' input.txt
 ```
 
 Sample outputs:
 
-```sh
+```bash
 https://www.cyberciti.biz is outdate.
 Consider using https:// for all your needs.
 ```
@@ -4325,13 +4325,13 @@ Consider using https:// for all your needs.
 
 In this example only find word ‘love’ and replace it with ‘sick’ if line content a specific string such as FOO:
 
-```sh
+```bash
 sed -i -e '/FOO/s/love/sick/' input.txt
 ```
 
 Use [cat command](https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-cat-command-examples/) to verify new changes:
 
-```sh
+```bash
 cat input.txt
 ```
 
@@ -4339,7 +4339,7 @@ cat input.txt
 
 The general syntax is as follows:
 
-```sh
+```bash
 ## find word1 and replace with word2 using sed ##
 sed -i 's/word1/word2/g' input
 ## you can change the delimiter to keep syntax simple ##
@@ -4352,7 +4352,7 @@ sed -i 's_word1_word2_gI' input
 
 See [BSD (used on macOS too)](https://www.freebsd.org/cgi/man.cgi?sed) sed or [GNU](https://www.gnu.org/software/sed/manual/sed.html) sed man page by typing the following [man command](https://bash.cyberciti.biz/guide/Man_command)/info command or [help command](https://bash.cyberciti.biz/guide/Help_command):
 
-```sh
+```bash
 man sed # gnu sed options #$ sed --help$ info sed
 ```
 

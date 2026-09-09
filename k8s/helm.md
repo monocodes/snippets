@@ -23,7 +23,7 @@ Better install with the official guide - [Installing Helm](https://helm.sh/docs/
 Helm install one-liner Linux amd64  
 don't forget to take the latest version from [git repo](https://github.com/helm/helm/releases)!
 
-```sh
+```bash
 wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz && \
   tar -zxvf helm-v3.12.0-linux-amd64.tar.gz && \
   mv linux-amd64/helm /usr/local/bin/helm
@@ -37,11 +37,11 @@ wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz && \
 >
 > The only way to resolve it is just symlink the binary from brew like that:
 >
-> ```sh
+> ```bash
 > sudo ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/local/bin/helm
 > ```
 
-```sh
+```bash
 brew install helm
 ```
 
@@ -49,7 +49,7 @@ brew install helm
 
 create helm charts in current dir (or repo)
 
-```sh
+```bash
 helm create charts-name
 
 # example
@@ -58,7 +58,7 @@ helm create vprofilecharts
 
 test helm charts example
 
-```sh
+```bash
 # create test namespace
 kubectl create namespace test
 

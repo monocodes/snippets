@@ -41,7 +41,7 @@ url: https://github.com/monocodes/snippets.git
 
 brew install one-liner macOS (interactive)
 
-```sh
+```bash
 xcode-select -p &>/dev/null || xcode-select --install
 command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 touch $HOME/.zprofile $HOME/.zshrc
@@ -67,7 +67,7 @@ EOF
 brew install one-liner macOS (non-interactive)  
 if user has `ALL=(ALL) NOPASSWD: ALL` in `/etc/sudoers.d`
 
-```sh
+```bash
 xcode-select --install &&
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile &&
@@ -93,7 +93,7 @@ cat $HOME/.zshrc
 
 brew install one-liner macOS (interactive)
 
-```sh
+```bash
 xcode-select --install &&
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile &&
@@ -124,7 +124,7 @@ cat $HOME/.zshrc
 
 brew install one-liner Ubuntu 22/24
 
-```sh
+```bash
 sudo apt-get update && sudo apt-get install -y build-essential procps curl file git &&
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
 test -r $HOME/.profile &&
@@ -179,7 +179,7 @@ EOF
 
 brew install one-liner Rocky Linux 9
 
-```sh
+```bash
 sudo dnf groupinstall -y "Development Tools" &&
 sudo dnf install -y procps-ng curl file git &&
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
@@ -240,7 +240,7 @@ brew install one-liner CentOS 7
 >
 > Use it only via script, not command
 
-```sh
+```bash
 #!/bin/bash
 sudo yum groups mark install "Development Tools"
 sudo yum groups mark convert "Development Tools"
@@ -304,14 +304,14 @@ cat <<EOF | sudo tee -a /root/.bashrc
 
 uninstall brew non-interactively
 
-```sh
+```bash
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
 	sudo rm -rf /home/linuxbrew
 ```
 
 uninstall brew interactively
 
-```sh
+```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
 	sudo rm -rf /home/linuxbrew
 ```
@@ -322,19 +322,19 @@ uninstall brew interactively
 
 macOS m1
 
-```sh
+```bash
 /opt/homebrew/Cellar
 ```
 
 macOS intel
 
-```sh
+```bash
 /usr/local/Cellar
 ```
 
 linux default
 
-```sh
+```bash
 /home/linuxbrew/.linuxbrew/bin/brew
 ```
 
@@ -348,7 +348,7 @@ More info here - [Using Homebrew on a multi-user system (don’t).md](guides/Usi
 
 use brew with user that installed brew or write aliases
 
-```sh
+```bash
 sudo -Hu username brew update
 ```
 
@@ -357,7 +357,7 @@ sudo -Hu username brew update
 
 add brew alias
 
-```sh
+```bash
 echo "alias brew='sudo -Hu username brew'" >> ~/.zprofile
 ```
 
@@ -365,7 +365,7 @@ echo "alias brew='sudo -Hu username brew'" >> ~/.zprofile
 
 macOS
 
-```sh
+```bash
 #!/bin/bash
 USER='admin'
 
@@ -396,7 +396,7 @@ USER=$(whoami)
 
 linux deb
 
-```sh
+```bash
 #!/bin/bash
 USER='ansible'
 cat <<EOF | sudo tee -a /home/$USER/.profile
@@ -426,7 +426,7 @@ sudo bat -pP /home/$USER/.profile && USER=$(whoami)
 
 linux rpm
 
-```sh
+```bash
 #!/bin/bash
 USER='ansible'
 cat <<EOF | sudo tee -a /home/$USER/.bash_profile
@@ -460,20 +460,20 @@ sudo bat -pP /home/$USER/.bash_profile && USER=$(whoami)
 
 check problems with brew and diagnose it
 
-```sh
+```bash
 brew doctor
 ```
 
 show brew installation path
 
-```sh
+```bash
 which -a brew
 # - a lists all installations found
 ```
 
 show brew config and system info
 
-```sh
+```bash
 brew config
 ```
 
@@ -483,25 +483,25 @@ brew config
 
 update brew taps and brew itself
 
-```sh
+```bash
 brew update
 ```
 
 upgrade all software
 
-```sh
+```bash
 brew upgrade
 ```
 
 upgrade specific package
 
-```sh
+```bash
 brew upgrade package-name
 ```
 
 list all upgradable packages
 
-```sh
+```bash
 brew outdated
 
 # only casks
@@ -510,19 +510,19 @@ brew outdate --casks
 
 prevent upgrading package
 
-```sh
+```bash
 brew pin package-name
 ```
 
 allow upgrading package
 
-```sh
+```bash
 brew unpin package-name
 ```
 
 show all installed packages
 
-```sh
+```bash
 brew list
 
 # only casks
@@ -535,7 +535,7 @@ brew list --casks
 
 search for package
 
-```sh
+```bash
 brew search package-name
 
 # only casks
@@ -544,7 +544,7 @@ brew search --casks package-name
 
 search for formulae with a description matching text
 
-```sh
+```bash
 brew search --desc --eval-all package-name
 
 # only casks
@@ -553,14 +553,14 @@ brew search --desc --eval-all --casks package-name
 
 list all available packages
 
-```sh
+```bash
 brew formulae
 brew casks
 ```
 
 get info about package
 
-```sh
+```bash
 brew info name
 brew info --casks name
 ```
@@ -571,7 +571,7 @@ brew info --casks name
 
 install package
 
-```sh
+```bash
 brew install package-name
 
 # only casks
@@ -594,7 +594,7 @@ brew install --casks package-name
 
   - go to terminal
 
-    ```sh
+    ```bash
     # example
     curl -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/3c3ea5d92137adbb42b1c163f4cbfdd383409e33/Casks/mkvtoolnix.rb > mkvtoolnix.rb && brew install mkvtoolnix.rb
     ```
@@ -605,13 +605,13 @@ brew install --casks package-name
 
 uninstall package
 
-```sh
+```bash
 brew uninstall package-name
 ```
 
 remove unused dependencies
 
-```sh
+```bash
 brew autoremove
 ```
 
@@ -619,50 +619,50 @@ brew autoremove
 
   - first install `rmtree` command
 
-    ```sh
+    ```bash
     brew tap beeftornado/rmtree
     ```
 
   - uninstall package with all dependencies
 
-    ```sh
+    ```bash
     brew rmtree package-name
     ```
 
 uninstall all formulae
 
-```sh
+```bash
 brew remove --force $(brew list --formula)
 ```
 
 uninstall all casks
 
-```sh
+```bash
 brew remove --cask --force $(brew list --casks)
 ```
 
 show dependency tree of package
 
-```sh
+```bash
 brew deps -t package-name
 brew deps --tree package-name
 ```
 
 show dependency tree for all installed packages
 
-```sh
+```bash
 brew deps --t --installed
 ```
 
 cleanup unused directories and files (including old downloads)
 
-```sh
+```bash
 brew cleanup
 ```
 
 clear fully Homebrew cache
 
-```sh
+```bash
 brew cleanup --prune=all
 ```
 
@@ -672,19 +672,19 @@ brew cleanup --prune=all
 
 link package with different name installed by brew
 
-```sh
+```bash
 brew link package-name
 ```
 
 unlink package
 
-```sh
+```bash
 brew unlink package-name
 ```
 
 check which package
 
-```sh
+```bash
 which package-name
 ```
 

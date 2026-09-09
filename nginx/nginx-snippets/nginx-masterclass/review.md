@@ -211,7 +211,7 @@ test url with `siege`
 
 - `-r` - --reps=NUM, REPS, number of times to run the test.
 
-```sh
+```bash
 siege -v -r 2000 -c 500 https://ub22-nginx/assets/js/custom.js
 ```
 

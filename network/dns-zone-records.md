@@ -91,7 +91,7 @@ In most cases, this configuration is an A record pointing to the IP where your s
 
 2. The answer should return at least one A record as below:
 
-   ```sh
+   ```bash
     dig dnsimple.com
    
     ;; ANSWER SECTION:
@@ -118,14 +118,14 @@ Using an ALIAS record for the `www` subdomain is not incorrect, however it’s g
 
 2. The answer should return at least one A record or exactly one CNAME record as below:
 
-   ```sh
+   ```bash
     dig www.dnsimple.com
    
     ;; ANSWER SECTION:
     www.dnsimple.com.	59	IN	A	104.245.210.170
    ```
 
-   ```sh
+   ```bash
     dig www.dnsimple.com
    
     ;; ANSWER SECTION:
@@ -143,7 +143,7 @@ If you want to receive emails for your domain, you need to have at least one MX 
 
 2. The answer should return at least one MX record as below:
 
-   ```sh
+   ```bash
     dig MX www.dnsimple.com
    
     ;; ANSWER SECTION:
@@ -164,7 +164,7 @@ It’s advisable to [add a CAA record](https://support.dnsimple.com/articles/caa
 
 2. The answer should return at least one CAA record as below:
 
-   ```sh
+   ```bash
     dig CAA www.dnsimple.com
    
     ;; ANSWER SECTION:

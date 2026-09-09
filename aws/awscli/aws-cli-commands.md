@@ -21,7 +21,7 @@ Create: <https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-temp
 
 - awscli example
 
-  ```sh
+  ```bash
   aws ec2 create-launch-template \
       --launch-template-name TemplateForWebServer \
       --version-description WebVersion1 \
@@ -30,7 +30,7 @@ Create: <https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-temp
 
 - awscli template copy without `UserData`
 
-  ```sh
+  ```bash
   aws ec2 create-launch-template \
       --launch-template-name tpl-ts-exit-node-aws-eu-de \
       --version-description v1 \
@@ -39,7 +39,7 @@ Create: <https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-temp
 
 - template json without `UserData` one-line
 
-  ```sh
+  ```bash
   {"NetworkInterfaces":[{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-08f1ee3b714683fa7"],"Ipv6AddressCount":1,"SubnetId":"subnet-09efe403ef284cdb6","PrimaryIpv6":true}],"ImageId":"ami-02d9d83052ced9fdd","InstanceType":"t4g.small","KeyName":"skuznetsov","UserData":"","TagSpecifications":[{"ResourceType":"instance","Tags":[{"Key":"Project","Value":"ts-exit-nodes"}]},{"ResourceType":"volume","Tags":[{"Key":"Project","Value":"ts-exit-nodes"}]},{"ResourceType":"network-interface","Tags":[{"Key":"Project","Value":"ts-exit-nodes"}]}],"MetadataOptions":{"HttpTokens":"required","HttpPutResponseHopLimit":2,"HttpEndpoint":"enabled"}}
   ```
 

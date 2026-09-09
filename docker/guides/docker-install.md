@@ -18,7 +18,7 @@ url: https://github.com/monocodes/snippets.git
 
 install docker
 
-```sh
+```bash
 sudo amazon-linux-extras install docker
 ```
 
@@ -28,7 +28,7 @@ sudo amazon-linux-extras install docker
 
 **One-liner** install
 
-```sh
+```bash
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get purge $pkg -y; done &&
 sudo apt-get update &&
 sudo apt install ca-certificates curl gnupg -y &&
@@ -48,13 +48,13 @@ newgrp docker
 
 1. Uninstall old versions:
 
-    ```sh
+    ```bash
     for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get purge $pkg -y; done
     ```
 
     or
 
-    ```sh
+    ```bash
     sudo apt remove docker.io -y ; \
     	sudo apt remove containerd -y ; \
     	sudo apt remove runc -y ; \
@@ -66,7 +66,7 @@ newgrp docker
 
 2. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
-    ```sh
+    ```bash
     sudo apt update && \
      sudo apt install \
        ca-certificates \
@@ -81,7 +81,7 @@ newgrp docker
 
     > need to check: `mkdir`, maybe unnecessary
 
-    ```sh
+    ```bash
     ls -d /etc/apt/keyrings
     
     sudo mkdir -p /etc/apt/keyrings && \
@@ -92,7 +92,7 @@ newgrp docker
 
 4. Use the following command to set up the repository:
 
-    ```sh
+    ```bash
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -103,7 +103,7 @@ newgrp docker
 5. Install Docker Engine:
     update the apt package list
 
-    ```sh
+    ```bash
     sudo apt update
     ```
 
@@ -115,7 +115,7 @@ newgrp docker
 
         Your default umask may be incorrectly configured, preventing detection of the repository public key file. Try granting read permission for the Docker public key file before updating the package index:
 
-        ```sh
+        ```bash
         sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
          sudo apt update
         ```
@@ -128,11 +128,11 @@ newgrp docker
 
         1. List the available versions in the repository:
 
-            ```sh
+            ```bash
             apt-cache madison docker-ce | awk '{ print $3 }’
             ```
 
-             ```sh
+             ```bash
             5:20.10.16~3-0~ubuntu-jammy
             5:20.10.15~3-0~ubuntu-jammy
             5:20.10.14~3-0~ubuntu-jammy
@@ -142,13 +142,13 @@ newgrp docker
         2. Select the desired version and install:
             `VERSION_STRING=5:20.10.13~3-0~ubuntu-jammy`
 
-            ```sh
+            ```bash
             sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-compose-plugin
             ```
 
         3. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-            ```sh
+            ```bash
             sudo docker run hello-world
             ```
 
@@ -156,7 +156,7 @@ newgrp docker
 
 8. To install the latest version, run:
 
-    ```sh
+    ```bash
      sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
     ```
 
@@ -164,7 +164,7 @@ newgrp docker
 
 9. Verify that the Docker Engine installation is successful by running the hello-world image:
 
-    ```sh
+    ```bash
     sudo docker run hello-world
     ```
 
@@ -176,13 +176,13 @@ newgrp docker
 
         1. Create the docker group:
 
-            ```sh
+            ```bash
             sudo groupadd docker
             ```
 
         2. Add your user to the docker group:
 
-            ```sh
+            ```bash
             sudo usermod -aG docker $USER
             ```
 
@@ -190,7 +190,7 @@ newgrp docker
 
             1. You can also run the following command to activate the changes to groups:
 
-                ```sh
+                ```bash
                 newgrp docker
                 ```
 
@@ -198,7 +198,7 @@ newgrp docker
 
         4. Verify that you can run docker commands without sudo:
 
-            ```sh
+            ```bash
             docker run hello-world
             ```
 
@@ -208,7 +208,7 @@ newgrp docker
 
     - Configure Docker to start on boot with systemd
 
-        ```sh
+        ```bash
         sudo systemctl enable docker.service
         sudo systemctl enable containerd.service
         ```
@@ -226,7 +226,7 @@ newgrp docker
 
     - If you initially ran Docker CLI commands using sudo before adding your user to the docker group, you may see the following error: error
 
-        ```sh
+        ```bash
         WARNING: Error loading config file: /home/user/.docker/config.json -
         stat /home/user/.docker/config.json: permission denied
         ```
@@ -235,7 +235,7 @@ newgrp docker
 
         To fix this problem, either remove the `~/.docker/` directory (it’s recreated automatically, but any custom settings are lost), or change its ownership and permissions using the following commands:
 
-        ```sh
+        ```bash
         sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
         sudo chmod g+rwx "$HOME/.docker" -R
         ```
@@ -246,7 +246,7 @@ newgrp docker
 
 **One-liner install Rocky Linux**
 
-```sh
+```bash
 sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 	sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
 	sudo dnf makecache && \
@@ -260,25 +260,25 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 
 1. Uninstall old versions
 
-    ```sh
+    ```bash
     sudo dnf remove docker docker-engine docker.io containerd runc -y
     ```
 
 2. Add docker repo
 
-    ```sh
+    ```bash
     sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     ```
 
 3. Create metadata cache
 
-    ```sh
+    ```bash
     sudo dnf makecache
     ```
 
 4. Install docker and other needed packages
 
-    ```sh
+    ```bash
     sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     ```
 
@@ -293,19 +293,19 @@ sudo dnf remove docker docker-engine docker.io containerd runc -y && \
 
 5. Enable auto startup and start dockerd daemon now
 
-    ```sh
+    ```bash
     sudo systemctl --now enable docker
     ```
 
 6. Add your user to the docker group:
 
-    ```sh
+    ```bash
     sudo usermod -aG docker $USER
     ```
 
 7. Log out and log back in so that your group membership is re-evaluated or:
 
-    ```sh
+    ```bash
     newgrp docker
     ```
 

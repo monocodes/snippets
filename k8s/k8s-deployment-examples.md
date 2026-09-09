@@ -230,7 +230,7 @@ spec:
 
 Minimum `kops` setup
 
-```sh
+```bash
 kops create cluster \
   --name=kubevpro.wandering-mono.top \
   --state=s3://vprofile-kops-state-mono \

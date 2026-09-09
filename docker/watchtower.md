@@ -56,7 +56,7 @@ First, create a container using [the official `ubuntu` base Docker image](https:
 
 Usually a `docker run` call will take over your terminal and prevent further command input while the container is active. To avoid this, include the `-d` flag to run the container in detached mode. Create your container with `ubuntu-container` as the container name:
 
-```sh
+```bash
 docker run -d \
   --name ubuntu-container \
   ubuntu \
@@ -71,7 +71,7 @@ Use a `docker run` command similar to the previous one, but with the official Wa
 
 Watchtower automatically detects the base image of the containers it watches. Start your `watchtower` container and pass `ubuntu-container` as the container name to watch for updates:
 
-```sh
+```bash
 docker run -d \
   --name watchtower \
   -v /var/run/docker.sock:/var/run/docker.sock \
@@ -96,7 +96,7 @@ b6d1b765b2b8480357f246d3bcc3f422ff492b3deabb84cb0ab2909e2d63b9d3
 
 Check that both your containers are running:
 
-```sh
+```bash
 docker ps
 ```
 
@@ -116,7 +116,7 @@ If you would like to verify this update process in real-time, you must do a test
 
 To stop using Watchtower, stop your `watchtower` container with Docker’s `stop` command. The `watchtower` container is the same as any other Docker container, and all standard Docker commands are applicable. Stop both of your containers with this command:
 
-```sh
+```bash
 docker stop watchtower ubuntu-container
 ```
 
@@ -124,7 +124,7 @@ Copy
 
 Remove the containers completely by using the Docker’s `rm` command after stopping them:
 
-```sh
+```bash
 docker rm watchtower ubuntu-container
 ```
 
@@ -140,7 +140,7 @@ Containers for Watchtower can be created with Docker’s `run` command and throu
 
 First, make a directory for your Watchtower project and then navigate into it:
 
-```sh
+```bash
 mkdir ~/watchtower
 cd ~/watchtower
 ```
@@ -149,7 +149,7 @@ Copy
 
 Create a new YAML file named `docker-compose.yml` using `nano` or your preferred text editor:
 
-```sh
+```bash
 nano docker-compose.yml
 ```
 
@@ -189,7 +189,7 @@ Copy
 
 Save and exit your file. If you used `nano`, you can do this by pressing`CTRL+O`, `ENTER`, then `CTRL+X`. Now you can start your containers using `docker compose up`. Add the `-d` flag to prevent Docker from taking over your terminal:
 
-```sh
+```bash
 docker compose up -d
 ```
 
@@ -205,7 +205,7 @@ Assuming you followed **Steps 5 through 8** of the prerequisite [How To Install 
 
 To prepare for this, create two custom containers named `test-container` and `edit-container` running the same `ubuntu-nodejs` Docker image. Open your `docker-compose.yml` file:
 
-```sh
+```bash
 nano docker-compose.yml
 ```
 
@@ -273,7 +273,7 @@ Copy
 
 Save and close your file. Apply your changes by calling `docker compose up` again. This time, however, pass the `--force-recreate` flag to recreate your containers with your updated `docker-compose.yml` file:
 
-```sh
+```bash
 docker compose up -d --force-recreate
 ```
 
@@ -289,7 +289,7 @@ First, make a change within the container itself to verify that `watchtower` can
 
 To gain access inside `edit-container`, use Docker’s `exec` command paired with the `-it` flag. `exec` requires an executable program to be passed instead of a raw command, so you must pass `sh -c` to evoke a shell through which you pass your commands:
 
-```sh
+```bash
 docker exec -it edit-container sh -c "echo 'This was updated' | tee ~/test.txt"
 ```
 
@@ -297,7 +297,7 @@ Copy
 
 As a control for your test, check that this file does not exist in `test-container` before you commit changes to your Docker image repository. The following command is similar to the previous one, but it uses `cat` to try to read the file instead of `echo` and `tee` to create it:
 
-```sh
+```bash
 docker exec -it test-container sh -c "cat ~/test.txt"
 ```
 
@@ -313,7 +313,7 @@ Now that you have verified that `test-container` does not contain the test file,
 
 Commit the change, substituting your Docker Hub username in place of `sammy`:
 
-```sh
+```bash
 docker commit -m "added test file" -a "sammy" edit-container sammy/ubuntu-nodejs
 ```
 
@@ -321,7 +321,7 @@ Copy
 
 Next, log in to your Docker Hub account with your Docker Hub username, which will then prompt you to input your Docker Hub password:
 
-```sh
+```bash
 docker login -u sammy
 ```
 
@@ -329,7 +329,7 @@ Copy
 
 Complete your commit:
 
-```sh
+```bash
 docker push sammy/ubuntu-nodejs
 ```
 
@@ -341,7 +341,7 @@ Keep in mind that your `watchtower` instance is currently set to have a polling 
 
 After sufficient time has passed, run the same command as before to check for the existence of your test file in `test-container`:
 
-```sh
+```bash
 docker exec -it test-container sh -c "cat ~/test.txt"
 ```
 
@@ -361,7 +361,7 @@ There are situations where fully automatic base image updates are not desirable.
 
 Open your `docker-compose.yml` file:
 
-```sh
+```bash
 nano docker-compose.yml
 ```
 
@@ -392,7 +392,7 @@ Whenever the base image for `ubuntu-container` or `edit-container` has a new upd
 
 Open your `docker-compose.yml` file:
 
-```sh
+```bash
 nano docker-compose.yml
 ```
 
@@ -471,7 +471,7 @@ Copy
 
 Next, recreate your containers to apply your changes:
 
-```sh
+```bash
 docker compose up -d --force-recreate
 ```
 
@@ -479,7 +479,7 @@ Copy
 
 To test this, repeat the commands from the previous step. Instead of making an actual change, you can commit your current image as new:
 
-```sh
+```bash
 docker commit -m "testing notifications" -a "sammy" edit-container sammy/ubuntu-nodejs
 ```
 
@@ -487,7 +487,7 @@ Copy
 
 Push your changes to the repository:
 
-```sh
+```bash
 docker push sammy/ubuntu-nodejs
 ```
 
@@ -509,7 +509,7 @@ The email notification will indicate an update is available for you to manually 
 
 Here’s an example for starting the `watchtower` container, but have it run only once:
 
-```sh
+```bash
 docker run --rm\
   -v /var/run/docker.sock:/var/run/docker.sock \
   containrrr/watchtower \

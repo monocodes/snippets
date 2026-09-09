@@ -14,43 +14,43 @@ url: https://github.com/monocodes/snippets.git
 
 start new:
 
-```sh
+```bash
 tmux
 ```
 
 start new with session name:
 
-```sh
+```bash
 tmux new -s myname
 ```
 
 attach:
 
-```sh
+```bash
 tmux a  #  (or at, or attach)
 ```
 
 attach to named:
 
-```sh
+```bash
 tmux a -t myname
 ```
 
 list sessions:
 
-```sh
+```bash
 tmux ls
 ```
 
 kill session:
 
-```sh
+```bash
 tmux kill-session -t myname
 ```
 
 Kill all the tmux sessions:
 
-```sh
+```bash
 tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
 ```
 
@@ -385,7 +385,7 @@ bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xc
 
 In Debian and Debian based distros (Ubuntu, Kali), you might need to install `xclip`:
 
-```sh
+```bash
 sudo apt-get install -y xclip
 ```
 

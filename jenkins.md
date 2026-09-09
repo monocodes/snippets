@@ -32,7 +32,7 @@ url: https://github.com/monocodes/snippets.git
 
 *jenkins-install-deb.sh*
 
-```sh
+```bash
 #!/bin/bash
 
 # optional install of jdk, comment if not needed
@@ -53,7 +53,7 @@ sudo apt-get install jenkins -y
 
 *jenkins-install-rpm.sh*
 
-```sh
+```bash
 #!/bin/bash
 # jenkins install
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
@@ -68,7 +68,7 @@ sudo dnf install jenkins -y
 
 Install needed `jdk` in **Jenkins**  manually
 
-```sh
+```bash
 sudo apt install openjdk-8-jdk -y
 ```
 
@@ -76,20 +76,20 @@ sudo apt install openjdk-8-jdk -y
 
 check current main version
 
-```sh
+```bash
 java -version
 ```
 
 check installed jdk versions
 
-```sh
+```bash
 ls /usr/lib/jvm
 ```
 
 > example  
 > here installed openjdk-8-jdk `java-1.8.0-openjdk-amd64` and openjdk-11-jdk `java-1.11.0-openjdk-amd64`
 
-```sh
+```bash
 ls /usr/lib/jvm
 java-1.11.0-openjdk-amd64  java-11-openjdk-amd64  openjdk-11
 java-1.8.0-openjdk-amd64   java-8-openjdk-amd64
@@ -130,7 +130,7 @@ use this paths to specify `java` installation in `Jenkins`
 
 home dir
 
-```sh
+```bash
 /var/lib/jenkins/
 ```
 
@@ -152,7 +152,7 @@ Search any directory (`**`) any file with `.war` extension (`*.war`)
 
 Files to archive
 
-```sh
+```bash
 **/*.war
 ```
 
@@ -164,7 +164,7 @@ Files to archive
 
 Simple versioning build step with `$BUILD_ID` Jenkins `ENV`
 
-```sh
+```bash
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$BUILD_ID.war
 ```
@@ -181,7 +181,7 @@ yy-MM-dd_HHmm
 
 Execute Shell buildstep
 
-```sh
+```bash
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$BUILD_ID-$BUILD_TIMESTAMP.war
 ```
@@ -200,7 +200,7 @@ Name - VERSION
 
 **Execute Shell**
 
-```sh
+```bash
 mkdir -p versions
 cp target/vprofile-v2.war versions/vprofile-v$VERSION.war
 ```

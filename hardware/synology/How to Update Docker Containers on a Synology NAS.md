@@ -52,13 +52,13 @@ For that reason, it’s almost easier to update the container and fix it (update
 
 1. Get a list of running containers.
 
-    ```sh
+    ```bash
     sudo docker container ls
     ```
 
 2. **Stop** the container that you’d like to update by running the command below and substituting the correct **container ID**.
 
-    ```sh
+    ```bash
     sudo docker stop [CONTAINER_ID]
     ```
 
@@ -66,7 +66,7 @@ For that reason, it’s almost easier to update the container and fix it (update
 
 3. Navigate to the folder where the Docker Compose file exists.
 
-    ```sh
+    ```bash
     cd /volume[#]/docker/[CONTAINER_FOLDER]
     ```
 
@@ -74,7 +74,7 @@ For that reason, it’s almost easier to update the container and fix it (update
 
 4. Run the commands below. The first command will pull the latest image and the second will install the package.
 
-    ```sh
+    ```bash
     sudo docker-compose pull
     sudo docker-compose up --force-recreate --build --detach
     ```

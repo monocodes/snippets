@@ -34,7 +34,7 @@ url: https://github.com/monocodes/snippets.git
 
 one-liner install linuxbrew
 
-```sh
+```bash
 brew update && brew install awscli
 ```
 
@@ -48,13 +48,13 @@ brew update && brew install awscli
   
   1. Install `awscli-update`
   
-     ```sh
+     ```bash
      pip3 install awscli-update
      ```
   
   2. Run script
   
-     ```sh
+     ```bash
      awscli-update --prefix $HOME/.local
      
      # --prefix $HOME/.local - install awscliv2 to preferred user location
@@ -63,7 +63,7 @@ brew update && brew install awscli
   
   3. Create cron to check updates every hour
   
-     ```sh
+     ```bash
      crontab -e
      
      0 * * * * $HOME/.local/bin/awscli-update -q --prefix $HOME/.local
@@ -71,7 +71,7 @@ brew update && brew install awscli
   
   4. Check installation of `awscli-update`
   
-     ```sh
+     ```bash
      which awscli-update
      
      # output
@@ -80,7 +80,7 @@ brew update && brew install awscli
   
   5. Check `aws` installation path
   
-     ```sh
+     ```bash
      which aws
      
      # output
@@ -89,7 +89,7 @@ brew update && brew install awscli
   
   6. Check `aws` version
   
-     ```sh
+     ```bash
      aws --version
      # or
      $HOME/.local/bin/aws --version
@@ -100,14 +100,14 @@ brew update && brew install awscli
   
   7. Install **awscli** commands completion, [Command completion](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html)
   
-     ```sh
+     ```bash
      # Ubuntu 22
      echo "complete -C '\$HOME/.local/bin/aws_completer' aws" >> ~/.profile && source .profile
      ```
   
 - Install **awscliv2** manually, [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions)
 
-  1. ```sh
+  1. ```bash
      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
      	unzip awscliv2.zip && \
      	sudo ./aws/install -i $HOME/.local/aws-cli -b $HOME/.local/bin
@@ -115,7 +115,7 @@ brew update && brew install awscli
 
   2. Check installed version
 
-     ```sh
+     ```bash
      aws --version
      # or
      /usr/local/bin/aws --version
@@ -126,7 +126,7 @@ brew update && brew install awscli
 
   3. Install **awscli** commands completion, [Command completion](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html)
 
-     ```sh
+     ```bash
      # Ubuntu 22
      echo "complete -C '\$HOME/.local/bin/aws_completer' aws" >> ~/.profile && source .profile
      ```
@@ -137,7 +137,7 @@ brew update && brew install awscli
 
      - Use the `which` command to find the symlink. This shows the path you used with the `--bin-dir` parameter.
 
-       ```sh
+       ```bash
        which aws
        
        # output
@@ -146,7 +146,7 @@ brew update && brew install awscli
 
      - Use the `ls` command to find the directory that the symlink points to. This gives you the path you used with the `--install-dir` parameter.
 
-       ```sh
+       ```bash
        ls -l /usr/local/bin/aws
        
        # output
@@ -155,14 +155,14 @@ brew update && brew install awscli
 
   2. Delete the two symlinks in the `--bin-dir` directory. If your user has write permission to these directories, you don't need to use `sudo`.
 
-     ```sh
+     ```bash
      sudo rm /usr/local/bin/aws
      sudo rm /usr/local/bin/aws_completer
      ```
 
   3. Delete the `--install-dir` directory. If your user has write permission to this directory, you don't need to use `sudo`.
 
-     ```sh
+     ```bash
      sudo rm -rf /usr/local/aws-cli
      ```
 
@@ -174,7 +174,7 @@ brew update && brew install awscli
      >
      > The default location of the `.aws` folder differs between platforms, by default the folder is located in `~/.aws/`. If your user has write permission to this directory, you don't need to use `sudo`.
 
-     ```sh
+     ```bash
      sudo rm -rf ~/.aws/
      ```
 
@@ -184,7 +184,7 @@ brew update && brew install awscli
 
 `brew` will install **awscliv2**
 
-```sh
+```bash
 brew install awscli
 ```
 
@@ -192,7 +192,7 @@ brew install awscli
 
 python will install **awscliv1**
 
-```sh
+```bash
 pip install awscli
 ```
 
@@ -208,13 +208,13 @@ awscli completer install
 
 aws-cli config files
 
-```sh
+```bash
 ls ~/.aws
 ```
 
 setting the aws-cli output format
 
-```sh
+```bash
 vim ~/.aws/config
 ```
 
@@ -236,7 +236,7 @@ output = table
 
 you can get help for every aws command with help
 
-```sh
+```bash
 aws ec2 help
 aws s3 mb help
 ```
@@ -247,7 +247,7 @@ aws s3 mb help
 
 `aws sts` - check current user/session/etc
 
-```sh
+```bash
 aws sts get-caller-identity 
 ```
 
@@ -257,13 +257,13 @@ aws sts get-caller-identity
 
 show all instances
 
-```sh
+```bash
 aws ec2 describe-instances
 ```
 
 show availability-zones description
 
-```sh
+```bash
 aws ec2 describe-availability-zones --region us-east-1
 ```
 
@@ -278,26 +278,26 @@ aws ec2 describe-availability-zones --region us-east-1
 >
 > Recommended device names for Linux: `/dev/sda1` for root volume. `/dev/sd[f-p]` for data volumes.
 
-1. ```sh
+1. ```bash
     aws ec2 describe-instances
     ```
 
     or  
 
-    ```sh
+    ```bash
     aws ec2 describe-instances | grep InstanceId
     ```
 
 2. create volume and copy its id  
     show avalaible volumes  
 
-    ```sh
+    ```bash
     aws ec2 describe-volumes
     ```
 
 3. attach volume  
 
-    ```sh
+    ```bash
     aws ec2 attach-volume --volume-id vol-05827720c09908177 --instance-id i-0092ded0f237033a1 --device /dev/sdf
     ```
 
@@ -309,7 +309,7 @@ aws ec2 describe-availability-zones --region us-east-1
 
 create new s3 bucket
 
-```sh
+```bash
 aws s3 mb s3://bucket-name
 ```
 
@@ -319,13 +319,13 @@ aws s3 mb s3://bucket-name
 
 copy file to s3 bucket
 
-```sh
+```bash
 aws s3 cp filename s3://bucket-name
 ```
 
 > example
 
-```sh
+```bash
 aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
 ```
 
@@ -335,13 +335,13 @@ aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage-mono
 
 show contents of s3 bucket
 
-```sh
+```bash
 aws s3 ls s3://bucket-name
 ```
 
 > example
 
-```sh
+```bash
 aws s3 ls s3://vprofile-artifact-storage
 ```
 
@@ -351,7 +351,7 @@ aws s3 ls s3://vprofile-artifact-storage
 
 ### Amazon Linux 2
 
-```sh
+```bash
 aws ec2 run-instances \
  --image-id ami-0dfcb1ef8550277af \
  --count 1 \
@@ -369,7 +369,7 @@ US locale fixed
 updated  
 installed `epel-release vim htop bat`
 
-```sh
+```bash
 aws ec2 run-instances \
  --image-id ami-002070d43b0a4f171 \
  --count 1 \
@@ -381,7 +381,7 @@ aws ec2 run-instances \
 
 create tags for instance
 
-```sh
+```bash
 aws ec2 create-tags \
   --resources i-0efd2d3a7e2070c4f \
   --tags Key=Name,Value=webtest
@@ -389,14 +389,14 @@ aws ec2 create-tags \
 
 grep PublicDnsName
 
-```sh
+```bash
 aws ec2 describe-instances --instance-ids i-0efd2d3a7e2070c4f | grep PublicDnsName
 ```
 
 ssh in instance  
 `-o ServerAliveInterval=60` for not being disconnected every 60 seconds
 
-```sh
+```bash
 ssh -i "/path/to/key-name.pem" -o ServerAliveInterval=200 username@srv-name
 ```
 

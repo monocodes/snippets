@@ -50,7 +50,7 @@ url: https://github.com/monocodes/snippets.git
 
 `PATH` variable
 
-```sh
+```bash
 echo $PATH
 
 cat /etc/paths
@@ -58,7 +58,7 @@ cat /etc/paths
 
 `PATH` files
 
-```sh
+```bash
 ls -lh /etc/paths.d
 ```
 
@@ -66,7 +66,7 @@ ls -lh /etc/paths.d
 
 `.zshrc`, `.zprofile` locations
 
-```sh
+```bash
 $HOME/.zshrc
 $HOME/.zprofile
 ~/.zshrc
@@ -75,7 +75,7 @@ $HOME/.zprofile
 
 source `.zshrc`, `.zprofile`
 
-```sh
+```bash
 source $HOME/.zprofile
 # or
 . $HOME/.zprofile
@@ -83,7 +83,7 @@ source $HOME/.zprofile
 
 software user configs
 
-```sh
+```bash
 ~/.config
 ```
 
@@ -91,13 +91,13 @@ software user configs
 
 show current environmental variables
 
-```sh
+```bash
 printenv
 ```
 
 unset var
 
-```sh
+```bash
 unset var-name
 # don't forget to check ~/.zprofile and ~/.zshrc
 
@@ -107,28 +107,28 @@ printenv
 
 set `LDFLAGS` and `CPPFLAGS`
 
-```sh
+```bash
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 ```
 
 set multiple `LDFLAGS` and `CPPFLAGS`
 
-```sh
+```bash
 export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include -I/opt/homebrew/opt/libffi/include"
 export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib -L/opt/homebrew/opt/libffi/lib"
 ```
 
 show active flags
 
-```sh
+```bash
 echo ${LDFLAGS}
 echo ${CPPFLAGS}
 ```
 
 unset flags
 
-```sh
+```bash
 unset LDFLAGS
 unset CPPFLAGS
 ```
@@ -139,26 +139,26 @@ unset CPPFLAGS
 
 restart terminal
 
-```sh
+```bash
 exec zsh -l
 ```
 
 show help for BSD command
 
-```sh
+```bash
 man command-name
 man sed
 ```
 
 show help for GNU command
 
-```sh
+```bash
 command-name --help
 ```
 
 clear zsh history of current session
 
-```sh
+```bash
 history -p
 ```
 
@@ -168,13 +168,13 @@ history -p
 
 list all users
 
-```sh
+```bash
 dscl . list /users
 ```
 
 list all groups
 
-```sh
+```bash
 dscl . list /groups
 ```
 
@@ -198,7 +198,7 @@ Cmd + Ctrl + Space
 
 disable two-finger back/forward navigation in Chrome
 
-```sh
+```bash
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
 
 # restart chrome
@@ -209,7 +209,7 @@ chrome://restart
 
 disable two-finger back/forward navigation in Vivaldi
 
-```sh
+```bash
 defaults write com.vivaldi.Vivaldi AppleEnableSwipeNavigateWithScrolls -bool FALSE
 ```
 
@@ -217,7 +217,7 @@ defaults write com.vivaldi.Vivaldi AppleEnableSwipeNavigateWithScrolls -bool FAL
 
 Time Machine settings
 
-```sh
+```bash
 /Library/Preferences/com.apple.TimeMachine.plist
 ```
 
@@ -229,7 +229,7 @@ to edit com.apple.TimeMachine.plist
 
 3. copy file back
 
-   ```sh
+   ```bash
    sudo cp com.apple.TimeMachine.plist /Library/Preferences/
    ```
 
@@ -237,7 +237,7 @@ to edit com.apple.TimeMachine.plist
 
 switch between tabs
 
-```sh
+```bash
 Ctrl + Tab # forward
 Ctrl + Shift + Tab # backward
 ```
@@ -250,7 +250,7 @@ Ctrl + Shift + Tab # backward
 
 make `grep` colorful in macOS
 
-```sh
+```bash
 vim ~/.zprofile
 
 export GREP_OPTIONS='--color=auto'
@@ -262,11 +262,11 @@ source ~/.zprofile
 
 turn on syntax highlighting in vim
 
-```sh
+```bash
 echo "syntax on" >> ~/.vimrc
 ```
 
-```sh
+```bash
 echo "syntax on" >> ~/.vimrc
 ```
 
@@ -279,49 +279,49 @@ Sort folders by the number of files inside them (instead of disk space): `Shift 
 
 Analyse the primary macOS data volume efficiently (`-x` explicitly restricts the scan to a single file system boundary, preventing traversal into external drives. Note: This scans 100% of your mutable user and application data, intentionally excluding Apple's cryptographically sealed, read-only OS volume which cannot be modified):
 
-```sh
+```bash
 sudo ncdu -x /System/Volumes/Data
 ```
 
 Analyze the data volume while excluding virtual cloud storage (prevents I/O freezes caused by forcing Google Drive/iCloud to index dataless placeholder files):
 
-```sh
+```bash
 sudo ncdu -x /System/Volumes/Data --exclude /System/Volumes/Data/Users/$(whoami)/Library/CloudStorage
 ```
 
 Analyze the entire root file system (Anti-pattern: avoid this in macOS as it scans read-only system volumes, synthetic network mounts, and triggers SIP blocks, resulting in severe I/O bottlenecks and incomplete data):
 
-```sh
+```bash
 sudo ncdu /
 ```
 
 Analyze the current working directory:
 
-```sh
+```bash
 sudo ncdu
 ```
 
 Colorize output:
 
-```sh
+```bash
 sudo ncdu --color dark|off
 ```
 
 Analyze a given directory:
 
-```sh
+```bash
 sudo ncdu path/to/directory
 ```
 
 Save results to a file:
 
-```sh
+```bash
 sudo ncdu -o path/to/file
 ```
 
 Exclude files that match a pattern, argument can be given multiple times to add more patterns:
 
-```sh
+```bash
 sudo ncdu --exclude '*.txt'
 ```
 
@@ -331,45 +331,45 @@ sudo ncdu --exclude '*.txt'
 
 flush dns
 
-```sh
+```bash
 sudo killall -HUP mDNSResponder
 sudo killall -HUP mDNSResponder; sleep 2; echo macOS DNS Cache Reset | say
 ```
 
 show arp table
 
-```sh
+```bash
 arp -a
 ```
 
 delete cache for interface
 
-```sh
+```bash
 sudo arp -d 192.168.1.10 ifscope en0
 ```
 
 clear all arp cache
 
-```sh
+```bash
 sudo arp -a -d
 ```
 
 show network path to the server and diagnose latency problems
 
-```sh
+```bash
 traceroute google.com
 ```
 
 add second IP address to an existing network adapter  
 non-persistent, will be deleted after reboot
 
-```sh
+```bash
 sudo ifconfig en0 alias 192.168.10.5/24 up
 ```
 
 remove alias
 
-```sh
+```bash
 sudo ifconfig en0 -alias 192.168.10.5
 ```
 
@@ -381,7 +381,7 @@ sudo ifconfig en0 -alias 192.168.10.5
 
 The file system usage tool is ideal since it taps in to the real time file system events and dumps activity to a file or the screen. Since you know the exact path of the file, you can filter out all the thousands of irrelevant (to this case) filesystem changes and see what reads / writes to that file pretty quickly.
 
-```sh
+```bash
 sudo fs_usage | grep /Users/me/aa
 ```
 
@@ -393,11 +393,11 @@ sudo fs_usage | grep /Users/me/aa
 
 #### ExFAT GPT external disk - guide
 
-```sh
+```bash
 diskutil list
 ```
 
-```sh
+```bash
 mono@MacBookPro ~ % diskutil list
 /dev/disk0 (internal, physical):
    #:                       TYPE NAME                    SIZE       IDENTIFIER
@@ -436,7 +436,7 @@ mono@MacBookPro ~ % diskutil list
    1:               Windows_NTFS                         2.0 TB     disk7s1
 ```
 
-```sh
+```bash
 diskutil eraseDisk ExFAT TOSHIBA-2TB GPT /dev/disk7
 ```
 
@@ -471,11 +471,11 @@ Finished erase on disk7
 
 #### FAT32 MBR external disk without EFI partition - guide
 
-```sh
+```bash
 diskutil list
 ```
 
-```sh
+```bash
 mono@MacBookPro /Library % diskutil list
 /dev/disk0 (internal, physical):
    #:                       TYPE NAME                    SIZE       IDENTIFIER
@@ -501,11 +501,11 @@ mono@MacBookPro /Library % diskutil list
    1:           Linux Filesystem                         31.9 GB    disk4s1
 ```
 
-```sh
+```bash
 diskutil eraseDisk FAT32 UNIFI MBRFormat /dev/disk4
 ```
 
-```sh
+```bash
 mono@MacBookPro /Library % diskutil eraseDisk FAT32 UNIFI MBRFormat /dev/disk4
 Started erase on disk4
 Unmounting disk
@@ -519,11 +519,11 @@ Mounting disk
 Finished erase on disk4
 ```
 
-```sh
+```bash
 diskutil list
 ```
 
-```sh
+```bash
 mono@MacBookPro /Library % diskutil list
 /dev/disk0 (internal, physical):
    #:                       TYPE NAME                    SIZE       IDENTIFIER
@@ -549,11 +549,11 @@ mono@MacBookPro /Library % diskutil list
    1:                 DOS_FAT_32 UNIFI                   31.9 GB    disk4s1
 ```
 
-```sh
+```bash
 % diskutil eject /dev/disk4
 ```
 
-```sh
+```bash
 mono@MacBookPro /Library % diskutil eject /dev/disk4
 Disk /dev/disk4 ejected
 ```
@@ -566,7 +566,7 @@ GPT and MBR partitioning tool, clone of linux variant.
 This tool is able to create partitions without useless `EFI` partitions as macOS `Disk Utility` does.  
 Can create GPT/MBR table, also can create partition and mark it. Can restore GPT tables.
 
-```sh
+```bash
 sudo gdisk /dev/disk4 # disk4 is external drive for example
 ```
 
@@ -590,13 +590,13 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 - Check the physical drives and choose that you want to format
 
-  ```sh
+  ```bash
   diskutil list
   ```
 
   - example - `disk4` here is the external USB drive
 
-    ```sh
+    ```bash
     mono@mono-mac /dev % diskutil list
     /dev/disk0 (internal, physical):
        #:                       TYPE NAME                    SIZE       IDENTIFIER
@@ -623,7 +623,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 - Launch `gdisk`, format the drive with GUID and create partition
 
-  ```sh
+  ```bash
   sudo gdisk /dev/disk4
 
   # example when we have normal GUID partition
@@ -644,7 +644,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 - `n` - add a new partition
 
-  ```sh
+  ```bash
   Command (? for help): n
   Partition number (1-128, default 1): # Enter
   First sector (34-1953525134, default = 2048) or {+-}size{KMGTP}: # Enter
@@ -671,7 +671,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 - Check with `diskutil list` that everything is fine
 
-  ```sh
+  ```bash
   mono@mono-mac /dev % diskutil list
   /dev/disk0 (internal, physical):
      #:                       TYPE NAME                    SIZE       IDENTIFIER
@@ -699,7 +699,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 - Format created partition to ExFAT
 
-  ```sh
+  ```bash
   sudo newfs_exfat /dev/disk4s1
 
   # example
@@ -724,7 +724,7 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
   - if you get Resource busy
 
-    ```sh
+    ```bash
     mono@mono-mac /dev % sudo newfs_exfat /dev/disk4s1
     newfs_exfat: /dev/disk4s1: Resource busy
     
@@ -747,13 +747,13 @@ By default macOS **Disk Utility** creates GUID partitions with hidden EFI partit
 
 use `sed` from macOS or use `gsed` from GNU
 
-```sh
+```bash
 brew install gsed
 ```
 
 find text in files recursively and change it
 
-```sh
+```bash
 LC_ALL=C find . -type f -name 'filename-regex' -exec sed -i '' s/word-to-replace/word-that-replace/g {} +
 
 # example
@@ -770,7 +770,7 @@ sed takes the argument after `-i` as the extension for backups. Provide an empty
 
 The following should do:
 
-```sh
+```bash
 find . -type f -name '*.txt' -exec sed -i '' s/this/that/g {} +
 ```
 
@@ -782,7 +782,7 @@ The `{} +` at the end means that `find` will append all results as arguments to 
 
 If you get an error like "invalid byte sequence," it might help to force the standard locale by adding `LC_ALL=C` at the start of the command, like so:
 
-```sh
+```bash
 LC_ALL=C find . -type f -name '*.txt' -exec sed -i '' s/this/that/g {} +
 ```
 
@@ -796,25 +796,25 @@ The symlinks referencing Python frameworks are in the `/usr/local/bin` directory
 
 1. become root
 
-   ```sh
+   ```bash
    sudo -i
    ```
 
 2. check symlinks first
 
-   ```sh
+   ```bash
    ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework'
    ```
 
 3. delete symlinks
 
-   ```sh
+   ```bash
    ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework' | awk '{print $9}' | tr -d @ | xargs rm
    ```
 
 4. check symlinks again
 
-   ```sh
+   ```bash
    ls /usr/local/bin
    ```
 
@@ -840,26 +840,26 @@ The symlinks referencing Python frameworks are in the `/usr/local/bin` directory
 
 To print the current settings, open the Terminal application and then [printf command](https://bash.cyberciti.biz/guide/Printf_command) or [echo command](https://bash.cyberciti.biz/guide/Echo_Command)
 
-```sh
+```bash
 echo "$PATH"
 ```
 
 OR
 
-```sh
+```bash
 printf "%s\n" $PATH
 ```
 
 Here is what I see
 
-```sh
+```bash
 echo "$PATH"
 
 # Output
 /opt/homebrew/Cellar/pyenv-virtualenv/1.2.1/shims:/Users/mono/.pyenv/shims:/Users/mono/Documents/code/apps/apache-maven-3.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 ```
 
-```sh
+```bash
 printf "%s\n" $PATH
 
 # Output
@@ -879,14 +879,14 @@ You can add path to any one of the following method:
 
 2. The syntax is as follows using the [export command](https://www.cyberciti.biz/faq/linux-unix-shell-export-command/) to add to the PATH on macOS:
 
-   ```sh
+   ```bash
    export PATH=$PATH:/new/dir/location1
    export PATH=$PATH:/new/dir1:/dir2:/dir/path/no3
    ```
 
 3. In this example, add the /usr/local/sbin/modemZapp/ directory to $PATH variable. Edit the file `$HOME/.bash_profile`, enter:
 
-   ```sh
+   ```bash
    vi $HOME/.bash_profile
    # or
    nano ~/.bash_profile
@@ -894,13 +894,13 @@ You can add path to any one of the following method:
 
 4. Append the following export command:
 
-   ```sh
+   ```bash
    export PATH=$PATH:/usr/local/sbin/modemZapp
    ```
 
 5. [Save and close the file](https://www.cyberciti.biz/faq/linux-unix-vim-save-and-quit-command/) when using vim/vi as a text editor. Then, to apply changes immediately enter the following [source command](https://bash.cyberciti.biz/guide/Source_command):
 
-   ```sh
+   ```bash
    source $HOME/.bash_profile
    # or
    . $HOME/.bash_profile
@@ -908,13 +908,13 @@ You can add path to any one of the following method:
 
 6. Finally, verify your new path settings, enter:
 
-   ```sh
+   ```bash
    echo "$PATH"
    ```
 
    Sample outputs:
 
-   ```sh
+   ```bash
    /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/sbin/modemZapp
    ```
 
@@ -932,44 +932,44 @@ Apple recommends the path_helper tool to generate the PATH variable i.e. helper 
 
 To list existing path, enter:
 
-```sh
+```bash
 ls -l /etc/paths.d/
 ```
 
 Sample outputs:
 
-```sh
+```bash
 total 16
 -rw-r--r--  1 root  wheel  13 Sep 28  2012 40-XQuartz
 ```
 
 You can use the cat command to see path settings in 40-XQuartz:
 
-```sh
+```bash
 cat /etc/paths.d/40-XQuartz
 ```
 
 Sample outputs:
 
-```sh
+```bash
 /opt/X11/bin
 ```
 
 To set /usr/local/sbin/modemZapp to $PATH, enter:
 
-```sh
+```bash
 sudo -s 'echo "/usr/local/sbin/modemZapp" > /etc/paths.d/zmodemapp'
 ```
 
 OR use vi text editor as follows to create /etc/paths.d/zmodemapp file:
 
-```sh
+```bash
 sudo vi /etc/paths.d/zmodemapp
 ```
 
 and append the following text:
 
-```sh
+```bash
 /usr/local/sbin/modemZapp
 ```
 
@@ -984,7 +984,7 @@ MacOS Set or Change $PATH settings:
 
 See the following manual pages using the [help command](https://bash.cyberciti.biz/guide/Help_command) or [man command](https://bash.cyberciti.biz/guide/Man_command) on your macOS / OS X machine:
 
-```sh
+```bash
 man bash
 man path_helper
 help export
@@ -1014,7 +1014,7 @@ Steps are as follows:
 6. Close all Finder windows then run **Terminal**
 7. From the Terminal, run the following commands (After formatting my SD card was called "Untitled", if yours isn't called then, then adjust accordingly). These commands will require your admin password.
 
-```sh
+```bash
     sudo chflags -R arch /Volumes/Untitled/
     sudo chflags -R noarch /Volumes/Untitled/Nintendo/
     sudo mdutil -i off /Volumes/Untitled/
@@ -1048,7 +1048,7 @@ I've been busying myself away for a while trying to debug the issue and/or find 
 
 Open a Terminal and type
 
-```sh
+```bash
 sudo pmset -a hibernatemode 25
 ```
 

@@ -29,7 +29,7 @@ show **Docstring** for package
 
 1. launch python
 
-   ```sh
+   ```bash
    python
    # or
    python3
@@ -61,32 +61,32 @@ show **Docstring** for package
 
 install pip from scratch (where no pip installed)
 
-```sh
+```bash
 python3 -m ensurepip
 ```
 
 or install pip from official script
 
-```sh
+```bash
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 ```
 
 install pip on **Ubuntu 22**
 
-```sh
+```bash
 sudo apt install python3-pip
 ```
 
 check pip version
 
-```sh
+```bash
 pip3 --version
 ```
 
 install pip autocompletion
 
-```sh
+```bash
 # zsh
 pip completion --zsh >> ~/.zshrc && \
   source ~/.zshrc
@@ -97,7 +97,7 @@ pip completion --bash >> ~/.bashrc && \
 
 show pip autocopmletion options
 
-```sh
+```bash
 pip help completion
 ```
 
@@ -108,31 +108,31 @@ pip help completion
 upgrade pip  
 `-U` - upgrade
 
-```sh
+```bash
 pip install -U pip
 ```
 
 show installed packages
 
-```sh
+```bash
 pip list
 ```
 
 show oudated installed packages
 
-```sh
+```bash
 pip list --outdated
 ```
 
 update package
 
-```sh
+```bash
 pip install package-name -U
 ```
 
 check missing dependencies
 
-```sh
+```bash
 pip check
 # or
 python -m pip check
@@ -140,7 +140,7 @@ python -m pip check
 
 completely uninstall pip
 
-```sh
+```bash
 python -m pip uninstall pip setuptools
 # or
 pip freeze | xargs pip uninstall -y
@@ -148,7 +148,7 @@ pip freeze | xargs pip uninstall -y
 
 install version less then
 
-```sh
+```bash
 pip install 'package-name<version-name'
 
 # example
@@ -165,25 +165,25 @@ pip install 'fabric<2.0'
 
 install pip-review
 
-```sh
+```bash
 pip install pip-review
 ```
 
 show outdated packages
 
-```sh
+```bash
 pip-review
 ```
 
 upgrade all outdated packages interactively
 
-```sh
+```bash
 pip-review -i
 ```
 
 upgrade all outdated packages automatically
 
-```sh
+```bash
 pip-review -a
 ```
 
@@ -208,43 +208,43 @@ pipreqs
 
 install pipreqs
 
-```sh
+```bash
 pip install pipreqs
 ```
 
 generate *requirements.txt* with pipreqs in current directory
 
-```sh
+```bash
 pipreqs
 ```
 
 generate *requirements.txt* with pipreqs in specified directory
 
-```sh
+```bash
 pipreqs /path/to/dir
 ```
 
 review the packages before creating the file
 
-```sh
+```bash
 pipreqs --print
 ```
 
 generate *requirements.txt* and overwrite existing file
 
-```sh
+```bash
 pipreqs --force
 ```
 
 generate *requirements.txt* and ignore dirs inside
 
-```sh
+```bash
 pipreqs /path/to/dir --ignore /path/to/directory
 ```
 
 generate *requirements.txt* and store it in another location
 
-```sh
+```bash
 pipreqs /path/to/dir --savepath /path/to/dir/
 ```
 
@@ -252,25 +252,25 @@ pipreqs /path/to/dir --savepath /path/to/dir/
 
 1. generate *requirements.txt* under venv
 
-   ```sh
+   ```bash
    pipreqs /path/to/dir
    ```
 
 2. uninstall venv
 
-   ```sh
+   ```bash
    pyenv uninstall -f venv-name
    ```
 
 3. create new venv with new python version
 
-   ```sh
+   ```bash
    pyenv virtualenv 3.11.3 venv-name
    ```
 
 4. reinstall everything from requirements.txt under venv
 
-   ```sh
+   ```bash
    pip install -r requirements.txt
    # or with -U - upgrade
    pip install -U -r requirements.txt
@@ -284,13 +284,13 @@ pipreqs /path/to/dir --savepath /path/to/dir/
 
 show all installed python packages with their versions
 
-```sh
+```bash
 pip freeze
 ```
 
 generate *requirements.txt* and save it in file
 
-```sh
+```bash
 pip freeze > requirements.txt
 ```
 
@@ -302,7 +302,7 @@ there are different ways how to install fabric
 
 one of them is using `pip`
 
-```sh
+```bash
 pip install fabric
 ```
 
@@ -379,7 +379,7 @@ def web_setup(WEBURL, DIRNAME):
 
 check available functions
 
-```sh
+```bash
 fab -l
 
 # output
@@ -394,7 +394,7 @@ Available commands:
 
 call `greeting` function with `Evening` arg
 
-```sh
+```bash
 fab greeting:Evening
 
 # output
@@ -407,13 +407,13 @@ Done.
 
 `system_info` function
 
-```sh
+```bash
 fab system_info
 ```
 
 `remote_exec` function example on remote host
 
-```sh
+```bash
 fab -H 192.168.10.3 -u devops remote_exec
 # -H - host
 # -u - user
@@ -422,7 +422,7 @@ fab -H 192.168.10.3 -u devops remote_exec
 
 `web_setup` function example on remote host
 
-```sh
+```bash
 fab -H 192.168.10.3 -u devops web_setup:https://www.tooplate.com/zip-templates/2121_wave_cafe.zip,2121_wave_cafe
 # must be no spaces between args!!!
 
@@ -440,19 +440,19 @@ Install working version of **coursera-dl**
 
 1. install python 3.8.10
 
-   ```sh
+   ```bash
    pyenv install 3.8.10
    ```
 
 2. create venv
 
-   ```sh
+   ```bash
    pyenv virtualenv 3.8.10 venv-test
    ```
 
 3. install coursera-dl raffaem fork in venv-test
 
-   ```sh
+   ```bash
    pip uninstall coursera-dl
    git clone https://github.com/raffaem/coursera-dl
    cd coursera-dl
@@ -485,7 +485,7 @@ Install working version of **coursera-dl**
 
 7. download course
 
-   ```sh
+   ```bash
    coursera-dl python-crash-course
    ```
 

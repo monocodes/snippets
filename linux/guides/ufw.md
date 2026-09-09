@@ -37,19 +37,19 @@ The following are some examples of how to use ufw:
 
 - First, ufw needs to be enabled. From a terminal prompt enter:
 
-  ```sh
+  ```bash
   sudo ufw enable
   ```
 
 - To open a port (SSH in this example):
 
-  ```sh
+  ```bash
   sudo ufw allow 22
   ```
 
 - Rules can also be added using a *numbered* format:
 
-  ```sh
+  ```bash
   sudo ufw insert 1 allow 80
   sudo ufw insert 3 allow from 10.0.0.0/8 to any port ssh
   sudo ufw insert 5 allow from 172.16.0.0/12 to any port https
@@ -57,19 +57,19 @@ The following are some examples of how to use ufw:
 
 - Similarly, to close an opened port:
 
-  ```sh
+  ```bash
   sudo ufw deny 22
   ```
 
 - To remove a rule, use delete followed by the rule:
 
-  ```sh
+  ```bash
   sudo ufw delete deny 22
   ```
 
 - It is also possible to allow access from specific hosts or networks to a port. The following example allows SSH access from host 192.168.0.2 to any IP address on this host:
 
-  ```sh
+  ```bash
   sudo ufw allow proto tcp from 192.168.0.2 to any port 22
   ```
 
@@ -77,11 +77,11 @@ The following are some examples of how to use ufw:
 
 - Adding the *–dry-run* option to a *ufw* command will output the resulting rules, but not apply them. For example, the following is what would be applied if opening the HTTP port:
 
-  ```sh
+  ```bash
    sudo ufw --dry-run allow http
   ```
 
-  ```sh
+  ```bash
   *filter
   :ufw-user-input - [0:0]
   :ufw-user-output - [0:0]
@@ -106,25 +106,25 @@ The following are some examples of how to use ufw:
 
 - ufw can be disabled by:
 
-  ```sh
+  ```bash
   sudo ufw disable
   ```
 
 - To see the firewall status, enter:
 
-  ```sh
+  ```bash
   sudo ufw status
   ```
 
 - And for more verbose status information use:
 
-  ```sh
+  ```bash
   sudo ufw status verbose
   ```
 
 - To view the *numbered* format:
 
-  ```sh
+  ```bash
   sudo ufw status numbered
   ```
 
@@ -140,19 +140,19 @@ Applications that open ports can include an ufw profile, which details the ports
 
 - To view which applications have installed a profile, enter the following in a terminal:
 
-  ```sh
+  ```bash
   sudo ufw app list
   ```
 
 - Similar to allowing traffic to a port, using an application profile is accomplished by entering:
 
-  ```sh
+  ```bash
   sudo ufw allow Samba
   ```
 
 - An extended syntax is available as well:
 
-  ```sh
+  ```bash
   ufw allow from 192.168.0.0/24 to any app Samba
   ```
 
@@ -164,13 +164,13 @@ Applications that open ports can include an ufw profile, which details the ports
 
 - To view details about which ports, protocols, etc., are defined for an application, enter:
 
-  ```sh
+  ```bash
   sudo ufw app info Samba
   ```
 
 Not all applications that require opening a network port come with ufw profiles, but if you have profiled an application and want the file to be included with the package, please file a bug against the package in Launchpad.
 
-```sh
+```bash
 ubuntu-bug nameofpackage
 ```
 
@@ -231,7 +231,7 @@ The rules are split into two different files, rules that should be executed befo
 
 - Finally, disable and re-enable ufw to apply the changes:
 
-  ```sh
+  ```bash
   sudo ufw disable && sudo ufw enable
   ```
 
@@ -255,13 +255,13 @@ iptables can also be used to enable Masquerading.
 
 - Next, execute the sysctl command to enable the new settings in the configuration file:
 
-  ```sh
+  ```bash
   sudo sysctl -p
   ```
 
 - IP Masquerading can now be accomplished with a single iptables rule, which may differ slightly based on your network configuration:
 
-  ```sh
+  ```bash
   sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o ppp0 -j MASQUERADE
   ```
 
@@ -275,7 +275,7 @@ iptables can also be used to enable Masquerading.
 
 - Also, each chain in the filter table (the default table, and where most or all packet filtering occurs) has a default *policy* of ACCEPT, but if you are creating a firewall in addition to a gateway device, you may have set the policies to DROP or REJECT, in which case your masqueraded traffic needs to be allowed through the FORWARD chain for the above rule to work:
 
-  ```sh
+  ```bash
   sudo iptables -A FORWARD -s 192.168.0.0/16 -o ppp0 -j ACCEPT
   sudo iptables -A FORWARD -d 192.168.0.0/16 -m state \
   --state ESTABLISHED,RELATED -i ppp0 -j ACCEPT
@@ -285,7 +285,7 @@ iptables can also be used to enable Masquerading.
 
 - If you want masquerading to be enabled on reboot, which you probably do, edit `/etc/rc.local` and add any commands used above. For example add the first command with no filtering:
 
-  ```sh
+  ```bash
   iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o ppp0 -j MASQUERADE
   ```
 
@@ -295,7 +295,7 @@ Firewall logs are essential for recognizing attacks, troubleshooting your firewa
 
 If you are using ufw, you can turn on logging by entering the following in a terminal:
 
-```sh
+```bash
 sudo ufw logging on
 ```
 
@@ -303,7 +303,7 @@ To turn logging off in ufw, simply replace *on* with *off* in the above command.
 
 If using iptables instead of ufw, enter:
 
-```sh
+```bash
 sudo iptables -A INPUT -m state --state NEW -p tcp --dport 80 \
 -j LOG --log-prefix "NEW_HTTP_CONN: "
 ```
