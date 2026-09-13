@@ -14,6 +14,7 @@ url: https://github.com/monocodes/snippets.git
   - [system variables](#system-variables)
 - [useful commands](#useful-commands)
   - [users and groups](#users-and-groups)
+  - [hostname](#hostname)
   - [useful shorcuts](#useful-shorcuts)
   - [apps](#apps)
     - [console apps](#console-apps)
@@ -176,6 +177,19 @@ list all groups
 
 ```bash
 dscl . list /groups
+```
+
+### hostname
+
+change hostname
+
+```bash
+NAME="mono-mac" && \
+sudo scutil --set ComputerName "$NAME" && \
+sudo scutil --set LocalHostName "$NAME" && \
+sudo scutil --set HostName "$NAME" && \
+sudo dscacheutil -flushcache && \
+sudo killall -HUP mDNSResponder
 ```
 
 ### useful shorcuts
