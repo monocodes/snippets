@@ -146,6 +146,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 source $HOME/.profile &&
@@ -173,6 +176,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 ```
@@ -202,6 +208,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 source $HOME/.bash_profile &&
@@ -230,6 +239,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 ```
@@ -266,6 +278,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 source $HOME/.bash_profile &&
@@ -293,6 +308,9 @@ then
     done
   fi
 fi
+
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
 # brew end
 EOF
 cat <<EOF | sudo tee -a /root/.bashrc
