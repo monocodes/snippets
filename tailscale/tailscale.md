@@ -15,6 +15,10 @@ url: https://github.com/monocodes/snippets.git
 		- [connection \& session management](#connection--session-management)
 		- [diagnostics \& network state](#diagnostics--network-state)
 		- [advanced utilities](#advanced-utilities)
+		- [tailscale: client/server version mismatch](#tailscale-clientserver-version-mismatch)
+			- [root cause](#root-cause)
+			- [primary fix (daemon restart)](#primary-fix-daemon-restart)
+			- [hard reset (if daemon is unresponsive)](#hard-reset-if-daemon-is-unresponsive)
 - [tailscale ACL](#tailscale-acl)
 	- [tailscale - corporate Overlaying network / VPN / Exit-nodes](#tailscale---corporate-overlaying-network--vpn--exit-nodes)
 	- [tailscale - corporate VPN with exit-nodes](#tailscale---corporate-vpn-with-exit-nodes)
@@ -173,6 +177,40 @@ tailscale ssh <user>@<hostname>
 
 ```bash
 tailscale bugreport
+```
+
+#### tailscale: client/server version mismatch
+
+**Warning:** `client version "X" != tailscaled server version "Y"`
+
+##### root cause
+
+Homebrew updated the `tailscale` CLI binary, but the `tailscaled` background daemon is still running the older version in system memory.
+
+##### primary fix (daemon restart)
+
+Restart the background service to load the newly installed binary.
+
+```bash
+sudo brew services restart tailscale
+```
+
+##### hard reset (if daemon is unresponsive)
+
+If a simple restart doesn't sync the versions, perform a clean cycle to flush the state:
+
+```bash
+# 1. gracefully drop the current tunnel connections
+sudo tailscale down
+
+# 2. stop the daemon via homebrew
+sudo brew services stop tailscale
+
+# 3. start the daemon with the new binary
+sudo brew services start tailscale
+
+# 4. re-establish the tunnel and accept subnet routes
+sudo tailscale up --accept-routes
 ```
 
 ---
