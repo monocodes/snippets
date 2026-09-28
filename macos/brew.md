@@ -11,9 +11,13 @@ url: https://github.com/monocodes/snippets.git
 - [brew install](#brew-install)
   - [macOS](#macos)
     - [new (need to test)](#new-need-to-test)
+    - [install software one-liners](#install-software-one-liners)
+      - [macos](#macos-1)
     - [old](#old)
   - [Linux](#linux)
 - [brew uninstall](#brew-uninstall)
+  - [macos](#macos-2)
+  - [linux](#linux-1)
 - [brew paths](#brew-paths)
 - [brew commands](#brew-commands)
   - [brew multi-user system](#brew-multi-user-system)
@@ -42,16 +46,18 @@ url: https://github.com/monocodes/snippets.git
 brew install one-liner macOS (interactive)
 
 ```bash
-xcode-select -p &>/dev/null || xcode-select --install
-command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-touch $HOME/.zprofile $HOME/.zshrc
-grep -q brew $HOME/.zprofile || cat << EOF >> $HOME/.zprofile
+{
+  touch $HOME/.zprofile $HOME/.zshrc
+
+  grep -q "brew shellenv" $HOME/.zprofile || cat << EOF >> $HOME/.zprofile
+### brew start
 eval \$(/opt/homebrew/bin/brew shellenv)
+### brew end
+
 EOF
-eval \$(/opt/homebrew/bin/brew shellenv)
-brew analytics off
-brew tap beeftornado/rmtree
-grep -q compinit $HOME/.zshrc || cat << EOF >> $HOME/.zshrc
+
+  grep -q "compinit" $HOME/.zshrc || cat << EOF >> $HOME/.zshrc
+### brew start
 if type brew &>/dev/null; then
   fpath=(\$(brew --prefix)/share/zsh/site-functions \$fpath)
   autoload -Uz compinit
@@ -59,9 +65,71 @@ if type brew &>/dev/null; then
 fi
 export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 export HOMEBREW_NO_ASK=1
+### brew end
+
 EOF
-source $HOME/.zshrc &&
-source $HOME/.zprofile
+
+  xcode-select -p &>/dev/null || xcode-select --install
+
+  command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  
+  brew analytics off
+  brew tap beeftornado/rmtree
+
+  source $HOME/.zprofile
+  source $HOME/.zshrc
+}
+```
+
+brew install one-liner macOS (non-interactive)
+
+```bash
+{
+  sudo -v
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+  touch $HOME/.zprofile $HOME/.zshrc
+
+  grep -q "brew shellenv" $HOME/.zprofile || cat << EOF >> $HOME/.zprofile
+### brew start
+eval \$(/opt/homebrew/bin/brew shellenv)
+### brew end
+
+EOF
+
+  grep -q "compinit" $HOME/.zshrc || cat << EOF >> $HOME/.zshrc
+### brew start
+if type brew &>/dev/null; then
+  fpath=(\$(brew --prefix)/share/zsh/site-functions \$fpath)
+  autoload -Uz compinit
+  compinit
+fi
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+export HOMEBREW_NO_ASK=1
+### brew end
+
+EOF
+
+  command -v brew &>/dev/null || NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  
+  brew analytics off
+  brew tap beeftornado/rmtree
+
+  source $HOME/.zprofile
+  source $HOME/.zshrc
+}
+```
+
+#### install software one-liners
+
+##### macos
+
+```bash
+
 ```
 
 #### old
@@ -324,14 +392,24 @@ cat <<EOF | sudo tee -a /root/.bashrc
 
 ## brew uninstall
 
-uninstall brew non-interactively
+### macos
+
+uninstall brew non-interactively on macOS
+
+```sh
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && sudo rm -rf /opt/homebrew /usr/local/Homebrew /Library/Developer/CommandLineTools
+```
+
+### linux
+
+uninstall brew non-interactively on Linux
 
 ```bash
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
 	sudo rm -rf /home/linuxbrew
 ```
 
-uninstall brew interactively
+uninstall brew interactively on Linux
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" && \
