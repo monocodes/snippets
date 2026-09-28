@@ -60,6 +60,8 @@ fi
 export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 export HOMEBREW_NO_ASK=1
 EOF
+source $HOME/.zshrc &&
+source $HOME/.zprofile
 ```
 
 #### old
@@ -88,6 +90,7 @@ then
 fi
 EOF
 source $HOME/.zshrc &&
+source $HOME/.zprofile &&
 cat $HOME/.zshrc
 ```
 
@@ -115,6 +118,7 @@ then
 fi
 EOF
 source $HOME/.zshrc &&
+source $HOME/.zprofile &&
 cat $HOME/.zshrc
 ```
 
